@@ -17,6 +17,45 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated development workflow for better compatibility
 - Simplified package requirements for easier installation
 
+## [1.0.0] - 2025-09-18
+
+### Added
+- Enhanced interactive release calendar
+  - Filter options for manga/comics by type and series
+  - Different view modes (month, week, day)
+  - Color coding for different types of releases
+  - Improved event details modal
+  - Add releases to collection directly from calendar
+- Comprehensive manga/comic collection tracking
+  - Track ownership status, read status, and purchase details
+  - Collection statistics and visualizations
+  - Import/export functionality
+- Monitoring system for upcoming releases
+  - Notification system for upcoming releases
+  - Subscription functionality for specific series
+  - Multiple notification channels (browser, email, Discord, Telegram)
+  - Real-time notification updates
+- Home Assistant integration
+  - API endpoint for Home Assistant
+  - Sensor data for dashboards
+  - Setup instructions and configuration examples
+- Homarr integration
+  - API endpoint for Homarr
+  - Status information for dashboards
+  - Setup instructions and configuration examples
+- Modern, responsive web interface
+  - Redesigned base template
+  - Collapsible sidebar for desktop and mobile
+  - Notification system in navigation bar
+  - Modern dashboard with statistics and visualizations
+  - Dark/light theme toggle with persistent settings
+
+### Changed
+- Complete UI overhaul with responsive design
+- Improved database schema for better data organization
+- Enhanced API endpoints with better error handling
+- Optimized performance for large collections
+
 ## [0.0.1] - 2025-09-18
 
 ### Added

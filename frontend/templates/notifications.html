@@ -1,0 +1,1061 @@
+{% extends 'base.html' %}
+
+{% block title %}MangaArr - Notifications{% endblock %}
+
+{% block page_title %}Notifications{% endblock %}
+
+{% block styles %}
+<style>
+    .notification-card {
+        margin-bottom: 15px;
+        border-left: 4px solid #6c757d;
+        transition: transform 0.2s;
+    }
+    
+    .notification-card:hover {
+        transform: translateY(-2px);
+    }
+    
+    .notification-card.unread {
+        border-left-color: #0d6efd;
+        background-color: rgba(13, 110, 253, 0.05);
+    }
+    
+    .notification-card.info {
+        border-left-color: #0dcaf0;
+    }
+    
+    .notification-card.success {
+        border-left-color: #198754;
+    }
+    
+    .notification-card.warning {
+        border-left-color: #ffc107;
+    }
+    
+    .notification-card.error {
+        border-left-color: #dc3545;
+    }
+    
+    .notification-time {
+        font-size: 0.8rem;
+        color: #6c757d;
+    }
+    
+    .notification-actions {
+        display: flex;
+        gap: 5px;
+    }
+    
+    .subscription-card {
+        margin-bottom: 15px;
+        border-radius: 8px;
+        transition: transform 0.2s;
+    }
+    
+    .subscription-card:hover {
+        transform: translateY(-2px);
+    }
+    
+    .subscription-cover {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+    }
+    
+    .settings-section {
+        margin-bottom: 30px;
+    }
+    
+    .settings-section h5 {
+        margin-bottom: 15px;
+        border-bottom: 1px solid #dee2e6;
+        padding-bottom: 10px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <!-- Notifications List -->
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Notifications</h5>
+                <div>
+                    <button id="mark-all-read" class="btn btn-sm btn-outline-primary me-2">
+                        <i class="fas fa-check-double"></i> Mark All Read
+                    </button>
+                    <button id="clear-all" class="btn btn-sm btn-outline-danger">
+                        <i class="fas fa-trash"></i> Clear All
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div id="notifications-container">
+                    <!-- Notifications will be loaded here -->
+                </div>
+                
+                <div id="no-notifications" class="text-center py-5 d-none">
+                    <i class="fas fa-bell-slash fa-3x mb-3 text-muted"></i>
+                    <h5>No notifications</h5>
+                    <p class="text-muted">You don't have any notifications yet</p>
+                </div>
+                
+                <div id="loading-notifications" class="text-center py-5">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-2">Loading notifications...</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Upcoming Releases -->
+        <div class="card mt-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Upcoming Releases</h5>
+                <button id="check-releases" class="btn btn-sm btn-primary">
+                    <i class="fas fa-sync-alt"></i> Check Now
+                </button>
+            </div>
+            <div class="card-body">
+                <div id="releases-container">
+                    <!-- Upcoming releases will be loaded here -->
+                </div>
+                
+                <div id="no-releases" class="text-center py-5 d-none">
+                    <i class="fas fa-calendar-times fa-3x mb-3 text-muted"></i>
+                    <h5>No upcoming releases</h5>
+                    <p class="text-muted">There are no upcoming releases for your subscribed series</p>
+                </div>
+                
+                <div id="loading-releases" class="text-center py-5">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-2">Loading upcoming releases...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <!-- Subscriptions -->
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Subscriptions</h5>
+                <button id="add-subscription" class="btn btn-sm btn-success">
+                    <i class="fas fa-plus"></i> Add
+                </button>
+            </div>
+            <div class="card-body">
+                <div id="subscriptions-container">
+                    <!-- Subscriptions will be loaded here -->
+                </div>
+                
+                <div id="no-subscriptions" class="text-center py-5 d-none">
+                    <i class="fas fa-rss fa-3x mb-3 text-muted"></i>
+                    <h5>No subscriptions</h5>
+                    <p class="text-muted">You haven't subscribed to any series yet</p>
+                    <button id="add-first-subscription" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Add Subscription
+                    </button>
+                </div>
+                
+                <div id="loading-subscriptions" class="text-center py-5">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-2">Loading subscriptions...</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Notification Settings -->
+        <div class="card mt-4">
+            <div class="card-header">
+                <h5 class="mb-0">Notification Settings</h5>
+            </div>
+            <div class="card-body">
+                <form id="notification-settings-form">
+                    <div class="settings-section">
+                        <h5>General Settings</h5>
+                        <div class="mb-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="notify-new-volumes" checked>
+                                <label class="form-check-label" for="notify-new-volumes">
+                                    Notify for new volumes
+                                </label>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="notify-new-chapters" checked>
+                                <label class="form-check-label" for="notify-new-chapters">
+                                    Notify for new chapters
+                                </label>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="notify-days-before" class="form-label">Notify days before release</label>
+                            <select class="form-select" id="notify-days-before">
+                                <option value="0">On release day</option>
+                                <option value="1" selected>1 day before</option>
+                                <option value="2">2 days before</option>
+                                <option value="3">3 days before</option>
+                                <option value="7">1 week before</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <h5>Notification Channels</h5>
+                        <div class="mb-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="browser-enabled" checked>
+                                <label class="form-check-label" for="browser-enabled">
+                                    Browser notifications
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="email-enabled">
+                                <label class="form-check-label" for="email-enabled">
+                                    Email notifications
+                                </label>
+                            </div>
+                            <div id="email-settings" class="mt-2 d-none">
+                                <input type="email" class="form-control" id="email-address" placeholder="Email address">
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="discord-enabled">
+                                <label class="form-check-label" for="discord-enabled">
+                                    Discord webhook
+                                </label>
+                            </div>
+                            <div id="discord-settings" class="mt-2 d-none">
+                                <input type="text" class="form-control" id="discord-webhook" placeholder="Discord webhook URL">
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="telegram-enabled">
+                                <label class="form-check-label" for="telegram-enabled">
+                                    Telegram notifications
+                                </label>
+                            </div>
+                            <div id="telegram-settings" class="mt-2 d-none">
+                                <input type="text" class="form-control mb-2" id="telegram-bot-token" placeholder="Telegram bot token">
+                                <input type="text" class="form-control" id="telegram-chat-id" placeholder="Telegram chat ID">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Save Settings</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Subscription Modal -->
+<div class="modal fade" id="subscriptionModal" tabindex="-1" aria-labelledby="subscriptionModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="subscriptionModalLabel">Add Subscription</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="subscription-form">
+                    <div class="mb-3">
+                        <label for="series-select" class="form-label">Series</label>
+                        <select id="series-select" class="form-select" required>
+                            <option value="">Select a series</option>
+                            <!-- Will be populated dynamically -->
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="sub-notify-volumes" checked>
+                            <label class="form-check-label" for="sub-notify-volumes">
+                                Notify for new volumes
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="sub-notify-chapters" checked>
+                            <label class="form-check-label" for="sub-notify-chapters">
+                                Notify for new chapters
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" id="save-subscription" class="btn btn-primary">Subscribe</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Test Notification Modal -->
+<div class="modal fade" id="testNotificationModal" tabindex="-1" aria-labelledby="testNotificationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="testNotificationModalLabel">Send Test Notification</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="test-notification-form">
+                    <div class="mb-3">
+                        <label for="test-title" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="test-title" value="Test Notification">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="test-message" class="form-label">Message</label>
+                        <textarea class="form-control" id="test-message" rows="3">This is a test notification from MangaArr.</textarea>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="test-type" class="form-label">Type</label>
+                        <select class="form-select" id="test-type">
+                            <option value="INFO">Info</option>
+                            <option value="SUCCESS">Success</option>
+                            <option value="WARNING">Warning</option>
+                            <option value="ERROR">Error</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" id="send-test-notification" class="btn btn-primary">Send</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // DOM elements
+        const notificationsContainer = document.getElementById('notifications-container');
+        const noNotifications = document.getElementById('no-notifications');
+        const loadingNotifications = document.getElementById('loading-notifications');
+        
+        const releasesContainer = document.getElementById('releases-container');
+        const noReleases = document.getElementById('no-releases');
+        const loadingReleases = document.getElementById('loading-releases');
+        
+        const subscriptionsContainer = document.getElementById('subscriptions-container');
+        const noSubscriptions = document.getElementById('no-subscriptions');
+        const loadingSubscriptions = document.getElementById('loading-subscriptions');
+        
+        const subscriptionModal = new bootstrap.Modal(document.getElementById('subscriptionModal'));
+        const testNotificationModal = new bootstrap.Modal(document.getElementById('testNotificationModal'));
+        
+        // Load notifications
+        function loadNotifications() {
+            // Show loading
+            notificationsContainer.innerHTML = '';
+            loadingNotifications.classList.remove('d-none');
+            noNotifications.classList.add('d-none');
+            
+            fetch('/api/notifications')
+                .then(response => response.json())
+                .then(data => {
+                    // Hide loading
+                    loadingNotifications.classList.add('d-none');
+                    
+                    // Show/hide no notifications message
+                    if (data.notifications && data.notifications.length > 0) {
+                        noNotifications.classList.add('d-none');
+                        
+                        // Render notifications
+                        data.notifications.forEach(notification => {
+                            const card = document.createElement('div');
+                            card.className = `card notification-card ${notification.read ? '' : 'unread'} ${notification.type.toLowerCase()}`;
+                            card.dataset.id = notification.id;
+                            
+                            const cardBody = document.createElement('div');
+                            cardBody.className = 'card-body';
+                            
+                            const header = document.createElement('div');
+                            header.className = 'd-flex justify-content-between align-items-start';
+                            
+                            const title = document.createElement('h5');
+                            title.className = 'card-title';
+                            title.textContent = notification.title;
+                            
+                            const time = document.createElement('span');
+                            time.className = 'notification-time';
+                            time.textContent = formatDate(notification.created_at);
+                            
+                            header.appendChild(title);
+                            header.appendChild(time);
+                            
+                            const message = document.createElement('p');
+                            message.className = 'card-text';
+                            message.textContent = notification.message;
+                            
+                            const actions = document.createElement('div');
+                            actions.className = 'notification-actions';
+                            
+                            if (!notification.read) {
+                                const markReadBtn = document.createElement('button');
+                                markReadBtn.className = 'btn btn-sm btn-outline-primary';
+                                markReadBtn.innerHTML = '<i class="fas fa-check"></i>';
+                                markReadBtn.title = 'Mark as read';
+                                markReadBtn.onclick = () => markAsRead(notification.id);
+                                actions.appendChild(markReadBtn);
+                            }
+                            
+                            const deleteBtn = document.createElement('button');
+                            deleteBtn.className = 'btn btn-sm btn-outline-danger';
+                            deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
+                            deleteBtn.title = 'Delete';
+                            deleteBtn.onclick = () => deleteNotification(notification.id);
+                            actions.appendChild(deleteBtn);
+                            
+                            cardBody.appendChild(header);
+                            cardBody.appendChild(message);
+                            cardBody.appendChild(actions);
+                            card.appendChild(cardBody);
+                            
+                            notificationsContainer.appendChild(card);
+                        });
+                    } else {
+                        noNotifications.classList.remove('d-none');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading notifications:', error);
+                    loadingNotifications.classList.add('d-none');
+                    noNotifications.classList.remove('d-none');
+                });
+        }
+        
+        // Load upcoming releases
+        function loadUpcomingReleases() {
+            // Show loading
+            releasesContainer.innerHTML = '';
+            loadingReleases.classList.remove('d-none');
+            noReleases.classList.add('d-none');
+            
+            // Get today's date and 7 days from now
+            const today = new Date().toISOString().split('T')[0];
+            const nextWeek = new Date();
+            nextWeek.setDate(nextWeek.getDate() + 7);
+            const nextWeekStr = nextWeek.toISOString().split('T')[0];
+            
+            fetch(`/api/calendar?start_date=${today}&end_date=${nextWeekStr}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Hide loading
+                    loadingReleases.classList.add('d-none');
+                    
+                    // Show/hide no releases message
+                    if (data.events && data.events.length > 0) {
+                        noReleases.classList.add('d-none');
+                        
+                        // Group events by date
+                        const eventsByDate = {};
+                        data.events.forEach(event => {
+                            const date = event.date;
+                            if (!eventsByDate[date]) {
+                                eventsByDate[date] = [];
+                            }
+                            eventsByDate[date].push(event);
+                        });
+                        
+                        // Render events by date
+                        const dates = Object.keys(eventsByDate).sort();
+                        dates.forEach(date => {
+                            const dateHeader = document.createElement('h6');
+                            dateHeader.className = 'mt-3 mb-2';
+                            dateHeader.textContent = formatDate(date);
+                            releasesContainer.appendChild(dateHeader);
+                            
+                            const events = eventsByDate[date];
+                            events.forEach(event => {
+                                const card = document.createElement('div');
+                                card.className = 'card mb-2';
+                                
+                                const cardBody = document.createElement('div');
+                                cardBody.className = 'card-body py-2';
+                                
+                                const row = document.createElement('div');
+                                row.className = 'row align-items-center';
+                                
+                                const colImg = document.createElement('div');
+                                colImg.className = 'col-auto';
+                                
+                                const img = document.createElement('img');
+                                img.src = event.series.cover_url || '/static/img/no-cover.png';
+                                img.alt = 'Cover';
+                                img.className = 'img-thumbnail';
+                                img.style.width = '40px';
+                                img.style.height = '60px';
+                                img.style.objectFit = 'cover';
+                                
+                                colImg.appendChild(img);
+                                
+                                const colContent = document.createElement('div');
+                                colContent.className = 'col';
+                                
+                                const title = document.createElement('h6');
+                                title.className = 'mb-0';
+                                title.textContent = event.title;
+                                
+                                const description = document.createElement('small');
+                                description.className = 'text-muted';
+                                description.textContent = event.description;
+                                
+                                colContent.appendChild(title);
+                                colContent.appendChild(description);
+                                
+                                const colType = document.createElement('div');
+                                colType.className = 'col-auto';
+                                
+                                const badge = document.createElement('span');
+                                badge.className = `badge ${event.type === 'VOLUME_RELEASE' ? 'bg-success' : 'bg-primary'}`;
+                                badge.textContent = event.type === 'VOLUME_RELEASE' ? 'Volume' : 'Chapter';
+                                
+                                colType.appendChild(badge);
+                                
+                                row.appendChild(colImg);
+                                row.appendChild(colContent);
+                                row.appendChild(colType);
+                                
+                                cardBody.appendChild(row);
+                                card.appendChild(cardBody);
+                                
+                                releasesContainer.appendChild(card);
+                            });
+                        });
+                    } else {
+                        noReleases.classList.remove('d-none');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading upcoming releases:', error);
+                    loadingReleases.classList.add('d-none');
+                    noReleases.classList.remove('d-none');
+                });
+        }
+        
+        // Load subscriptions
+        function loadSubscriptions() {
+            // Show loading
+            subscriptionsContainer.innerHTML = '';
+            loadingSubscriptions.classList.remove('d-none');
+            noSubscriptions.classList.add('d-none');
+            
+            fetch('/api/subscriptions')
+                .then(response => response.json())
+                .then(data => {
+                    // Hide loading
+                    loadingSubscriptions.classList.add('d-none');
+                    
+                    // Show/hide no subscriptions message
+                    if (data.subscriptions && data.subscriptions.length > 0) {
+                        noSubscriptions.classList.add('d-none');
+                        
+                        // Render subscriptions
+                        data.subscriptions.forEach(subscription => {
+                            const card = document.createElement('div');
+                            card.className = 'card subscription-card';
+                            card.dataset.id = subscription.id;
+                            card.dataset.seriesId = subscription.series_id;
+                            
+                            const img = document.createElement('img');
+                            img.src = subscription.series_cover_url || '/static/img/no-cover.png';
+                            img.alt = 'Cover';
+                            img.className = 'subscription-cover';
+                            
+                            const cardBody = document.createElement('div');
+                            cardBody.className = 'card-body';
+                            
+                            const title = document.createElement('h6');
+                            title.className = 'card-title';
+                            title.textContent = subscription.series_title;
+                            
+                            const author = document.createElement('p');
+                            author.className = 'card-text small text-muted mb-2';
+                            author.textContent = subscription.series_author || 'Unknown author';
+                            
+                            const badges = document.createElement('div');
+                            badges.className = 'd-flex gap-2 mb-3';
+                            
+                            if (subscription.notify_new_volumes) {
+                                const volumeBadge = document.createElement('span');
+                                volumeBadge.className = 'badge bg-success';
+                                volumeBadge.textContent = 'Volumes';
+                                badges.appendChild(volumeBadge);
+                            }
+                            
+                            if (subscription.notify_new_chapters) {
+                                const chapterBadge = document.createElement('span');
+                                chapterBadge.className = 'badge bg-primary';
+                                chapterBadge.textContent = 'Chapters';
+                                badges.appendChild(chapterBadge);
+                            }
+                            
+                            const unsubscribeBtn = document.createElement('button');
+                            unsubscribeBtn.className = 'btn btn-sm btn-outline-danger w-100';
+                            unsubscribeBtn.innerHTML = '<i class="fas fa-times"></i> Unsubscribe';
+                            unsubscribeBtn.onclick = () => unsubscribe(subscription.series_id);
+                            
+                            cardBody.appendChild(title);
+                            cardBody.appendChild(author);
+                            cardBody.appendChild(badges);
+                            cardBody.appendChild(unsubscribeBtn);
+                            
+                            card.appendChild(img);
+                            card.appendChild(cardBody);
+                            
+                            subscriptionsContainer.appendChild(card);
+                        });
+                    } else {
+                        noSubscriptions.classList.remove('d-none');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading subscriptions:', error);
+                    loadingSubscriptions.classList.add('d-none');
+                    noSubscriptions.classList.remove('d-none');
+                });
+        }
+        
+        // Load series list for subscription dropdown
+        function loadSeriesList() {
+            const seriesSelect = document.getElementById('series-select');
+            
+            // Clear existing options except the first one
+            while (seriesSelect.options.length > 1) {
+                seriesSelect.remove(1);
+            }
+            
+            fetch('/api/series')
+                .then(response => response.json())
+                .then(data => {
+                    // Add series options
+                    data.series.forEach(series => {
+                        const option = document.createElement('option');
+                        option.value = series.id;
+                        option.textContent = series.title;
+                        seriesSelect.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error loading series list:', error);
+                });
+        }
+        
+        // Load notification settings
+        function loadNotificationSettings() {
+            fetch('/api/notifications/settings')
+                .then(response => response.json())
+                .then(settings => {
+                    // General settings
+                    document.getElementById('notify-new-volumes').checked = settings.notify_new_volumes === 1;
+                    document.getElementById('notify-new-chapters').checked = settings.notify_new_chapters === 1;
+                    document.getElementById('notify-days-before').value = settings.notify_releases_days_before || 1;
+                    
+                    // Browser notifications
+                    document.getElementById('browser-enabled').checked = settings.browser_enabled === 1;
+                    
+                    // Email notifications
+                    document.getElementById('email-enabled').checked = settings.email_enabled === 1;
+                    document.getElementById('email-address').value = settings.email_address || '';
+                    if (settings.email_enabled === 1) {
+                        document.getElementById('email-settings').classList.remove('d-none');
+                    }
+                    
+                    // Discord notifications
+                    document.getElementById('discord-enabled').checked = settings.discord_enabled === 1;
+                    document.getElementById('discord-webhook').value = settings.discord_webhook || '';
+                    if (settings.discord_enabled === 1) {
+                        document.getElementById('discord-settings').classList.remove('d-none');
+                    }
+                    
+                    // Telegram notifications
+                    document.getElementById('telegram-enabled').checked = settings.telegram_enabled === 1;
+                    document.getElementById('telegram-bot-token').value = settings.telegram_bot_token || '';
+                    document.getElementById('telegram-chat-id').value = settings.telegram_chat_id || '';
+                    if (settings.telegram_enabled === 1) {
+                        document.getElementById('telegram-settings').classList.remove('d-none');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading notification settings:', error);
+                });
+        }
+        
+        // Mark notification as read
+        function markAsRead(notificationId) {
+            fetch(`/api/notifications/${notificationId}/read`, {
+                method: 'PUT'
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(err => { throw new Error(err.error || 'Failed to mark notification as read'); });
+                    }
+                    return response.json();
+                })
+                .then(() => {
+                    // Update UI
+                    const notification = document.querySelector(`.notification-card[data-id="${notificationId}"]`);
+                    if (notification) {
+                        notification.classList.remove('unread');
+                        const markReadBtn = notification.querySelector('.notification-actions button:first-child');
+                        if (markReadBtn) {
+                            markReadBtn.remove();
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error marking notification as read:', error);
+                    alert(error.message);
+                });
+        }
+        
+        // Mark all notifications as read
+        function markAllAsRead() {
+            fetch('/api/notifications/read', {
+                method: 'PUT'
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(err => { throw new Error(err.error || 'Failed to mark all notifications as read'); });
+                    }
+                    return response.json();
+                })
+                .then(() => {
+                    // Reload notifications
+                    loadNotifications();
+                })
+                .catch(error => {
+                    console.error('Error marking all notifications as read:', error);
+                    alert(error.message);
+                });
+        }
+        
+        // Delete notification
+        function deleteNotification(notificationId) {
+            fetch(`/api/notifications/${notificationId}`, {
+                method: 'DELETE'
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(err => { throw new Error(err.error || 'Failed to delete notification'); });
+                    }
+                    return response.json();
+                })
+                .then(() => {
+                    // Update UI
+                    const notification = document.querySelector(`.notification-card[data-id="${notificationId}"]`);
+                    if (notification) {
+                        notification.remove();
+                    }
+                    
+                    // Check if there are any notifications left
+                    if (notificationsContainer.children.length === 0) {
+                        noNotifications.classList.remove('d-none');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error deleting notification:', error);
+                    alert(error.message);
+                });
+        }
+        
+        // Delete all notifications
+        function deleteAllNotifications() {
+            if (!confirm('Are you sure you want to delete all notifications?')) {
+                return;
+            }
+            
+            fetch('/api/notifications', {
+                method: 'DELETE'
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(err => { throw new Error(err.error || 'Failed to delete all notifications'); });
+                    }
+                    return response.json();
+                })
+                .then(() => {
+                    // Reload notifications
+                    loadNotifications();
+                })
+                .catch(error => {
+                    console.error('Error deleting all notifications:', error);
+                    alert(error.message);
+                });
+        }
+        
+        // Subscribe to series
+        function subscribe() {
+            const seriesId = document.getElementById('series-select').value;
+            const notifyVolumes = document.getElementById('sub-notify-volumes').checked;
+            const notifyChapters = document.getElementById('sub-notify-chapters').checked;
+            
+            if (!seriesId) {
+                alert('Please select a series');
+                return;
+            }
+            
+            fetch('/api/subscriptions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    series_id: parseInt(seriesId),
+                    notify_new_volumes: notifyVolumes,
+                    notify_new_chapters: notifyChapters
+                })
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(err => { throw new Error(err.error || 'Failed to subscribe to series'); });
+                    }
+                    return response.json();
+                })
+                .then(() => {
+                    // Close modal
+                    subscriptionModal.hide();
+                    
+                    // Reload subscriptions
+                    loadSubscriptions();
+                    
+                    // Reload upcoming releases
+                    loadUpcomingReleases();
+                })
+                .catch(error => {
+                    console.error('Error subscribing to series:', error);
+                    alert(error.message);
+                });
+        }
+        
+        // Unsubscribe from series
+        function unsubscribe(seriesId) {
+            if (!confirm('Are you sure you want to unsubscribe from this series?')) {
+                return;
+            }
+            
+            fetch(`/api/subscriptions/${seriesId}`, {
+                method: 'DELETE'
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(err => { throw new Error(err.error || 'Failed to unsubscribe from series'); });
+                    }
+                    return response.json();
+                })
+                .then(() => {
+                    // Reload subscriptions
+                    loadSubscriptions();
+                    
+                    // Reload upcoming releases
+                    loadUpcomingReleases();
+                })
+                .catch(error => {
+                    console.error('Error unsubscribing from series:', error);
+                    alert(error.message);
+                });
+        }
+        
+        // Check for upcoming releases
+        function checkReleases() {
+            const checkBtn = document.getElementById('check-releases');
+            checkBtn.disabled = true;
+            checkBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Checking...';
+            
+            fetch('/api/monitor/check-releases', {
+                method: 'POST'
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(err => { throw new Error(err.error || 'Failed to check releases'); });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Re-enable button
+                    checkBtn.disabled = false;
+                    checkBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Check Now';
+                    
+                    // Show success message
+                    const releaseCount = data.releases ? data.releases.length : 0;
+                    alert(`Check completed. Found ${releaseCount} upcoming releases.`);
+                    
+                    // Reload notifications and upcoming releases
+                    loadNotifications();
+                    loadUpcomingReleases();
+                })
+                .catch(error => {
+                    console.error('Error checking releases:', error);
+                    checkBtn.disabled = false;
+                    checkBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Check Now';
+                    alert(error.message);
+                });
+        }
+        
+        // Send test notification
+        function sendTestNotification() {
+            const title = document.getElementById('test-title').value;
+            const message = document.getElementById('test-message').value;
+            const type = document.getElementById('test-type').value;
+            
+            if (!title || !message) {
+                alert('Please enter a title and message');
+                return;
+            }
+            
+            fetch('/api/notifications/test', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    title: title,
+                    message: message,
+                    type: type
+                })
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(err => { throw new Error(err.error || 'Failed to send test notification'); });
+                    }
+                    return response.json();
+                })
+                .then(() => {
+                    // Close modal
+                    testNotificationModal.hide();
+                    
+                    // Reload notifications
+                    loadNotifications();
+                    
+                    // Show success message
+                    alert('Test notification sent successfully!');
+                })
+                .catch(error => {
+                    console.error('Error sending test notification:', error);
+                    alert(error.message);
+                });
+        }
+        
+        // Save notification settings
+        function saveNotificationSettings(event) {
+            event.preventDefault();
+            
+            const settings = {
+                notify_new_volumes: document.getElementById('notify-new-volumes').checked,
+                notify_new_chapters: document.getElementById('notify-new-chapters').checked,
+                notify_releases_days_before: parseInt(document.getElementById('notify-days-before').value),
+                browser_enabled: document.getElementById('browser-enabled').checked,
+                email_enabled: document.getElementById('email-enabled').checked,
+                discord_enabled: document.getElementById('discord-enabled').checked,
+                telegram_enabled: document.getElementById('telegram-enabled').checked
+            };
+            
+            // Add optional settings if enabled
+            if (settings.email_enabled) {
+                settings.email_address = document.getElementById('email-address').value;
+            }
+            
+            if (settings.discord_enabled) {
+                settings.discord_webhook = document.getElementById('discord-webhook').value;
+            }
+            
+            if (settings.telegram_enabled) {
+                settings.telegram_bot_token = document.getElementById('telegram-bot-token').value;
+                settings.telegram_chat_id = document.getElementById('telegram-chat-id').value;
+            }
+            
+            fetch('/api/notifications/settings', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(settings)
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(err => { throw new Error(err.error || 'Failed to save notification settings'); });
+                    }
+                    return response.json();
+                })
+                .then(() => {
+                    alert('Notification settings saved successfully!');
+                })
+                .catch(error => {
+                    console.error('Error saving notification settings:', error);
+                    alert(error.message);
+                });
+        }
+        
+        // Format date
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            return date.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+        }
+        
+        // Event listeners
+        document.getElementById('mark-all-read').addEventListener('click', markAllAsRead);
+        document.getElementById('clear-all').addEventListener('click', deleteAllNotifications);
+        document.getElementById('check-releases').addEventListener('click', checkReleases);
+        document.getElementById('add-subscription').addEventListener('click', function() {
+            loadSeriesList();
+            subscriptionModal.show();
+        });
+        document.getElementById('add-first-subscription').addEventListener('click', function() {
+            loadSeriesList();
+            subscriptionModal.show();
+        });
+        document.getElementById('save-subscription').addEventListener('click', subscribe);
+        document.getElementById('notification-settings-form').addEventListener('submit', saveNotificationSettings);
+        document.getElementById('send-test-notification').addEventListener('click', sendTestNotification);
+        
+        // Toggle settings visibility
+        document.getElementById('email-enabled').addEventListener('change', function() {
+            document.getElementById('email-settings').classList.toggle('d-none', !this.checked);
+        });
+        
+        document.getElementById('discord-enabled').addEventListener('change', function() {
+            document.getElementById('discord-settings').classList.toggle('d-none', !this.checked);
+        });
+        
+        document.getElementById('telegram-enabled').addEventListener('change', function() {
+            document.getElementById('telegram-settings').classList.toggle('d-none', !this.checked);
+        });
+        
+        // Initial load
+        loadNotifications();
+        loadUpcomingReleases();
+        loadSubscriptions();
+        loadNotificationSettings();
+    });
+</script>
+{% endblock %}

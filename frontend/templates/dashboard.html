@@ -1,0 +1,583 @@
+{% extends 'base.html' %}
+
+{% block title %}MangaArr - Dashboard{% endblock %}
+
+{% block page_title %}Dashboard{% endblock %}
+
+{% block styles %}
+<style>
+    .stats-card {
+        transition: all 0.3s;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    
+    .stats-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .stats-icon {
+        font-size: 2.5rem;
+        opacity: 0.8;
+    }
+    
+    .stats-number {
+        font-size: 2rem;
+        font-weight: 700;
+    }
+    
+    .stats-label {
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    
+    .upcoming-release {
+        transition: all 0.3s;
+        border-left: 4px solid transparent;
+    }
+    
+    .upcoming-release:hover {
+        transform: translateX(5px);
+    }
+    
+    .upcoming-release.volume {
+        border-left-color: #198754;
+    }
+    
+    .upcoming-release.chapter {
+        border-left-color: #0d6efd;
+    }
+    
+    .release-cover {
+        width: 50px;
+        height: 70px;
+        object-fit: cover;
+        border-radius: 4px;
+    }
+    
+    .recent-series {
+        transition: all 0.3s;
+    }
+    
+    .recent-series:hover {
+        transform: scale(1.03);
+    }
+    
+    .series-cover {
+        height: 150px;
+        object-fit: cover;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+    
+    .collection-progress {
+        height: 8px;
+    }
+    
+    .chart-container {
+        position: relative;
+        height: 250px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- Stats Cards -->
+    <div class="col-md-3 mb-4">
+        <div class="card stats-card bg-primary text-white h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="stats-number" id="series-count">0</div>
+                        <div class="stats-label">Series</div>
+                    </div>
+                    <div class="stats-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-4">
+        <div class="card stats-card bg-success text-white h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="stats-number" id="volumes-count">0</div>
+                        <div class="stats-label">Volumes</div>
+                    </div>
+                    <div class="stats-icon">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-4">
+        <div class="card stats-card bg-info text-white h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="stats-number" id="chapters-count">0</div>
+                        <div class="stats-label">Chapters</div>
+                    </div>
+                    <div class="stats-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-4">
+        <div class="card stats-card bg-warning text-white h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="stats-number" id="releases-today">0</div>
+                        <div class="stats-label">Today's Releases</div>
+                    </div>
+                    <div class="stats-icon">
+                        <i class="fas fa-calendar-day"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Upcoming Releases -->
+    <div class="col-lg-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Upcoming Releases</h5>
+                <a href="{{ url_for('ui.calendar') }}" class="btn btn-sm btn-outline-primary">
+                    <i class="fas fa-calendar-alt me-1"></i> View Calendar
+                </a>
+            </div>
+            <div class="card-body p-0">
+                <div class="list-group list-group-flush" id="upcoming-releases">
+                    <div class="text-center py-5" id="loading-releases">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-2">Loading upcoming releases...</p>
+                    </div>
+                    <div class="text-center py-5 d-none" id="no-releases">
+                        <i class="fas fa-calendar-times fa-3x mb-3 text-muted"></i>
+                        <h5>No upcoming releases</h5>
+                        <p class="text-muted">There are no upcoming releases in the next 7 days</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Collection Stats -->
+    <div class="col-lg-6 mb-4">
+        <div class="card h-100">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Collection Stats</h5>
+                <a href="{{ url_for('ui.collection') }}" class="btn btn-sm btn-outline-primary">
+                    <i class="fas fa-bookmark me-1"></i> View Collection
+                </a>
+            </div>
+            <div class="card-body">
+                <div class="text-center py-5" id="loading-collection">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-2">Loading collection stats...</p>
+                </div>
+                
+                <div id="collection-stats" class="d-none">
+                    <div class="row mb-4">
+                        <div class="col-6">
+                            <div class="d-flex align-items-center">
+                                <div class="me-3">
+                                    <i class="fas fa-book-open fa-2x text-success"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0">Owned Volumes</h6>
+                                    <h3 id="owned-volumes">0</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="d-flex align-items-center">
+                                <div class="me-3">
+                                    <i class="fas fa-check-circle fa-2x text-info"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0">Read Volumes</h6>
+                                    <h3 id="read-volumes">0</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h6 class="mb-0">Reading Progress</h6>
+                            <span id="reading-progress-percent">0%</span>
+                        </div>
+                        <div class="progress collection-progress">
+                            <div id="reading-progress-bar" class="progress-bar bg-info" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h6 class="mb-0">Collection Value</h6>
+                            <span id="collection-value">$0.00</span>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="collection-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Recent Series -->
+    <div class="col-12 mb-4">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Recent Series</h5>
+                <a href="{{ url_for('ui.series_list') }}" class="btn btn-sm btn-outline-primary">
+                    <i class="fas fa-list me-1"></i> View All Series
+                </a>
+            </div>
+            <div class="card-body">
+                <div class="row" id="recent-series">
+                    <div class="text-center py-5" id="loading-series">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-2">Loading recent series...</p>
+                    </div>
+                    <div class="text-center py-5 d-none" id="no-series">
+                        <i class="fas fa-book fa-3x mb-3 text-muted"></i>
+                        <h5>No series found</h5>
+                        <p class="text-muted">Start by adding some series to your library</p>
+                        <a href="{{ url_for('ui.series_list') }}" class="btn btn-primary">
+                            <i class="fas fa-plus me-1"></i> Add Series
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Load dashboard data
+        loadDashboardData();
+        
+        // Load upcoming releases
+        loadUpcomingReleases();
+        
+        // Load collection stats
+        loadCollectionStats();
+        
+        // Load recent series
+        loadRecentSeries();
+        
+        // Dashboard data
+        function loadDashboardData() {
+            fetch('/api/dashboard')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('series-count').textContent = data.stats.series_count || 0;
+                    document.getElementById('volumes-count').textContent = data.stats.volume_count || 0;
+                    document.getElementById('chapters-count').textContent = data.stats.chapter_count || 0;
+                    document.getElementById('releases-today').textContent = data.stats.releases_today || 0;
+                })
+                .catch(error => {
+                    console.error('Error loading dashboard data:', error);
+                });
+        }
+        
+        // Upcoming releases
+        function loadUpcomingReleases() {
+            const releasesContainer = document.getElementById('upcoming-releases');
+            const loadingReleases = document.getElementById('loading-releases');
+            const noReleases = document.getElementById('no-releases');
+            
+            // Get today's date and 7 days from now
+            const today = new Date().toISOString().split('T')[0];
+            const nextWeek = new Date();
+            nextWeek.setDate(nextWeek.getDate() + 7);
+            const nextWeekStr = nextWeek.toISOString().split('T')[0];
+            
+            fetch(`/api/calendar?start_date=${today}&end_date=${nextWeekStr}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Hide loading
+                    loadingReleases.classList.add('d-none');
+                    
+                    // Show/hide no releases message
+                    if (data.events && data.events.length > 0) {
+                        noReleases.classList.add('d-none');
+                        
+                        // Sort events by date
+                        data.events.sort((a, b) => new Date(a.date) - new Date(b.date));
+                        
+                        // Limit to 5 events
+                        const events = data.events.slice(0, 5);
+                        
+                        // Render events
+                        events.forEach(event => {
+                            const item = document.createElement('div');
+                            item.className = `list-group-item list-group-item-action upcoming-release ${event.type === 'VOLUME_RELEASE' ? 'volume' : 'chapter'}`;
+                            
+                            const row = document.createElement('div');
+                            row.className = 'row align-items-center';
+                            
+                            // Cover image
+                            const colImg = document.createElement('div');
+                            colImg.className = 'col-auto';
+                            
+                            const img = document.createElement('img');
+                            img.src = event.series.cover_url || '/static/img/no-cover.png';
+                            img.alt = 'Cover';
+                            img.className = 'release-cover';
+                            
+                            colImg.appendChild(img);
+                            
+                            // Event details
+                            const colDetails = document.createElement('div');
+                            colDetails.className = 'col';
+                            
+                            const title = document.createElement('h6');
+                            title.className = 'mb-0';
+                            title.textContent = event.title;
+                            
+                            const series = document.createElement('div');
+                            series.className = 'small text-muted';
+                            series.textContent = event.series.title;
+                            
+                            colDetails.appendChild(title);
+                            colDetails.appendChild(series);
+                            
+                            // Date and badge
+                            const colDate = document.createElement('div');
+                            colDate.className = 'col-auto text-end';
+                            
+                            const date = document.createElement('div');
+                            date.className = 'small text-muted';
+                            date.textContent = formatDate(event.date);
+                            
+                            const badge = document.createElement('span');
+                            badge.className = `badge ${event.type === 'VOLUME_RELEASE' ? 'bg-success' : 'bg-primary'}`;
+                            badge.textContent = event.type === 'VOLUME_RELEASE' ? 'Volume' : 'Chapter';
+                            
+                            colDate.appendChild(date);
+                            colDate.appendChild(document.createElement('br'));
+                            colDate.appendChild(badge);
+                            
+                            // Assemble row
+                            row.appendChild(colImg);
+                            row.appendChild(colDetails);
+                            row.appendChild(colDate);
+                            
+                            item.appendChild(row);
+                            releasesContainer.appendChild(item);
+                        });
+                    } else {
+                        noReleases.classList.remove('d-none');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading upcoming releases:', error);
+                    loadingReleases.classList.add('d-none');
+                    noReleases.classList.remove('d-none');
+                });
+        }
+        
+        // Collection stats
+        function loadCollectionStats() {
+            const loadingCollection = document.getElementById('loading-collection');
+            const collectionStats = document.getElementById('collection-stats');
+            
+            fetch('/api/collection/stats')
+                .then(response => response.json())
+                .then(data => {
+                    // Hide loading
+                    loadingCollection.classList.add('d-none');
+                    
+                    // Show stats
+                    collectionStats.classList.remove('d-none');
+                    
+                    // Update stats
+                    document.getElementById('owned-volumes').textContent = data.owned_volumes || 0;
+                    document.getElementById('read-volumes').textContent = data.read_volumes || 0;
+                    
+                    // Calculate reading progress
+                    const ownedVolumes = data.owned_volumes || 0;
+                    const readVolumes = data.read_volumes || 0;
+                    let progressPercent = 0;
+                    
+                    if (ownedVolumes > 0) {
+                        progressPercent = Math.round((readVolumes / ownedVolumes) * 100);
+                    }
+                    
+                    document.getElementById('reading-progress-percent').textContent = `${progressPercent}%`;
+                    document.getElementById('reading-progress-bar').style.width = `${progressPercent}%`;
+                    document.getElementById('reading-progress-bar').setAttribute('aria-valuenow', progressPercent);
+                    
+                    // Update collection value
+                    document.getElementById('collection-value').textContent = `$${(data.total_value || 0).toFixed(2)}`;
+                    
+                    // Create collection chart
+                    createCollectionChart(data);
+                })
+                .catch(error => {
+                    console.error('Error loading collection stats:', error);
+                    loadingCollection.classList.add('d-none');
+                });
+        }
+        
+        // Recent series
+        function loadRecentSeries() {
+            const seriesContainer = document.getElementById('recent-series');
+            const loadingSeries = document.getElementById('loading-series');
+            const noSeries = document.getElementById('no-series');
+            
+            fetch('/api/series')
+                .then(response => response.json())
+                .then(data => {
+                    // Hide loading
+                    loadingSeries.classList.add('d-none');
+                    
+                    // Show/hide no series message
+                    if (data.series && data.series.length > 0) {
+                        noSeries.classList.add('d-none');
+                        
+                        // Sort series by created_at (newest first)
+                        data.series.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+                        
+                        // Limit to 4 series
+                        const series = data.series.slice(0, 4);
+                        
+                        // Render series
+                        series.forEach(item => {
+                            const col = document.createElement('div');
+                            col.className = 'col-md-3 col-sm-6 mb-4';
+                            
+                            const card = document.createElement('div');
+                            card.className = 'card recent-series h-100';
+                            
+                            // Cover image
+                            const img = document.createElement('img');
+                            img.src = item.cover_url || '/static/img/no-cover.png';
+                            img.alt = item.title;
+                            img.className = 'series-cover';
+                            
+                            // Card body
+                            const cardBody = document.createElement('div');
+                            cardBody.className = 'card-body';
+                            
+                            const title = document.createElement('h6');
+                            title.className = 'card-title mb-1';
+                            title.textContent = item.title;
+                            
+                            const author = document.createElement('p');
+                            author.className = 'card-text small text-muted';
+                            author.textContent = item.author || 'Unknown author';
+                            
+                            cardBody.appendChild(title);
+                            cardBody.appendChild(author);
+                            
+                            // Card footer
+                            const cardFooter = document.createElement('div');
+                            cardFooter.className = 'card-footer bg-transparent';
+                            
+                            const link = document.createElement('a');
+                            link.href = `/series/${item.id}`;
+                            link.className = 'btn btn-sm btn-outline-primary w-100';
+                            link.textContent = 'View Details';
+                            
+                            cardFooter.appendChild(link);
+                            
+                            // Assemble card
+                            card.appendChild(img);
+                            card.appendChild(cardBody);
+                            card.appendChild(cardFooter);
+                            
+                            col.appendChild(card);
+                            seriesContainer.appendChild(col);
+                        });
+                    } else {
+                        noSeries.classList.remove('d-none');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading recent series:', error);
+                    loadingSeries.classList.add('d-none');
+                    noSeries.classList.remove('d-none');
+                });
+        }
+        
+        // Create collection chart
+        function createCollectionChart(data) {
+            const ctx = document.getElementById('collection-chart').getContext('2d');
+            
+            // Calculate percentages
+            const ownedVolumes = data.owned_volumes || 0;
+            const readVolumes = data.read_volumes || 0;
+            const unreadVolumes = ownedVolumes - readVolumes;
+            
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Read', 'Unread'],
+                    datasets: [{
+                        data: [readVolumes, unreadVolumes],
+                        backgroundColor: ['#0dcaf0', '#6c757d'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    },
+                    cutout: '70%'
+                }
+            });
+        }
+        
+        // Format date
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            const today = new Date();
+            const tomorrow = new Date();
+            tomorrow.setDate(today.getDate() + 1);
+            
+            if (date.toDateString() === today.toDateString()) {
+                return 'Today';
+            } else if (date.toDateString() === tomorrow.toDateString()) {
+                return 'Tomorrow';
+            } else {
+                return date.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+            }
+        }
+    });
+</script>
+{% endblock %}

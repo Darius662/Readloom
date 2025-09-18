@@ -6,10 +6,27 @@ MangaArr is a manga, manwa, and comics collection manager with a focus on releas
 
 ## Features
 
-- **Release Calendar**: Interactive calendar showing upcoming and recent manga/comic releases
-- **Library Management**: Track your manga/comic collection
-- **Integration Capabilities**: Home Assistant and Homarr integration
-- **Modern UI**: Responsive web interface with dark/light theme support
+- **Enhanced Release Calendar**: Interactive calendar showing upcoming and recent manga/comic releases
+  - Filter options for manga/comics by type and series
+  - Different view modes (month, week, day)
+  - Color coding for different types of releases
+  - Add releases to collection directly from calendar
+- **Comprehensive Collection Tracking**: Track your manga/comic collection
+  - Track ownership status, read status, and purchase details
+  - Collection statistics and visualizations
+  - Import/export functionality
+- **Monitoring System**: Stay updated on upcoming releases
+  - Notification system for upcoming releases
+  - Subscription functionality for specific series
+  - Multiple notification channels (browser, email, Discord, Telegram)
+- **Integration Capabilities**: 
+  - Home Assistant integration with sensor data and dashboard widgets
+  - Homarr integration for status information and quick access
+- **Modern UI**: Responsive web interface
+  - Collapsible sidebar for desktop and mobile
+  - Notification system in navigation bar
+  - Modern dashboard with statistics and visualizations
+  - Dark/light theme toggle with persistent settings
 
 ## Installation
 
