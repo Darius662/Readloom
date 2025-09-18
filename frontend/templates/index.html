@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+
+{% block title %}MangaArr - Dashboard{% endblock %}
+
+{% block page_title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- Stats Cards -->
+    <div class="col-md-12 mb-4">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card bg-primary text-white mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-book"></i> Series</h5>
+                        <h2 class="card-text" id="series-count">-</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg-success text-white mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-book-open"></i> Volumes</h5>
+                        <h2 class="card-text" id="volumes-count">-</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg-info text-white mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-file-alt"></i> Chapters</h5>
+                        <h2 class="card-text" id="chapters-count">-</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg-warning text-dark mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-calendar-day"></i> Today's Releases</h5>
+                        <h2 class="card-text" id="today-releases">-</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Calendar Preview -->
+    <div class="col-md-8 mb-4">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="fas fa-calendar-alt"></i> Upcoming Releases</h5>
+                <a href="{{ url_for('ui.calendar') }}" class="btn btn-sm btn-primary">Full Calendar</a>
+            </div>
+            <div class="card-body">
+                <div id="upcoming-releases" class="list-group">
+                    <div class="text-center py-5">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Series -->
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="fas fa-book"></i> Recent Series</h5>
+                <a href="{{ url_for('ui.series_list') }}" class="btn btn-sm btn-primary">All Series</a>
+            </div>
+            <div class="card-body">
+                <div id="recent-series" class="list-group">
+                    <div class="text-center py-5">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(document).ready(function() {
+        // Load stats
+        $.ajax({
+            url: '/api/series',
+            method: 'GET',
+            success: function(data) {
+                $('#series-count').text(data.series.length);
+                
+                // Display recent series
+                const recentSeries = data.series.slice(0, 5);
+                if (recentSeries.length > 0) {
+                    const seriesList = recentSeries.map(series => {
+                        return `
+                            <a href="/series/${series.id}" class="list-group-item list-group-item-action">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">${series.title}</h6>
+                                </div>
+                                <small>${series.author || 'Unknown author'}</small>
+                            </a>
+                        `;
+                    }).join('');
+                    $('#recent-series').html(seriesList);
+                } else {
+                    $('#recent-series').html('<div class="text-center py-3">No series found</div>');
+                }
+            },
+            error: function() {
+                $('#series-count').text('Error');
+                $('#recent-series').html('<div class="text-center py-3 text-danger">Failed to load series</div>');
+            }
+        });
+
+        // Load volume and chapter counts
+        $.ajax({
+            url: '/api/integrations/home-assistant',
+            method: 'GET',
+            success: function(data) {
+                $('#volumes-count').text(data.stats.volume_count);
+                $('#chapters-count').text(data.stats.chapter_count);
+            },
+            error: function() {
+                $('#volumes-count').text('Error');
+                $('#chapters-count').text('Error');
+            }
+        });
+
+        // Load calendar events
+        const today = new Date().toISOString().split('T')[0];
+        const nextWeek = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+        
+        $.ajax({
+            url: `/api/calendar?start_date=${today}&end_date=${nextWeek}`,
+            method: 'GET',
+            success: function(data) {
+                // Count today's releases
+                const todayEvents = data.events.filter(event => event.date === today);
+                $('#today-releases').text(todayEvents.length);
+                
+                // Display upcoming releases
+                if (data.events.length > 0) {
+                    const eventsList = data.events.slice(0, 10).map(event => {
+                        const eventDate = new Date(event.date);
+                        const formattedDate = eventDate.toLocaleDateString();
+                        
+                        return `
+                            <div class="list-group-item">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">${event.title}</h6>
+                                    <small>${formattedDate}</small>
+                                </div>
+                                <small>${event.series.title}</small>
+                            </div>
+                        `;
+                    }).join('');
+                    $('#upcoming-releases').html(eventsList);
+                } else {
+                    $('#upcoming-releases').html('<div class="text-center py-3">No upcoming releases</div>');
+                }
+            },
+            error: function() {
+                $('#today-releases').text('Error');
+                $('#upcoming-releases').html('<div class="text-center py-3 text-danger">Failed to load calendar data</div>');
+            }
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}MangaArr - Server Error{% endblock %}
+
+{% block page_title %}Server Error{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body text-center py-5">
+                <h1 class="display-1">500</h1>
+                <h2 class="mb-4">Internal Server Error</h2>
+                <p class="lead">Something went wrong on our end. Please try again later.</p>
+                <div class="mt-4">
+                    <a href="{{ url_for('ui.index') }}" class="btn btn-primary">
+                        <i class="fas fa-home"></i> Return to Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

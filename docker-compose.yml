@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  mangarr:
+    build: .
+    container_name: mangarr
+    restart: unless-stopped
+    ports:
+      - "7227:7227"
+    volumes:
+      - ./data:/config
+    environment:
+      - TZ=UTC
+    command:
+      - "-o"
+      - "0.0.0.0"
+      - "-p"
+      - "7227"

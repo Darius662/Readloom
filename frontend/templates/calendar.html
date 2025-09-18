@@ -1,0 +1,207 @@
+{% extends 'base.html' %}
+
+{% block title %}MangaArr - Calendar{% endblock %}
+
+{% block page_title %}Release Calendar{% endblock %}
+
+{% block styles %}
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
+<style>
+    .fc-event {
+        cursor: pointer;
+    }
+    .fc-event-title {
+        font-weight: bold;
+    }
+    .calendar-container {
+        height: calc(100vh - 150px);
+        min-height: 600px;
+    }
+    .fc .fc-toolbar-title {
+        font-size: 1.5rem;
+    }
+    .fc-event.volume-release {
+        background-color: #198754;
+        border-color: #198754;
+    }
+    .fc-event.chapter-release {
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+    }
+    .event-details img {
+        max-width: 100%;
+        max-height: 200px;
+        object-fit: contain;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Release Calendar</h5>
+                <div>
+                    <button id="refresh-calendar" class="btn btn-sm btn-primary">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                    <div class="btn-group ms-2">
+                        <button type="button" class="btn btn-sm btn-outline-secondary" data-view="dayGridMonth">Month</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" data-view="dayGridWeek">Week</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" data-view="listMonth">List</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div id="calendar" class="calendar-container"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Event Details Modal -->
+<div class="modal fade" id="eventModal" tabindex="-1" aria-labelledby="eventModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="eventModalLabel">Event Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="event-details">
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <img id="event-cover" src="" alt="Cover" class="img-thumbnail">
+                        </div>
+                        <div class="col-md-8">
+                            <h5 id="event-title"></h5>
+                            <p id="event-date" class="text-muted"></p>
+                            <p id="event-description"></p>
+                        </div>
+                    </div>
+                    <div id="event-series-info">
+                        <h6>Series Information</h6>
+                        <p id="event-series-title"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a id="event-series-link" href="#" class="btn btn-primary">Go to Series</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let calendar;
+        const calendarEl = document.getElementById('calendar');
+        
+        // Initialize FullCalendar
+        calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: ''
+            },
+            events: function(info, successCallback, failureCallback) {
+                // Fetch events from API
+                const startDate = info.startStr.split('T')[0];
+                const endDate = info.endStr.split('T')[0];
+                
+                $.ajax({
+                    url: `/api/calendar?start_date=${startDate}&end_date=${endDate}`,
+                    method: 'GET',
+                    success: function(response) {
+                        const events = response.events.map(event => {
+                            return {
+                                id: event.id,
+                                title: event.title,
+                                start: event.date,
+                                allDay: true,
+                                className: event.type === 'VOLUME_RELEASE' ? 'volume-release' : 'chapter-release',
+                                extendedProps: {
+                                    description: event.description,
+                                    series: event.series,
+                                    volume: event.volume,
+                                    chapter: event.chapter,
+                                    type: event.type
+                                }
+                            };
+                        });
+                        successCallback(events);
+                    },
+                    error: function(error) {
+                        console.error('Error fetching calendar events:', error);
+                        failureCallback(error);
+                    }
+                });
+            },
+            eventClick: function(info) {
+                const event = info.event;
+                const modal = new bootstrap.Modal(document.getElementById('eventModal'));
+                
+                // Set event details in modal
+                document.getElementById('event-title').textContent = event.title;
+                document.getElementById('event-date').textContent = new Date(event.start).toLocaleDateString();
+                document.getElementById('event-description').textContent = event.extendedProps.description;
+                
+                // Set series info
+                document.getElementById('event-series-title').textContent = event.extendedProps.series.title;
+                document.getElementById('event-cover').src = event.extendedProps.series.cover_url || '/static/img/no-cover.png';
+                document.getElementById('event-series-link').href = `/series/${event.extendedProps.series.id}`;
+                
+                modal.show();
+            }
+        });
+        
+        calendar.render();
+        
+        // View buttons
+        document.querySelectorAll('[data-view]').forEach(button => {
+            button.addEventListener('click', function() {
+                const view = this.getAttribute('data-view');
+                calendar.changeView(view);
+                
+                // Update active button
+                document.querySelectorAll('[data-view]').forEach(btn => {
+                    btn.classList.remove('btn-secondary');
+                    btn.classList.add('btn-outline-secondary');
+                });
+                this.classList.remove('btn-outline-secondary');
+                this.classList.add('btn-secondary');
+            });
+        });
+        
+        // Refresh calendar
+        document.getElementById('refresh-calendar').addEventListener('click', function() {
+            // Show loading spinner
+            this.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Refreshing...';
+            this.disabled = true;
+            
+            // Refresh calendar data from server
+            $.ajax({
+                url: '/api/calendar/refresh',
+                method: 'POST',
+                success: () => {
+                    calendar.refetchEvents();
+                    this.innerHTML = '<i class="fas fa-sync-alt"></i> Refresh';
+                    this.disabled = false;
+                },
+                error: (error) => {
+                    console.error('Error refreshing calendar:', error);
+                    this.innerHTML = '<i class="fas fa-sync-alt"></i> Refresh';
+                    this.disabled = false;
+                    alert('Failed to refresh calendar data');
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

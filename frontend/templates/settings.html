@@ -1,0 +1,287 @@
+{% extends 'base.html' %}
+
+{% block title %}MangaArr - Settings{% endblock %}
+
+{% block page_title %}Settings{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs" id="settings-tabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="general-tab" data-bs-toggle="tab" data-bs-target="#general" type="button" role="tab" aria-controls="general" aria-selected="true">General</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="calendar-tab" data-bs-toggle="tab" data-bs-target="#calendar" type="button" role="tab" aria-controls="calendar" aria-selected="false">Calendar</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="logging-tab" data-bs-toggle="tab" data-bs-target="#logging" type="button" role="tab" aria-controls="logging" aria-selected="false">Logging</button>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content" id="settings-tab-content">
+                    <!-- General Settings -->
+                    <div class="tab-pane fade show active" id="general" role="tabpanel" aria-labelledby="general-tab">
+                        <h5 class="card-title">General Settings</h5>
+                        <form id="general-settings-form">
+                            <div class="mb-3 row">
+                                <label for="host" class="col-sm-3 col-form-label">Host</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="host" name="host">
+                                    <div class="form-text">The host to bind the server to (e.g., 0.0.0.0)</div>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label for="port" class="col-sm-3 col-form-label">Port</label>
+                                <div class="col-sm-9">
+                                    <input type="number" class="form-control" id="port" name="port" min="1" max="65535">
+                                    <div class="form-text">The port to bind the server to (e.g., 7227)</div>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label for="url-base" class="col-sm-3 col-form-label">URL Base</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="url-base" name="url_base">
+                                    <div class="form-text">The base URL for the application (e.g., /mangarr)</div>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label for="task-interval" class="col-sm-3 col-form-label">Task Interval</label>
+                                <div class="col-sm-9">
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" id="task-interval" name="task_interval_minutes" min="1">
+                                        <span class="input-group-text">minutes</span>
+                                    </div>
+                                    <div class="form-text">How often background tasks should run</div>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label for="metadata-cache" class="col-sm-3 col-form-label">Metadata Cache</label>
+                                <div class="col-sm-9">
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" id="metadata-cache" name="metadata_cache_days" min="1">
+                                        <span class="input-group-text">days</span>
+                                    </div>
+                                    <div class="form-text">How long to cache metadata before refreshing</div>
+                                </div>
+                            </div>
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <button type="button" class="btn btn-primary" id="save-general-settings">Save Settings</button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <!-- Calendar Settings -->
+                    <div class="tab-pane fade" id="calendar" role="tabpanel" aria-labelledby="calendar-tab">
+                        <h5 class="card-title">Calendar Settings</h5>
+                        <form id="calendar-settings-form">
+                            <div class="mb-3 row">
+                                <label for="calendar-range" class="col-sm-3 col-form-label">Calendar Range</label>
+                                <div class="col-sm-9">
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" id="calendar-range" name="calendar_range_days" min="1">
+                                        <span class="input-group-text">days</span>
+                                    </div>
+                                    <div class="form-text">How many days in the future to show in the calendar</div>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label for="calendar-refresh" class="col-sm-3 col-form-label">Calendar Refresh</label>
+                                <div class="col-sm-9">
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" id="calendar-refresh" name="calendar_refresh_hours" min="1">
+                                        <span class="input-group-text">hours</span>
+                                    </div>
+                                    <div class="form-text">How often to automatically refresh the calendar data</div>
+                                </div>
+                            </div>
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <button type="button" class="btn btn-primary" id="save-calendar-settings">Save Settings</button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <!-- Logging Settings -->
+                    <div class="tab-pane fade" id="logging" role="tabpanel" aria-labelledby="logging-tab">
+                        <h5 class="card-title">Logging Settings</h5>
+                        <form id="logging-settings-form">
+                            <div class="mb-3 row">
+                                <label for="log-level" class="col-sm-3 col-form-label">Log Level</label>
+                                <div class="col-sm-9">
+                                    <select class="form-select" id="log-level" name="log_level">
+                                        <option value="DEBUG">DEBUG</option>
+                                        <option value="INFO">INFO</option>
+                                        <option value="WARNING">WARNING</option>
+                                        <option value="ERROR">ERROR</option>
+                                        <option value="CRITICAL">CRITICAL</option>
+                                    </select>
+                                    <div class="form-text">The minimum log level to record</div>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label for="log-rotation" class="col-sm-3 col-form-label">Log Rotation</label>
+                                <div class="col-sm-9">
+                                    <input type="number" class="form-control" id="log-rotation" name="log_rotation" min="1">
+                                    <div class="form-text">Number of log files to keep</div>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label for="log-size" class="col-sm-3 col-form-label">Log Size</label>
+                                <div class="col-sm-9">
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" id="log-size" name="log_size" min="1">
+                                        <span class="input-group-text">MB</span>
+                                    </div>
+                                    <div class="form-text">Maximum size of each log file in megabytes</div>
+                                </div>
+                            </div>
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <button type="button" class="btn btn-primary" id="save-logging-settings">Save Settings</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Restart Modal -->
+<div class="modal fade" id="restartModal" tabindex="-1" aria-labelledby="restartModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="restartModalLabel">Restart Required</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Some settings require a restart to take effect. Would you like to restart MangaArr now?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Later</button>
+                <button type="button" class="btn btn-primary" id="restart-now-btn">Restart Now</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(document).ready(function() {
+        // Load settings
+        $.ajax({
+            url: '/api/settings',
+            method: 'GET',
+            success: function(data) {
+                // Populate general settings
+                $('#host').val(data.host);
+                $('#port').val(data.port);
+                $('#url-base').val(data.url_base);
+                $('#task-interval').val(data.task_interval_minutes);
+                $('#metadata-cache').val(data.metadata_cache_days);
+                
+                // Populate calendar settings
+                $('#calendar-range').val(data.calendar_range_days);
+                $('#calendar-refresh').val(data.calendar_refresh_hours);
+                
+                // Populate logging settings
+                $('#log-level').val(data.log_level);
+                $('#log-rotation').val(data.log_rotation);
+                $('#log-size').val(data.log_size);
+            },
+            error: function(error) {
+                console.error('Error loading settings:', error);
+                alert('Failed to load settings');
+            }
+        });
+        
+        // Save general settings
+        $('#save-general-settings').click(function() {
+            const settings = {
+                host: $('#host').val(),
+                port: parseInt($('#port').val()),
+                url_base: $('#url-base').val(),
+                task_interval_minutes: parseInt($('#task-interval').val()),
+                metadata_cache_days: parseInt($('#metadata-cache').val())
+            };
+            
+            saveSettings(settings, $(this));
+        });
+        
+        // Save calendar settings
+        $('#save-calendar-settings').click(function() {
+            const settings = {
+                calendar_range_days: parseInt($('#calendar-range').val()),
+                calendar_refresh_hours: parseInt($('#calendar-refresh').val())
+            };
+            
+            saveSettings(settings, $(this));
+        });
+        
+        // Save logging settings
+        $('#save-logging-settings').click(function() {
+            const settings = {
+                log_level: $('#log-level').val(),
+                log_rotation: parseInt($('#log-rotation').val()),
+                log_size: parseInt($('#log-size').val())
+            };
+            
+            saveSettings(settings, $(this));
+        });
+        
+        // Save settings function
+        function saveSettings(settings, button) {
+            // Validate settings
+            for (const key in settings) {
+                if (settings[key] === '' || (typeof settings[key] === 'number' && isNaN(settings[key]))) {
+                    alert(`Invalid value for ${key}`);
+                    return;
+                }
+            }
+            
+            // Disable button and show loading
+            const originalText = button.text();
+            button.prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Saving...');
+            
+            $.ajax({
+                url: '/api/settings',
+                method: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify(settings),
+                success: function(response) {
+                    // Reset button
+                    button.prop('disabled', false).text(originalText);
+                    
+                    // Show success message
+                    alert('Settings saved successfully');
+                    
+                    // Check if restart is needed
+                    if (settings.host !== undefined || settings.port !== undefined || settings.url_base !== undefined) {
+                        const restartModal = new bootstrap.Modal(document.getElementById('restartModal'));
+                        restartModal.show();
+                    }
+                },
+                error: function(error) {
+                    console.error('Error saving settings:', error);
+                    alert('Failed to save settings');
+                    button.prop('disabled', false).text(originalText);
+                }
+            });
+        }
+        
+        // Restart button
+        $('#restart-now-btn').click(function() {
+            // In a real implementation, this would trigger a server restart
+            alert('Restart functionality will be implemented here');
+            
+            // Close modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('restartModal'));
+            modal.hide();
+        });
+    });
+</script>
+{% endblock %}

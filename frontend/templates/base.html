@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}MangaArr{% endblock %}</title>
+    <link rel="icon" href="{{ url_for('ui.static', filename='img/favicon.ico') }}">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('ui.static', filename='css/style.css') }}">
+    {% block styles %}{% endblock %}
+</head>
+<body data-bs-theme="dark">
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <nav id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <h3>MangaArr</h3>
+            </div>
+
+            <ul class="list-unstyled components">
+                <li {% if request.path == '/' %}class="active"{% endif %}>
+                    <a href="{{ url_for('ui.index') }}">
+                        <i class="fas fa-home"></i> Dashboard
+                    </a>
+                </li>
+                <li {% if request.path == '/calendar' %}class="active"{% endif %}>
+                    <a href="{{ url_for('ui.calendar') }}">
+                        <i class="fas fa-calendar-alt"></i> Calendar
+                    </a>
+                </li>
+                <li {% if request.path == '/series' %}class="active"{% endif %}>
+                    <a href="{{ url_for('ui.series_list') }}">
+                        <i class="fas fa-book"></i> Series
+                    </a>
+                </li>
+                <li {% if request.path == '/settings' %}class="active"{% endif %}>
+                    <a href="{{ url_for('ui.settings') }}">
+                        <i class="fas fa-cog"></i> Settings
+                    </a>
+                </li>
+                <li {% if request.path == '/integrations' %}class="active"{% endif %}>
+                    <a href="{{ url_for('ui.integrations') }}">
+                        <i class="fas fa-plug"></i> Integrations
+                    </a>
+                </li>
+                <li {% if request.path == '/about' %}class="active"{% endif %}>
+                    <a href="{{ url_for('ui.about') }}">
+                        <i class="fas fa-info-circle"></i> About
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Page Content -->
+        <div id="content">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div class="container-fluid">
+                    <button type="button" id="sidebarCollapse" class="btn btn-dark">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <span class="navbar-brand ms-3">{% block page_title %}MangaArr{% endblock %}</span>
+                    <div class="d-flex">
+                        <div class="theme-toggle">
+                            <button class="btn btn-sm btn-outline-secondary" id="theme-toggle">
+                                <i class="fas fa-moon"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="container-fluid mt-3">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Custom JS -->
+    <script src="{{ url_for('ui.static', filename='js/main.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            // Toggle sidebar
+            $('#sidebarCollapse').on('click', function() {
+                $('#sidebar').toggleClass('active');
+            });
+
+            // Theme toggle
+            $('#theme-toggle').on('click', function() {
+                const currentTheme = $('body').attr('data-bs-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                $('body').attr('data-bs-theme', newTheme);
+                
+                // Update icon
+                const icon = newTheme === 'dark' ? 'fa-moon' : 'fa-sun';
+                $('#theme-toggle i').removeClass('fa-moon fa-sun').addClass(icon);
+                
+                // Save preference
+                localStorage.setItem('theme', newTheme);
+            });
+
+            // Load saved theme preference
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                $('body').attr('data-bs-theme', savedTheme);
+                const icon = savedTheme === 'dark' ? 'fa-moon' : 'fa-sun';
+                $('#theme-toggle i').removeClass('fa-moon fa-sun').addClass(icon);
+            }
+        });
+    </script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

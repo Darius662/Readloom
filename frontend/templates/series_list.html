@@ -1,0 +1,289 @@
+{% extends 'base.html' %}
+
+{% block title %}MangaArr - Series{% endblock %}
+
+{% block page_title %}Series{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Manga/Comic Series</h5>
+                <div>
+                    <div class="input-group">
+                        <input type="text" id="search-series" class="form-control form-control-sm" placeholder="Search series...">
+                        <button class="btn btn-sm btn-primary" id="add-series-btn">
+                            <i class="fas fa-plus"></i> Add Series
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row" id="series-container">
+                    <div class="text-center py-5">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Series Modal -->
+<div class="modal fade" id="addSeriesModal" tabindex="-1" aria-labelledby="addSeriesModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addSeriesModalLabel">Add New Series</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="add-series-form">
+                    <div class="mb-3">
+                        <label for="series-title" class="form-label">Title *</label>
+                        <input type="text" class="form-control" id="series-title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="series-author" class="form-label">Author</label>
+                        <input type="text" class="form-control" id="series-author">
+                    </div>
+                    <div class="mb-3">
+                        <label for="series-publisher" class="form-label">Publisher</label>
+                        <input type="text" class="form-control" id="series-publisher">
+                    </div>
+                    <div class="mb-3">
+                        <label for="series-description" class="form-label">Description</label>
+                        <textarea class="form-control" id="series-description" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="series-status" class="form-label">Status</label>
+                        <select class="form-select" id="series-status">
+                            <option value="ONGOING">Ongoing</option>
+                            <option value="COMPLETED">Completed</option>
+                            <option value="HIATUS">Hiatus</option>
+                            <option value="CANCELLED">Cancelled</option>
+                            <option value="UNKNOWN">Unknown</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="series-cover-url" class="form-label">Cover URL</label>
+                        <input type="url" class="form-control" id="series-cover-url">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="save-series-btn">Save Series</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Series Modal -->
+<div class="modal fade" id="deleteSeriesModal" tabindex="-1" aria-labelledby="deleteSeriesModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteSeriesModalLabel">Delete Series</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete the series "<span id="delete-series-title"></span>"?</p>
+                <p class="text-danger">This will delete all volumes, chapters, and calendar events associated with this series.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirm-delete-series-btn">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(document).ready(function() {
+        let allSeries = [];
+        
+        // Load series
+        function loadSeries() {
+            $.ajax({
+                url: '/api/series',
+                method: 'GET',
+                success: function(data) {
+                    allSeries = data.series;
+                    displaySeries(allSeries);
+                },
+                error: function(error) {
+                    console.error('Error loading series:', error);
+                    $('#series-container').html('<div class="col-12 text-center text-danger">Failed to load series</div>');
+                }
+            });
+        }
+        
+        // Display series in grid
+        function displaySeries(seriesList) {
+            if (seriesList.length === 0) {
+                $('#series-container').html('<div class="col-12 text-center">No series found</div>');
+                return;
+            }
+            
+            let html = '';
+            seriesList.forEach(series => {
+                html += `
+                    <div class="col-md-3 mb-4">
+                        <div class="card h-100">
+                            <div class="position-relative">
+                                <img src="${series.cover_url || '/static/img/no-cover.png'}" class="card-img-top" alt="${series.title}" style="height: 200px; object-fit: cover;">
+                                <div class="position-absolute top-0 end-0 p-2">
+                                    <div class="dropdown">
+                                        <button class="btn btn-sm btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="/series/${series.id}">View Details</a></li>
+                                            <li><a class="dropdown-item delete-series" href="#" data-id="${series.id}" data-title="${series.title}">Delete</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">${series.title}</h5>
+                                <p class="card-text text-muted">${series.author || 'Unknown author'}</p>
+                                <p class="card-text small">${series.description ? (series.description.length > 100 ? series.description.substring(0, 100) + '...' : series.description) : 'No description available'}</p>
+                            </div>
+                            <div class="card-footer">
+                                <a href="/series/${series.id}" class="btn btn-sm btn-primary w-100">View Series</a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            $('#series-container').html(html);
+            
+            // Set up delete buttons
+            $('.delete-series').click(function(e) {
+                e.preventDefault();
+                const seriesId = $(this).data('id');
+                const seriesTitle = $(this).data('title');
+                
+                $('#delete-series-title').text(seriesTitle);
+                $('#confirm-delete-series-btn').data('id', seriesId);
+                
+                const deleteModal = new bootstrap.Modal(document.getElementById('deleteSeriesModal'));
+                deleteModal.show();
+            });
+        }
+        
+        // Search functionality
+        $('#search-series').on('input', function() {
+            const searchTerm = $(this).val().toLowerCase();
+            
+            if (searchTerm === '') {
+                displaySeries(allSeries);
+                return;
+            }
+            
+            const filteredSeries = allSeries.filter(series => {
+                return series.title.toLowerCase().includes(searchTerm) || 
+                       (series.author && series.author.toLowerCase().includes(searchTerm)) ||
+                       (series.publisher && series.publisher.toLowerCase().includes(searchTerm));
+            });
+            
+            displaySeries(filteredSeries);
+        });
+        
+        // Add series modal
+        $('#add-series-btn').click(function() {
+            const modal = new bootstrap.Modal(document.getElementById('addSeriesModal'));
+            modal.show();
+        });
+        
+        // Save new series
+        $('#save-series-btn').click(function() {
+            const title = $('#series-title').val();
+            
+            if (!title) {
+                alert('Title is required');
+                return;
+            }
+            
+            const seriesData = {
+                title: title,
+                author: $('#series-author').val(),
+                publisher: $('#series-publisher').val(),
+                description: $('#series-description').val(),
+                status: $('#series-status').val(),
+                cover_url: $('#series-cover-url').val()
+            };
+            
+            // Disable button and show loading
+            const button = $(this);
+            const originalText = button.text();
+            button.prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Saving...');
+            
+            $.ajax({
+                url: '/api/series',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(seriesData),
+                success: function(response) {
+                    // Hide modal and reset form
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('addSeriesModal'));
+                    modal.hide();
+                    $('#add-series-form')[0].reset();
+                    
+                    // Reload series list
+                    loadSeries();
+                    
+                    // Reset button
+                    button.prop('disabled', false).text(originalText);
+                },
+                error: function(error) {
+                    console.error('Error adding series:', error);
+                    alert('Failed to add series');
+                    button.prop('disabled', false).text(originalText);
+                }
+            });
+        });
+        
+        // Delete series
+        $('#confirm-delete-series-btn').click(function() {
+            const seriesId = $(this).data('id');
+            
+            // Disable button and show loading
+            const button = $(this);
+            const originalText = button.text();
+            button.prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Deleting...');
+            
+            $.ajax({
+                url: `/api/series/${seriesId}`,
+                method: 'DELETE',
+                success: function() {
+                    // Hide modal
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('deleteSeriesModal'));
+                    modal.hide();
+                    
+                    // Reload series list
+                    loadSeries();
+                    
+                    // Reset button
+                    button.prop('disabled', false).text(originalText);
+                },
+                error: function(error) {
+                    console.error('Error deleting series:', error);
+                    alert('Failed to delete series');
+                    button.prop('disabled', false).text(originalText);
+                }
+            });
+        });
+        
+        // Initial load
+        loadSeries();
+    });
+</script>
+{% endblock %}
