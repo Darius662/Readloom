@@ -8,25 +8,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- Initial project setup
-- Basic documentation
+- Improved documentation structure
+- API documentation with endpoint descriptions and examples
+- Installation guide with Docker and manual options
+- Contributor guidelines and code of conduct
+
+### Changed
+- Updated development workflow for better compatibility
+- Simplified package requirements for easier installation
 
 ## [0.0.1] - 2025-09-18
 
 ### Added
-- Core application structure
+- Initial project structure and architecture
 - Database schema for manga/comic tracking
-- API endpoints for all required functionality
-- Calendar feature with automatic updates
-- Modern, responsive UI with dark/light theme support
-- Interactive calendar using FullCalendar
-- Manga/comic library management interface
-- Settings and integration pages
-- Home Assistant integration
-- Homarr integration
-- Docker configuration for easy deployment
-- Comprehensive documentation and setup instructions
-- Development tools for testing
+- Basic API endpoints structure
+- Simple web interface with "Coming Soon" page
+- Test data generator for development
+- Development environment setup script
+- Docker configuration for containerization
+- Basic documentation framework
+- Home Assistant and Homarr integration templates
 
 ### Changed
 - N/A (Initial release)

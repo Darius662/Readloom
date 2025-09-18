@@ -17,17 +17,37 @@ def setup_dev_environment():
     logs_dir = Path("data/logs")
     logs_dir.mkdir(exist_ok=True)
     
+    # Create database directory if it doesn't exist
+    db_dir = Path("data/db")
+    db_dir.mkdir(exist_ok=True)
+    
+    # Create empty database file if it doesn't exist
+    db_file = db_dir / "mangarr.db"
+    if not db_file.exists():
+        try:
+            db_file.touch()
+            print(f"Created empty database file at {db_file}")
+        except Exception as e:
+            print(f"Error creating database file: {e}")
+    
     print("Development environment set up successfully!")
 
 def generate_test_data():
     """Generate test data."""
     try:
-        # Run test data generator
-        subprocess.run([sys.executable, "tests/test_data_generator.py"], check=True)
+        # Make sure the database directory exists
+        db_dir = Path("data/db")
+        db_dir.mkdir(exist_ok=True)
+        
+        # Define the database path
+        db_path = db_dir / "mangarr.db"
+        
+        # Run test data generator with the database path
+        subprocess.run([sys.executable, "tests/test_data_generator.py", str(db_path)], check=True)
         print("Test data generated successfully!")
     except subprocess.CalledProcessError as e:
         print(f"Error generating test data: {e}")
-        sys.exit(1)
+        print("Continuing without test data...")
 
 def run_application(host, port):
     """Run the MangaArr application.
@@ -37,18 +57,19 @@ def run_application(host, port):
         port (int): Port to bind to.
     """
     try:
-        # Run MangaArr
+        # Run simple app instead of full MangaArr
         cmd = [
             sys.executable, 
-            "MangaArr.py",
-            "-d", "data",
+            "simple_app.py",
+            "-d", "data/db",  # Use the db subdirectory for the database
             "-l", "data/logs",
             "-o", host,
             "-p", str(port)
         ]
         
-        print(f"Starting MangaArr on {host}:{port}...")
+        print(f"Starting MangaArr Simple App on {host}:{port}...")
         print(f"Command: {' '.join(cmd)}")
+        print(f"\nOpen your browser and navigate to http://{host}:{port}/ to view the application")
         
         subprocess.run(cmd, check=True)
     except subprocess.CalledProcessError as e:

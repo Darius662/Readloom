@@ -14,6 +14,98 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 from backend.base.definitions import Constants, ReleaseStatus, SeriesStatus, ReadStatus, MetadataSource
 
 
+def create_database_schema(cursor):
+    """Create the database schema if it doesn't exist.
+    
+    Args:
+        cursor: SQLite cursor object.
+    """
+    print("Creating database schema...")
+    
+    # Create series table
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS series (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT NOT NULL,
+        description TEXT,
+        author TEXT,
+        publisher TEXT,
+        cover_url TEXT,
+        status TEXT,
+        metadata_source TEXT,
+        metadata_id TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+    """)
+    
+    # Create volumes table
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS volumes (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        series_id INTEGER NOT NULL,
+        volume_number TEXT NOT NULL,
+        title TEXT,
+        description TEXT,
+        cover_url TEXT,
+        release_date TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (series_id) REFERENCES series (id) ON DELETE CASCADE
+    )
+    """)
+    
+    # Create chapters table
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS chapters (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        series_id INTEGER NOT NULL,
+        volume_id INTEGER,
+        chapter_number TEXT NOT NULL,
+        title TEXT,
+        description TEXT,
+        release_date TEXT,
+        status TEXT,
+        read_status TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (series_id) REFERENCES series (id) ON DELETE CASCADE,
+        FOREIGN KEY (volume_id) REFERENCES volumes (id) ON DELETE SET NULL
+    )
+    """)
+    
+    # Create calendar_events table
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS calendar_events (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        series_id INTEGER,
+        volume_id INTEGER,
+        chapter_id INTEGER,
+        title TEXT NOT NULL,
+        description TEXT,
+        event_date TEXT NOT NULL,
+        event_type TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (series_id) REFERENCES series (id) ON DELETE CASCADE,
+        FOREIGN KEY (volume_id) REFERENCES volumes (id) ON DELETE CASCADE,
+        FOREIGN KEY (chapter_id) REFERENCES chapters (id) ON DELETE CASCADE
+    )
+    """)
+    
+    # Create settings table
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS settings (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        key TEXT UNIQUE NOT NULL,
+        value TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+    """)
+    
+    print("Database schema created successfully!")
+
 def generate_test_data(db_path):
     """Generate test data for the MangaArr database.
     
@@ -26,6 +118,9 @@ def generate_test_data(db_path):
     conn = sqlite3.connect(db_path)
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
+    
+    # Create database schema
+    create_database_schema(cursor)
     
     # Sample data
     series_data = [
