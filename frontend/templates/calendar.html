@@ -7,31 +7,125 @@
 {% block styles %}
 <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
 <style>
-    .fc-event {
-        cursor: pointer;
-    }
-    .fc-event-title {
-        font-weight: bold;
-    }
+    /* Calendar container */
     .calendar-container {
-        height: calc(100vh - 150px);
+        height: calc(100vh - 200px);
         min-height: 600px;
+        border-radius: 8px;
     }
+    
+    /* Calendar header */
     .fc .fc-toolbar-title {
         font-size: 1.5rem;
+        font-weight: 600;
     }
+    
+    /* Calendar day cells */
+    .fc-daygrid-day {
+        transition: background-color 0.2s;
+    }
+    
+    .fc-daygrid-day:hover {
+        background-color: rgba(13, 110, 253, 0.05);
+    }
+    
+    .fc-day-today {
+        background-color: rgba(13, 110, 253, 0.1) !important;
+    }
+    
+    /* Event styling */
+    .fc-event {
+        cursor: pointer;
+        border-radius: 4px;
+        padding: 2px 4px;
+        margin-bottom: 2px;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .fc-event:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .fc-event-title {
+        font-weight: bold;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
     .fc-event.volume-release {
         background-color: #198754;
         border-color: #198754;
     }
+    
     .fc-event.chapter-release {
         background-color: #0d6efd;
         border-color: #0d6efd;
     }
+    
+    /* Event count badge */
+    .fc-daygrid-day-events {
+        position: relative;
+    }
+    
+    .fc-daygrid-day-events::after {
+        content: attr(data-event-count);
+        position: absolute;
+        bottom: -5px;
+        right: 5px;
+        background-color: #6c757d;
+        color: white;
+        border-radius: 50%;
+        width: 18px;
+        height: 18px;
+        font-size: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0.8;
+    }
+    
+    /* List view styling */
+    .fc-list-day-cushion {
+        background-color: #f8f9fa !important;
+    }
+    
+    .fc-list-event:hover td {
+        background-color: rgba(13, 110, 253, 0.05) !important;
+    }
+    
+    /* Event modal styling */
     .event-details img {
         max-width: 100%;
-        max-height: 200px;
+        max-height: 250px;
         object-fit: contain;
+        border-radius: 4px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s;
+    }
+    
+    .event-details img:hover {
+        transform: scale(1.02);
+    }
+    
+    /* Filter styling */
+    .form-check-input:checked + .form-check-label .badge.bg-success {
+        background-color: #198754 !important;
+    }
+    
+    .form-check-input:not(:checked) + .form-check-label .badge.bg-success {
+        background-color: #6c757d !important;
+        opacity: 0.6;
+    }
+    
+    .form-check-input:checked + .form-check-label .badge.bg-primary {
+        background-color: #0d6efd !important;
+    }
+    
+    .form-check-input:not(:checked) + .form-check-label .badge.bg-primary {
+        background-color: #6c757d !important;
+        opacity: 0.6;
     }
 </style>
 {% endblock %}
@@ -47,13 +141,45 @@
                         <i class="fas fa-sync-alt"></i> Refresh
                     </button>
                     <div class="btn-group ms-2">
-                        <button type="button" class="btn btn-sm btn-outline-secondary" data-view="dayGridMonth">Month</button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary active" data-view="dayGridMonth">Month</button>
                         <button type="button" class="btn btn-sm btn-outline-secondary" data-view="dayGridWeek">Week</button>
                         <button type="button" class="btn btn-sm btn-outline-secondary" data-view="listMonth">List</button>
                     </div>
                 </div>
             </div>
             <div class="card-body">
+                <!-- Filter options -->
+                <div class="row mb-3">
+                    <div class="col-md-8">
+                        <div class="d-flex gap-2 align-items-center">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="filter-volumes" checked>
+                                <label class="form-check-label" for="filter-volumes">
+                                    <span class="badge bg-success">Volumes</span>
+                                </label>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="filter-chapters" checked>
+                                <label class="form-check-label" for="filter-chapters">
+                                    <span class="badge bg-primary">Chapters</span>
+                                </label>
+                            </div>
+                            <div class="ms-3">
+                                <select id="series-filter" class="form-select form-select-sm">
+                                    <option value="">All Series</option>
+                                    <!-- Will be populated dynamically -->
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-end">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-sm btn-outline-secondary" id="today-btn">Today</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary" id="prev-btn"><i class="fas fa-chevron-left"></i></button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary" id="next-btn"><i class="fas fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+                </div>
                 <div id="calendar" class="calendar-container"></div>
             </div>
         </div>
@@ -62,7 +188,7 @@
 
 <!-- Event Details Modal -->
 <div class="modal fade" id="eventModal" tabindex="-1" aria-labelledby="eventModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="eventModalLabel">Event Details</h5>
@@ -72,21 +198,53 @@
                 <div class="event-details">
                     <div class="row mb-3">
                         <div class="col-md-4">
-                            <img id="event-cover" src="" alt="Cover" class="img-thumbnail">
+                            <img id="event-cover" src="" alt="Cover" class="img-thumbnail mb-3">
+                            <div id="event-type-badge" class="mb-2"></div>
+                            <p id="event-date" class="text-muted"><i class="fas fa-calendar-day me-2"></i><span></span></p>
+                            <p id="event-countdown" class="text-muted"><i class="fas fa-hourglass-half me-2"></i><span></span></p>
                         </div>
                         <div class="col-md-8">
-                            <h5 id="event-title"></h5>
-                            <p id="event-date" class="text-muted"></p>
-                            <p id="event-description"></p>
+                            <h4 id="event-title" class="mb-3"></h4>
+                            <div class="card mb-3">
+                                <div class="card-header bg-primary text-white">
+                                    <i class="fas fa-book me-2"></i>Series Information
+                                </div>
+                                <div class="card-body">
+                                    <h5 id="event-series-title" class="mb-2"></h5>
+                                    <p id="event-series-author" class="mb-1"><strong>Author:</strong> <span></span></p>
+                                    <p id="event-series-publisher" class="mb-1"><strong>Publisher:</strong> <span></span></p>
+                                </div>
+                            </div>
+                            
+                            <div class="card">
+                                <div class="card-header bg-info text-white">
+                                    <i class="fas fa-info-circle me-2"></i>Release Details
+                                </div>
+                                <div class="card-body">
+                                    <p id="event-description" class="mb-3"></p>
+                                    <div id="event-volume-details" class="mb-2 d-none">
+                                        <p><strong>Volume:</strong> <span id="event-volume-number"></span></p>
+                                        <p><strong>Title:</strong> <span id="event-volume-title"></span></p>
+                                    </div>
+                                    <div id="event-chapter-details" class="mb-2 d-none">
+                                        <p><strong>Chapter:</strong> <span id="event-chapter-number"></span></p>
+                                        <p><strong>Title:</strong> <span id="event-chapter-title"></span></p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div id="event-series-info">
-                        <h6>Series Information</h6>
-                        <p id="event-series-title"></p>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
+                <div class="me-auto">
+                    <button type="button" id="add-to-collection-btn" class="btn btn-success">
+                        <i class="fas fa-plus-circle me-1"></i> Add to Collection
+                    </button>
+                    <button type="button" id="mark-as-read-btn" class="btn btn-info d-none">
+                        <i class="fas fa-check-circle me-1"></i> Mark as Read
+                    </button>
+                </div>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <a id="event-series-link" href="#" class="btn btn-primary">Go to Series</a>
             </div>
@@ -101,12 +259,43 @@
     document.addEventListener('DOMContentLoaded', function() {
         let calendar;
         const calendarEl = document.getElementById('calendar');
+        let seriesFilter = document.getElementById('series-filter');
+        let filterVolumes = document.getElementById('filter-volumes');
+        let filterChapters = document.getElementById('filter-chapters');
+        
+        // Load series list for filter dropdown
+        function loadSeriesList() {
+            $.ajax({
+                url: '/api/series',
+                method: 'GET',
+                success: function(response) {
+                    // Clear existing options except the first one
+                    while (seriesFilter.options.length > 1) {
+                        seriesFilter.remove(1);
+                    }
+                    
+                    // Add series options
+                    response.series.forEach(series => {
+                        const option = document.createElement('option');
+                        option.value = series.id;
+                        option.textContent = series.title;
+                        seriesFilter.appendChild(option);
+                    });
+                },
+                error: function(error) {
+                    console.error('Error loading series list:', error);
+                }
+            });
+        }
+        
+        // Load series list on page load
+        loadSeriesList();
         
         // Initialize FullCalendar
         calendar = new FullCalendar.Calendar(calendarEl, {
             initialView: 'dayGridMonth',
             headerToolbar: {
-                left: 'prev,next today',
+                left: '',
                 center: 'title',
                 right: ''
             },
@@ -114,9 +303,15 @@
                 // Fetch events from API
                 const startDate = info.startStr.split('T')[0];
                 const endDate = info.endStr.split('T')[0];
+                const selectedSeriesId = seriesFilter.value;
+                
+                let url = `/api/calendar?start_date=${startDate}&end_date=${endDate}`;
+                if (selectedSeriesId) {
+                    url += `&series_id=${selectedSeriesId}`;
+                }
                 
                 $.ajax({
-                    url: `/api/calendar?start_date=${startDate}&end_date=${endDate}`,
+                    url: url,
                     method: 'GET',
                     success: function(response) {
                         const events = response.events.map(event => {
@@ -135,7 +330,19 @@
                                 }
                             };
                         });
-                        successCallback(events);
+                        
+                        // Apply filters
+                        const filteredEvents = events.filter(event => {
+                            if (event.extendedProps.type === 'VOLUME_RELEASE' && !filterVolumes.checked) {
+                                return false;
+                            }
+                            if (event.extendedProps.type === 'CHAPTER_RELEASE' && !filterChapters.checked) {
+                                return false;
+                            }
+                            return true;
+                        });
+                        
+                        successCallback(filteredEvents);
                     },
                     error: function(error) {
                         console.error('Error fetching calendar events:', error);
@@ -146,22 +353,115 @@
             eventClick: function(info) {
                 const event = info.event;
                 const modal = new bootstrap.Modal(document.getElementById('eventModal'));
+                const eventData = event.extendedProps;
                 
                 // Set event details in modal
                 document.getElementById('event-title').textContent = event.title;
-                document.getElementById('event-date').textContent = new Date(event.start).toLocaleDateString();
-                document.getElementById('event-description').textContent = event.extendedProps.description;
+                document.querySelector('#event-date span').textContent = new Date(event.start).toLocaleDateString();
+                document.getElementById('event-description').textContent = eventData.description;
+                
+                // Set countdown
+                const today = new Date();
+                const eventDate = new Date(event.start);
+                const daysUntil = Math.ceil((eventDate - today) / (1000 * 60 * 60 * 24));
+                
+                let countdownText = '';
+                if (daysUntil > 0) {
+                    countdownText = `${daysUntil} day${daysUntil !== 1 ? 's' : ''} until release`;
+                } else if (daysUntil === 0) {
+                    countdownText = 'Releases today!';
+                } else {
+                    countdownText = `Released ${Math.abs(daysUntil)} day${Math.abs(daysUntil) !== 1 ? 's' : ''} ago`;
+                }
+                document.querySelector('#event-countdown span').textContent = countdownText;
+                
+                // Set event type badge
+                const typeBadge = document.getElementById('event-type-badge');
+                if (eventData.type === 'VOLUME_RELEASE') {
+                    typeBadge.innerHTML = '<span class="badge bg-success">Volume Release</span>';
+                } else {
+                    typeBadge.innerHTML = '<span class="badge bg-primary">Chapter Release</span>';
+                }
                 
                 // Set series info
-                document.getElementById('event-series-title').textContent = event.extendedProps.series.title;
-                document.getElementById('event-cover').src = event.extendedProps.series.cover_url || '/static/img/no-cover.png';
-                document.getElementById('event-series-link').href = `/series/${event.extendedProps.series.id}`;
+                document.getElementById('event-series-title').textContent = eventData.series.title;
+                document.querySelector('#event-series-author span').textContent = eventData.series.author || 'Unknown';
+                document.querySelector('#event-series-publisher span').textContent = eventData.series.publisher || 'Unknown';
+                document.getElementById('event-cover').src = eventData.series.cover_url || '/static/img/no-cover.png';
+                document.getElementById('event-series-link').href = `/series/${eventData.series.id}`;
+                
+                // Set volume/chapter specific details
+                const volumeDetails = document.getElementById('event-volume-details');
+                const chapterDetails = document.getElementById('event-chapter-details');
+                const markAsReadBtn = document.getElementById('mark-as-read-btn');
+                
+                volumeDetails.classList.add('d-none');
+                chapterDetails.classList.add('d-none');
+                markAsReadBtn.classList.add('d-none');
+                
+                if (eventData.type === 'VOLUME_RELEASE' && eventData.volume) {
+                    volumeDetails.classList.remove('d-none');
+                    document.getElementById('event-volume-number').textContent = eventData.volume.number;
+                    document.getElementById('event-volume-title').textContent = eventData.volume.title || 'N/A';
+                } else if (eventData.type === 'CHAPTER_RELEASE' && eventData.chapter) {
+                    chapterDetails.classList.remove('d-none');
+                    document.getElementById('event-chapter-number').textContent = eventData.chapter.number;
+                    document.getElementById('event-chapter-title').textContent = eventData.chapter.title || 'N/A';
+                    markAsReadBtn.classList.remove('d-none');
+                }
+                
+                // Set up add to collection button
+                document.getElementById('add-to-collection-btn').onclick = function() {
+                    // This will be implemented in the collection tracking feature
+                    alert('Adding to collection will be implemented in the collection tracking feature.');
+                };
+                
+                // Set up mark as read button
+                document.getElementById('mark-as-read-btn').onclick = function() {
+                    if (eventData.chapter && eventData.chapter.id) {
+                        $.ajax({
+                            url: `/api/chapters/${eventData.chapter.id}`,
+                            method: 'PUT',
+                            contentType: 'application/json',
+                            data: JSON.stringify({
+                                read_status: 'READ'
+                            }),
+                            success: function() {
+                                alert('Chapter marked as read!');
+                            },
+                            error: function(error) {
+                                console.error('Error marking chapter as read:', error);
+                                alert('Failed to mark chapter as read');
+                            }
+                        });
+                    }
+                };
                 
                 modal.show();
             }
         });
         
         calendar.render();
+        
+        // Add event count badges to days
+        function addEventCountBadges() {
+            setTimeout(() => {
+                const dayCells = document.querySelectorAll('.fc-daygrid-day');
+                
+                dayCells.forEach(cell => {
+                    const events = cell.querySelectorAll('.fc-event');
+                    if (events.length > 0) {
+                        const dayEvents = cell.querySelector('.fc-daygrid-day-events');
+                        dayEvents.setAttribute('data-event-count', events.length);
+                    }
+                });
+            }, 100);
+        }
+        
+        // Call after initial render and after view changes
+        addEventCountBadges();
+        calendar.on('viewDidMount', addEventCountBadges);
+        calendar.on('eventDidMount', addEventCountBadges);
         
         // View buttons
         document.querySelectorAll('[data-view]').forEach(button => {
@@ -179,6 +479,32 @@
             });
         });
         
+        // Navigation buttons
+        document.getElementById('prev-btn').addEventListener('click', function() {
+            calendar.prev();
+        });
+        
+        document.getElementById('next-btn').addEventListener('click', function() {
+            calendar.next();
+        });
+        
+        document.getElementById('today-btn').addEventListener('click', function() {
+            calendar.today();
+        });
+        
+        // Filter events
+        filterVolumes.addEventListener('change', function() {
+            calendar.refetchEvents();
+        });
+        
+        filterChapters.addEventListener('change', function() {
+            calendar.refetchEvents();
+        });
+        
+        seriesFilter.addEventListener('change', function() {
+            calendar.refetchEvents();
+        });
+        
         // Refresh calendar
         document.getElementById('refresh-calendar').addEventListener('click', function() {
             // Show loading spinner
@@ -191,6 +517,7 @@
                 method: 'POST',
                 success: () => {
                     calendar.refetchEvents();
+                    loadSeriesList(); // Reload series list
                     this.innerHTML = '<i class="fas fa-sync-alt"></i> Refresh';
                     this.disabled = false;
                 },

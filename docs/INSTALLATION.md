@@ -109,13 +109,28 @@ After installing MangaArr, follow these steps to configure it:
 
 2. **Configure settings**:
    - Go to the Settings page
-   - Adjust general settings, calendar settings, and logging settings as needed
+   - Adjust general settings, calendar settings, and notification settings as needed
    - Save your changes
 
 3. **Add your first series**:
    - Go to the Series page
    - Click "Add Series"
    - Fill in the details and save
+   
+4. **Set up your collection**:
+   - Go to the Collection page
+   - Add volumes or chapters to your collection
+   - Track ownership status, read status, and purchase details
+   
+5. **Configure notifications**:
+   - Go to the Notifications page
+   - Set up notification preferences
+   - Subscribe to series for release notifications
+   
+6. **Set up integrations** (optional):
+   - Go to the Integrations page
+   - Configure Home Assistant integration
+   - Configure Homarr integration
 
 ## Updating MangaArr
 
@@ -178,6 +193,30 @@ If integrations with Home Assistant or Homarr aren't working:
 1. Check network connectivity between the systems
 2. Verify API endpoints are accessible
 3. Check the logs for error messages
+4. For Home Assistant:
+   - Ensure the correct API endpoint is configured in your configuration.yaml
+   - Verify sensor entities are created correctly
+5. For Homarr:
+   - Ensure the status endpoint is correctly configured
+   - Check that the MangaArr service is properly added to your Homarr dashboard
+
+#### Collection Tracking Issues
+
+If you encounter issues with collection tracking:
+
+1. Verify the database is properly initialized
+2. Check that series, volumes, and chapters are correctly added
+3. Try importing a small collection first to test functionality
+
+#### Notification Issues
+
+If notifications aren't working correctly:
+
+1. Check that you've subscribed to the appropriate series
+2. Verify notification settings are configured correctly
+3. For external notifications (email, Discord, Telegram):
+   - Check that credentials and tokens are correctly entered
+   - Verify network connectivity to external services
 
 ### Getting Help
 

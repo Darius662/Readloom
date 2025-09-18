@@ -11,6 +11,8 @@ from backend.base.definitions import Constants
 from backend.base.helpers import ensure_dir_exists, get_data_dir
 from backend.base.logging import LOGGER
 
+# These imports will be done inside setup_db to avoid circular imports
+
 # Global variables
 DB_PATH: Optional[Path] = None
 DB_CONN: Optional[sqlite3.Connection] = None
@@ -201,5 +203,15 @@ def setup_db() -> None:
         UNIQUE(source, source_id)
     )
     """, commit=True)
+    
+    # Import here to avoid circular imports
+    from backend.features.collection import setup_collection_tables
+    from backend.features.notifications import setup_notifications_tables
+    
+    # Set up collection tracking tables
+    setup_collection_tables()
+    
+    # Set up notifications tables
+    setup_notifications_tables()
     
     LOGGER.info("Database schema setup complete")

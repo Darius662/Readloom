@@ -8,8 +8,10 @@ MangaArr provides a RESTful API that allows you to:
 
 - Manage series, volumes, and chapters
 - Access calendar events
+- Track your manga/comic collection
+- Manage notifications and subscriptions
 - Configure settings
-- Integrate with other applications
+- Integrate with Home Assistant and Homarr
 
 All API endpoints are prefixed with `/api`.
 
@@ -463,9 +465,470 @@ Updates application settings.
 }
 ```
 
+### Collection Tracking Endpoints
+
+#### Get Collection Items
+
+```
+GET /api/collection
+```
+
+Returns collection items with optional filters.
+
+**Query Parameters:**
+- `series_id` (optional): Filter by series ID
+- `item_type` (optional): Filter by item type (SERIES, VOLUME, CHAPTER)
+- `ownership_status` (optional): Filter by ownership status (OWNED, WANTED, ORDERED)
+- `read_status` (optional): Filter by read status (READ, READING, UNREAD)
+- `format` (optional): Filter by format (PHYSICAL, DIGITAL)
+
+**Example Response:**
+```json
+{
+  "items": [
+    {
+      "id": 1,
+      "series_id": 1,
+      "series_title": "One Piece",
+      "item_type": "VOLUME",
+      "volume_id": 1,
+      "volume_number": "1",
+      "chapter_id": null,
+      "chapter_number": null,
+      "ownership_status": "OWNED",
+      "read_status": "READ",
+      "format": "PHYSICAL",
+      "condition": "GOOD",
+      "purchase_date": "2025-09-01",
+      "purchase_price": 9.99,
+      "purchase_location": "Local Bookstore",
+      "notes": "First edition",
+      "custom_tags": ["favorite", "signed"],
+      "created_at": "2025-09-18T10:30:00",
+      "updated_at": "2025-09-18T10:30:00"
+    }
+  ]
+}
+```
+
+#### Get Collection Statistics
+
+```
+GET /api/collection/stats
+```
+
+Returns statistics about the collection.
+
+**Example Response:**
+```json
+{
+  "total_items": 50,
+  "owned_volumes": 45,
+  "read_volumes": 30,
+  "total_value": 449.55,
+  "formats": {
+    "PHYSICAL": 40,
+    "DIGITAL": 10
+  },
+  "conditions": {
+    "MINT": 10,
+    "GOOD": 30,
+    "FAIR": 5
+  },
+  "series_breakdown": [
+    {
+      "series_id": 1,
+      "series_title": "One Piece",
+      "owned_count": 20,
+      "total_count": 25,
+      "completion_percentage": 80
+    }
+  ]
+}
+```
+
+#### Add to Collection
+
+```
+POST /api/collection
+```
+
+Adds an item to the collection.
+
+**Request Body:**
+```json
+{
+  "series_id": 1,
+  "item_type": "VOLUME",
+  "volume_id": 1,
+  "ownership_status": "OWNED",
+  "read_status": "READ",
+  "format": "PHYSICAL",
+  "condition": "GOOD",
+  "purchase_date": "2025-09-01",
+  "purchase_price": 9.99,
+  "purchase_location": "Local Bookstore",
+  "notes": "First edition",
+  "custom_tags": ["favorite", "signed"]
+}
+```
+
+**Example Response:**
+```json
+{
+  "id": 1
+}
+```
+
+#### Update Collection Item
+
+```
+PUT /api/collection/{item_id}
+```
+
+Updates a collection item.
+
+**Request Body:**
+```json
+{
+  "ownership_status": "OWNED",
+  "read_status": "READING",
+  "condition": "FAIR"
+}
+```
+
+**Example Response:**
+```json
+{
+  "message": "Collection item updated successfully"
+}
+```
+
+#### Remove from Collection
+
+```
+DELETE /api/collection/{item_id}
+```
+
+Removes an item from the collection.
+
+**Example Response:**
+```json
+{
+  "message": "Collection item removed successfully"
+}
+```
+
+#### Import Collection
+
+```
+POST /api/collection/import
+```
+
+Imports collection data from JSON.
+
+**Request Body:**
+```json
+{
+  "items": [
+    {
+      "series_id": 1,
+      "item_type": "VOLUME",
+      "volume_id": 1,
+      "ownership_status": "OWNED",
+      "read_status": "READ",
+      "format": "PHYSICAL"
+    }
+  ]
+}
+```
+
+**Example Response:**
+```json
+{
+  "imported_count": 1,
+  "failed_count": 0
+}
+```
+
+#### Export Collection
+
+```
+GET /api/collection/export
+```
+
+Exports collection data as JSON.
+
+**Example Response:**
+```json
+{
+  "items": [...]
+}
+```
+
+### Notification Endpoints
+
+#### Get Notifications
+
+```
+GET /api/notifications
+```
+
+Returns notifications.
+
+**Query Parameters:**
+- `limit` (optional): Maximum number of notifications to return (default: 50)
+- `unread_only` (optional): Whether to only return unread notifications (default: false)
+
+**Example Response:**
+```json
+{
+  "notifications": [
+    {
+      "id": 1,
+      "title": "New Volume Release",
+      "message": "Volume 100 of One Piece will be released tomorrow!",
+      "type": "INFO",
+      "read": false,
+      "created_at": "2025-09-18T12:00:00"
+    }
+  ]
+}
+```
+
+#### Mark Notification as Read
+
+```
+PUT /api/notifications/{notification_id}/read
+```
+
+Marks a notification as read.
+
+**Example Response:**
+```json
+{
+  "message": "Notification marked as read"
+}
+```
+
+#### Mark All Notifications as Read
+
+```
+PUT /api/notifications/read
+```
+
+Marks all notifications as read.
+
+**Example Response:**
+```json
+{
+  "message": "All notifications marked as read"
+}
+```
+
+#### Delete Notification
+
+```
+DELETE /api/notifications/{notification_id}
+```
+
+Deletes a notification.
+
+**Example Response:**
+```json
+{
+  "message": "Notification deleted"
+}
+```
+
+#### Delete All Notifications
+
+```
+DELETE /api/notifications
+```
+
+Deletes all notifications.
+
+**Example Response:**
+```json
+{
+  "message": "All notifications deleted"
+}
+```
+
+#### Get Notification Settings
+
+```
+GET /api/notifications/settings
+```
+
+Returns notification settings.
+
+**Example Response:**
+```json
+{
+  "email_enabled": 0,
+  "email_address": null,
+  "browser_enabled": 1,
+  "discord_enabled": 0,
+  "discord_webhook": null,
+  "telegram_enabled": 0,
+  "telegram_bot_token": null,
+  "telegram_chat_id": null,
+  "notify_new_volumes": 1,
+  "notify_new_chapters": 1,
+  "notify_releases_days_before": 1
+}
+```
+
+#### Update Notification Settings
+
+```
+PUT /api/notifications/settings
+```
+
+Updates notification settings.
+
+**Request Body:**
+```json
+{
+  "email_enabled": true,
+  "email_address": "user@example.com",
+  "notify_releases_days_before": 2
+}
+```
+
+**Example Response:**
+```json
+{
+  "message": "Notification settings updated"
+}
+```
+
+#### Send Test Notification
+
+```
+POST /api/notifications/test
+```
+
+Sends a test notification.
+
+**Request Body:**
+```json
+{
+  "title": "Test Notification",
+  "message": "This is a test notification",
+  "type": "INFO"
+}
+```
+
+**Example Response:**
+```json
+{
+  "message": "Test notification sent"
+}
+```
+
+### Subscription Endpoints
+
+#### Get Subscriptions
+
+```
+GET /api/subscriptions
+```
+
+Returns all subscriptions.
+
+**Example Response:**
+```json
+{
+  "subscriptions": [
+    {
+      "id": 1,
+      "series_id": 1,
+      "series_title": "One Piece",
+      "series_author": "Eiichiro Oda",
+      "series_cover_url": "https://example.com/cover.jpg",
+      "notify_new_volumes": 1,
+      "notify_new_chapters": 1,
+      "created_at": "2025-09-18T12:30:00"
+    }
+  ]
+}
+```
+
+#### Check Subscription Status
+
+```
+GET /api/subscriptions/{series_id}
+```
+
+Checks if a series is subscribed to.
+
+**Example Response:**
+```json
+{
+  "subscribed": true
+}
+```
+
+#### Subscribe to Series
+
+```
+POST /api/subscriptions
+```
+
+Subscribes to a series.
+
+**Request Body:**
+```json
+{
+  "series_id": 1,
+  "notify_new_volumes": true,
+  "notify_new_chapters": true
+}
+```
+
+**Example Response:**
+```json
+{
+  "id": 1
+}
+```
+
+#### Unsubscribe from Series
+
+```
+DELETE /api/subscriptions/{series_id}
+```
+
+Unsubscribes from a series.
+
+**Example Response:**
+```json
+{
+  "message": "Unsubscribed from series"
+}
+```
+
+#### Check Upcoming Releases
+
+```
+POST /api/monitor/check-releases
+```
+
+Checks for upcoming releases and sends notifications.
+
+**Example Response:**
+```json
+{
+  "releases": [...]
+}
+```
+
 ### Integration Endpoints
 
-#### Home Assistant Integration
+#### Home Assistant Integration Data
 
 ```
 GET /api/integrations/home-assistant
@@ -476,16 +939,43 @@ Returns data for Home Assistant integration.
 **Example Response:**
 ```json
 {
-  "upcoming_releases": [...],
   "stats": {
     "series_count": 5,
     "volume_count": 25,
-    "chapter_count": 150
-  }
+    "chapter_count": 150,
+    "owned_volumes": 20,
+    "read_volumes": 15,
+    "collection_value": 199.95
+  },
+  "upcoming_releases": [...],
+  "releases_by_date": {...},
+  "releases_today": 2,
+  "releases_this_week": 5,
+  "last_updated": "2025-09-18T13:00:00"
 }
 ```
 
-#### Homarr Integration
+#### Home Assistant Setup Instructions
+
+```
+GET /api/integrations/home-assistant/setup
+```
+
+Returns setup instructions for Home Assistant integration.
+
+**Example Response:**
+```json
+{
+  "title": "MangaArr Home Assistant Integration",
+  "description": "Follow these steps to integrate MangaArr with your Home Assistant instance.",
+  "base_url": "http://localhost:7227",
+  "api_endpoint": "http://localhost:7227/api/integrations/home-assistant",
+  "steps": [...],
+  "notes": [...]
+}
+```
+
+#### Homarr Integration Data
 
 ```
 GET /api/integrations/homarr
@@ -501,8 +991,31 @@ Returns data for Homarr integration.
   "status": "ok",
   "info": {
     "series_count": 5,
+    "volume_count": 25,
+    "chapter_count": 150,
+    "owned_volumes": 20,
     "releases_today": 2
   }
+}
+```
+
+#### Homarr Setup Instructions
+
+```
+GET /api/integrations/homarr/setup
+```
+
+Returns setup instructions for Homarr integration.
+
+**Example Response:**
+```json
+{
+  "title": "MangaArr Homarr Integration",
+  "description": "Follow these steps to integrate MangaArr with your Homarr dashboard.",
+  "base_url": "http://localhost:7227",
+  "api_endpoint": "http://localhost:7227/api/integrations/homarr",
+  "steps": [...],
+  "notes": [...]
 }
 ```
 

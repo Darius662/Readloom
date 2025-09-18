@@ -57,17 +57,17 @@ def run_application(host, port):
         port (int): Port to bind to.
     """
     try:
-        # Run simple app instead of full MangaArr
+        # Run the full MangaArr application
         cmd = [
             sys.executable, 
-            "simple_app.py",
+            "MangaArr.py",
             "-d", "data/db",  # Use the db subdirectory for the database
             "-l", "data/logs",
             "-o", host,
             "-p", str(port)
         ]
         
-        print(f"Starting MangaArr Simple App on {host}:{port}...")
+        print(f"Starting MangaArr on {host}:{port}...")
         print(f"Command: {' '.join(cmd)}")
         print(f"\nOpen your browser and navigate to http://{host}:{port}/ to view the application")
         
