@@ -31,6 +31,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - More comprehensive manga details from multiple sources
 - Fixed logging to properly write to data/logs folder
 - Improved settings persistence between application restarts
+- Updated MangaAPI provider to use correct API endpoints
+- Added fallback to latest updates when search returns no results
 
 ## [0.0.2] - 2025-09-18
 
