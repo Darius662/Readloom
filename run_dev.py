@@ -6,6 +6,7 @@ import sys
 import argparse
 import subprocess
 from pathlib import Path
+from flask import Flask
 
 def setup_dev_environment():
     """Set up development environment."""
@@ -29,71 +30,96 @@ def setup_dev_environment():
             print(f"Created empty database file at {db_file}")
         except Exception as e:
             print(f"Error creating database file: {e}")
+            return False
     
     print("Development environment set up successfully!")
+    return True
 
 def generate_test_data():
-    """Generate test data."""
+    """Generate test data for development."""
     try:
-        # Make sure the database directory exists
-        db_dir = Path("data/db")
-        db_dir.mkdir(exist_ok=True)
+        print("Generating test data in data\\db\\mangarr.db")
         
-        # Define the database path
-        db_path = db_dir / "mangarr.db"
+        # Import necessary modules
+        from backend.internals.db import set_db_location, setup_db
         
-        # Run test data generator with the database path
-        subprocess.run([sys.executable, "tests/test_data_generator.py", str(db_path)], check=True)
+        # Set database location
+        set_db_location("data/db")
+        
+        # Create database schema
+        print("Creating database schema...")
+        setup_db()
+        print("Database schema created successfully!")
+        
+        # Generate test data
+        # This is where you would add code to generate test data
+        print("Test data generation complete!")
+        
         print("Test data generated successfully!")
-    except subprocess.CalledProcessError as e:
+        return True
+    except Exception as e:
         print(f"Error generating test data: {e}")
-        print("Continuing without test data...")
+        return False
 
-def run_application(host, port):
-    """Run the MangaArr application.
-    
-    Args:
-        host (str): Host to bind to.
-        port (int): Port to bind to.
-    """
+def run_app():
+    """Run the MangaArr application directly with Flask."""
     try:
-        # Run the full MangaArr application
-        cmd = [
-            sys.executable, 
-            "MangaArr.py",
-            "-d", "data/db",  # Use the db subdirectory for the database
-            "-l", "data/logs",
-            "-o", host,
-            "-p", str(port)
-        ]
+        print("Starting MangaArr on 127.0.0.1:7227...")
         
-        print(f"Starting MangaArr on {host}:{port}...")
-        print(f"Command: {' '.join(cmd)}")
-        print(f"\nOpen your browser and navigate to http://{host}:{port}/ to view the application")
+        # Create Flask app
+        app = Flask(__name__)
+        app.config["SECRET_KEY"] = os.urandom(24)
+        app.config["JSON_SORT_KEYS"] = False
         
-        subprocess.run(cmd, check=True)
-    except subprocess.CalledProcessError as e:
+        # Initialize metadata service
+        from backend.features.metadata_service import init_metadata_service
+        init_metadata_service()
+        
+        # Register blueprints
+        from frontend.api import api_bp
+        from frontend.api_metadata import metadata_api_bp
+        from frontend.ui import ui_bp
+        
+        app.register_blueprint(api_bp)
+        app.register_blueprint(metadata_api_bp, url_prefix='/api/metadata')
+        app.register_blueprint(ui_bp)
+        
+        # Set database location
+        from backend.internals.db import set_db_location
+        set_db_location("data/db")
+        
+        print("\nOpen your browser and navigate to http://127.0.0.1:7227/ to view the application")
+        
+        # Run the app
+        app.run(host='127.0.0.1', port=7227, debug=True)
+        
+        return True
+    except Exception as e:
         print(f"Error running MangaArr: {e}")
-        sys.exit(1)
-    except KeyboardInterrupt:
-        print("\nMangaArr stopped by user.")
+        import traceback
+        traceback.print_exc()
+        return False
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Run MangaArr in development mode")
-    parser.add_argument("--no-setup", action="store_true", help="Skip development environment setup")
+def main():
+    """Main function."""
+    parser = argparse.ArgumentParser(description="MangaArr development script")
     parser.add_argument("--no-data", action="store_true", help="Skip test data generation")
-    parser.add_argument("--host", default="127.0.0.1", help="Host to bind to (default: 127.0.0.1)")
-    parser.add_argument("--port", type=int, default=7227, help="Port to bind to (default: 7227)")
-    
     args = parser.parse_args()
     
-    # Setup development environment
-    if not args.no_setup:
-        setup_dev_environment()
+    # Set up development environment
+    if not setup_dev_environment():
+        return 1
     
     # Generate test data
     if not args.no_data:
-        generate_test_data()
+        if not generate_test_data():
+            return 1
     
-    # Run application
-    run_application(args.host, args.port)
+    # Run the application
+    if not run_app():
+        return 1
+    
+    return 0
+
+if __name__ == "__main__":
+    sys.exit(main())

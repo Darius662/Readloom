@@ -5,17 +5,29 @@ All notable changes to MangaArr will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.0.3] - 2025-09-19
 
 ### Added
 - Improved documentation structure
 - API documentation with endpoint descriptions and examples
 - Installation guide with Docker and manual options
 - Contributor guidelines and code of conduct
+- External manga source integration:
+  - MangaFire integration for searching and importing manga
+  - MyAnimeList (MAL) integration for metadata and searching
+  - Manga-API integration for additional manga sources
+  - Search interface for finding manga across multiple sources
+  - Import functionality to add manga from external sources to collection
+  - Metadata caching system for improved performance
 
 ### Changed
 - Updated development workflow for better compatibility
 - Simplified package requirements for easier installation
+
+### Improved
+- Enhanced search capabilities across the application
+- Better metadata handling with external providers
+- More comprehensive manga details from multiple sources
 
 ## [0.0.2] - 2025-09-18
 

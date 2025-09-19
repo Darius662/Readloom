@@ -10,6 +10,7 @@ MangaArr provides a RESTful API that allows you to:
 - Access calendar events
 - Track your manga/comic collection
 - Manage notifications and subscriptions
+- Search and import from external manga sources
 - Configure settings
 - Integrate with Home Assistant and Homarr
 
@@ -1016,6 +1017,245 @@ Returns setup instructions for Homarr integration.
   "api_endpoint": "http://localhost:7227/api/integrations/homarr",
   "steps": [...],
   "notes": [...]
+}
+```
+
+### Metadata API Endpoints
+
+All metadata API endpoints are prefixed with `/api/metadata`.
+
+#### Search Manga
+
+```
+GET /api/metadata/search
+```
+
+Search for manga across all enabled providers or a specific provider.
+
+**Query Parameters:**
+- `query` (required): The search query
+- `provider` (optional): The provider name
+- `page` (optional): The page number (default: 1)
+
+**Example Response:**
+```json
+{
+  "query": "One Piece",
+  "page": 1,
+  "results": {
+    "MangaFire": [
+      {
+        "id": "one-piece",
+        "title": "One Piece",
+        "cover_url": "https://example.com/cover.jpg",
+        "author": "Eiichiro Oda",
+        "status": "ONGOING",
+        "latest_chapter": "Chapter 1050",
+        "url": "https://mangafire.to/manga/one-piece",
+        "source": "MangaFire"
+      }
+    ],
+    "MyAnimeList": [...]
+  },
+  "timestamp": "2025-09-19T10:30:00"
+}
+```
+
+#### Get Manga Details
+
+```
+GET /api/metadata/manga/{provider}/{manga_id}
+```
+
+Get details for a manga from a specific provider.
+
+**Example Response:**
+```json
+{
+  "id": "one-piece",
+  "title": "One Piece",
+  "alternative_titles": ["ワンピース", "Wan Pīsu"],
+  "cover_url": "https://example.com/cover.jpg",
+  "author": "Eiichiro Oda",
+  "status": "ONGOING",
+  "description": "The story follows the adventures of Monkey D. Luffy...",
+  "genres": ["Action", "Adventure", "Comedy", "Fantasy"],
+  "rating": "4.9",
+  "url": "https://mangafire.to/manga/one-piece",
+  "source": "MangaFire"
+}
+```
+
+#### Get Chapter List
+
+```
+GET /api/metadata/manga/{provider}/{manga_id}/chapters
+```
+
+Get the chapter list for a manga from a specific provider.
+
+**Example Response:**
+```json
+{
+  "chapters": [
+    {
+      "id": "chapter-1050",
+      "title": "Chapter 1050",
+      "number": "1050",
+      "date": "2025-09-15",
+      "url": "https://mangafire.to/manga/one-piece/chapter-1050",
+      "manga_id": "one-piece"
+    }
+  ]
+}
+```
+
+#### Get Chapter Images
+
+```
+GET /api/metadata/manga/{provider}/{manga_id}/chapter/{chapter_id}
+```
+
+Get the images for a chapter from a specific provider.
+
+**Example Response:**
+```json
+{
+  "images": [
+    "https://example.com/images/chapter-1050/1.jpg",
+    "https://example.com/images/chapter-1050/2.jpg"
+  ]
+}
+```
+
+#### Get Latest Releases
+
+```
+GET /api/metadata/latest
+```
+
+Get the latest manga releases from all enabled providers or a specific provider.
+
+**Query Parameters:**
+- `provider` (optional): The provider name
+- `page` (optional): The page number (default: 1)
+
+**Example Response:**
+```json
+{
+  "page": 1,
+  "results": {
+    "MangaFire": [
+      {
+        "manga_id": "one-piece",
+        "manga_title": "One Piece",
+        "cover_url": "https://example.com/cover.jpg",
+        "chapter": "Chapter 1050",
+        "chapter_id": "chapter-1050",
+        "date": "2025-09-15",
+        "url": "https://mangafire.to/manga/one-piece/chapter-1050",
+        "source": "MangaFire"
+      }
+    ],
+    "MyAnimeList": [...]
+  },
+  "timestamp": "2025-09-19T10:30:00"
+}
+```
+
+#### Get Metadata Providers
+
+```
+GET /api/metadata/providers
+```
+
+Get all metadata providers and their settings.
+
+**Example Response:**
+```json
+{
+  "providers": {
+    "MangaFire": {
+      "enabled": true,
+      "settings": {}
+    },
+    "MyAnimeList": {
+      "enabled": true,
+      "settings": {
+        "client_id": "your_client_id"
+      }
+    },
+    "MangaAPI": {
+      "enabled": true,
+      "settings": {
+        "api_url": "https://manga-api.fly.dev"
+      }
+    }
+  },
+  "timestamp": "2025-09-19T10:30:00"
+}
+```
+
+#### Update Metadata Provider
+
+```
+PUT /api/metadata/providers/{name}
+```
+
+Update a metadata provider's settings.
+
+**Request Body:**
+```json
+{
+  "enabled": true,
+  "settings": {
+    "client_id": "your_new_client_id"
+  }
+}
+```
+
+**Example Response:**
+```json
+{
+  "success": true,
+  "message": "Provider MyAnimeList updated successfully"
+}
+```
+
+#### Clear Metadata Cache
+
+```
+DELETE /api/metadata/cache
+```
+
+Clear the metadata cache.
+
+**Query Parameters:**
+- `provider` (optional): The provider name
+- `type` (optional): The cache type
+
+**Example Response:**
+```json
+{
+  "success": true,
+  "message": "Cache cleared successfully"
+}
+```
+
+#### Import Manga to Collection
+
+```
+POST /api/metadata/import/{provider}/{manga_id}
+```
+
+Import a manga from an external source to the collection.
+
+**Example Response:**
+```json
+{
+  "success": true,
+  "message": "Series added to collection with 50 chapters",
+  "series_id": 123
 }
 ```
 

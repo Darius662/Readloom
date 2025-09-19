@@ -126,6 +126,16 @@ def notifications():
     return render_template('notifications.html')
 
 
+@ui_bp.route('/search')
+def search():
+    """Render the search page for external manga sources.
+
+    Returns:
+        Response: The rendered search page.
+    """
+    return render_template('search.html')
+
+
 @ui_bp.route('/about')
 def about():
     """Render the about page.

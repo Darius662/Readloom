@@ -15,6 +15,11 @@ MangaArr is a manga, manwa, and comics collection manager with a focus on releas
   - Track ownership status, read status, and purchase details
   - Collection statistics and visualizations
   - Import/export functionality
+- **External Source Integration**: Connect to popular manga sources
+  - MangaFire integration for searching and importing manga
+  - MyAnimeList (MAL) integration for metadata and searching
+  - Manga-API integration for additional manga sources
+  - Search interface for finding manga across multiple sources
 - **Monitoring System**: Stay updated on upcoming releases
   - Notification system for upcoming releases
   - Subscription functionality for specific series
