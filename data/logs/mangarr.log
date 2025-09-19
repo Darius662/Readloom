@@ -1,0 +1,138 @@
+2025-09-19 14:35:25,516 - MangaArr - INFO - Settings table created or verified
+2025-09-19 14:35:55,154 - MangaArr - INFO - Settings table created or verified
+2025-09-19 14:35:55,303 - MangaArr - INFO - Settings table created or verified
+2025-09-19 14:35:56,943 - MangaArr - INFO - Settings table created or verified
+2025-09-19 14:36:00,059 - MangaArr - INFO - Settings table created or verified
+2025-09-19 14:36:00,206 - MangaArr - INFO - Settings table created or verified
+2025-09-19 14:36:01,670 - MangaArr - INFO - Settings table created or verified
+2025-09-19 14:37:23,842 - MangaArr - INFO - Logging to data\logs\mangarr.log
+2025-09-19 14:37:23,842 - MangaArr - INFO - Starting MangaArr in development mode
+2025-09-19 14:37:23,842 - MangaArr - INFO - Settings table created or verified
+2025-09-19 14:37:23,843 - MangaArr - INFO - Settings initialized
+2025-09-19 14:37:23,942 - MangaArr - INFO - Registered metadata provider: MangaFire
+2025-09-19 14:37:23,942 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-19 14:37:23,943 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-19 14:37:23,943 - MangaArr - INFO - Initialized 3 metadata providers
+2025-09-19 14:37:23,943 - MangaArr - INFO - Metadata service initialized
+2025-09-19 14:37:23,946 - MangaArr - INFO - Registered metadata provider: MangaFire
+2025-09-19 14:37:23,946 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-19 14:37:23,946 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-19 14:37:23,947 - MangaArr - INFO - Initialized 3 metadata providers
+2025-09-19 14:37:23,947 - MangaArr - INFO - Metadata service initialized
+2025-09-19 14:37:23,970 - MangaArr - INFO - Application initialized successfully
+2025-09-19 14:37:24,290 - MangaArr - INFO - Logging to data\logs\mangarr.log
+2025-09-19 14:37:24,291 - MangaArr - INFO - Starting MangaArr in development mode
+2025-09-19 14:37:24,291 - MangaArr - INFO - Settings table created or verified
+2025-09-19 14:37:24,291 - MangaArr - INFO - Settings initialized
+2025-09-19 14:37:24,393 - MangaArr - INFO - Registered metadata provider: MangaFire
+2025-09-19 14:37:24,393 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-19 14:37:24,393 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-19 14:37:24,394 - MangaArr - INFO - Initialized 3 metadata providers
+2025-09-19 14:37:24,394 - MangaArr - INFO - Metadata service initialized
+2025-09-19 14:37:24,397 - MangaArr - INFO - Registered metadata provider: MangaFire
+2025-09-19 14:37:24,397 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-19 14:37:24,398 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-19 14:37:24,398 - MangaArr - INFO - Initialized 3 metadata providers
+2025-09-19 14:37:24,398 - MangaArr - INFO - Metadata service initialized
+2025-09-19 14:37:24,417 - MangaArr - INFO - Application initialized successfully
+2025-09-19 14:37:29,847 - MangaArr - INFO - Settings table created or verified
+2025-09-19 14:37:31,042 - MangaArr - INFO - Settings table created or verified
+2025-09-19 14:37:33,410 - MangaArr - INFO - Settings table created or verified
+2025-09-19 14:37:35,140 - MangaArr - INFO - Settings table created or verified
+2025-09-19 14:37:41,224 - MangaArr - INFO - Settings table created or verified
+2025-09-19 14:37:43,844 - MangaArr - INFO - Settings table created or verified
+2025-09-19 14:37:45,697 - MangaArr - INFO - Settings table created or verified
+2025-09-19 14:38:50,465 - MangaArr - INFO - Settings table created or verified
+2025-09-19 14:38:50,641 - MangaArr - INFO - Settings table created or verified
+2025-09-19 14:38:53,771 - MangaArr - INFO - Settings table created or verified
+2025-09-19 14:38:53,775 - MangaArr - INFO - Updated setting log_level to DEBUG
+2025-09-19 14:38:53,778 - MangaArr - INFO - Updated setting log_rotation to 5
+2025-09-19 14:38:53,781 - MangaArr - INFO - Updated setting log_size to 10
+2025-09-19 14:38:57,787 - MangaArr - INFO - Settings table created or verified
+2025-09-19 14:39:26,697 - MangaArr - INFO - Settings table created or verified
+2025-09-19 14:39:59,416 - MangaArr - INFO - Settings table created or verified
+2025-09-19 14:39:59,613 - MangaArr - INFO - Settings table created or verified
+2025-09-19 14:39:59,981 - MangaArr - INFO - Settings table created or verified
+2025-09-19 14:40:02,869 - MangaArr - INFO - Settings table created or verified
+2025-09-19 14:54:25,326 - MangaArr - INFO - Logging to data\logs\mangarr.log
+2025-09-19 14:54:25,326 - MangaArr - INFO - Starting MangaArr in development mode
+2025-09-19 14:54:25,327 - MangaArr - INFO - Settings table created or verified
+2025-09-19 14:54:25,327 - MangaArr - INFO - Settings initialized
+2025-09-19 14:54:25,428 - MangaArr - INFO - Registered metadata provider: MangaFire
+2025-09-19 14:54:25,428 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-19 14:54:25,429 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-19 14:54:25,429 - MangaArr - INFO - Initialized 3 metadata providers
+2025-09-19 14:54:25,430 - MangaArr - INFO - Metadata service initialized
+2025-09-19 14:54:25,435 - MangaArr - INFO - Registered metadata provider: MangaFire
+2025-09-19 14:54:25,436 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-19 14:54:25,436 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-19 14:54:25,436 - MangaArr - INFO - Initialized 3 metadata providers
+2025-09-19 14:54:25,436 - MangaArr - INFO - Metadata service initialized
+2025-09-19 14:54:25,455 - MangaArr - INFO - Application initialized successfully
+2025-09-19 14:54:25,797 - MangaArr - INFO - Logging to data\logs\mangarr.log
+2025-09-19 14:54:25,797 - MangaArr - INFO - Starting MangaArr in development mode
+2025-09-19 14:54:25,798 - MangaArr - INFO - Settings table created or verified
+2025-09-19 14:54:25,798 - MangaArr - INFO - Settings initialized
+2025-09-19 14:54:25,897 - MangaArr - INFO - Registered metadata provider: MangaFire
+2025-09-19 14:54:25,898 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-19 14:54:25,898 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-19 14:54:25,898 - MangaArr - INFO - Initialized 3 metadata providers
+2025-09-19 14:54:25,899 - MangaArr - INFO - Metadata service initialized
+2025-09-19 14:54:25,909 - MangaArr - INFO - Registered metadata provider: MangaFire
+2025-09-19 14:54:25,910 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-19 14:54:25,910 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-19 14:54:25,910 - MangaArr - INFO - Initialized 3 metadata providers
+2025-09-19 14:54:25,911 - MangaArr - INFO - Metadata service initialized
+2025-09-19 14:54:25,995 - MangaArr - INFO - Application initialized successfully
+2025-09-19 14:54:27,931 - MangaArr - INFO - Settings table created or verified
+2025-09-19 14:54:29,575 - MangaArr - INFO - Settings table created or verified
+2025-09-19 14:54:37,122 - MangaArr - ERROR - MyAnimeList client ID not set
+2025-09-19 14:54:40,082 - MangaArr - INFO - No search results found for 'Naruto', using latest updates as fallback
+2025-09-19 14:54:54,113 - MangaArr - INFO - Settings table created or verified
+2025-09-19 14:54:56,016 - MangaArr - INFO - Settings table created or verified
+2025-09-19 14:55:01,270 - MangaArr - INFO - Settings table created or verified
+2025-09-19 14:56:12,293 - MangaArr - INFO - Settings table created or verified
+2025-09-19 14:56:12,452 - MangaArr - INFO - Settings table created or verified
+2025-09-19 14:56:54,968 - MangaArr - INFO - Settings table created or verified
+2025-09-19 14:57:21,291 - MangaArr - INFO - Settings table created or verified
+2025-09-19 14:59:29,782 - MangaArr - INFO - Logging to data\logs\mangarr.log
+2025-09-19 14:59:29,783 - MangaArr - INFO - Starting MangaArr in development mode
+2025-09-19 14:59:29,783 - MangaArr - INFO - Settings table created or verified
+2025-09-19 14:59:29,783 - MangaArr - INFO - Settings initialized
+2025-09-19 14:59:29,941 - MangaArr - INFO - Registered metadata provider: MangaFire
+2025-09-19 14:59:29,942 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-19 14:59:29,942 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-19 14:59:29,943 - MangaArr - INFO - Initialized 3 metadata providers
+2025-09-19 14:59:29,943 - MangaArr - INFO - Metadata service initialized
+2025-09-19 14:59:29,947 - MangaArr - INFO - Registered metadata provider: MangaFire
+2025-09-19 14:59:29,948 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-19 14:59:29,948 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-19 14:59:29,948 - MangaArr - INFO - Initialized 3 metadata providers
+2025-09-19 14:59:29,948 - MangaArr - INFO - Metadata service initialized
+2025-09-19 14:59:29,973 - MangaArr - INFO - Application initialized successfully
+2025-09-19 14:59:30,381 - MangaArr - INFO - Logging to data\logs\mangarr.log
+2025-09-19 14:59:30,382 - MangaArr - INFO - Starting MangaArr in development mode
+2025-09-19 14:59:30,382 - MangaArr - INFO - Settings table created or verified
+2025-09-19 14:59:30,382 - MangaArr - INFO - Settings initialized
+2025-09-19 14:59:30,492 - MangaArr - INFO - Registered metadata provider: MangaFire
+2025-09-19 14:59:30,492 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-19 14:59:30,492 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-19 14:59:30,492 - MangaArr - INFO - Initialized 3 metadata providers
+2025-09-19 14:59:30,492 - MangaArr - INFO - Metadata service initialized
+2025-09-19 14:59:30,495 - MangaArr - INFO - Registered metadata provider: MangaFire
+2025-09-19 14:59:30,495 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-19 14:59:30,495 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-19 14:59:30,495 - MangaArr - INFO - Initialized 3 metadata providers
+2025-09-19 14:59:30,496 - MangaArr - INFO - Metadata service initialized
+2025-09-19 14:59:30,524 - MangaArr - INFO - Application initialized successfully
+2025-09-19 14:59:35,987 - MangaArr - INFO - Settings table created or verified
+2025-09-19 14:59:43,514 - MangaArr - ERROR - MyAnimeList client ID not set
+2025-09-19 14:59:46,222 - MangaArr - INFO - No search results found for 'Naruto', using latest updates as fallback
+2025-09-19 14:59:52,858 - MangaArr - INFO - Settings table created or verified
+2025-09-19 14:59:54,797 - MangaArr - INFO - Settings table created or verified
+2025-09-19 14:59:59,562 - MangaArr - ERROR - MyAnimeList client ID not set
+2025-09-19 15:00:02,214 - MangaArr - INFO - No search results found for 'Naruto', using latest updates as fallback
+2025-09-19 15:00:40,994 - MangaArr - INFO - Settings table created or verified
+2025-09-19 15:00:41,240 - MangaArr - INFO - Settings table created or verified
+2025-09-19 15:00:43,001 - MangaArr - INFO - Settings table created or verified
+2025-09-19 15:00:49,007 - MangaArr - INFO - Settings table created or verified
