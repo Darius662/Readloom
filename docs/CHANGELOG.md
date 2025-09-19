@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Search interface for finding manga across multiple sources
   - Import functionality to add manga from external sources to collection
   - Metadata caching system for improved performance
+  - Provider configuration UI for customizing API keys and settings
 
 ### Changed
 - Updated development workflow for better compatibility
@@ -28,6 +29,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Enhanced search capabilities across the application
 - Better metadata handling with external providers
 - More comprehensive manga details from multiple sources
+- Fixed logging to properly write to data/logs folder
+- Improved settings persistence between application restarts
 
 ## [0.0.2] - 2025-09-18
 

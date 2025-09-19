@@ -51,6 +51,11 @@ def generate_test_data():
         setup_db()
         print("Database schema created successfully!")
         
+        # Initialize settings
+        from backend.internals.settings import Settings
+        settings = Settings()
+        print("Settings initialized successfully!")
+        
         # Generate test data
         # This is where you would add code to generate test data
         print("Test data generation complete!")
@@ -65,6 +70,20 @@ def run_app():
     """Run the MangaArr application directly with Flask."""
     try:
         print("Starting MangaArr on 127.0.0.1:7227...")
+        
+        # Set database location first
+        from backend.internals.db import set_db_location, setup_db
+        set_db_location("data/db")
+        
+        # Set up logging
+        from backend.base.logging import setup_logging, LOGGER
+        setup_logging("data/logs", "mangarr.log")
+        LOGGER.info("Starting MangaArr in development mode")
+        
+        # Initialize settings
+        from backend.internals.settings import Settings
+        settings = Settings()
+        LOGGER.info("Settings initialized")
         
         # Create Flask app
         app = Flask(__name__)
@@ -84,10 +103,7 @@ def run_app():
         app.register_blueprint(metadata_api_bp, url_prefix='/api/metadata')
         app.register_blueprint(ui_bp)
         
-        # Set database location
-        from backend.internals.db import set_db_location
-        set_db_location("data/db")
-        
+        LOGGER.info("Application initialized successfully")
         print("\nOpen your browser and navigate to http://127.0.0.1:7227/ to view the application")
         
         # Run the app

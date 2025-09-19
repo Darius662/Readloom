@@ -116,6 +116,16 @@ def homarr():
     return render_template('homarr.html')
 
 
+@ui_bp.route('/integrations/providers')
+def provider_config():
+    """Render the metadata provider configuration page.
+
+    Returns:
+        Response: The rendered provider configuration page.
+    """
+    return render_template('provider_config.html')
+
+
 @ui_bp.route('/notifications')
 def notifications():
     """Render the notifications page.

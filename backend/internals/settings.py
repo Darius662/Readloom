@@ -33,18 +33,37 @@ class Settings:
             "task_interval_minutes": Constants.DEFAULT_TASK_INTERVAL_MINUTES
         }
         
-        # Check which settings already exist
-        existing_settings = execute_query("SELECT key FROM settings")
-        existing_keys = {setting["key"] for setting in existing_settings}
+        # Ensure settings table exists
+        try:
+            execute_query("""
+            CREATE TABLE IF NOT EXISTS settings (
+                key TEXT PRIMARY KEY,
+                value TEXT NOT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+            """, commit=True)
+            LOGGER.info("Settings table created or verified")
+        except Exception as e:
+            LOGGER.error(f"Error creating settings table: {e}")
+            return
         
-        # Insert default settings that don't exist
-        for key, value in default_settings.items():
-            if key not in existing_keys:
-                execute_query(
-                    "INSERT INTO settings (key, value) VALUES (?, ?)",
-                    (key, json.dumps(value)),
-                    commit=True
-                )
+        # Check which settings already exist
+        try:
+            existing_settings = execute_query("SELECT key FROM settings")
+            existing_keys = {setting["key"] for setting in existing_settings}
+            
+            # Insert default settings that don't exist
+            for key, value in default_settings.items():
+                if key not in existing_keys:
+                    execute_query(
+                        "INSERT INTO settings (key, value) VALUES (?, ?)",
+                        (key, json.dumps(value)),
+                        commit=True
+                    )
+                    LOGGER.info(f"Initialized default setting: {key} = {value}")
+        except Exception as e:
+            LOGGER.error(f"Error initializing settings: {e}")
     
     def get_settings(self) -> SettingsType:
         """Get all settings.
