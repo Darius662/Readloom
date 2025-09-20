@@ -116,6 +116,16 @@ def homarr():
     return render_template('homarr.html')
 
 
+@ui_bp.route('/integrations/providers')
+def provider_config():
+    """Render the metadata provider configuration page.
+
+    Returns:
+        Response: The rendered provider configuration page.
+    """
+    return render_template('provider_config.html')
+
+
 @ui_bp.route('/notifications')
 def notifications():
     """Render the notifications page.
@@ -124,6 +134,16 @@ def notifications():
         Response: The rendered notifications page.
     """
     return render_template('notifications.html')
+
+
+@ui_bp.route('/search')
+def search():
+    """Render the search page for external manga sources.
+
+    Returns:
+        Response: The rendered search page.
+    """
+    return render_template('search.html')
 
 
 @ui_bp.route('/about')

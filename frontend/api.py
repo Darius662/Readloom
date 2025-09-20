@@ -18,6 +18,7 @@ from backend.features.collection import (add_to_collection, export_collection,
 from backend.features.home_assistant import (get_home_assistant_sensor_data,
                                             get_home_assistant_setup_instructions)
 from backend.features.homarr import get_homarr_data, get_homarr_setup_instructions
+from backend.features.metadata_service import init_metadata_service
 from backend.features.notifications import (check_upcoming_releases, create_notification,
                                            delete_all_notifications, delete_notification,
                                            get_notification_settings, get_notifications,
@@ -27,9 +28,13 @@ from backend.features.notifications import (check_upcoming_releases, create_noti
                                            update_notification_settings)
 from backend.internals.db import execute_query
 from backend.internals.settings import Settings
+from frontend.api_metadata import metadata_api_bp
 
 # Create API blueprint
 api_bp = Blueprint('api', __name__, url_prefix='/api')
+
+# Initialize metadata service
+init_metadata_service()
 
 
 @api_bp.errorhandler(Exception)

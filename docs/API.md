@@ -10,6 +10,7 @@ MangaArr provides a RESTful API that allows you to:
 - Access calendar events
 - Track your manga/comic collection
 - Manage notifications and subscriptions
+- Search and import from external manga sources
 - Configure settings
 - Integrate with Home Assistant and Homarr
 
@@ -360,12 +361,14 @@ Deletes a chapter.
 GET /api/calendar
 ```
 
-Returns calendar events within a specified date range.
+Returns calendar events within a specified date range. The calendar shows all release dates for manga in your collection, with no date range restrictions.
 
 **Query Parameters:**
 - `start_date` (optional): Start date in YYYY-MM-DD format
 - `end_date` (optional): End date in YYYY-MM-DD format
 - `series_id` (optional): Filter events by series ID
+
+**Note:** While the calendar API accepts date range parameters for pagination and display purposes, it stores and can show all release dates without any date restrictions. Historical release dates and future releases are all preserved.
 
 **Example Response:**
 ```json
@@ -431,6 +434,9 @@ Returns all application settings.
   "calendar_refresh_hours": 12,
   "task_interval_minutes": 60
 }
+```
+
+**Note:** While `calendar_range_days` sets a default display range for the calendar UI, the calendar system stores and can display events from any date range. This setting primarily affects the initial view in the UI.
 ```
 
 #### Update Settings
@@ -1018,6 +1024,257 @@ Returns setup instructions for Homarr integration.
   "notes": [...]
 }
 ```
+
+### Metadata API Endpoints
+
+All metadata API endpoints are prefixed with `/api/metadata`.
+
+#### Search Manga
+
+```
+GET /api/metadata/search
+```
+
+Search for manga across all enabled providers or a specific provider.
+
+**Query Parameters:**
+- `query` (required): The search query
+- `provider` (optional): The provider name
+- `page` (optional): The page number (default: 1)
+
+**Example Response:**
+```json
+{
+  "query": "One Piece",
+  "page": 1,
+  "results": {
+    "MangaFire": [
+      {
+        "id": "one-piece",
+        "title": "One Piece",
+        "cover_url": "https://example.com/cover.jpg",
+        "author": "Eiichiro Oda",
+        "status": "ONGOING",
+        "latest_chapter": "Chapter 1050",
+        "url": "https://mangafire.to/manga/one-piece",
+        "source": "MangaFire"
+      }
+    ],
+    "MyAnimeList": [...]
+  },
+  "timestamp": "2025-09-19T10:30:00"
+}
+```
+
+#### Get Manga Details
+
+```
+GET /api/metadata/manga/{provider}/{manga_id}
+```
+
+Get details for a manga from a specific provider.
+
+**Example Response:**
+```json
+{
+  "id": "one-piece",
+  "title": "One Piece",
+  "alternative_titles": ["ワンピース", "Wan Pīsu"],
+  "cover_url": "https://example.com/cover.jpg",
+  "author": "Eiichiro Oda",
+  "status": "ONGOING",
+  "description": "The story follows the adventures of Monkey D. Luffy...",
+  "genres": ["Action", "Adventure", "Comedy", "Fantasy"],
+  "rating": "4.9",
+  "url": "https://mangafire.to/manga/one-piece",
+  "source": "MangaFire"
+}
+```
+
+#### Get Chapter List
+
+```
+GET /api/metadata/manga/{provider}/{manga_id}/chapters
+```
+
+Get the chapter list for a manga from a specific provider.
+
+**Example Response:**
+```json
+{
+  "chapters": [
+    {
+      "id": "chapter-1050",
+      "title": "Chapter 1050",
+      "number": "1050",
+      "date": "2025-09-15",
+      "url": "https://mangafire.to/manga/one-piece/chapter-1050",
+      "manga_id": "one-piece"
+    }
+  ]
+}
+```
+
+#### Get Chapter Images
+
+```
+GET /api/metadata/manga/{provider}/{manga_id}/chapter/{chapter_id}
+```
+
+Get the images for a chapter from a specific provider.
+
+**Example Response:**
+```json
+{
+  "images": [
+    "https://example.com/images/chapter-1050/1.jpg",
+    "https://example.com/images/chapter-1050/2.jpg"
+  ]
+}
+```
+
+#### Get Latest Releases
+
+```
+GET /api/metadata/latest
+```
+
+Get the latest manga releases from all enabled providers or a specific provider.
+
+**Query Parameters:**
+- `provider` (optional): The provider name
+- `page` (optional): The page number (default: 1)
+
+**Example Response:**
+```json
+{
+  "page": 1,
+  "results": {
+    "MangaFire": [
+      {
+        "manga_id": "one-piece",
+        "manga_title": "One Piece",
+        "cover_url": "https://example.com/cover.jpg",
+        "chapter": "Chapter 1050",
+        "chapter_id": "chapter-1050",
+        "date": "2025-09-15",
+        "url": "https://mangafire.to/manga/one-piece/chapter-1050",
+        "source": "MangaFire"
+      }
+    ],
+    "MyAnimeList": [...]
+  },
+  "timestamp": "2025-09-19T10:30:00"
+}
+```
+
+#### Get Metadata Providers
+
+```
+GET /api/metadata/providers
+```
+
+Get all metadata providers and their settings.
+
+**Example Response:**
+```json
+{
+  "providers": {
+    "MangaFire": {
+      "enabled": true,
+      "settings": {}
+    },
+    "MyAnimeList": {
+      "enabled": true,
+      "settings": {
+        "client_id": "your_client_id"
+      }
+    },
+    "MangaAPI": {
+      "enabled": true,
+      "settings": {
+        "api_url": "https://manga-api.fly.dev"
+      }
+    }
+  },
+  "timestamp": "2025-09-19T10:30:00"
+}
+```
+
+#### Update Metadata Provider
+
+```
+PUT /api/metadata/providers/{name}
+```
+
+Update a metadata provider's settings.
+
+**Request Body:**
+```json
+{
+  "enabled": true,
+  "settings": {
+    "client_id": "your_new_client_id"
+  }
+}
+```
+
+**Example Response:**
+```json
+{
+  "success": true,
+  "message": "Provider MyAnimeList updated successfully"
+}
+```
+
+#### Clear Metadata Cache
+
+```
+DELETE /api/metadata/cache
+```
+
+Clear the metadata cache.
+
+**Query Parameters:**
+- `provider` (optional): The provider name
+- `type` (optional): The cache type
+
+**Example Response:**
+```json
+{
+  "success": true,
+  "message": "Cache cleared successfully"
+}
+```
+
+#### Import Manga to Collection
+
+```
+POST /api/metadata/import/{provider}/{manga_id}
+```
+
+Import a manga from an external source to the collection.
+
+**Example Success Response:**
+```json
+{
+  "success": true,
+  "message": "Series added to collection with 50 chapters",
+  "series_id": 123
+}
+```
+
+**Example Already Exists Response:**
+```json
+{
+  "success": false,
+  "already_exists": true,
+  "message": "Series already exists in the collection",
+  "series_id": 123
+}
+```
+
+**Note:** When a series already exists in the collection, the API returns a 200 status code with `already_exists: true` instead of treating it as an error. This allows clients to handle this case gracefully and potentially show a link to the existing series.
 
 ## Error Handling
 
