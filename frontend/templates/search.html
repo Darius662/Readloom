@@ -242,7 +242,7 @@
             return `
                 <div class="col">
                     <div class="card h-100">
-                        <img src="${coverUrl}" class="card-img-top manga-cover" alt="${title}" onerror="this.src='/static/img/no-cover.png'">
+                        <img src="${coverUrl}" class="card-img-top manga-cover" alt="${title}" onerror="this.src='{{ url_for("ui.static", filename="img/no-cover.png") }}'">
                         <div class="card-body">
                             <h5 class="card-title text-truncate">${title}</h5>
                             <p class="card-text text-muted">${author}</p>

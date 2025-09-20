@@ -36,12 +36,12 @@ ENV/
 .DS_Store
 
 # MangaArr specific
-# data/
-# logs/
-# *.db
-# *.log
-# *.sqlite3
-# *.sqlite
+data/
+logs/
+*.db
+*.log
+*.sqlite3
+*.sqlite
 
 # Flask
 instance/

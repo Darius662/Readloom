@@ -11,11 +11,11 @@ import json
 from backend.base.logging import LOGGER
 from backend.internals.db import execute_query
 from .base import metadata_provider_manager
+from .mangafire import MangaFireProvider
 from .myanimelist import MyAnimeListProvider
 from .manga_api import MangaAPIProvider
 from .mangadex import MangaDexProvider
 from .jikan import JikanProvider
-from .vizmedia import VizMediaProvider
 
 
 def load_provider_settings() -> Dict[str, Any]:
@@ -42,9 +42,9 @@ def load_provider_settings() -> Dict[str, Any]:
             
             # Insert default settings
             default_providers = {
+                "MangaFire": {"enabled": 1, "settings": {}},
                 "MyAnimeList": {"enabled": 1, "settings": {"client_id": ""}},
-                "MangaAPI": {"enabled": 1, "settings": {"api_url": "https://manga-api.fly.dev"}},
-                "VizMedia": {"enabled": 1, "settings": {}}
+                "MangaAPI": {"enabled": 1, "settings": {"api_url": "https://manga-api.fly.dev"}}
             }
             
             for name, config in default_providers.items():
@@ -97,7 +97,10 @@ def initialize_providers() -> None:
         # Load provider settings
         settings = load_provider_settings()
         
-        # MangaFire provider has been removed
+        # Initialize MangaFire provider
+        mangafire_config = settings.get("MangaFire", {"enabled": False, "settings": {}})
+        mangafire_provider = MangaFireProvider(enabled=mangafire_config["enabled"])
+        metadata_provider_manager.register_provider(mangafire_provider)
         
         # Initialize MyAnimeList provider via direct API
         mal_config = settings.get("MyAnimeList", {"enabled": True, "settings": {"client_id": ""}})
@@ -124,11 +127,6 @@ def initialize_providers() -> None:
         jikan_config = settings.get("Jikan", {"enabled": True, "settings": {}})
         jikan_provider = JikanProvider(enabled=True)  # Enable by default
         metadata_provider_manager.register_provider(jikan_provider)
-        
-        # Initialize VizMedia provider
-        vizmedia_config = settings.get("VizMedia", {"enabled": True, "settings": {}})
-        vizmedia_provider = VizMediaProvider(enabled=vizmedia_config["enabled"])
-        metadata_provider_manager.register_provider(vizmedia_provider)
         
         LOGGER.info(f"Initialized {len(metadata_provider_manager.get_all_providers())} metadata providers")
     except Exception as e:

@@ -19,10 +19,7 @@ IMAGE_CONTENT_TYPES = [
     'image/png',
     'image/gif',
     'image/webp',
-    'image/svg+xml',
-    'image/jpg',  # Some servers use this non-standard MIME type
-    'application/octet-stream',  # Some CDNs use this for binary images
-    'binary/octet-stream'  # Another variant used by some CDNs
+    'image/svg+xml'
 ]
 
 @image_proxy_bp.route('/image', methods=['GET'])
@@ -48,17 +45,10 @@ def proxy_image():
         
         # Set up headers for the request
         headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-            'Accept': 'image/*,*/*;q=0.8',  # Accept more content types
+            'User-Agent': 'MangaArr/1.0.0 Image Proxy',
+            'Accept': 'image/*',
+            'Referer': 'https://mangadex.org/'  # Some sites check the referer
         }
-        
-        # Use a dynamic referer based on the domain
-        if 'mangadex.org' in image_url or 'uploads.mangadex.org' in image_url:
-            headers['Referer'] = 'https://mangadex.org/'
-        elif 'viz.com' in image_url or 'cloudfront.net' in image_url:
-            headers['Referer'] = 'https://www.viz.com/'
-        elif 'myanimelist.net' in image_url:
-            headers['Referer'] = 'https://myanimelist.net/'
         
         # Make the request to the external image
         response = requests.get(image_url, headers=headers, stream=True, timeout=10)
@@ -66,28 +56,11 @@ def proxy_image():
         
         # Check if the response is an image
         content_type = response.headers.get('Content-Type', '')
-        
-        # More lenient check for image content
         is_image = any(content_type.startswith(ct) for ct in IMAGE_CONTENT_TYPES)
         
-        # Special case for cloudfront.net and other CDNs that might return octet-stream
-        if not is_image and ('cloudfront.net' in image_url or 'viz.com' in image_url):
-            # If URL ends with common image extensions, consider it an image
-            image_extensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg']
-            if any(image_url.lower().endswith(ext) for ext in image_extensions):
-                is_image = True
-                logging.info(f"Accepting response as image based on file extension: {image_url}")
-        
         if not is_image:
-            # Log the issue but still try to return the content if URL looks like an image
-            logging.warning(f"Proxy requested possibly non-image content: {content_type} from {image_url}")
-            
-            # Last resort check - if URL looks like an image, try to return it anyway
-            if '.jpg' in image_url or '.jpeg' in image_url or '.png' in image_url:
-                logging.info(f"Attempting to return content as image despite content type: {image_url}")
-                is_image = True
-            else:
-                return Response('Not an image', status=400)
+            logging.warning(f"Proxy requested non-image content: {content_type} from {image_url}")
+            return Response('Not an image', status=400)
         
         # Create a response with the image data and appropriate headers
         proxied_response = Response(
@@ -96,7 +69,7 @@ def proxy_image():
         )
         
         # Copy relevant headers
-        for header in ['Content-Type', 'Content-Length', 'Cache-Control', 'Expires', 'ETag', 'Last-Modified']:
+        for header in ['Content-Type', 'Content-Length', 'Cache-Control', 'Expires']:
             if header in response.headers:
                 proxied_response.headers[header] = response.headers[header]
         
@@ -105,14 +78,7 @@ def proxy_image():
         
         # Add cache headers to improve performance
         if 'Cache-Control' not in proxied_response.headers:
-            # Use longer cache time for Viz Media and cloudfront images since they change less frequently
-            if 'cloudfront.net' in image_url or 'viz.com' in image_url:
-                proxied_response.headers['Cache-Control'] = 'public, max-age=2592000'  # Cache for 30 days
-            else:
-                proxied_response.headers['Cache-Control'] = 'public, max-age=86400'  # Cache for 24 hours
-        
-        # Add a Vary header to ensure proper caching
-        proxied_response.headers['Vary'] = 'Accept-Encoding'
+            proxied_response.headers['Cache-Control'] = 'public, max-age=86400'  # Cache for 24 hours
         
         return proxied_response
     

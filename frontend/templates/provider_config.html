@@ -133,6 +133,8 @@
                 configStatus = '<span class="badge bg-success">Configured</span>';
             } else if (name === 'MangaAPI' && provider.settings.api_url) {
                 configStatus = '<span class="badge bg-success">Configured</span>';
+            } else if (name === 'MangaFire') {
+                configStatus = '<span class="badge bg-success">Configured</span>';
             }
         }
         
@@ -167,6 +169,8 @@
     
     function getProviderDescription(name) {
         switch (name) {
+            case 'MangaFire':
+                return 'MangaFire is a manga aggregator that provides access to a wide range of manga titles.';
             case 'MyAnimeList':
                 return 'MyAnimeList (MAL) is a popular anime and manga database that requires a Client ID for API access.';
             case 'MangaAPI':
@@ -222,6 +226,12 @@
                                 <input type="text" class="form-control" id="apiUrl" name="apiUrl" 
                                        value="${provider.settings.api_url || 'https://manga-api.fly.dev'}" 
                                        placeholder="Enter the Manga-API URL">
+                            </div>
+                        `);
+                    } else if (providerName === 'MangaFire') {
+                        $('#settingsFields').append(`
+                            <div class="alert alert-info">
+                                MangaFire doesn't require any additional configuration.
                             </div>
                         `);
                     }

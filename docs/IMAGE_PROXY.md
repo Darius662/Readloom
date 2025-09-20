@@ -6,18 +6,17 @@ This document describes the implementation of the image proxy solution for displ
 
 ## Problem
 
-External cover images from sources like MangaDex and Viz Media were not displaying properly due to several issues:
+External cover images from sources like MangaDex were not displaying properly due to several issues:
 
 1. **CORS Restrictions**: Browsers block loading of images from external domains due to security restrictions
-2. **Incorrect URL Construction**: The URL format for external covers was not being constructed correctly
+2. **Incorrect URL Construction**: The URL format for MangaDex covers was not being constructed correctly
 3. **Missing Fallback Images**: Empty fallback image files resulted in no image being displayed when loading failed
-4. **CDN Issues**: Some CDNs like Viz Media's Cloudfront require specific headers and handling
 
 ## Solution Components
 
 ### 1. Image Proxy Service
 
-We implemented a Flask blueprint in `frontend/image_proxy.py` that provides a proxy endpoint for fetching external images with enhanced features:
+We implemented a Flask blueprint in `frontend/image_proxy.py` that provides a proxy endpoint for fetching external images:
 
 ```python
 @image_proxy_bp.route('/image', methods=['GET'])
@@ -35,25 +34,8 @@ def proxy_image():
         # URL might be URL-encoded, decode it
         image_url = unquote(image_url)
         
-        # Set up headers for the request with domain-specific handling
-        headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-            'Accept': 'image/*,*/*;q=0.8',  # Accept more content types
-        }
-        
-        # Use a dynamic referer based on the domain
-        if 'mangadex.org' in image_url:
-            headers['Referer'] = 'https://mangadex.org/'
-        elif 'viz.com' in image_url or 'cloudfront.net' in image_url:
-            headers['Referer'] = 'https://www.viz.com/'
-        elif 'myanimelist.net' in image_url:
-            headers['Referer'] = 'https://myanimelist.net/'
-        
         # Make the request to the external image
         response = requests.get(image_url, headers=headers, stream=True, timeout=10)
-        
-        # Handle various content types including non-standard ones from CDNs
-        # Includes special handling for CloudFront CDN used by Viz Media
         
         # Create a response with the image data and appropriate headers
         proxied_response = Response(
@@ -63,12 +45,6 @@ def proxy_image():
         
         # Add CORS headers
         proxied_response.headers['Access-Control-Allow-Origin'] = '*'
-        
-        # Add smart caching based on domain
-        if 'cloudfront.net' in image_url or 'viz.com' in image_url:
-            proxied_response.headers['Cache-Control'] = 'public, max-age=2592000'  # 30 days
-        else:
-            proxied_response.headers['Cache-Control'] = 'public, max-age=86400'  # 24 hours
         
         return proxied_response
     
@@ -193,9 +169,6 @@ The fix ensures that Flask generates the correct URL for the static file based o
 - **Centralized processing**: One function to handle all image URL processing
 - **Improved caching**: Server can add appropriate cache headers to improve performance
 - **Blueprint compatibility**: Works correctly with Flask's blueprint system
-- **CDN Support**: Special handling for CDN-hosted images (like Viz Media's Cloudfront)
-- **Smart headers**: Uses domain-specific referer headers to avoid blocking
-- **Content type flexibility**: Accepts various content types used by different image sources
 
 ## Testing
 
