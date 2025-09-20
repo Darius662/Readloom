@@ -7,7 +7,7 @@ This module provides services for searching and fetching manga metadata from ext
 """
 
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Dict, List, Any, Optional, Union
 
 from backend.base.logging import LOGGER
@@ -509,7 +509,8 @@ def import_manga_to_collection(manga_id: str, provider: str) -> Dict[str, Any]:
         
         # Insert volumes if available
         volumes = {}
-        if "volumes" in manga_details:
+        if "volumes" in manga_details and isinstance(manga_details["volumes"], list) and manga_details["volumes"]:
+            LOGGER.info(f"Importing {len(manga_details['volumes'])} volumes from {provider}")
             for volume in manga_details["volumes"]:
                 try:
                     # Get a direct connection to execute the insert and get the last row ID
@@ -555,6 +556,22 @@ def import_manga_to_collection(manga_id: str, provider: str) -> Dict[str, Any]:
             # Get volume ID if available
             volume_id = volumes.get(volume_number, None)
             
+            # Get release date - prioritize standardized format
+            chapter_date = chapter.get("date", "") or chapter.get("release_date", "")
+            
+            # Log chapter data for debugging
+            LOGGER.info(f"Importing chapter: {chapter.get('number', 'Unknown')} with date {chapter_date}")
+            
+            # Validate the date format
+            if chapter_date:
+                try:
+                    # Try to parse the date to verify format
+                    test_date = datetime.fromisoformat(chapter_date)
+                    # It's valid, keep it
+                except (ValueError, TypeError):
+                    # Invalid format, log warning but continue with the date
+                    LOGGER.warning(f"Potentially invalid date format: {chapter_date} for chapter {chapter.get('number', 'Unknown')}")
+            
             execute_query(
                 """
                 INSERT INTO chapters (
@@ -567,7 +584,7 @@ def import_manga_to_collection(manga_id: str, provider: str) -> Dict[str, Any]:
                     chapter.get("number", "0") or "0",  # Ensure chapter_number is never null
                     chapter.get("title", f"Chapter {chapter.get('number', '0') or '0'}"),
                     "",
-                    chapter.get("date", "") or chapter.get("release_date", ""),
+                    chapter_date,  # Use our validated date
                     "ANNOUNCED",
                     "UNREAD"
                 )

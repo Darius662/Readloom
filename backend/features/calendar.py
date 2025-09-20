@@ -36,10 +36,15 @@ def update_calendar() -> None:
                 try:
                     release_date = datetime.fromisoformat(volume["release_date"])
                     
-                    # Include all dates for testing purposes
-                    # now = datetime.now()
-                    # if now - timedelta(days=7) <= release_date <= now + timedelta(days=settings.calendar_range_days):
-                    if True:  # Include all dates
+                    # Only include releases in the next 7 days
+                    now = datetime.now()
+                    upcoming_days = 7  # Only show releases in the next 7 days
+                    
+                    # Only show if it's in the next week
+                    is_upcoming = release_date >= now and release_date <= now + timedelta(days=upcoming_days)
+                    
+                    # If it's an upcoming release in the next 7 days, add it to the calendar
+                    if is_upcoming:
                         # Check if this event already exists
                         existing = execute_query(
                             """
@@ -74,7 +79,8 @@ def update_calendar() -> None:
             # Check for upcoming chapter releases
             chapters = execute_query(
                 """
-                SELECT id, chapter_number, title, release_date 
+                SELECT id, chapter_number, title, release_date,
+                       CASE WHEN release_date >= date('now') AND release_date <= date('now', '+7 day') THEN 1 ELSE 0 END as is_upcoming
                 FROM chapters 
                 WHERE series_id = ? AND release_date IS NOT NULL
                 """,
@@ -83,12 +89,29 @@ def update_calendar() -> None:
             
             for chapter in chapters:
                 try:
-                    release_date = datetime.fromisoformat(chapter["release_date"])
+                    # Debug logging
+                    LOGGER.info(f"Processing chapter: {chapter.get('id')} - {chapter.get('chapter_number')} - {chapter.get('title')} - Date: {chapter.get('release_date')}")
                     
-                    # Include all dates for testing purposes
-                    # now = datetime.now()
-                    # if now - timedelta(days=7) <= release_date <= now + timedelta(days=settings.calendar_range_days):
-                    if True:  # Include all dates
+                    # Check if release_date is valid
+                    if not chapter.get("release_date"):
+                        LOGGER.warning(f"Missing release date for chapter {chapter.get('chapter_number')} in series {series_id}")
+                        continue
+                    
+                    try:
+                        release_date = datetime.fromisoformat(chapter["release_date"])
+                    except ValueError:
+                        LOGGER.warning(f"Invalid date format for chapter {chapter.get('chapter_number')}: {chapter.get('release_date')}")
+                        continue
+                    
+                    # Only include releases in the next 7 days
+                    now = datetime.now()
+                    upcoming_days = 7  # Only show releases in the next 7 days
+                    
+                    # Only show if it's in the next week
+                    is_upcoming = release_date >= now and release_date <= now + timedelta(days=upcoming_days)
+                    
+                    # If it's an upcoming release in the next 7 days, add it to the calendar
+                    if is_upcoming:
                         # Check if this event already exists
                         existing = execute_query(
                             """
@@ -100,6 +123,11 @@ def update_calendar() -> None:
                         
                         if not existing:
                             # Create new calendar event
+                            event_title = f"Chapter {chapter['chapter_number']} - {series['title']}"
+                            event_desc = f"Release of chapter {chapter['chapter_number']}: {chapter['title']}"
+                            
+                            LOGGER.info(f"Adding calendar event: {event_title} on {chapter['release_date']}")
+                            
                             execute_query(
                                 """
                                 INSERT INTO calendar_events 
@@ -109,8 +137,8 @@ def update_calendar() -> None:
                                 (
                                     series_id,
                                     chapter["id"],
-                                    f"Chapter {chapter['chapter_number']} - {series['title']}",
-                                    f"Release of chapter {chapter['chapter_number']}: {chapter['title']}",
+                                    event_title,
+                                    event_desc,
                                     chapter["release_date"],
                                     "CHAPTER_RELEASE"
                                 ),

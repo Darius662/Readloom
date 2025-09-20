@@ -6,7 +6,8 @@ MangaArr is a manga, manwa, and comics collection manager with a focus on releas
 
 ## Features
 
-- **Enhanced Release Calendar**: Interactive calendar showing all manga/comic releases
+- **Enhanced Release Calendar**: Interactive calendar showing manga/comic releases
+  - Sonarr/Radarr-like calendar showing only upcoming confirmed releases
   - Complete historical and future release date tracking
   - Filter options for manga/comics by type and series
   - Different view modes (month, week, list)
@@ -18,9 +19,10 @@ MangaArr is a manga, manwa, and comics collection manager with a focus on releas
   - Collection statistics and visualizations
   - Import/export functionality
 - **External Source Integration**: Connect to popular manga sources
-  - MangaFire integration for searching and importing manga
+  - AniList integration with intelligent release date prediction
   - MyAnimeList (MAL) integration for metadata and searching
-  - Manga-API integration for additional manga sources
+  - MangaDex integration for searching and importing manga
+  - Multi-source accurate chapter counting system
   - Search interface for finding manga across multiple sources
 - **Monitoring System**: Stay updated on upcoming releases
   - Notification system for upcoming releases
@@ -85,10 +87,14 @@ MangaArr stores its configuration in a SQLite database. You can modify settings 
 
 ### Calendar Settings
 
-- `calendar_range_days`: Default number of days to show in the calendar view (default: 14)
+- `calendar_range_days`: Default number of days to show in the calendar view (default: 7)
   - Note: This only affects the initial calendar view. The calendar system stores and can display events from any date range.
+  - Only upcoming releases in the next 7 days will be displayed by default.
 - `calendar_refresh_hours`: How often to automatically refresh the calendar (default: 12)
   - The calendar is also automatically updated when importing new manga or modifying release dates.
+- `calendar_confirmation_mode`: Controls which releases show in the calendar (default: true)
+  - When enabled, only confirmed releases appear in the calendar (Sonarr/Radarr-like behavior).
+  - When disabled, all predicted releases appear in the calendar.
 
 ### Command Line Arguments
 

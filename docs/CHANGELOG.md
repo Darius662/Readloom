@@ -5,6 +5,30 @@ All notable changes to MangaArr will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.5] - 2025-09-20
+
+### Added
+- Added AniList API integration as a new metadata provider
+  - Complete manga search functionality
+  - Detailed manga information retrieval
+  - Chapter list generation with release dates
+  - Support for manga recommendations
+- Implemented intelligent publication schedule detection
+  - Different manga types follow their actual publication patterns
+  - Weekly Shonen Jump titles release on Mondays
+  - Monthly seinen magazines release on Thursdays
+  - Korean manhwa release on Wednesdays
+- Multi-source accurate chapter counting system
+  - Web scraping for hard-to-find chapter counts
+  - Static database of popular manga series with accurate counts
+  - Smart chapter count estimation for unknown series
+  - Adaptive release date generation based on publication schedules
+- Added confirmed release flags for Sonarr/Radarr-like calendar
+  - Calendar now only shows upcoming releases within 7 days
+  - Past chapters marked as confirmed historical data
+  - Future predicted chapters marked as unconfirmed
+  - Better display of release patterns
+
 ## [0.0.4] - 2025-09-20
 
 ### Added
