@@ -510,7 +510,7 @@
                                 colImg.className = 'col-auto';
                                 
                                 const img = document.createElement('img');
-                                img.src = event.series.cover_url || '/static/img/no-cover.png';
+                                img.src = processImageUrl(event.series.cover_url);
                                 img.alt = 'Cover';
                                 img.className = 'img-thumbnail';
                                 img.style.width = '40px';
@@ -588,7 +588,7 @@
                             card.dataset.seriesId = subscription.series_id;
                             
                             const img = document.createElement('img');
-                            img.src = subscription.series_cover_url || '/static/img/no-cover.png';
+                            img.src = processImageUrl(subscription.series_cover_url);
                             img.alt = 'Cover';
                             img.className = 'subscription-cover';
                             

@@ -333,6 +333,28 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Custom JS -->
     <script src="{{ url_for('ui.static', filename='js/main.js') }}"></script>
+    <!-- Image Utilities -->
+    <script>
+    /**
+     * Process an image URL to use the proxy for external images
+     * @param {string} url - The original image URL
+     * @returns {string} - The processed URL, using proxy if needed
+     */
+    function processImageUrl(url) {
+        // If no URL provided, use the fallback
+        if (!url) {
+            return '{{ url_for("ui.static", filename="img/no-cover.png") }}';
+        }
+        
+        // If URL is already relative, just return it
+        if (!url.startsWith('http')) {
+            return url;
+        }
+        
+        // Use the proxy for external URLs
+        return `/api/proxy/image?url=${encodeURIComponent(url)}`;
+    }
+    </script>
     <script>
         $(document).ready(function() {
             // Toggle sidebar

@@ -231,14 +231,18 @@
         
         // Create manga card
         function createMangaCard(manga, providerName) {
-            const coverUrl = manga.cover_url || '/static/img/no-cover.png';
+            // Process cover URL - use proxy for external images
+            let coverUrl = manga.cover_url || '{{ url_for("ui.static", filename="img/no-cover.png") }}';
+            if (coverUrl && coverUrl.startsWith('http')) {
+                coverUrl = `/api/proxy/image?url=${encodeURIComponent(coverUrl)}`;
+            }
             const title = manga.title || 'Unknown Title';
             const author = manga.author || 'Unknown Author';
             
             return `
                 <div class="col">
                     <div class="card h-100">
-                        <img src="${coverUrl}" class="card-img-top manga-cover" alt="${title}" onerror="this.src='/static/img/no-cover.png'">
+                        <img src="${coverUrl}" class="card-img-top manga-cover" alt="${title}" onerror="this.src='{{ url_for("ui.static", filename="img/no-cover.png") }}'">
                         <div class="card-body">
                             <h5 class="card-title text-truncate">${title}</h5>
                             <p class="card-text text-muted">${author}</p>
@@ -266,7 +270,7 @@
             
             // Reset modal
             $('#modalTitle').text('Loading...');
-            $('#modalCover').attr('src', '/static/img/no-cover.png');
+            $('#modalCover').attr('src', '{{ url_for("ui.static", filename="img/no-cover.png") }}');
             $('#modalAltTitles').empty();
             $('#modalStatus').text('');
             $('#modalSource').text(provider);
@@ -291,7 +295,12 @@
                 success: function(data) {
                     // Update modal with manga details
                     $('#modalTitle').text(data.title || 'Unknown Title');
-                    $('#modalCover').attr('src', data.cover_url || '/static/img/no-cover.png');
+                    // Use image proxy for external images in modal
+            let modalCoverUrl = data.cover_url || '{{ url_for("ui.static", filename="img/no-cover.png") }}';
+            if (modalCoverUrl && modalCoverUrl.startsWith('http')) {
+                modalCoverUrl = `/api/proxy/image?url=${encodeURIComponent(modalCoverUrl)}`;
+            }
+            $('#modalCover').attr('src', modalCoverUrl);
                     
                     // Alternative titles
                     if (data.alternative_titles && data.alternative_titles.length > 0) {

@@ -96,12 +96,14 @@ def run_app():
         
         # Register blueprints
         from frontend.api import api_bp
-        from frontend.api_metadata import metadata_api_bp
+        from frontend.api_metadata_fixed import metadata_api_bp
         from frontend.ui import ui_bp
+        from frontend.image_proxy import image_proxy_bp
         
         app.register_blueprint(api_bp)
         app.register_blueprint(metadata_api_bp, url_prefix='/api/metadata')
         app.register_blueprint(ui_bp)
+        app.register_blueprint(image_proxy_bp)
         
         LOGGER.info("Application initialized successfully")
         print("\nOpen your browser and navigate to http://127.0.0.1:7227/ to view the application")

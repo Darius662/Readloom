@@ -387,7 +387,7 @@
                 document.getElementById('event-series-title').textContent = eventData.series.title;
                 document.querySelector('#event-series-author span').textContent = eventData.series.author || 'Unknown';
                 document.querySelector('#event-series-publisher span').textContent = eventData.series.publisher || 'Unknown';
-                document.getElementById('event-cover').src = eventData.series.cover_url || '/static/img/no-cover.png';
+                document.getElementById('event-cover').src = processImageUrl(eventData.series.cover_url);
                 document.getElementById('event-series-link').href = `/series/${eventData.series.id}`;
                 
                 // Set volume/chapter specific details

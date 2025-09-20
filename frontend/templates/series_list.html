@@ -137,7 +137,7 @@
                     <div class="col-md-3 mb-4">
                         <div class="card h-100">
                             <div class="position-relative">
-                                <img src="${series.cover_url || '/static/img/no-cover.png'}" class="card-img-top" alt="${series.title}" style="height: 200px; object-fit: cover;">
+                                <img src="${processImageUrl(series.cover_url)}" class="card-img-top" alt="${series.title}" style="height: 200px; object-fit: cover;">
                                 <div class="position-absolute top-0 end-0 p-2">
                                     <div class="dropdown">
                                         <button class="btn btn-sm btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
