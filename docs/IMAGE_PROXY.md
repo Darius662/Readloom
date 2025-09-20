@@ -60,7 +60,7 @@ We created a utility JavaScript function in `frontend/static/js/image-utils.js` 
 function processImageUrl(url) {
     // If no URL provided, use the fallback
     if (!url) {
-        return '/static/img/no-cover.png';
+        return '{{ url_for("ui.static", filename="img/no-cover.png") }}';
     }
     
     // If URL is already relative, just return it
@@ -144,12 +144,31 @@ To use the image proxy in templates:
    <img src="${imageUrl}" alt="Cover Image">
    ```
 
+## Important Note on Fallback Images
+
+When using Flask blueprints with static files, it's important to use the correct URL path for static resources. In our implementation, we initially encountered 404 errors when trying to load the fallback image because we were using an incorrect path.
+
+### Initial Issue:
+```javascript
+// Incorrect path - causes 404 errors
+return '/static/img/no-cover.png';
+```
+
+### Fixed Implementation:
+```javascript
+// Correct path using Flask's url_for function
+return '{{ url_for("ui.static", filename="img/no-cover.png") }}';
+```
+
+The fix ensures that Flask generates the correct URL for the static file based on how the blueprint is registered, which prevents 404 errors and ensures the fallback image is always available.
+
 ## Benefits
 
 - **Avoids CORS issues**: Images are fetched through the server, bypassing browser security restrictions
 - **Consistent fallback**: Uses a standardized fallback image when loading fails
 - **Centralized processing**: One function to handle all image URL processing
 - **Improved caching**: Server can add appropriate cache headers to improve performance
+- **Blueprint compatibility**: Works correctly with Flask's blueprint system
 
 ## Testing
 

@@ -43,6 +43,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added image proxy to handle CORS issues with external images
 - Updated all templates (search, series list, series details, collection, dashboard) to use image proxy
 - Embedded image proxy utility function directly in base template for global availability
+- Fixed fallback image paths to work correctly with Flask blueprint system
 
 ## [0.0.3] - 2025-09-19
 
