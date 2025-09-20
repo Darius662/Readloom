@@ -11,7 +11,7 @@ from datetime import datetime
 from typing import Dict, List, Any, Optional, Union
 
 from backend.base.logging import LOGGER
-from backend.internals.db import execute_query
+from backend.internals.db import execute_query, get_db_connection
 from backend.features.metadata_providers.base import metadata_provider_manager
 from backend.features.metadata_providers.setup import initialize_providers, get_provider_settings, update_provider_settings
 
@@ -116,7 +116,7 @@ def get_manga_details(manga_id: str, provider: str) -> Dict[str, Any]:
         return {"error": str(e)}
 
 
-def get_chapter_list(manga_id: str, provider: str) -> Dict[str, Any]:
+def get_chapter_list(manga_id: str, provider: str) -> Union[List[Dict[str, Any]], Dict[str, Any]]:
     """Get the chapter list for a manga.
     
     Args:
@@ -124,34 +124,45 @@ def get_chapter_list(manga_id: str, provider: str) -> Dict[str, Any]:
         provider: The provider name.
         
     Returns:
-        A dictionary containing chapter list.
+        A list of chapters or a dictionary with error information.
     """
     try:
-        # Check cache first
-        cache_key = f"{provider}_{manga_id}"
-        cached_data = get_from_cache(cache_key, "chapter_list")
+        # Check if we have a cached version
+        cache_key = f"{provider}_{manga_id}_chapters"
+        cached = get_from_cache(cache_key, "chapters")
+        if cached:
+            return cached
         
-        if cached_data:
-            return {"chapters": cached_data}
-        
-        # Get from provider if not in cache
+        # Get the provider instance
         provider_instance = metadata_provider_manager.get_provider(provider)
         if not provider_instance:
-            return {"error": f"Provider not found: {provider}"}
+            return {"error": f"Provider not found: {provider}", "chapters": []}
         
         if not provider_instance.enabled:
-            return {"error": f"Provider is disabled: {provider}"}
+            return {"error": f"Provider is disabled: {provider}", "chapters": []}
         
+        # Get chapter list from provider
         chapters = provider_instance.get_chapter_list(manga_id)
         
-        if chapters:
-            # Add to cache
-            save_to_cache(cache_key, "chapter_list", chapters)
+        # Handle different return types
+        if isinstance(chapters, dict):
+            # Already in the right format
+            result = chapters
+        elif isinstance(chapters, list):
+            # Convert list to dict format
+            result = {"chapters": chapters}
+        else:
+            # Handle unexpected return type
+            LOGGER.error(f"Unexpected return type from get_chapter_list: {type(chapters)}")
+            result = {"error": f"Unexpected return type: {type(chapters)}", "chapters": []}
         
-        return {"chapters": chapters}
+        # Cache the results
+        save_to_cache(cache_key, "chapters", result)
+        
+        return result
     except Exception as e:
         LOGGER.error(f"Error getting chapter list: {e}")
-        return {"error": str(e)}
+        return {"error": str(e), "chapters": []}
 
 
 def get_chapter_images(manga_id: str, chapter_id: str, provider: str) -> Dict[str, Any]:
@@ -436,29 +447,60 @@ def import_manga_to_collection(manga_id: str, provider: str) -> Dict[str, Any]:
             }
         
         # Insert the series
-        series_id = execute_query(
-            """
-            INSERT INTO series (
-                title, description, author, publisher, cover_url, status, metadata_source, metadata_id
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-            RETURNING id
-            """,
-            (
-                manga_details.get("title", "Unknown"),
-                manga_details.get("description", ""),
-                manga_details.get("author", "Unknown"),
-                manga_details.get("publisher", "Unknown"),
-                manga_details.get("cover_url", ""),
-                manga_details.get("status", "ONGOING"),
-                provider,
-                manga_id
+        try:
+            # Get a direct connection to execute the insert and get the last row ID
+            conn = get_db_connection()
+            cursor = conn.cursor()
+            cursor.execute(
+                """
+                INSERT INTO series (
+                    title, description, author, publisher, cover_url, status, metadata_source, metadata_id
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    manga_details.get("title", "Unknown"),
+                    manga_details.get("description", ""),
+                    manga_details.get("author", "Unknown"),
+                    manga_details.get("publisher", "Unknown"),
+                    manga_details.get("cover_url", ""),
+                    manga_details.get("status", "ONGOING"),
+                    provider,
+                    manga_id
+                )
             )
-        )[0]["id"]
+            conn.commit()
+            
+            # Get the ID of the last inserted row
+            series_id = cursor.lastrowid
+            
+            if not series_id:
+                return {
+                    "success": False,
+                    "message": "Failed to insert series into database"
+                }
+        except Exception as e:
+            LOGGER.error(f"Error inserting series: {e}")
+            return {
+                "success": False,
+                "message": f"Database error: {str(e)}"
+            }
         
         # Get chapter list
-        chapter_list = get_chapter_list(manga_id, provider)
+        chapter_list_result = get_chapter_list(manga_id, provider)
         
-        if "error" in chapter_list:
+        # Handle different return types (for backward compatibility)
+        if isinstance(chapter_list_result, dict):
+            if "error" in chapter_list_result:
+                return {
+                    "success": True,
+                    "message": "Series added to collection, but failed to import chapters",
+                    "series_id": series_id
+                }
+            chapter_list = chapter_list_result.get("chapters", [])
+        elif isinstance(chapter_list_result, list):
+            chapter_list = chapter_list_result
+        else:
+            # If it's neither a dict nor a list, assume it's an error
             return {
                 "success": True,
                 "message": "Series added to collection, but failed to import chapters",
@@ -469,28 +511,38 @@ def import_manga_to_collection(manga_id: str, provider: str) -> Dict[str, Any]:
         volumes = {}
         if "volumes" in manga_details:
             for volume in manga_details["volumes"]:
-                volume_id = execute_query(
-                    """
-                    INSERT INTO volumes (
-                        series_id, volume_number, title, description, cover_url, release_date
-                    ) VALUES (?, ?, ?, ?, ?, ?)
-                    RETURNING id
-                    """,
-                    (
-                        series_id,
-                        volume.get("number", "0"),
-                        volume.get("title", f"Volume {volume.get('number', '0')}"),
-                        volume.get("description", ""),
-                        volume.get("cover_url", ""),
-                        volume.get("release_date", "")
+                try:
+                    # Get a direct connection to execute the insert and get the last row ID
+                    conn = get_db_connection()
+                    cursor = conn.cursor()
+                    cursor.execute(
+                        """
+                        INSERT INTO volumes (
+                            series_id, volume_number, title, description, cover_url, release_date
+                        ) VALUES (?, ?, ?, ?, ?, ?)
+                        """,
+                        (
+                            series_id,
+                            volume.get("number", "0"),
+                            volume.get("title", f"Volume {volume.get('number', '0')}"),
+                            volume.get("description", ""),
+                            volume.get("cover_url", ""),
+                            volume.get("release_date", "") or volume.get("date", "")
+                        )
                     )
-                )[0]["id"]
-                
-                volumes[volume.get("number", "0")] = volume_id
+                    conn.commit()
+                    
+                    # Get the ID of the last inserted row
+                    volume_id = cursor.lastrowid
+                    
+                    if volume_id:
+                        volumes[volume.get("number", "0")] = volume_id
+                except Exception as e:
+                    LOGGER.error(f"Error inserting volume: {e}")
         
         # Insert chapters
         chapters_added = 0
-        for chapter in chapter_list.get("chapters", []):
+        for chapter in chapter_list:
             # Try to determine volume number from chapter number
             volume_number = "0"
             if "number" in chapter:
@@ -512,10 +564,10 @@ def import_manga_to_collection(manga_id: str, provider: str) -> Dict[str, Any]:
                 (
                     series_id,
                     volume_id,
-                    chapter.get("number", "0"),
-                    chapter.get("title", f"Chapter {chapter.get('number', '0')}"),
+                    chapter.get("number", "0") or "0",  # Ensure chapter_number is never null
+                    chapter.get("title", f"Chapter {chapter.get('number', '0') or '0'}"),
                     "",
-                    chapter.get("date", ""),
+                    chapter.get("date", "") or chapter.get("release_date", ""),
                     "ANNOUNCED",
                     "UNREAD"
                 )

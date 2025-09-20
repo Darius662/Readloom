@@ -361,12 +361,14 @@ Deletes a chapter.
 GET /api/calendar
 ```
 
-Returns calendar events within a specified date range.
+Returns calendar events within a specified date range. The calendar shows all release dates for manga in your collection, with no date range restrictions.
 
 **Query Parameters:**
 - `start_date` (optional): Start date in YYYY-MM-DD format
 - `end_date` (optional): End date in YYYY-MM-DD format
 - `series_id` (optional): Filter events by series ID
+
+**Note:** While the calendar API accepts date range parameters for pagination and display purposes, it stores and can show all release dates without any date restrictions. Historical release dates and future releases are all preserved.
 
 **Example Response:**
 ```json
@@ -432,6 +434,9 @@ Returns all application settings.
   "calendar_refresh_hours": 12,
   "task_interval_minutes": 60
 }
+```
+
+**Note:** While `calendar_range_days` sets a default display range for the calendar UI, the calendar system stores and can display events from any date range. This setting primarily affects the initial view in the UI.
 ```
 
 #### Update Settings
@@ -1250,7 +1255,7 @@ POST /api/metadata/import/{provider}/{manga_id}
 
 Import a manga from an external source to the collection.
 
-**Example Response:**
+**Example Success Response:**
 ```json
 {
   "success": true,
@@ -1258,6 +1263,18 @@ Import a manga from an external source to the collection.
   "series_id": 123
 }
 ```
+
+**Example Already Exists Response:**
+```json
+{
+  "success": false,
+  "already_exists": true,
+  "message": "Series already exists in the collection",
+  "series_id": 123
+}
+```
+
+**Note:** When a series already exists in the collection, the API returns a 200 status code with `already_exists: true` instead of treating it as an error. This allows clients to handle this case gracefully and potentially show a link to the existing series.
 
 ## Error Handling
 

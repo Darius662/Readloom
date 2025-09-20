@@ -223,7 +223,21 @@ def api_import_manga(provider, manga_id):
         result = import_manga_to_collection(manga_id, provider)
         
         if not result.get("success", False):
+            # Check if it's because the series already exists
+            if "already exists" in result.get("message", "").lower():
+                # Return a 200 status with the series_id for the UI to handle gracefully
+                return jsonify({
+                    "success": False,
+                    "already_exists": True,
+                    "message": result.get("message", "Series already exists in the collection"),
+                    "series_id": result.get("series_id")
+                }), 200
+            # Otherwise it's a real error
             return jsonify(result), 400
+        
+        # Update the calendar to include the newly imported manga's release dates
+        from backend.features.calendar import update_calendar
+        update_calendar()
         
         return jsonify(result)
     except Exception as e:

@@ -1,138 +1,412 @@
-2025-09-19 14:35:25,516 - MangaArr - INFO - Settings table created or verified
-2025-09-19 14:35:55,154 - MangaArr - INFO - Settings table created or verified
-2025-09-19 14:35:55,303 - MangaArr - INFO - Settings table created or verified
-2025-09-19 14:35:56,943 - MangaArr - INFO - Settings table created or verified
-2025-09-19 14:36:00,059 - MangaArr - INFO - Settings table created or verified
-2025-09-19 14:36:00,206 - MangaArr - INFO - Settings table created or verified
-2025-09-19 14:36:01,670 - MangaArr - INFO - Settings table created or verified
-2025-09-19 14:37:23,842 - MangaArr - INFO - Logging to data\logs\mangarr.log
-2025-09-19 14:37:23,842 - MangaArr - INFO - Starting MangaArr in development mode
-2025-09-19 14:37:23,842 - MangaArr - INFO - Settings table created or verified
-2025-09-19 14:37:23,843 - MangaArr - INFO - Settings initialized
-2025-09-19 14:37:23,942 - MangaArr - INFO - Registered metadata provider: MangaFire
-2025-09-19 14:37:23,942 - MangaArr - INFO - Registered metadata provider: MyAnimeList
-2025-09-19 14:37:23,943 - MangaArr - INFO - Registered metadata provider: MangaAPI
-2025-09-19 14:37:23,943 - MangaArr - INFO - Initialized 3 metadata providers
-2025-09-19 14:37:23,943 - MangaArr - INFO - Metadata service initialized
-2025-09-19 14:37:23,946 - MangaArr - INFO - Registered metadata provider: MangaFire
-2025-09-19 14:37:23,946 - MangaArr - INFO - Registered metadata provider: MyAnimeList
-2025-09-19 14:37:23,946 - MangaArr - INFO - Registered metadata provider: MangaAPI
-2025-09-19 14:37:23,947 - MangaArr - INFO - Initialized 3 metadata providers
-2025-09-19 14:37:23,947 - MangaArr - INFO - Metadata service initialized
-2025-09-19 14:37:23,970 - MangaArr - INFO - Application initialized successfully
-2025-09-19 14:37:24,290 - MangaArr - INFO - Logging to data\logs\mangarr.log
-2025-09-19 14:37:24,291 - MangaArr - INFO - Starting MangaArr in development mode
-2025-09-19 14:37:24,291 - MangaArr - INFO - Settings table created or verified
-2025-09-19 14:37:24,291 - MangaArr - INFO - Settings initialized
-2025-09-19 14:37:24,393 - MangaArr - INFO - Registered metadata provider: MangaFire
-2025-09-19 14:37:24,393 - MangaArr - INFO - Registered metadata provider: MyAnimeList
-2025-09-19 14:37:24,393 - MangaArr - INFO - Registered metadata provider: MangaAPI
-2025-09-19 14:37:24,394 - MangaArr - INFO - Initialized 3 metadata providers
-2025-09-19 14:37:24,394 - MangaArr - INFO - Metadata service initialized
-2025-09-19 14:37:24,397 - MangaArr - INFO - Registered metadata provider: MangaFire
-2025-09-19 14:37:24,397 - MangaArr - INFO - Registered metadata provider: MyAnimeList
-2025-09-19 14:37:24,398 - MangaArr - INFO - Registered metadata provider: MangaAPI
-2025-09-19 14:37:24,398 - MangaArr - INFO - Initialized 3 metadata providers
-2025-09-19 14:37:24,398 - MangaArr - INFO - Metadata service initialized
-2025-09-19 14:37:24,417 - MangaArr - INFO - Application initialized successfully
-2025-09-19 14:37:29,847 - MangaArr - INFO - Settings table created or verified
-2025-09-19 14:37:31,042 - MangaArr - INFO - Settings table created or verified
-2025-09-19 14:37:33,410 - MangaArr - INFO - Settings table created or verified
-2025-09-19 14:37:35,140 - MangaArr - INFO - Settings table created or verified
-2025-09-19 14:37:41,224 - MangaArr - INFO - Settings table created or verified
-2025-09-19 14:37:43,844 - MangaArr - INFO - Settings table created or verified
-2025-09-19 14:37:45,697 - MangaArr - INFO - Settings table created or verified
-2025-09-19 14:38:50,465 - MangaArr - INFO - Settings table created or verified
-2025-09-19 14:38:50,641 - MangaArr - INFO - Settings table created or verified
-2025-09-19 14:38:53,771 - MangaArr - INFO - Settings table created or verified
-2025-09-19 14:38:53,775 - MangaArr - INFO - Updated setting log_level to DEBUG
-2025-09-19 14:38:53,778 - MangaArr - INFO - Updated setting log_rotation to 5
-2025-09-19 14:38:53,781 - MangaArr - INFO - Updated setting log_size to 10
-2025-09-19 14:38:57,787 - MangaArr - INFO - Settings table created or verified
-2025-09-19 14:39:26,697 - MangaArr - INFO - Settings table created or verified
-2025-09-19 14:39:59,416 - MangaArr - INFO - Settings table created or verified
-2025-09-19 14:39:59,613 - MangaArr - INFO - Settings table created or verified
-2025-09-19 14:39:59,981 - MangaArr - INFO - Settings table created or verified
-2025-09-19 14:40:02,869 - MangaArr - INFO - Settings table created or verified
-2025-09-19 14:54:25,326 - MangaArr - INFO - Logging to data\logs\mangarr.log
-2025-09-19 14:54:25,326 - MangaArr - INFO - Starting MangaArr in development mode
-2025-09-19 14:54:25,327 - MangaArr - INFO - Settings table created or verified
-2025-09-19 14:54:25,327 - MangaArr - INFO - Settings initialized
-2025-09-19 14:54:25,428 - MangaArr - INFO - Registered metadata provider: MangaFire
-2025-09-19 14:54:25,428 - MangaArr - INFO - Registered metadata provider: MyAnimeList
-2025-09-19 14:54:25,429 - MangaArr - INFO - Registered metadata provider: MangaAPI
-2025-09-19 14:54:25,429 - MangaArr - INFO - Initialized 3 metadata providers
-2025-09-19 14:54:25,430 - MangaArr - INFO - Metadata service initialized
-2025-09-19 14:54:25,435 - MangaArr - INFO - Registered metadata provider: MangaFire
-2025-09-19 14:54:25,436 - MangaArr - INFO - Registered metadata provider: MyAnimeList
-2025-09-19 14:54:25,436 - MangaArr - INFO - Registered metadata provider: MangaAPI
-2025-09-19 14:54:25,436 - MangaArr - INFO - Initialized 3 metadata providers
-2025-09-19 14:54:25,436 - MangaArr - INFO - Metadata service initialized
-2025-09-19 14:54:25,455 - MangaArr - INFO - Application initialized successfully
-2025-09-19 14:54:25,797 - MangaArr - INFO - Logging to data\logs\mangarr.log
-2025-09-19 14:54:25,797 - MangaArr - INFO - Starting MangaArr in development mode
-2025-09-19 14:54:25,798 - MangaArr - INFO - Settings table created or verified
-2025-09-19 14:54:25,798 - MangaArr - INFO - Settings initialized
-2025-09-19 14:54:25,897 - MangaArr - INFO - Registered metadata provider: MangaFire
-2025-09-19 14:54:25,898 - MangaArr - INFO - Registered metadata provider: MyAnimeList
-2025-09-19 14:54:25,898 - MangaArr - INFO - Registered metadata provider: MangaAPI
-2025-09-19 14:54:25,898 - MangaArr - INFO - Initialized 3 metadata providers
-2025-09-19 14:54:25,899 - MangaArr - INFO - Metadata service initialized
-2025-09-19 14:54:25,909 - MangaArr - INFO - Registered metadata provider: MangaFire
-2025-09-19 14:54:25,910 - MangaArr - INFO - Registered metadata provider: MyAnimeList
-2025-09-19 14:54:25,910 - MangaArr - INFO - Registered metadata provider: MangaAPI
-2025-09-19 14:54:25,910 - MangaArr - INFO - Initialized 3 metadata providers
-2025-09-19 14:54:25,911 - MangaArr - INFO - Metadata service initialized
-2025-09-19 14:54:25,995 - MangaArr - INFO - Application initialized successfully
-2025-09-19 14:54:27,931 - MangaArr - INFO - Settings table created or verified
-2025-09-19 14:54:29,575 - MangaArr - INFO - Settings table created or verified
-2025-09-19 14:54:37,122 - MangaArr - ERROR - MyAnimeList client ID not set
-2025-09-19 14:54:40,082 - MangaArr - INFO - No search results found for 'Naruto', using latest updates as fallback
-2025-09-19 14:54:54,113 - MangaArr - INFO - Settings table created or verified
-2025-09-19 14:54:56,016 - MangaArr - INFO - Settings table created or verified
-2025-09-19 14:55:01,270 - MangaArr - INFO - Settings table created or verified
-2025-09-19 14:56:12,293 - MangaArr - INFO - Settings table created or verified
-2025-09-19 14:56:12,452 - MangaArr - INFO - Settings table created or verified
-2025-09-19 14:56:54,968 - MangaArr - INFO - Settings table created or verified
-2025-09-19 14:57:21,291 - MangaArr - INFO - Settings table created or verified
-2025-09-19 14:59:29,782 - MangaArr - INFO - Logging to data\logs\mangarr.log
-2025-09-19 14:59:29,783 - MangaArr - INFO - Starting MangaArr in development mode
-2025-09-19 14:59:29,783 - MangaArr - INFO - Settings table created or verified
-2025-09-19 14:59:29,783 - MangaArr - INFO - Settings initialized
-2025-09-19 14:59:29,941 - MangaArr - INFO - Registered metadata provider: MangaFire
-2025-09-19 14:59:29,942 - MangaArr - INFO - Registered metadata provider: MyAnimeList
-2025-09-19 14:59:29,942 - MangaArr - INFO - Registered metadata provider: MangaAPI
-2025-09-19 14:59:29,943 - MangaArr - INFO - Initialized 3 metadata providers
-2025-09-19 14:59:29,943 - MangaArr - INFO - Metadata service initialized
-2025-09-19 14:59:29,947 - MangaArr - INFO - Registered metadata provider: MangaFire
-2025-09-19 14:59:29,948 - MangaArr - INFO - Registered metadata provider: MyAnimeList
-2025-09-19 14:59:29,948 - MangaArr - INFO - Registered metadata provider: MangaAPI
-2025-09-19 14:59:29,948 - MangaArr - INFO - Initialized 3 metadata providers
-2025-09-19 14:59:29,948 - MangaArr - INFO - Metadata service initialized
-2025-09-19 14:59:29,973 - MangaArr - INFO - Application initialized successfully
-2025-09-19 14:59:30,381 - MangaArr - INFO - Logging to data\logs\mangarr.log
-2025-09-19 14:59:30,382 - MangaArr - INFO - Starting MangaArr in development mode
-2025-09-19 14:59:30,382 - MangaArr - INFO - Settings table created or verified
-2025-09-19 14:59:30,382 - MangaArr - INFO - Settings initialized
-2025-09-19 14:59:30,492 - MangaArr - INFO - Registered metadata provider: MangaFire
-2025-09-19 14:59:30,492 - MangaArr - INFO - Registered metadata provider: MyAnimeList
-2025-09-19 14:59:30,492 - MangaArr - INFO - Registered metadata provider: MangaAPI
-2025-09-19 14:59:30,492 - MangaArr - INFO - Initialized 3 metadata providers
-2025-09-19 14:59:30,492 - MangaArr - INFO - Metadata service initialized
-2025-09-19 14:59:30,495 - MangaArr - INFO - Registered metadata provider: MangaFire
-2025-09-19 14:59:30,495 - MangaArr - INFO - Registered metadata provider: MyAnimeList
-2025-09-19 14:59:30,495 - MangaArr - INFO - Registered metadata provider: MangaAPI
-2025-09-19 14:59:30,495 - MangaArr - INFO - Initialized 3 metadata providers
-2025-09-19 14:59:30,496 - MangaArr - INFO - Metadata service initialized
-2025-09-19 14:59:30,524 - MangaArr - INFO - Application initialized successfully
-2025-09-19 14:59:35,987 - MangaArr - INFO - Settings table created or verified
-2025-09-19 14:59:43,514 - MangaArr - ERROR - MyAnimeList client ID not set
-2025-09-19 14:59:46,222 - MangaArr - INFO - No search results found for 'Naruto', using latest updates as fallback
-2025-09-19 14:59:52,858 - MangaArr - INFO - Settings table created or verified
-2025-09-19 14:59:54,797 - MangaArr - INFO - Settings table created or verified
-2025-09-19 14:59:59,562 - MangaArr - ERROR - MyAnimeList client ID not set
-2025-09-19 15:00:02,214 - MangaArr - INFO - No search results found for 'Naruto', using latest updates as fallback
-2025-09-19 15:00:40,994 - MangaArr - INFO - Settings table created or verified
-2025-09-19 15:00:41,240 - MangaArr - INFO - Settings table created or verified
-2025-09-19 15:00:43,001 - MangaArr - INFO - Settings table created or verified
-2025-09-19 15:00:49,007 - MangaArr - INFO - Settings table created or verified
+2025-09-19 16:51:29,451 - MangaArr - INFO - Logging to data\logs\mangarr.log
+2025-09-19 16:51:29,452 - MangaArr - INFO - Starting MangaArr in development mode
+2025-09-19 16:51:29,452 - MangaArr - INFO - Settings table created or verified
+2025-09-19 16:51:29,453 - MangaArr - INFO - Settings initialized
+2025-09-19 16:51:29,559 - MangaArr - INFO - Registered metadata provider: MangaFire
+2025-09-19 16:51:29,559 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-19 16:51:29,560 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-19 16:51:29,560 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-19 16:51:29,560 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-19 16:51:29,560 - MangaArr - INFO - Initialized 4 metadata providers
+2025-09-19 16:51:29,561 - MangaArr - INFO - Metadata service initialized
+2025-09-19 16:51:29,564 - MangaArr - INFO - Registered metadata provider: MangaFire
+2025-09-19 16:51:29,564 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-19 16:51:29,564 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-19 16:51:29,565 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-19 16:51:29,565 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-19 16:51:29,565 - MangaArr - INFO - Initialized 4 metadata providers
+2025-09-19 16:51:29,566 - MangaArr - INFO - Metadata service initialized
+2025-09-19 16:51:29,585 - MangaArr - INFO - Application initialized successfully
+2025-09-19 16:51:29,928 - MangaArr - INFO - Logging to data\logs\mangarr.log
+2025-09-19 16:51:29,928 - MangaArr - INFO - Starting MangaArr in development mode
+2025-09-19 16:51:29,929 - MangaArr - INFO - Settings table created or verified
+2025-09-19 16:51:29,929 - MangaArr - INFO - Settings initialized
+2025-09-19 16:51:30,038 - MangaArr - INFO - Registered metadata provider: MangaFire
+2025-09-19 16:51:30,039 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-19 16:51:30,039 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-19 16:51:30,039 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-19 16:51:30,040 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-19 16:51:30,040 - MangaArr - INFO - Initialized 4 metadata providers
+2025-09-19 16:51:30,040 - MangaArr - INFO - Metadata service initialized
+2025-09-19 16:51:30,044 - MangaArr - INFO - Registered metadata provider: MangaFire
+2025-09-19 16:51:30,044 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-19 16:51:30,044 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-19 16:51:30,044 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-19 16:51:30,044 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-19 16:51:30,045 - MangaArr - INFO - Initialized 4 metadata providers
+2025-09-19 16:51:30,045 - MangaArr - INFO - Metadata service initialized
+2025-09-19 16:51:30,065 - MangaArr - INFO - Application initialized successfully
+2025-09-19 16:51:33,107 - MangaArr - INFO - Settings table created or verified
+2025-09-19 16:51:34,505 - MangaArr - INFO - Settings table created or verified
+2025-09-19 16:51:35,092 - MangaArr - INFO - Settings table created or verified
+2025-09-19 16:52:44,148 - MangaArr - INFO - Logging to data\logs\mangarr.log
+2025-09-19 16:52:44,149 - MangaArr - INFO - Starting MangaArr in development mode
+2025-09-19 16:52:44,149 - MangaArr - INFO - Settings table created or verified
+2025-09-19 16:52:44,149 - MangaArr - INFO - Settings initialized
+2025-09-19 16:52:44,251 - MangaArr - INFO - Registered metadata provider: MangaFire
+2025-09-19 16:52:44,252 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-19 16:52:44,252 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-19 16:52:44,253 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-19 16:52:44,253 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-19 16:52:44,253 - MangaArr - INFO - Initialized 4 metadata providers
+2025-09-19 16:52:44,254 - MangaArr - INFO - Metadata service initialized
+2025-09-19 16:52:44,260 - MangaArr - INFO - Registered metadata provider: MangaFire
+2025-09-19 16:52:44,260 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-19 16:52:44,261 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-19 16:52:44,261 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-19 16:52:44,261 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-19 16:52:44,261 - MangaArr - INFO - Initialized 4 metadata providers
+2025-09-19 16:52:44,261 - MangaArr - INFO - Metadata service initialized
+2025-09-19 16:52:44,279 - MangaArr - INFO - Application initialized successfully
+2025-09-19 16:52:59,858 - MangaArr - INFO - Logging to data\logs\mangarr.log
+2025-09-19 16:52:59,858 - MangaArr - INFO - Starting MangaArr in development mode
+2025-09-19 16:52:59,859 - MangaArr - INFO - Settings table created or verified
+2025-09-19 16:52:59,859 - MangaArr - INFO - Settings initialized
+2025-09-19 16:52:59,965 - MangaArr - INFO - Registered metadata provider: MangaFire
+2025-09-19 16:52:59,965 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-19 16:52:59,965 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-19 16:52:59,966 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-19 16:52:59,966 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-19 16:52:59,966 - MangaArr - INFO - Initialized 4 metadata providers
+2025-09-19 16:52:59,967 - MangaArr - INFO - Metadata service initialized
+2025-09-19 16:52:59,981 - MangaArr - INFO - Registered metadata provider: MangaFire
+2025-09-19 16:52:59,982 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-19 16:52:59,982 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-19 16:52:59,982 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-19 16:52:59,982 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-19 16:52:59,982 - MangaArr - INFO - Initialized 4 metadata providers
+2025-09-19 16:52:59,983 - MangaArr - INFO - Metadata service initialized
+2025-09-19 16:53:00,002 - MangaArr - INFO - Application initialized successfully
+2025-09-19 16:53:12,514 - MangaArr - INFO - Logging to data\logs\mangarr.log
+2025-09-19 16:53:12,515 - MangaArr - INFO - Starting MangaArr in development mode
+2025-09-19 16:53:12,515 - MangaArr - INFO - Settings table created or verified
+2025-09-19 16:53:12,515 - MangaArr - INFO - Settings initialized
+2025-09-19 16:53:12,622 - MangaArr - INFO - Registered metadata provider: MangaFire
+2025-09-19 16:53:12,622 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-19 16:53:12,623 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-19 16:53:12,623 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-19 16:53:12,623 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-19 16:53:12,623 - MangaArr - INFO - Initialized 4 metadata providers
+2025-09-19 16:53:12,624 - MangaArr - INFO - Metadata service initialized
+2025-09-19 16:53:12,642 - MangaArr - INFO - Registered metadata provider: MangaFire
+2025-09-19 16:53:12,642 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-19 16:53:12,642 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-19 16:53:12,643 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-19 16:53:12,643 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-19 16:53:12,643 - MangaArr - INFO - Initialized 4 metadata providers
+2025-09-19 16:53:12,644 - MangaArr - INFO - Metadata service initialized
+2025-09-19 16:53:12,662 - MangaArr - INFO - Application initialized successfully
+2025-09-19 16:58:55,291 - MangaArr - INFO - Logging to data\logs\mangarr.log
+2025-09-19 16:58:55,291 - MangaArr - INFO - Starting MangaArr in development mode
+2025-09-19 16:58:55,292 - MangaArr - INFO - Settings table created or verified
+2025-09-19 16:58:55,292 - MangaArr - INFO - Settings initialized
+2025-09-19 16:58:55,410 - MangaArr - INFO - Registered metadata provider: MangaFire
+2025-09-19 16:58:55,410 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-19 16:58:55,411 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-19 16:58:55,411 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-19 16:58:55,411 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-19 16:58:55,411 - MangaArr - INFO - Initialized 4 metadata providers
+2025-09-19 16:58:55,412 - MangaArr - INFO - Metadata service initialized
+2025-09-19 16:58:55,415 - MangaArr - INFO - Registered metadata provider: MangaFire
+2025-09-19 16:58:55,415 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-19 16:58:55,416 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-19 16:58:55,416 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-19 16:58:55,416 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-19 16:58:55,417 - MangaArr - INFO - Initialized 4 metadata providers
+2025-09-19 16:58:55,417 - MangaArr - INFO - Metadata service initialized
+2025-09-19 16:58:55,437 - MangaArr - INFO - Application initialized successfully
+2025-09-19 16:58:55,765 - MangaArr - INFO - Logging to data\logs\mangarr.log
+2025-09-19 16:58:55,765 - MangaArr - INFO - Starting MangaArr in development mode
+2025-09-19 16:58:55,766 - MangaArr - INFO - Settings table created or verified
+2025-09-19 16:58:55,767 - MangaArr - INFO - Settings initialized
+2025-09-19 16:58:55,872 - MangaArr - INFO - Registered metadata provider: MangaFire
+2025-09-19 16:58:55,873 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-19 16:58:55,873 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-19 16:58:55,873 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-19 16:58:55,874 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-19 16:58:55,874 - MangaArr - INFO - Initialized 4 metadata providers
+2025-09-19 16:58:55,874 - MangaArr - INFO - Metadata service initialized
+2025-09-19 16:58:55,877 - MangaArr - INFO - Registered metadata provider: MangaFire
+2025-09-19 16:58:55,877 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-19 16:58:55,877 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-19 16:58:55,878 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-19 16:58:55,878 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-19 16:58:55,878 - MangaArr - INFO - Initialized 4 metadata providers
+2025-09-19 16:58:55,879 - MangaArr - INFO - Metadata service initialized
+2025-09-19 16:58:55,896 - MangaArr - INFO - Application initialized successfully
+2025-09-19 16:59:14,655 - MangaArr - INFO - Settings table created or verified
+2025-09-19 16:59:18,380 - MangaArr - INFO - Settings table created or verified
+2025-09-19 16:59:21,680 - MangaArr - INFO - Settings table created or verified
+2025-09-19 16:59:29,660 - MangaArr - INFO - Settings table created or verified
+2025-09-19 16:59:32,562 - MangaArr - INFO - Settings table created or verified
+2025-09-19 16:59:36,556 - MangaArr - INFO - Searching for 'Naruto' on page 1
+2025-09-19 16:59:36,557 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga with params {'q': 'Naruto', 'page': 1, 'limit': 20, 'type': 'manga'}
+2025-09-19 16:59:37,655 - MangaArr - INFO - Request successful, status code: 200
+2025-09-19 16:59:37,657 - MangaArr - INFO - Returning 13 search results
+2025-09-19 16:59:37,657 - MangaArr - INFO - Searching for 'Naruto' on page 1
+2025-09-19 16:59:37,657 - MangaArr - INFO - Making request to https://api.mangadex.org/manga with params {'title': 'Naruto', 'limit': 20, 'offset': 0, 'includes[]': ['cover_art', 'author']}
+2025-09-19 16:59:39,166 - MangaArr - INFO - Request successful, status code: 200
+2025-09-19 16:59:39,168 - MangaArr - INFO - Returning 20 search results
+2025-09-19 16:59:45,597 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-19 16:59:45,597 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-19 16:59:45,598 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga/11/full with params None
+2025-09-19 16:59:46,172 - MangaArr - INFO - Request successful, status code: 200
+2025-09-19 16:59:46,173 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-19 16:59:46,173 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-19 16:59:47,119 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-19 16:59:47,119 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-19 16:59:47,119 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga/11/full with params None
+2025-09-19 16:59:47,587 - MangaArr - INFO - Request successful, status code: 200
+2025-09-19 16:59:47,588 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-19 16:59:47,588 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-19 16:59:47,593 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-19 16:59:47,593 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-19 16:59:47,593 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga/11 with params None
+2025-09-19 16:59:48,178 - MangaArr - INFO - Request successful, status code: 200
+2025-09-19 16:59:48,180 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-19 16:59:48,180 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-19 16:59:48,400 - MangaArr - INFO - Settings table created or verified
+2025-09-19 16:59:48,406 - MangaArr - INFO - Calendar updated successfully
+2025-09-19 16:59:56,090 - MangaArr - INFO - Settings table created or verified
+2025-09-19 16:59:57,378 - MangaArr - INFO - Settings table created or verified
+2025-09-19 17:00:13,277 - MangaArr - INFO - Settings table created or verified
+2025-09-19 17:00:25,456 - MangaArr - INFO - Settings table created or verified
+2025-09-19 17:00:27,915 - MangaArr - INFO - Searching for 'The Greatest Estate Developer' on page 1
+2025-09-19 17:00:27,915 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga with params {'q': 'The Greatest Estate Developer', 'page': 1, 'limit': 20, 'type': 'manga'}
+2025-09-19 17:00:28,673 - MangaArr - INFO - Request successful, status code: 200
+2025-09-19 17:00:28,674 - MangaArr - INFO - Returning 20 search results
+2025-09-19 17:00:28,675 - MangaArr - INFO - Searching for 'The Greatest Estate Developer' on page 1
+2025-09-19 17:00:28,675 - MangaArr - INFO - Making request to https://api.mangadex.org/manga with params {'title': 'The Greatest Estate Developer', 'limit': 20, 'offset': 0, 'includes[]': ['cover_art', 'author']}
+2025-09-19 17:00:29,510 - MangaArr - INFO - Request successful, status code: 200
+2025-09-19 17:00:29,511 - MangaArr - INFO - Returning 1 search results
+2025-09-19 17:00:34,705 - MangaArr - INFO - Searching for 'The Greatest Estate Developer' on page 1
+2025-09-19 17:00:34,705 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga with params {'q': 'The Greatest Estate Developer', 'page': 1, 'limit': 20, 'type': 'manga'}
+2025-09-19 17:00:35,235 - MangaArr - INFO - Request successful, status code: 200
+2025-09-19 17:00:35,236 - MangaArr - INFO - Returning 20 search results
+2025-09-19 17:00:52,379 - MangaArr - INFO - Searching for 'Chainsaw man' on page 1
+2025-09-19 17:00:52,379 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga with params {'q': 'Chainsaw man', 'page': 1, 'limit': 20, 'type': 'manga'}
+2025-09-19 17:00:54,176 - MangaArr - INFO - Request successful, status code: 200
+2025-09-19 17:00:54,177 - MangaArr - INFO - Returning 20 search results
+2025-09-19 17:00:55,826 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-19 17:00:55,826 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-19 17:00:55,826 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga/116778/full with params None
+2025-09-19 17:00:56,294 - MangaArr - INFO - Request successful, status code: 200
+2025-09-19 17:00:56,295 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-19 17:00:56,295 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-19 17:00:57,361 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-19 17:00:57,361 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-19 17:00:57,361 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga/116778/full with params None
+2025-09-19 17:00:57,829 - MangaArr - INFO - Request successful, status code: 200
+2025-09-19 17:00:57,830 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-19 17:00:57,830 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-19 17:00:57,834 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-19 17:00:57,835 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-19 17:00:57,835 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga/116778 with params None
+2025-09-19 17:00:58,302 - MangaArr - INFO - Request successful, status code: 200
+2025-09-19 17:00:58,303 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-19 17:00:58,303 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-19 17:00:58,307 - MangaArr - INFO - Settings table created or verified
+2025-09-19 17:00:58,312 - MangaArr - INFO - Calendar updated successfully
+2025-09-19 17:01:01,854 - MangaArr - INFO - Settings table created or verified
+2025-09-19 17:01:03,365 - MangaArr - INFO - Settings table created or verified
+2025-09-19 17:01:04,173 - MangaArr - INFO - Settings table created or verified
+2025-09-19 17:01:05,897 - MangaArr - INFO - Settings table created or verified
+2025-09-19 17:01:12,548 - MangaArr - INFO - Settings table created or verified
+2025-09-19 17:01:27,149 - MangaArr - INFO - Settings table created or verified
+2025-09-19 17:01:31,727 - MangaArr - INFO - Searching for 'Dandanda' on page 1
+2025-09-19 17:01:31,728 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga with params {'q': 'Dandanda', 'page': 1, 'limit': 20, 'type': 'manga'}
+2025-09-19 17:01:32,390 - MangaArr - INFO - Request successful, status code: 200
+2025-09-19 17:01:32,391 - MangaArr - INFO - Returning 15 search results
+2025-09-19 17:01:32,391 - MangaArr - INFO - Searching for 'Dandanda' on page 1
+2025-09-19 17:01:32,392 - MangaArr - INFO - Making request to https://api.mangadex.org/manga with params {'title': 'Dandanda', 'limit': 20, 'offset': 0, 'includes[]': ['cover_art', 'author']}
+2025-09-19 17:01:33,207 - MangaArr - INFO - Request successful, status code: 200
+2025-09-19 17:01:33,208 - MangaArr - INFO - Returning 0 search results
+2025-09-19 17:01:35,679 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-19 17:01:35,679 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-19 17:01:35,680 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga/135496/full with params None
+2025-09-19 17:01:36,147 - MangaArr - INFO - Request successful, status code: 200
+2025-09-19 17:01:36,148 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-19 17:01:36,148 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-19 17:01:37,241 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-19 17:01:37,242 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-19 17:01:37,242 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga/135496/full with params None
+2025-09-19 17:01:37,709 - MangaArr - INFO - Request successful, status code: 200
+2025-09-19 17:01:37,710 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-19 17:01:37,710 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-19 17:01:37,714 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-19 17:01:37,714 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-19 17:01:37,714 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga/135496 with params None
+2025-09-19 17:01:38,202 - MangaArr - INFO - Request successful, status code: 200
+2025-09-19 17:01:38,203 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-19 17:01:38,203 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-19 17:01:38,206 - MangaArr - INFO - Settings table created or verified
+2025-09-19 17:01:38,212 - MangaArr - INFO - Calendar updated successfully
+2025-09-19 17:01:40,440 - MangaArr - INFO - Settings table created or verified
+2025-09-19 17:01:41,752 - MangaArr - INFO - Settings table created or verified
+2025-09-19 17:01:54,411 - MangaArr - INFO - Settings table created or verified
+2025-09-19 17:01:54,770 - MangaArr - INFO - Settings table created or verified
+2025-09-19 17:01:56,018 - MangaArr - INFO - Searching for 'My Hero Academia' on page 1
+2025-09-19 17:01:56,018 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga with params {'q': 'My Hero Academia', 'page': 1, 'limit': 20, 'type': 'manga'}
+2025-09-19 17:01:56,719 - MangaArr - INFO - Request successful, status code: 200
+2025-09-19 17:01:56,720 - MangaArr - INFO - Returning 20 search results
+2025-09-19 17:01:56,720 - MangaArr - INFO - Searching for 'My Hero Academia' on page 1
+2025-09-19 17:01:56,720 - MangaArr - INFO - Making request to https://api.mangadex.org/manga with params {'title': 'My Hero Academia', 'limit': 20, 'offset': 0, 'includes[]': ['cover_art', 'author']}
+2025-09-19 17:01:57,624 - MangaArr - INFO - Request successful, status code: 200
+2025-09-19 17:01:57,625 - MangaArr - INFO - Returning 20 search results
+2025-09-19 17:02:04,017 - MangaArr - INFO - Searching for 'My Hero Academia' on page 1
+2025-09-19 17:02:04,017 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga with params {'q': 'My Hero Academia', 'page': 1, 'limit': 20, 'type': 'manga'}
+2025-09-19 17:02:04,489 - MangaArr - INFO - Request successful, status code: 200
+2025-09-19 17:02:04,490 - MangaArr - INFO - Returning 20 search results
+2025-09-19 17:02:07,420 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-19 17:02:07,421 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-19 17:02:07,422 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga/75989/full with params None
+2025-09-19 17:02:08,010 - MangaArr - INFO - Request successful, status code: 200
+2025-09-19 17:02:08,011 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-19 17:02:08,012 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-19 17:02:09,028 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-19 17:02:09,028 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-19 17:02:09,029 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga/75989/full with params None
+2025-09-19 17:02:09,496 - MangaArr - INFO - Request successful, status code: 200
+2025-09-19 17:02:09,497 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-19 17:02:09,497 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-19 17:02:09,501 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-19 17:02:09,501 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-19 17:02:09,501 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga/75989 with params None
+2025-09-19 17:02:10,088 - MangaArr - INFO - Request successful, status code: 200
+2025-09-19 17:02:10,090 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-19 17:02:10,090 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-19 17:02:10,210 - MangaArr - INFO - Settings table created or verified
+2025-09-19 17:02:10,216 - MangaArr - INFO - Calendar updated successfully
+2025-09-19 17:02:14,935 - MangaArr - INFO - Searching for 'Boruto' on page 1
+2025-09-19 17:02:14,935 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga with params {'q': 'Boruto', 'page': 1, 'limit': 20, 'type': 'manga'}
+2025-09-19 17:02:15,603 - MangaArr - INFO - Request successful, status code: 200
+2025-09-19 17:02:15,603 - MangaArr - INFO - Returning 6 search results
+2025-09-19 17:02:17,511 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-19 17:02:17,512 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-19 17:02:17,512 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga/95210/full with params None
+2025-09-19 17:02:18,112 - MangaArr - INFO - Request successful, status code: 200
+2025-09-19 17:02:18,112 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-19 17:02:18,113 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-19 17:02:19,954 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-19 17:02:19,955 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-19 17:02:19,955 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga/95210/full with params None
+2025-09-19 17:02:20,423 - MangaArr - INFO - Request successful, status code: 200
+2025-09-19 17:02:20,423 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-19 17:02:20,424 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-19 17:02:20,427 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-19 17:02:20,427 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-19 17:02:20,427 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga/95210 with params None
+2025-09-19 17:02:21,000 - MangaArr - INFO - Request successful, status code: 200
+2025-09-19 17:02:21,001 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-19 17:02:21,001 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-19 17:02:21,073 - MangaArr - INFO - Settings table created or verified
+2025-09-19 17:02:21,084 - MangaArr - INFO - Calendar updated successfully
+2025-09-19 17:02:33,622 - MangaArr - INFO - Searching for 'One-Punch Man' on page 1
+2025-09-19 17:02:33,623 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga with params {'q': 'One-Punch Man', 'page': 1, 'limit': 20, 'type': 'manga'}
+2025-09-19 17:02:34,597 - MangaArr - INFO - Request successful, status code: 200
+2025-09-19 17:02:34,599 - MangaArr - INFO - Returning 20 search results
+2025-09-19 17:02:35,857 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-19 17:02:35,858 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-19 17:02:35,859 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga/44347/full with params None
+2025-09-19 17:02:36,487 - MangaArr - INFO - Request successful, status code: 200
+2025-09-19 17:02:36,488 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-19 17:02:36,488 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-19 17:02:38,042 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-19 17:02:38,052 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-19 17:02:38,093 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga/44347/full with params None
+2025-09-19 17:02:38,569 - MangaArr - INFO - Request successful, status code: 200
+2025-09-19 17:02:38,570 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-19 17:02:38,570 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-19 17:02:38,574 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-19 17:02:38,574 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-19 17:02:38,574 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga/44347 with params None
+2025-09-19 17:02:39,167 - MangaArr - INFO - Request successful, status code: 200
+2025-09-19 17:02:39,168 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-19 17:02:39,168 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-19 17:02:39,172 - MangaArr - INFO - Settings table created or verified
+2025-09-19 17:02:39,178 - MangaArr - INFO - Calendar updated successfully
+2025-09-19 17:02:41,512 - MangaArr - INFO - Settings table created or verified
+2025-09-19 17:02:42,522 - MangaArr - INFO - Settings table created or verified
+2025-09-19 17:02:43,935 - MangaArr - INFO - Settings table created or verified
+2025-09-19 17:02:45,876 - MangaArr - INFO - Settings table created or verified
+2025-09-19 17:02:46,596 - MangaArr - INFO - Settings table created or verified
+2025-09-19 17:02:49,903 - MangaArr - INFO - Settings table created or verified
+2025-09-19 17:03:02,616 - MangaArr - INFO - Settings table created or verified
+2025-09-19 17:03:11,960 - MangaArr - INFO - Settings table created or verified
+2025-09-19 17:03:18,782 - MangaArr - INFO - Settings table created or verified
+2025-09-19 17:03:35,324 - MangaArr - INFO - Settings table created or verified
+2025-09-19 17:03:38,080 - MangaArr - INFO - Settings table created or verified
+2025-09-19 17:03:38,906 - MangaArr - INFO - Settings table created or verified
+2025-09-19 17:03:42,209 - MangaArr - INFO - Settings table created or verified
+2025-09-19 17:03:49,577 - MangaArr - INFO - Settings table created or verified
+2025-09-20 12:39:01,917 - MangaArr - INFO - Logging to data\logs\mangarr.log
+2025-09-20 12:39:01,917 - MangaArr - INFO - Starting MangaArr in development mode
+2025-09-20 12:39:01,917 - MangaArr - INFO - Settings table created or verified
+2025-09-20 12:39:01,918 - MangaArr - INFO - Settings initialized
+2025-09-20 12:39:03,006 - MangaArr - INFO - Registered metadata provider: MangaFire
+2025-09-20 12:39:03,007 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 12:39:03,008 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-20 12:39:03,009 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-20 12:39:03,010 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 12:39:03,011 - MangaArr - INFO - Initialized 4 metadata providers
+2025-09-20 12:39:03,012 - MangaArr - INFO - Metadata service initialized
+2025-09-20 12:39:03,155 - MangaArr - INFO - Registered metadata provider: MangaFire
+2025-09-20 12:39:03,155 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 12:39:03,156 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-20 12:39:03,156 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-20 12:39:03,157 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 12:39:03,158 - MangaArr - INFO - Initialized 4 metadata providers
+2025-09-20 12:39:03,158 - MangaArr - INFO - Metadata service initialized
+2025-09-20 12:39:03,239 - MangaArr - INFO - Application initialized successfully
+2025-09-20 12:39:04,343 - MangaArr - INFO - Logging to data\logs\mangarr.log
+2025-09-20 12:39:04,344 - MangaArr - INFO - Starting MangaArr in development mode
+2025-09-20 12:39:04,344 - MangaArr - INFO - Settings table created or verified
+2025-09-20 12:39:04,345 - MangaArr - INFO - Settings initialized
+2025-09-20 12:39:04,628 - MangaArr - INFO - Registered metadata provider: MangaFire
+2025-09-20 12:39:04,629 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 12:39:04,629 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-20 12:39:04,630 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-20 12:39:04,630 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 12:39:04,631 - MangaArr - INFO - Initialized 4 metadata providers
+2025-09-20 12:39:04,631 - MangaArr - INFO - Metadata service initialized
+2025-09-20 12:39:04,637 - MangaArr - INFO - Registered metadata provider: MangaFire
+2025-09-20 12:39:04,638 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 12:39:04,638 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-20 12:39:04,639 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-20 12:39:04,639 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 12:39:04,640 - MangaArr - INFO - Initialized 4 metadata providers
+2025-09-20 12:39:04,640 - MangaArr - INFO - Metadata service initialized
+2025-09-20 12:39:04,693 - MangaArr - INFO - Application initialized successfully
+2025-09-20 12:39:23,672 - MangaArr - INFO - Settings table created or verified
+2025-09-20 12:39:26,687 - MangaArr - INFO - Searching for 'Naruto' on page 1
+2025-09-20 12:39:26,688 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga with params {'q': 'Naruto', 'page': 1, 'limit': 20, 'type': 'manga'}
+2025-09-20 12:39:27,880 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 12:39:27,882 - MangaArr - INFO - Returning 13 search results
+2025-09-20 12:39:27,882 - MangaArr - INFO - Searching for 'Naruto' on page 1
+2025-09-20 12:39:27,882 - MangaArr - INFO - Making request to https://api.mangadex.org/manga with params {'title': 'Naruto', 'limit': 20, 'offset': 0, 'includes[]': ['cover_art', 'author']}
+2025-09-20 12:39:29,011 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 12:39:29,012 - MangaArr - INFO - Returning 20 search results
+2025-09-20 12:39:32,969 - MangaArr - INFO - Searching for 'Naruto' on page 1
+2025-09-20 12:39:32,970 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga with params {'q': 'Naruto', 'page': 1, 'limit': 20, 'type': 'manga'}
+2025-09-20 12:39:33,444 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 12:39:33,444 - MangaArr - INFO - Returning 13 search results
+2025-09-20 12:39:36,516 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-20 12:39:36,516 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-20 12:39:36,517 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga/11/full with params None
+2025-09-20 12:39:37,082 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 12:39:37,083 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-20 12:39:37,083 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-20 12:39:37,957 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-20 12:39:37,957 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-20 12:39:37,957 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga/11/full with params None
+2025-09-20 12:39:38,428 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 12:39:38,429 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-20 12:39:38,429 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-20 12:39:43,138 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-20 12:39:43,139 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-20 12:39:43,139 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga/95210/full with params None
+2025-09-20 12:39:43,742 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 12:39:43,744 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-20 12:39:43,744 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-20 12:39:48,623 - MangaArr - INFO - Settings table created or verified
+2025-09-20 12:39:52,532 - MangaArr - INFO - Settings table created or verified

@@ -53,8 +53,10 @@ class MangaFireProvider(MetadataProvider):
             The response.
         """
         try:
+            self.logger.info(f"Making request to {url} with params {params}")
             response = self.session.get(url, headers=self.headers, params=params, timeout=10)
             response.raise_for_status()
+            self.logger.info(f"Request successful, status code: {response.status_code}")
             return response
         except requests.RequestException as e:
             self.logger.error(f"Error making request to {url}: {e}")
@@ -76,11 +78,27 @@ class MangaFireProvider(MetadataProvider):
         }
         
         try:
+            self.logger.info(f"Searching for '{query}' on page {page}")
             response = self._make_request(self.search_url, params)
             soup = BeautifulSoup(response.text, 'html.parser')
             
+            # Debug: Log the HTML structure
+            self.logger.info(f"HTML response length: {len(response.text)}")
+            self.logger.info(f"First 500 chars of HTML: {response.text[:500]}")
+            
             results = []
             manga_items = soup.select('.manga-detail')
+            self.logger.info(f"Found {len(manga_items)} manga items with selector '.manga-detail'")
+            
+            # If no manga items found, try alternative selectors
+            if not manga_items:
+                self.logger.info("Trying alternative selectors...")
+                manga_items = soup.select('.manga-item')
+                self.logger.info(f"Found {len(manga_items)} manga items with selector '.manga-item'")
+                
+                if not manga_items:
+                    manga_items = soup.select('.manga')
+                    self.logger.info(f"Found {len(manga_items)} manga items with selector '.manga'")
             
             for item in manga_items:
                 try:

@@ -27,9 +27,11 @@ app = Flask(__name__)
 # Register blueprints
 from frontend.api import api_bp
 from frontend.ui import ui_bp
+from frontend.api_metadata_fixed import metadata_api_bp
 
 app.register_blueprint(api_bp)
 app.register_blueprint(ui_bp)
+app.register_blueprint(metadata_api_bp)
 
 # Setup database
 from backend.internals.db import setup_db

@@ -36,9 +36,10 @@ def update_calendar() -> None:
                 try:
                     release_date = datetime.fromisoformat(volume["release_date"])
                     
-                    # Only add to calendar if it's within our range
-                    now = datetime.now()
-                    if now - timedelta(days=7) <= release_date <= now + timedelta(days=settings.calendar_range_days):
+                    # Include all dates for testing purposes
+                    # now = datetime.now()
+                    # if now - timedelta(days=7) <= release_date <= now + timedelta(days=settings.calendar_range_days):
+                    if True:  # Include all dates
                         # Check if this event already exists
                         existing = execute_query(
                             """
@@ -84,9 +85,10 @@ def update_calendar() -> None:
                 try:
                     release_date = datetime.fromisoformat(chapter["release_date"])
                     
-                    # Only add to calendar if it's within our range
-                    now = datetime.now()
-                    if now - timedelta(days=7) <= release_date <= now + timedelta(days=settings.calendar_range_days):
+                    # Include all dates for testing purposes
+                    # now = datetime.now()
+                    # if now - timedelta(days=7) <= release_date <= now + timedelta(days=settings.calendar_range_days):
+                    if True:  # Include all dates
                         # Check if this event already exists
                         existing = execute_query(
                             """
@@ -118,14 +120,14 @@ def update_calendar() -> None:
                     # Skip invalid dates
                     continue
         
-        # Clean up old events
-        execute_query(
-            """
-            DELETE FROM calendar_events 
-            WHERE event_date < date('now', '-7 days')
-            """,
-            commit=True
-        )
+        # Comment out cleanup to keep all events for testing
+        # execute_query(
+        #     """
+        #     DELETE FROM calendar_events 
+        #     WHERE event_date < date('now', '-7 days')
+        #     """,
+        #     commit=True
+        # )
         
         LOGGER.info("Calendar updated successfully")
     except Exception as e:

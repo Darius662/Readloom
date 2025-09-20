@@ -411,6 +411,13 @@
                         
                         const successModal = new bootstrap.Modal(document.getElementById('importSuccessModal'));
                         successModal.show();
+                    } else if (data.already_exists) {
+                        // Show already exists notification
+                        $('#importSuccessMessage').text('This manga is already in your collection');
+                        $('#viewSeriesLink').attr('href', `/series/${data.series_id}`);
+                        
+                        const successModal = new bootstrap.Modal(document.getElementById('importSuccessModal'));
+                        successModal.show();
                     } else {
                         showToast('error', 'Error', data.message || 'Failed to add to collection');
                     }

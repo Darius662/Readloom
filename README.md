@@ -6,11 +6,13 @@ MangaArr is a manga, manwa, and comics collection manager with a focus on releas
 
 ## Features
 
-- **Enhanced Release Calendar**: Interactive calendar showing upcoming and recent manga/comic releases
+- **Enhanced Release Calendar**: Interactive calendar showing all manga/comic releases
+  - Complete historical and future release date tracking
   - Filter options for manga/comics by type and series
-  - Different view modes (month, week, day)
+  - Different view modes (month, week, list)
   - Color coding for different types of releases
   - Add releases to collection directly from calendar
+  - Automatic calendar updates when importing manga
 - **Comprehensive Collection Tracking**: Track your manga/comic collection
   - Track ownership status, read status, and purchase details
   - Collection statistics and visualizations
@@ -80,6 +82,13 @@ MangaArr will be available at http://localhost:7227
 ## Configuration
 
 MangaArr stores its configuration in a SQLite database. You can modify settings through the web interface at http://localhost:7227/settings.
+
+### Calendar Settings
+
+- `calendar_range_days`: Default number of days to show in the calendar view (default: 14)
+  - Note: This only affects the initial calendar view. The calendar system stores and can display events from any date range.
+- `calendar_refresh_hours`: How often to automatically refresh the calendar (default: 12)
+  - The calendar is also automatically updated when importing new manga or modifying release dates.
 
 ### Command Line Arguments
 

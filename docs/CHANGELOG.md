@@ -5,6 +5,35 @@ All notable changes to MangaArr will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [upcoming]
+
+### Added
+- Enhanced calendar functionality
+  - Removed date range restrictions to show all release dates
+  - Improved handling of historical release dates
+  - Fixed chapter release date display in calendar
+### Fixed
+- Fixed issue with release dates not appearing in calendar
+### Changed
+- Modified calendar event cleanup to preserve historical events
+
+## [0.0.4] - 2025-09-20
+
+### Added
+- Improved metadata provider support
+  - Better handling of null chapter numbers
+  - Enhanced release date extraction from providers
+  - Fixed caching issues with metadata providers
+
+### Changed
+- Updated metadata service to handle different provider return formats
+- Improved error handling for manga imports
+
+### Fixed
+- Fixed metadata cache type parameter issue
+- Fixed database constraints for chapter numbers
+- Improved handling of 'already exists' cases during manga import
+
 ## [0.0.3] - 2025-09-19
 
 ### Added

@@ -14,6 +14,8 @@ from .base import metadata_provider_manager
 from .mangafire import MangaFireProvider
 from .myanimelist import MyAnimeListProvider
 from .manga_api import MangaAPIProvider
+from .mangadex import MangaDexProvider
+from .jikan import JikanProvider
 
 
 def load_provider_settings() -> Dict[str, Any]:
@@ -96,25 +98,35 @@ def initialize_providers() -> None:
         settings = load_provider_settings()
         
         # Initialize MangaFire provider
-        mangafire_config = settings.get("MangaFire", {"enabled": True, "settings": {}})
+        mangafire_config = settings.get("MangaFire", {"enabled": False, "settings": {}})
         mangafire_provider = MangaFireProvider(enabled=mangafire_config["enabled"])
         metadata_provider_manager.register_provider(mangafire_provider)
         
-        # Initialize MyAnimeList provider
+        # Initialize MyAnimeList provider via direct API
         mal_config = settings.get("MyAnimeList", {"enabled": True, "settings": {"client_id": ""}})
         mal_provider = MyAnimeListProvider(
-            enabled=mal_config["enabled"],
+            enabled=False,  # Disable the direct MAL provider as we'll use Jikan instead
             client_id=mal_config["settings"].get("client_id", "")
         )
         metadata_provider_manager.register_provider(mal_provider)
         
         # Initialize MangaAPI provider
-        manga_api_config = settings.get("MangaAPI", {"enabled": True, "settings": {"api_url": "https://manga-api.fly.dev"}})
+        manga_api_config = settings.get("MangaAPI", {"enabled": False, "settings": {"api_url": "https://manga-api.fly.dev"}})
         manga_api_provider = MangaAPIProvider(
             enabled=manga_api_config["enabled"],
             api_url=manga_api_config["settings"].get("api_url", "https://manga-api.fly.dev")
         )
         metadata_provider_manager.register_provider(manga_api_provider)
+        
+        # Initialize MangaDex provider (new)
+        mangadex_config = settings.get("MangaDex", {"enabled": True, "settings": {}})
+        mangadex_provider = MangaDexProvider(enabled=True)  # Enable by default
+        metadata_provider_manager.register_provider(mangadex_provider)
+        
+        # Initialize Jikan provider for MyAnimeList (new)
+        jikan_config = settings.get("Jikan", {"enabled": True, "settings": {}})
+        jikan_provider = JikanProvider(enabled=True)  # Enable by default
+        metadata_provider_manager.register_provider(jikan_provider)
         
         LOGGER.info(f"Initialized {len(metadata_provider_manager.get_all_providers())} metadata providers")
     except Exception as e:
