@@ -5,17 +5,106 @@ All notable changes to MangaArr will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.0.4] - 2025-09-20
+
+### Added
+- Improved metadata provider support
+  - Better handling of null chapter numbers
+  - Enhanced release date extraction from providers
+  - Fixed caching issues with metadata providers
+- Foreign key constraints for better data integrity
+  - Calendar events now automatically deleted when series are removed
+  - Volume events deleted when volumes are removed
+  - Chapter events deleted when chapters are removed
+- SQLite foreign key support enabled by default
+- Improved database schema documentation
+- Enhanced calendar functionality
+  - Removed date range restrictions to show all release dates
+  - Improved handling of historical release dates
+  - Fixed chapter release date display in calendar
+
+### Changed
+- Updated metadata service to handle different provider return formats
+- Improved error handling for manga imports
+- Modified calendar event cleanup to preserve historical events
+- Updated database initialization to include foreign key constraints
+- Modified calendar event cleanup to use cascading deletes
+
+### Fixed
+- Fixed metadata cache type parameter issue
+- Fixed database constraints for chapter numbers
+- Improved handling of 'already exists' cases during manga import
+- Fixed issue with release dates not appearing in calendar
+- Fixed issue with orphaned calendar events after series deletion
+- Improved error handling for database constraints
+
+## [0.0.3] - 2025-09-19
 
 ### Added
 - Improved documentation structure
 - API documentation with endpoint descriptions and examples
 - Installation guide with Docker and manual options
 - Contributor guidelines and code of conduct
+- External manga source integration:
+  - MangaFire integration for searching and importing manga
+  - MyAnimeList (MAL) integration for metadata and searching
+  - Manga-API integration for additional manga sources
+  - Search interface for finding manga across multiple sources
+  - Import functionality to add manga from external sources to collection
+  - Metadata caching system for improved performance
+  - Provider configuration UI for customizing API keys and settings
 
 ### Changed
 - Updated development workflow for better compatibility
 - Simplified package requirements for easier installation
+
+### Improved
+- Enhanced search capabilities across the application
+- Better metadata handling with external providers
+- More comprehensive manga details from multiple sources
+- Fixed logging to properly write to data/logs folder
+- Improved settings persistence between application restarts
+- Updated MangaAPI provider to use correct API endpoints
+- Added fallback to latest updates when search returns no results
+
+## [0.0.2] - 2025-09-18
+
+### Added
+- Enhanced interactive release calendar
+  - Filter options for manga/comics by type and series
+  - Different view modes (month, week, day)
+  - Color coding for different types of releases
+  - Improved event details modal
+  - Add releases to collection directly from calendar
+- Comprehensive manga/comic collection tracking
+  - Track ownership status, read status, and purchase details
+  - Collection statistics and visualizations
+  - Import/export functionality
+- Monitoring system for upcoming releases
+  - Notification system for upcoming releases
+  - Subscription functionality for specific series
+  - Multiple notification channels (browser, email, Discord, Telegram)
+  - Real-time notification updates
+- Home Assistant integration
+  - API endpoint for Home Assistant
+  - Sensor data for dashboards
+  - Setup instructions and configuration examples
+- Homarr integration
+  - API endpoint for Homarr
+  - Status information for dashboards
+  - Setup instructions and configuration examples
+- Modern, responsive web interface
+  - Redesigned base template
+  - Collapsible sidebar for desktop and mobile
+  - Notification system in navigation bar
+  - Modern dashboard with statistics and visualizations
+  - Dark/light theme toggle with persistent settings
+
+### Changed
+- Complete UI overhaul with responsive design
+- Improved database schema for better data organization
+- Enhanced API endpoints with better error handling
+- Optimized performance for large collections
 
 ## [0.0.1] - 2025-09-18
 

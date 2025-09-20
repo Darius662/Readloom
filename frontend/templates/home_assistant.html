@@ -1,0 +1,297 @@
+{% extends 'base.html' %}
+
+{% block title %}MangaArr - Home Assistant Integration{% endblock %}
+
+{% block page_title %}Home Assistant Integration{% endblock %}
+
+{% block styles %}
+<style>
+    .setup-step {
+        margin-bottom: 30px;
+    }
+    
+    .setup-step h4 {
+        margin-bottom: 15px;
+    }
+    
+    pre {
+        background-color: #212529;
+        color: #f8f9fa;
+        padding: 15px;
+        border-radius: 5px;
+        overflow-x: auto;
+    }
+    
+    .copy-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 1;
+    }
+    
+    .note-list {
+        background-color: rgba(13, 110, 253, 0.1);
+        border-left: 4px solid #0d6efd;
+        padding: 15px;
+        border-radius: 5px;
+    }
+    
+    .card-header-tabs {
+        margin-right: -1rem;
+        margin-bottom: -0.75rem;
+        margin-left: -1rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs" id="integration-tabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="setup-tab" data-bs-toggle="tab" data-bs-target="#setup" type="button" role="tab" aria-controls="setup" aria-selected="true">Setup Instructions</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="data-tab" data-bs-toggle="tab" data-bs-target="#data" type="button" role="tab" aria-controls="data" aria-selected="false">API Data</button>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content" id="integration-tabs-content">
+                    <!-- Setup Instructions Tab -->
+                    <div class="tab-pane fade show active" id="setup" role="tabpanel" aria-labelledby="setup-tab">
+                        <div class="alert alert-info" role="alert">
+                            <i class="fas fa-info-circle me-2"></i> Follow these steps to integrate MangaArr with your Home Assistant instance.
+                        </div>
+                        
+                        <div id="setup-instructions">
+                            <div class="text-center py-5" id="loading-instructions">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <p class="mt-2">Loading setup instructions...</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- API Data Tab -->
+                    <div class="tab-pane fade" id="data" role="tabpanel" aria-labelledby="data-tab">
+                        <div class="alert alert-info" role="alert">
+                            <i class="fas fa-info-circle me-2"></i> This is the data that will be exposed to Home Assistant through the API.
+                        </div>
+                        
+                        <div id="api-data">
+                            <div class="text-center py-5" id="loading-data">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <p class="mt-2">Loading API data...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Load setup instructions
+        function loadSetupInstructions() {
+            const instructionsContainer = document.getElementById('setup-instructions');
+            const loadingInstructions = document.getElementById('loading-instructions');
+            
+            fetch('/api/integrations/home-assistant/setup')
+                .then(response => response.json())
+                .then(data => {
+                    // Hide loading
+                    loadingInstructions.classList.add('d-none');
+                    
+                    // Create setup instructions
+                    const title = document.createElement('h3');
+                    title.className = 'mb-4';
+                    title.textContent = data.title || 'MangaArr Home Assistant Integration';
+                    
+                    const description = document.createElement('p');
+                    description.className = 'mb-4';
+                    description.textContent = data.description || 'Follow these steps to integrate MangaArr with your Home Assistant instance.';
+                    
+                    instructionsContainer.appendChild(title);
+                    instructionsContainer.appendChild(description);
+                    
+                    // API endpoint info
+                    const endpointCard = document.createElement('div');
+                    endpointCard.className = 'card mb-4';
+                    
+                    const endpointCardHeader = document.createElement('div');
+                    endpointCardHeader.className = 'card-header';
+                    endpointCardHeader.textContent = 'API Endpoint';
+                    
+                    const endpointCardBody = document.createElement('div');
+                    endpointCardBody.className = 'card-body';
+                    
+                    const endpointUrl = document.createElement('div');
+                    endpointUrl.className = 'input-group mb-3';
+                    
+                    const endpointInput = document.createElement('input');
+                    endpointInput.type = 'text';
+                    endpointInput.className = 'form-control';
+                    endpointInput.value = data.api_endpoint || window.location.origin + '/api/integrations/home-assistant';
+                    endpointInput.readOnly = true;
+                    
+                    const endpointCopyBtn = document.createElement('button');
+                    endpointCopyBtn.className = 'btn btn-outline-secondary';
+                    endpointCopyBtn.innerHTML = '<i class="fas fa-copy"></i>';
+                    endpointCopyBtn.onclick = () => copyToClipboard(endpointInput.value);
+                    
+                    endpointUrl.appendChild(endpointInput);
+                    endpointUrl.appendChild(endpointCopyBtn);
+                    endpointCardBody.appendChild(endpointUrl);
+                    endpointCard.appendChild(endpointCardHeader);
+                    endpointCard.appendChild(endpointCardBody);
+                    
+                    instructionsContainer.appendChild(endpointCard);
+                    
+                    // Setup steps
+                    if (data.steps && data.steps.length > 0) {
+                        data.steps.forEach((step, index) => {
+                            const stepDiv = document.createElement('div');
+                            stepDiv.className = 'setup-step';
+                            
+                            const stepTitle = document.createElement('h4');
+                            stepTitle.innerHTML = `${index + 1}. ${step.title}`;
+                            
+                            const stepDescription = document.createElement('p');
+                            stepDescription.textContent = step.description;
+                            
+                            const codeContainer = document.createElement('div');
+                            codeContainer.className = 'position-relative';
+                            
+                            const copyBtn = document.createElement('button');
+                            copyBtn.className = 'btn btn-sm btn-outline-light copy-btn';
+                            copyBtn.innerHTML = '<i class="fas fa-copy"></i>';
+                            copyBtn.onclick = () => copyToClipboard(step.code);
+                            
+                            const codeBlock = document.createElement('pre');
+                            codeBlock.textContent = step.code;
+                            
+                            codeContainer.appendChild(copyBtn);
+                            codeContainer.appendChild(codeBlock);
+                            
+                            stepDiv.appendChild(stepTitle);
+                            stepDiv.appendChild(stepDescription);
+                            stepDiv.appendChild(codeContainer);
+                            
+                            instructionsContainer.appendChild(stepDiv);
+                        });
+                    }
+                    
+                    // Notes
+                    if (data.notes && data.notes.length > 0) {
+                        const notesTitle = document.createElement('h4');
+                        notesTitle.className = 'mb-3';
+                        notesTitle.textContent = 'Important Notes';
+                        
+                        const notesList = document.createElement('ul');
+                        notesList.className = 'note-list';
+                        
+                        data.notes.forEach(note => {
+                            const noteItem = document.createElement('li');
+                            noteItem.className = 'mb-2';
+                            noteItem.textContent = note;
+                            notesList.appendChild(noteItem);
+                        });
+                        
+                        instructionsContainer.appendChild(notesTitle);
+                        instructionsContainer.appendChild(notesList);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading setup instructions:', error);
+                    loadingInstructions.classList.add('d-none');
+                    
+                    const errorMessage = document.createElement('div');
+                    errorMessage.className = 'alert alert-danger';
+                    errorMessage.textContent = 'Failed to load setup instructions. Please try again later.';
+                    
+                    instructionsContainer.appendChild(errorMessage);
+                });
+        }
+        
+        // Load API data
+        function loadApiData() {
+            const dataContainer = document.getElementById('api-data');
+            const loadingData = document.getElementById('loading-data');
+            
+            fetch('/api/integrations/home-assistant')
+                .then(response => response.json())
+                .then(data => {
+                    // Hide loading
+                    loadingData.classList.add('d-none');
+                    
+                    // Create JSON viewer
+                    const jsonViewer = document.createElement('div');
+                    jsonViewer.className = 'position-relative';
+                    
+                    const copyBtn = document.createElement('button');
+                    copyBtn.className = 'btn btn-sm btn-outline-light copy-btn';
+                    copyBtn.innerHTML = '<i class="fas fa-copy"></i>';
+                    copyBtn.onclick = () => copyToClipboard(JSON.stringify(data, null, 2));
+                    
+                    const jsonBlock = document.createElement('pre');
+                    jsonBlock.textContent = JSON.stringify(data, null, 2);
+                    
+                    jsonViewer.appendChild(copyBtn);
+                    jsonViewer.appendChild(jsonBlock);
+                    
+                    dataContainer.appendChild(jsonViewer);
+                })
+                .catch(error => {
+                    console.error('Error loading API data:', error);
+                    loadingData.classList.add('d-none');
+                    
+                    const errorMessage = document.createElement('div');
+                    errorMessage.className = 'alert alert-danger';
+                    errorMessage.textContent = 'Failed to load API data. Please try again later.';
+                    
+                    dataContainer.appendChild(errorMessage);
+                });
+        }
+        
+        // Copy to clipboard function
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text)
+                .then(() => {
+                    // Show toast or alert
+                    alert('Copied to clipboard!');
+                })
+                .catch(err => {
+                    console.error('Failed to copy text: ', err);
+                });
+        }
+        
+        // Load data when tab is shown
+        document.getElementById('setup-tab').addEventListener('shown.bs.tab', function() {
+            if (document.getElementById('loading-instructions').classList.contains('d-none')) {
+                return;
+            }
+            loadSetupInstructions();
+        });
+        
+        document.getElementById('data-tab').addEventListener('shown.bs.tab', function() {
+            if (document.getElementById('loading-data').classList.contains('d-none')) {
+                return;
+            }
+            loadApiData();
+        });
+        
+        // Initial load
+        loadSetupInstructions();
+    });
+</script>
+{% endblock %}

@@ -25,12 +25,12 @@ ui_bp = Blueprint(
 
 @ui_bp.route('/')
 def index():
-    """Render the index page.
+    """Render the dashboard page.
 
     Returns:
-        Response: The rendered index page.
+        Response: The rendered dashboard page.
     """
-    return render_template('index.html')
+    return render_template('dashboard.html')
 
 
 @ui_bp.route('/calendar')
@@ -51,6 +51,16 @@ def series_list():
         Response: The rendered series list page.
     """
     return render_template('series_list.html')
+
+
+@ui_bp.route('/collection')
+def collection():
+    """Render the collection page.
+
+    Returns:
+        Response: The rendered collection page.
+    """
+    return render_template('collection.html')
 
 
 @ui_bp.route('/series/<int:series_id>')
@@ -84,6 +94,56 @@ def integrations():
         Response: The rendered integrations page.
     """
     return render_template('integrations.html')
+
+
+@ui_bp.route('/integrations/home-assistant')
+def home_assistant():
+    """Render the Home Assistant integration page.
+
+    Returns:
+        Response: The rendered Home Assistant integration page.
+    """
+    return render_template('home_assistant.html')
+
+
+@ui_bp.route('/integrations/homarr')
+def homarr():
+    """Render the Homarr integration page.
+
+    Returns:
+        Response: The rendered Homarr integration page.
+    """
+    return render_template('homarr.html')
+
+
+@ui_bp.route('/integrations/providers')
+def provider_config():
+    """Render the metadata provider configuration page.
+
+    Returns:
+        Response: The rendered provider configuration page.
+    """
+    return render_template('provider_config.html')
+
+
+@ui_bp.route('/notifications')
+def notifications():
+    """Render the notifications page.
+
+    Returns:
+        Response: The rendered notifications page.
+    """
+    return render_template('notifications.html')
+
+
+@ui_bp.route('/search')
+def search():
+    """Render the search page for external manga sources.
+
+    Returns:
+        Response: The rendered search page.
+    """
+    return render_template('search.html')
 
 
 @ui_bp.route('/about')

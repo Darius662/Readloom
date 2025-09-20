@@ -36,10 +36,11 @@ class Server:
         self.app.config["JSON_SORT_KEYS"] = False
         
         # Register blueprints
-        from frontend.api import api_bp
+        from frontend.api import api_bp, metadata_api_bp
         from frontend.ui import ui_bp
         
         self.app.register_blueprint(api_bp)
+        self.app.register_blueprint(metadata_api_bp, url_prefix='/api/metadata')
         self.app.register_blueprint(ui_bp)
         
         return self.app

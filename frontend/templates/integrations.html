@@ -42,51 +42,14 @@
                     <li>Monitor MangaArr status</li>
                 </ul>
             </div>
-            <div class="card-footer">
-                <div class="accordion" id="homeAssistantAccordion">
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="homeAssistantHeading">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#homeAssistantCollapse" aria-expanded="false" aria-controls="homeAssistantCollapse">
-                                Setup Instructions
-                            </button>
-                        </h2>
-                        <div id="homeAssistantCollapse" class="accordion-collapse collapse" aria-labelledby="homeAssistantHeading" data-bs-parent="#homeAssistantAccordion">
-                            <div class="accordion-body">
-                                <h6>REST API Configuration</h6>
-                                <p>Add the following to your Home Assistant <code>configuration.yaml</code>:</p>
-                                <pre class="bg-dark text-light p-3 rounded"><code>sensor:
-  - platform: rest
-    name: mangarr_upcoming_releases
-    resource: http://your-mangarr-host:7227/api/integrations/home-assistant
-    value_template: "{{ value_json.stats.series_count }}"
-    json_attributes_path: "$"
-    json_attributes:
-      - upcoming_releases
-      - stats
-    scan_interval: 3600</code></pre>
-                                
-                                <h6>Lovelace Card Example</h6>
-                                <p>Add a custom card to your dashboard:</p>
-                                <pre class="bg-dark text-light p-3 rounded"><code>type: entities
-title: MangaArr
-icon: mdi:book-open-variant
-entities:
-  - entity: sensor.mangarr_upcoming_releases
-    name: Series Count
-    icon: mdi:bookshelf
-  - type: attribute
-    entity: sensor.mangarr_upcoming_releases
-    attribute: stats.volume_count
-    name: Volume Count
-    icon: mdi:book-multiple
-  - type: attribute
-    entity: sensor.mangarr_upcoming_releases
-    attribute: stats.chapter_count
-    name: Chapter Count
-    icon: mdi:file-document-multiple</code></pre>
-                            </div>
-                        </div>
-                    </div>
+            <div class="card-footer d-flex justify-content-between align-items-center">
+                <div>
+                    <a href="{{ url_for('ui.home_assistant') }}" class="btn btn-primary">
+                        <i class="fas fa-cog me-1"></i> Configure
+                    </a>
+                </div>
+                <div>
+                    <span class="badge bg-info">Enhanced</span>
                 </div>
             </div>
         </div>
@@ -115,39 +78,56 @@ entities:
                     <li>Quick access to MangaArr interface</li>
                 </ul>
             </div>
-            <div class="card-footer">
-                <div class="accordion" id="homarrAccordion">
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="homarrHeading">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#homarrCollapse" aria-expanded="false" aria-controls="homarrCollapse">
-                                Setup Instructions
-                            </button>
-                        </h2>
-                        <div id="homarrCollapse" class="accordion-collapse collapse" aria-labelledby="homarrHeading" data-bs-parent="#homarrAccordion">
-                            <div class="accordion-body">
-                                <h6>Homarr Configuration</h6>
-                                <ol>
-                                    <li>In your Homarr dashboard, click "Edit Layout"</li>
-                                    <li>Click "Add Integration" and select "Generic App"</li>
-                                    <li>Fill in the following details:
-                                        <ul>
-                                            <li><strong>Name:</strong> MangaArr</li>
-                                            <li><strong>Icon:</strong> fas fa-book</li>
-                                            <li><strong>URL:</strong> http://your-mangarr-host:7227</li>
-                                            <li><strong>Status Endpoint:</strong> /api/integrations/homarr</li>
-                                        </ul>
-                                    </li>
-                                    <li>Save your changes</li>
-                                </ol>
-                                <p>Homarr will now display the status of your MangaArr instance and show today's releases.</p>
-                            </div>
-                        </div>
-                    </div>
+            <div class="card-footer d-flex justify-content-between align-items-center">
+                <div>
+                    <a href="{{ url_for('ui.homarr') }}" class="btn btn-primary">
+                        <i class="fas fa-cog me-1"></i> Configure
+                    </a>
+                </div>
+                <div>
+                    <span class="badge bg-info">Enhanced</span>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Metadata Providers Integration -->
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Metadata Providers</h5>
+                <span class="badge bg-success">Available</span>
+            </div>
+            <div class="card-body">
+                <div class="d-flex mb-3">
+                    <i class="fas fa-search fa-2x text-primary" style="width: 50px; height: 50px; margin-right: 15px; display: flex; align-items: center; justify-content: center;"></i>
+                    <div>
+                        <h6>External Manga Sources</h6>
+                        <p class="text-muted">Configure metadata providers for manga search and import</p>
+                    </div>
+                </div>
+                <p>MangaArr can search and import manga from various external sources.</p>
+                <p>Available providers include:</p>
+                <ul>
+                    <li>MangaFire - Popular manga aggregator</li>
+                    <li>MyAnimeList (MAL) - Comprehensive anime/manga database</li>
+                    <li>Manga-API - General-purpose manga API</li>
+                </ul>
+            </div>
+            <div class="card-footer d-flex justify-content-between align-items-center">
+                <div>
+                    <a href="{{ url_for('ui.provider_config') }}" class="btn btn-primary">
+                        <i class="fas fa-cog me-1"></i> Configure
+                    </a>
+                </div>
+                <div>
+                    <span class="badge bg-info">Enhanced</span>
+                </div>
+            </div>
+        </div>
+    </div>
 
 <!-- API Documentation -->
 <div class="row mb-4">

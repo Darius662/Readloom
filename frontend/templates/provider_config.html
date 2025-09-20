@@ -1,0 +1,290 @@
+{% extends "base.html" %}
+
+{% block title %}Metadata Provider Configuration{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">Metadata Provider Configuration</h5>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted mb-4">
+                        Configure external metadata providers to enable manga search and import functionality.
+                        Each provider may require specific API keys or settings to work properly.
+                    </p>
+
+                    <div id="providersContainer">
+                        <!-- Provider cards will be dynamically inserted here -->
+                        <div class="text-center py-5">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <p class="mt-2">Loading providers...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Provider Settings Modal -->
+<div class="modal fade" id="providerSettingsModal" tabindex="-1" aria-labelledby="providerSettingsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="providerSettingsModalLabel">Provider Settings</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="providerSettingsForm">
+                    <input type="hidden" id="providerName" name="providerName">
+                    
+                    <div class="mb-3 form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="providerEnabled" checked>
+                        <label class="form-check-label" for="providerEnabled">Enable Provider</label>
+                    </div>
+                    
+                    <div id="settingsFields">
+                        <!-- Dynamic settings fields will be inserted here -->
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="saveProviderSettings">Save Settings</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Success Toast -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="successToast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                Settings saved successfully!
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(document).ready(function() {
+        // Load providers
+        loadProviders();
+        
+        // Save provider settings
+        $('#saveProviderSettings').on('click', function() {
+            saveProviderSettings();
+        });
+    });
+    
+    function loadProviders() {
+        $.ajax({
+            url: '/api/metadata/providers',
+            method: 'GET',
+            success: function(data) {
+                if (data.providers) {
+                    renderProviders(data.providers);
+                } else {
+                    $('#providersContainer').html('<div class="alert alert-warning">No providers available</div>');
+                }
+            },
+            error: function(xhr) {
+                console.error('Error loading providers:', xhr.responseText);
+                $('#providersContainer').html('<div class="alert alert-danger">Failed to load providers</div>');
+            }
+        });
+    }
+    
+    function renderProviders(providers) {
+        const container = $('#providersContainer');
+        container.empty();
+        
+        // Create a row for the provider cards
+        const row = $('<div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4"></div>');
+        container.append(row);
+        
+        // Add provider cards
+        Object.keys(providers).forEach(function(providerName) {
+            const provider = providers[providerName];
+            const card = createProviderCard(providerName, provider);
+            row.append(card);
+        });
+    }
+    
+    function createProviderCard(name, provider) {
+        const statusBadge = provider.enabled ? 
+            '<span class="badge bg-success">Enabled</span>' : 
+            '<span class="badge bg-danger">Disabled</span>';
+        
+        let configStatus = '<span class="badge bg-warning">Needs Configuration</span>';
+        
+        // Check if provider is configured
+        if (provider.enabled) {
+            if (name === 'MyAnimeList' && provider.settings.client_id) {
+                configStatus = '<span class="badge bg-success">Configured</span>';
+            } else if (name === 'MangaAPI' && provider.settings.api_url) {
+                configStatus = '<span class="badge bg-success">Configured</span>';
+            } else if (name === 'MangaFire') {
+                configStatus = '<span class="badge bg-success">Configured</span>';
+            }
+        }
+        
+        return $(`
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">${name}</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Status:</span>
+                                ${statusBadge}
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span>Configuration:</span>
+                                ${configStatus}
+                            </div>
+                        </div>
+                        <p class="card-text">${getProviderDescription(name)}</p>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-primary w-100 configure-provider" data-provider="${name}">
+                            <i class="fas fa-cog me-2"></i> Configure
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `);
+    }
+    
+    function getProviderDescription(name) {
+        switch (name) {
+            case 'MangaFire':
+                return 'MangaFire is a manga aggregator that provides access to a wide range of manga titles.';
+            case 'MyAnimeList':
+                return 'MyAnimeList (MAL) is a popular anime and manga database that requires a Client ID for API access.';
+            case 'MangaAPI':
+                return 'Manga-API is a general-purpose manga API that provides access to various manga sources.';
+            default:
+                return 'External manga provider for searching and importing manga.';
+        }
+    }
+    
+    // Configure provider button click
+    $(document).on('click', '.configure-provider', function() {
+        const providerName = $(this).data('provider');
+        openProviderSettings(providerName);
+    });
+    
+    function openProviderSettings(providerName) {
+        // Get provider settings
+        $.ajax({
+            url: '/api/metadata/providers',
+            method: 'GET',
+            success: function(data) {
+                if (data.providers && data.providers[providerName]) {
+                    const provider = data.providers[providerName];
+                    
+                    // Set provider name in modal
+                    $('#providerName').val(providerName);
+                    $('#providerSettingsModalLabel').text(`${providerName} Settings`);
+                    
+                    // Set enabled state
+                    $('#providerEnabled').prop('checked', provider.enabled);
+                    
+                    // Clear previous settings fields
+                    $('#settingsFields').empty();
+                    
+                    // Add provider-specific settings fields
+                    if (providerName === 'MyAnimeList') {
+                        $('#settingsFields').append(`
+                            <div class="mb-3">
+                                <label for="clientId" class="form-label">Client ID</label>
+                                <input type="text" class="form-control" id="clientId" name="clientId" 
+                                       value="${provider.settings.client_id || ''}" 
+                                       placeholder="Enter your MyAnimeList Client ID">
+                                <div class="form-text">
+                                    You can get a Client ID by registering an application at 
+                                    <a href="https://myanimelist.net/apiconfig" target="_blank">MyAnimeList API</a>
+                                </div>
+                            </div>
+                        `);
+                    } else if (providerName === 'MangaAPI') {
+                        $('#settingsFields').append(`
+                            <div class="mb-3">
+                                <label for="apiUrl" class="form-label">API URL</label>
+                                <input type="text" class="form-control" id="apiUrl" name="apiUrl" 
+                                       value="${provider.settings.api_url || 'https://manga-api.fly.dev'}" 
+                                       placeholder="Enter the Manga-API URL">
+                            </div>
+                        `);
+                    } else if (providerName === 'MangaFire') {
+                        $('#settingsFields').append(`
+                            <div class="alert alert-info">
+                                MangaFire doesn't require any additional configuration.
+                            </div>
+                        `);
+                    }
+                    
+                    // Show the modal
+                    const modal = new bootstrap.Modal(document.getElementById('providerSettingsModal'));
+                    modal.show();
+                }
+            },
+            error: function(xhr) {
+                console.error('Error loading provider settings:', xhr.responseText);
+                alert('Failed to load provider settings');
+            }
+        });
+    }
+    
+    function saveProviderSettings() {
+        const providerName = $('#providerName').val();
+        const enabled = $('#providerEnabled').is(':checked');
+        let settings = {};
+        
+        // Get provider-specific settings
+        if (providerName === 'MyAnimeList') {
+            settings.client_id = $('#clientId').val();
+        } else if (providerName === 'MangaAPI') {
+            settings.api_url = $('#apiUrl').val();
+        }
+        
+        // Save settings
+        $.ajax({
+            url: `/api/metadata/providers/${providerName}`,
+            method: 'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                enabled: enabled,
+                settings: settings
+            }),
+            success: function(response) {
+                // Hide modal
+                bootstrap.Modal.getInstance(document.getElementById('providerSettingsModal')).hide();
+                
+                // Show success toast
+                const toast = new bootstrap.Toast(document.getElementById('successToast'));
+                toast.show();
+                
+                // Reload providers
+                loadProviders();
+            },
+            error: function(xhr) {
+                console.error('Error saving provider settings:', xhr.responseText);
+                alert('Failed to save provider settings');
+            }
+        });
+    }
+</script>
+{% endblock %}

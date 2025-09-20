@@ -6,10 +6,34 @@ MangaArr is a manga, manwa, and comics collection manager with a focus on releas
 
 ## Features
 
-- **Release Calendar**: Interactive calendar showing upcoming and recent manga/comic releases
-- **Library Management**: Track your manga/comic collection
-- **Integration Capabilities**: Home Assistant and Homarr integration
-- **Modern UI**: Responsive web interface with dark/light theme support
+- **Enhanced Release Calendar**: Interactive calendar showing all manga/comic releases
+  - Complete historical and future release date tracking
+  - Filter options for manga/comics by type and series
+  - Different view modes (month, week, list)
+  - Color coding for different types of releases
+  - Add releases to collection directly from calendar
+  - Automatic calendar updates when importing manga
+- **Comprehensive Collection Tracking**: Track your manga/comic collection
+  - Track ownership status, read status, and purchase details
+  - Collection statistics and visualizations
+  - Import/export functionality
+- **External Source Integration**: Connect to popular manga sources
+  - MangaFire integration for searching and importing manga
+  - MyAnimeList (MAL) integration for metadata and searching
+  - Manga-API integration for additional manga sources
+  - Search interface for finding manga across multiple sources
+- **Monitoring System**: Stay updated on upcoming releases
+  - Notification system for upcoming releases
+  - Subscription functionality for specific series
+  - Multiple notification channels (browser, email, Discord, Telegram)
+- **Integration Capabilities**: 
+  - Home Assistant integration with sensor data and dashboard widgets
+  - Homarr integration for status information and quick access
+- **Modern UI**: Responsive web interface
+  - Collapsible sidebar for desktop and mobile
+  - Notification system in navigation bar
+  - Modern dashboard with statistics and visualizations
+  - Dark/light theme toggle with persistent settings
 
 ## Installation
 
@@ -58,6 +82,13 @@ MangaArr will be available at http://localhost:7227
 ## Configuration
 
 MangaArr stores its configuration in a SQLite database. You can modify settings through the web interface at http://localhost:7227/settings.
+
+### Calendar Settings
+
+- `calendar_range_days`: Default number of days to show in the calendar view (default: 14)
+  - Note: This only affects the initial calendar view. The calendar system stores and can display events from any date range.
+- `calendar_refresh_hours`: How often to automatically refresh the calendar (default: 12)
+  - The calendar is also automatically updated when importing new manga or modifying release dates.
 
 ### Command Line Arguments
 

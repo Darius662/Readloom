@@ -11,11 +11,30 @@ from backend.base.custom_exceptions import (APIError, DatabaseError,
                                            InvalidSettingValue, MetadataError)
 from backend.base.logging import LOGGER
 from backend.features.calendar import get_calendar_events, update_calendar
+from backend.features.collection import (add_to_collection, export_collection,
+                                        get_collection_items, get_collection_stats,
+                                        import_collection, remove_from_collection,
+                                        update_collection_item, update_collection_stats)
+from backend.features.home_assistant import (get_home_assistant_sensor_data,
+                                            get_home_assistant_setup_instructions)
+from backend.features.homarr import get_homarr_data, get_homarr_setup_instructions
+from backend.features.metadata_service import init_metadata_service
+from backend.features.notifications import (check_upcoming_releases, create_notification,
+                                           delete_all_notifications, delete_notification,
+                                           get_notification_settings, get_notifications,
+                                           get_subscriptions, is_subscribed, mark_all_notifications_as_read,
+                                           mark_notification_as_read, send_notification,
+                                           subscribe_to_series, unsubscribe_from_series,
+                                           update_notification_settings)
 from backend.internals.db import execute_query
 from backend.internals.settings import Settings
+from frontend.api_metadata import metadata_api_bp
 
 # Create API blueprint
 api_bp = Blueprint('api', __name__, url_prefix='/api')
+
+# Initialize metadata service
+init_metadata_service()
 
 
 @api_bp.errorhandler(Exception)
@@ -39,6 +58,72 @@ def handle_error(error):
     else:
         LOGGER.error(f"Unhandled API error: {error}")
         return jsonify({"error": "Internal server error"}), 500
+
+
+# Dashboard endpoint
+@api_bp.route('/dashboard', methods=['GET'])
+def get_dashboard():
+    """Get dashboard data.
+
+    Returns:
+        Response: The dashboard data.
+    """
+    try:
+        # Get today's date
+        today = datetime.now().strftime('%Y-%m-%d')
+        
+        # Get upcoming releases for today
+        today_events = get_calendar_events(today, today)
+        
+        # Get series count
+        series_count = execute_query("SELECT COUNT(*) as count FROM series")
+        
+        # Get volume count
+        volume_count = execute_query("SELECT COUNT(*) as count FROM volumes")
+        
+        # Get chapter count
+        chapter_count = execute_query("SELECT COUNT(*) as count FROM chapters")
+        
+        # Get owned volumes count
+        owned_volumes = execute_query("""
+        SELECT COUNT(*) as count
+        FROM collection_items
+        WHERE item_type = 'VOLUME' AND ownership_status = 'OWNED'
+        """)
+        
+        # Get read volumes count
+        read_volumes = execute_query("""
+        SELECT COUNT(*) as count
+        FROM collection_items
+        WHERE item_type = 'VOLUME' AND read_status = 'READ'
+        """)
+        
+        # Get collection value
+        collection_value = execute_query("""
+        SELECT SUM(purchase_price) as total
+        FROM collection_items
+        WHERE purchase_price IS NOT NULL
+        """)
+        
+        # Format data for dashboard
+        data = {
+            "stats": {
+                "series_count": series_count[0]["count"],
+                "volume_count": volume_count[0]["count"],
+                "chapter_count": chapter_count[0]["count"],
+                "releases_today": len(today_events),
+                "owned_volumes": owned_volumes[0]["count"] if owned_volumes else 0,
+                "read_volumes": read_volumes[0]["count"] if read_volumes else 0,
+                "collection_value": collection_value[0]["total"] if collection_value and collection_value[0]["total"] else 0
+            },
+            "today_events": today_events
+        }
+        
+        return jsonify(data)
+    
+    except Exception as e:
+        LOGGER.error(f"Error getting dashboard data: {e}")
+        return jsonify({"error": str(e)}), 500
 
 
 # Calendar endpoints
@@ -701,40 +786,16 @@ def update_settings():
         return jsonify({"error": str(e)}), 500
 
 
-# Home Assistant integration endpoint
+# Home Assistant integration endpoints
 @api_bp.route('/integrations/home-assistant', methods=['GET'])
 def get_home_assistant_data():
     """Get data for Home Assistant integration.
-
+    
     Returns:
         Response: The Home Assistant data.
     """
     try:
-        # Get upcoming releases for the next 7 days
-        today = datetime.now().strftime('%Y-%m-%d')
-        next_week = (datetime.now() + timedelta(days=7)).strftime('%Y-%m-%d')
-        
-        events = get_calendar_events(today, next_week)
-        
-        # Get series count
-        series_count = execute_query("SELECT COUNT(*) as count FROM series")
-        
-        # Get volume count
-        volume_count = execute_query("SELECT COUNT(*) as count FROM volumes")
-        
-        # Get chapter count
-        chapter_count = execute_query("SELECT COUNT(*) as count FROM chapters")
-        
-        # Format data for Home Assistant
-        data = {
-            "upcoming_releases": events,
-            "stats": {
-                "series_count": series_count[0]["count"],
-                "volume_count": volume_count[0]["count"],
-                "chapter_count": chapter_count[0]["count"]
-            }
-        }
-        
+        data = get_home_assistant_sensor_data()
         return jsonify(data)
     
     except Exception as e:
@@ -742,37 +803,560 @@ def get_home_assistant_data():
         return jsonify({"error": str(e)}), 500
 
 
-# Homarr integration endpoint
+@api_bp.route('/integrations/home-assistant/setup', methods=['GET'])
+def get_home_assistant_setup():
+    """Get Home Assistant setup instructions.
+    
+    Returns:
+        Response: The Home Assistant setup instructions.
+    """
+    try:
+        instructions = get_home_assistant_setup_instructions()
+        return jsonify(instructions)
+    
+    except Exception as e:
+        LOGGER.error(f"Error getting Home Assistant setup instructions: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+# Homarr integration endpoints
 @api_bp.route('/integrations/homarr', methods=['GET'])
-def get_homarr_data():
+def get_homarr_data_api():
     """Get data for Homarr integration.
 
     Returns:
         Response: The Homarr data.
     """
     try:
-        # Get upcoming releases for today
-        today = datetime.now().strftime('%Y-%m-%d')
-        tomorrow = (datetime.now() + timedelta(days=1)).strftime('%Y-%m-%d')
-        
-        today_events = get_calendar_events(today, today)
-        
-        # Get series count
-        series_count = execute_query("SELECT COUNT(*) as count FROM series")
-        
-        # Format data for Homarr
-        data = {
-            "app": "MangaArr",
-            "version": "1.0.0",
-            "status": "ok",
-            "info": {
-                "series_count": series_count[0]["count"],
-                "releases_today": len(today_events)
-            }
-        }
-        
+        data = get_homarr_data()
         return jsonify(data)
     
     except Exception as e:
         LOGGER.error(f"Error getting Homarr data: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@api_bp.route('/integrations/homarr/setup', methods=['GET'])
+def get_homarr_setup():
+    """Get Homarr setup instructions.
+    
+    Returns:
+        Response: The Homarr setup instructions.
+    """
+    try:
+        instructions = get_homarr_setup_instructions()
+        return jsonify(instructions)
+    
+    except Exception as e:
+        LOGGER.error(f"Error getting Homarr setup instructions: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+# Collection tracking endpoints
+@api_bp.route('/collection', methods=['GET'])
+def get_collection():
+    """Get collection items with optional filters.
+    
+    Returns:
+        Response: The collection items.
+    """
+    try:
+        series_id = request.args.get('series_id')
+        item_type = request.args.get('item_type')
+        ownership_status = request.args.get('ownership_status')
+        read_status = request.args.get('read_status')
+        format = request.args.get('format')
+        
+        # Convert series_id to int if provided
+        if series_id:
+            try:
+                series_id = int(series_id)
+            except ValueError:
+                return jsonify({"error": "Invalid series ID"}), 400
+        
+        items = get_collection_items(
+            series_id=series_id,
+            item_type=item_type,
+            ownership_status=ownership_status,
+            read_status=read_status,
+            format=format
+        )
+        
+        return jsonify({"items": items})
+    
+    except Exception as e:
+        LOGGER.error(f"Error getting collection: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@api_bp.route('/collection/stats', methods=['GET'])
+def get_collection_statistics():
+    """Get collection statistics.
+    
+    Returns:
+        Response: The collection statistics.
+    """
+    try:
+        stats = get_collection_stats()
+        return jsonify(stats)
+    
+    except Exception as e:
+        LOGGER.error(f"Error getting collection stats: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@api_bp.route('/collection', methods=['POST'])
+def add_to_collection_api():
+    """Add an item to the collection.
+    
+    Returns:
+        Response: The created collection item ID.
+    """
+    try:
+        data = request.json
+        if not data:
+            return jsonify({"error": "No data provided"}), 400
+        
+        required_fields = ["series_id", "item_type"]
+        for field in required_fields:
+            if field not in data:
+                return jsonify({"error": f"Missing required field: {field}"}), 400
+        
+        # Validate series_id
+        series_id = data.get("series_id")
+        series = execute_query("SELECT id FROM series WHERE id = ?", (series_id,))
+        if not series:
+            return jsonify({"error": "Series not found"}), 404
+        
+        # Validate item_type
+        item_type = data.get("item_type")
+        if item_type not in ["SERIES", "VOLUME", "CHAPTER"]:
+            return jsonify({"error": "Invalid item type"}), 400
+        
+        # Validate volume_id if provided for VOLUME type
+        volume_id = data.get("volume_id")
+        if item_type == "VOLUME" and volume_id:
+            volume = execute_query("SELECT id FROM volumes WHERE id = ?", (volume_id,))
+            if not volume:
+                return jsonify({"error": "Volume not found"}), 404
+        
+        # Validate chapter_id if provided for CHAPTER type
+        chapter_id = data.get("chapter_id")
+        if item_type == "CHAPTER" and chapter_id:
+            chapter = execute_query("SELECT id FROM chapters WHERE id = ?", (chapter_id,))
+            if not chapter:
+                return jsonify({"error": "Chapter not found"}), 404
+        
+        # Add to collection
+        item_id = add_to_collection(
+            series_id=series_id,
+            item_type=item_type,
+            volume_id=volume_id,
+            chapter_id=chapter_id,
+            ownership_status=data.get("ownership_status", "OWNED"),
+            read_status=data.get("read_status", "UNREAD"),
+            format=data.get("format", "PHYSICAL"),
+            condition=data.get("condition", "NONE"),
+            purchase_date=data.get("purchase_date"),
+            purchase_price=data.get("purchase_price"),
+            purchase_location=data.get("purchase_location"),
+            notes=data.get("notes"),
+            custom_tags=data.get("custom_tags")
+        )
+        
+        return jsonify({"id": item_id}), 201
+    
+    except Exception as e:
+        LOGGER.error(f"Error adding to collection: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@api_bp.route('/collection/<int:item_id>', methods=['PUT'])
+def update_collection_item_api(item_id: int):
+    """Update a collection item.
+    
+    Args:
+        item_id (int): The collection item ID.
+        
+    Returns:
+        Response: Success message.
+    """
+    try:
+        data = request.json
+        if not data:
+            return jsonify({"error": "No data provided"}), 400
+        
+        # Update collection item
+        success = update_collection_item(
+            item_id=item_id,
+            ownership_status=data.get("ownership_status"),
+            read_status=data.get("read_status"),
+            format=data.get("format"),
+            condition=data.get("condition"),
+            purchase_date=data.get("purchase_date"),
+            purchase_price=data.get("purchase_price"),
+            purchase_location=data.get("purchase_location"),
+            notes=data.get("notes"),
+            custom_tags=data.get("custom_tags")
+        )
+        
+        if not success:
+            return jsonify({"error": "Collection item not found"}), 404
+        
+        return jsonify({"message": "Collection item updated successfully"})
+    
+    except Exception as e:
+        LOGGER.error(f"Error updating collection item: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@api_bp.route('/collection/<int:item_id>', methods=['DELETE'])
+def remove_from_collection_api(item_id: int):
+    """Remove an item from the collection.
+    
+    Args:
+        item_id (int): The collection item ID.
+        
+    Returns:
+        Response: Success message.
+    """
+    try:
+        success = remove_from_collection(item_id)
+        
+        if not success:
+            return jsonify({"error": "Collection item not found"}), 404
+        
+        return jsonify({"message": "Collection item removed successfully"})
+    
+    except Exception as e:
+        LOGGER.error(f"Error removing from collection: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@api_bp.route('/collection/import', methods=['POST'])
+def import_collection_api():
+    """Import collection data.
+    
+    Returns:
+        Response: Import statistics.
+    """
+    try:
+        data = request.json
+        if not data or not isinstance(data, list):
+            return jsonify({"error": "Invalid data format. Expected a list of collection items"}), 400
+        
+        stats = import_collection(data)
+        return jsonify(stats)
+    
+    except Exception as e:
+        LOGGER.error(f"Error importing collection: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@api_bp.route('/collection/export', methods=['GET'])
+def export_collection_api():
+    """Export collection data.
+    
+    Returns:
+        Response: The collection data.
+    """
+    try:
+        data = export_collection()
+        return jsonify({"items": data})
+    
+    except Exception as e:
+        LOGGER.error(f"Error exporting collection: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+# Notifications endpoints
+@api_bp.route('/notifications', methods=['GET'])
+def get_notifications_api():
+    """Get notifications.
+    
+    Returns:
+        Response: The notifications.
+    """
+    try:
+        limit = request.args.get('limit', 50, type=int)
+        unread_only = request.args.get('unread_only', False, type=bool)
+        
+        notifications = get_notifications(limit, unread_only)
+        return jsonify({"notifications": notifications})
+    
+    except Exception as e:
+        LOGGER.error(f"Error getting notifications: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@api_bp.route('/notifications/<int:notification_id>/read', methods=['PUT'])
+def mark_notification_as_read_api(notification_id: int):
+    """Mark a notification as read.
+    
+    Args:
+        notification_id (int): The notification ID.
+        
+    Returns:
+        Response: Success message.
+    """
+    try:
+        success = mark_notification_as_read(notification_id)
+        
+        if not success:
+            return jsonify({"error": "Failed to mark notification as read"}), 500
+        
+        return jsonify({"message": "Notification marked as read"})
+    
+    except Exception as e:
+        LOGGER.error(f"Error marking notification as read: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@api_bp.route('/notifications/read', methods=['PUT'])
+def mark_all_notifications_as_read_api():
+    """Mark all notifications as read.
+    
+    Returns:
+        Response: Success message.
+    """
+    try:
+        success = mark_all_notifications_as_read()
+        
+        if not success:
+            return jsonify({"error": "Failed to mark all notifications as read"}), 500
+        
+        return jsonify({"message": "All notifications marked as read"})
+    
+    except Exception as e:
+        LOGGER.error(f"Error marking all notifications as read: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@api_bp.route('/notifications/<int:notification_id>', methods=['DELETE'])
+def delete_notification_api(notification_id: int):
+    """Delete a notification.
+    
+    Args:
+        notification_id (int): The notification ID.
+        
+    Returns:
+        Response: Success message.
+    """
+    try:
+        success = delete_notification(notification_id)
+        
+        if not success:
+            return jsonify({"error": "Failed to delete notification"}), 500
+        
+        return jsonify({"message": "Notification deleted"})
+    
+    except Exception as e:
+        LOGGER.error(f"Error deleting notification: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@api_bp.route('/notifications', methods=['DELETE'])
+def delete_all_notifications_api():
+    """Delete all notifications.
+    
+    Returns:
+        Response: Success message.
+    """
+    try:
+        success = delete_all_notifications()
+        
+        if not success:
+            return jsonify({"error": "Failed to delete all notifications"}), 500
+        
+        return jsonify({"message": "All notifications deleted"})
+    
+    except Exception as e:
+        LOGGER.error(f"Error deleting all notifications: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@api_bp.route('/notifications/settings', methods=['GET'])
+def get_notification_settings_api():
+    """Get notification settings.
+    
+    Returns:
+        Response: The notification settings.
+    """
+    try:
+        settings = get_notification_settings()
+        return jsonify(settings)
+    
+    except Exception as e:
+        LOGGER.error(f"Error getting notification settings: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@api_bp.route('/notifications/settings', methods=['PUT'])
+def update_notification_settings_api():
+    """Update notification settings.
+    
+    Returns:
+        Response: Success message.
+    """
+    try:
+        data = request.json
+        if not data:
+            return jsonify({"error": "No data provided"}), 400
+        
+        success = update_notification_settings(
+            email_enabled=data.get('email_enabled'),
+            email_address=data.get('email_address'),
+            browser_enabled=data.get('browser_enabled'),
+            discord_enabled=data.get('discord_enabled'),
+            discord_webhook=data.get('discord_webhook'),
+            telegram_enabled=data.get('telegram_enabled'),
+            telegram_bot_token=data.get('telegram_bot_token'),
+            telegram_chat_id=data.get('telegram_chat_id'),
+            notify_new_volumes=data.get('notify_new_volumes'),
+            notify_new_chapters=data.get('notify_new_chapters'),
+            notify_releases_days_before=data.get('notify_releases_days_before')
+        )
+        
+        if not success:
+            return jsonify({"error": "Failed to update notification settings"}), 500
+        
+        return jsonify({"message": "Notification settings updated"})
+    
+    except Exception as e:
+        LOGGER.error(f"Error updating notification settings: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+# Subscriptions endpoints
+@api_bp.route('/subscriptions', methods=['GET'])
+def get_subscriptions_api():
+    """Get subscriptions.
+    
+    Returns:
+        Response: The subscriptions.
+    """
+    try:
+        subscriptions = get_subscriptions()
+        return jsonify({"subscriptions": subscriptions})
+    
+    except Exception as e:
+        LOGGER.error(f"Error getting subscriptions: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@api_bp.route('/subscriptions/<int:series_id>', methods=['GET'])
+def is_subscribed_api(series_id: int):
+    """Check if a series is subscribed to.
+    
+    Args:
+        series_id (int): The series ID.
+        
+    Returns:
+        Response: Whether the series is subscribed to.
+    """
+    try:
+        subscribed = is_subscribed(series_id)
+        return jsonify({"subscribed": subscribed})
+    
+    except Exception as e:
+        LOGGER.error(f"Error checking subscription: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@api_bp.route('/subscriptions', methods=['POST'])
+def subscribe_to_series_api():
+    """Subscribe to a series.
+    
+    Returns:
+        Response: The created subscription ID.
+    """
+    try:
+        data = request.json
+        if not data:
+            return jsonify({"error": "No data provided"}), 400
+        
+        if 'series_id' not in data:
+            return jsonify({"error": "Missing required field: series_id"}), 400
+        
+        series_id = data.get('series_id')
+        notify_new_volumes = data.get('notify_new_volumes', True)
+        notify_new_chapters = data.get('notify_new_chapters', True)
+        
+        subscription_id = subscribe_to_series(
+            series_id=series_id,
+            notify_new_volumes=notify_new_volumes,
+            notify_new_chapters=notify_new_chapters
+        )
+        
+        return jsonify({"id": subscription_id}), 201
+    
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 404
+    
+    except Exception as e:
+        LOGGER.error(f"Error subscribing to series: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@api_bp.route('/subscriptions/<int:series_id>', methods=['DELETE'])
+def unsubscribe_from_series_api(series_id: int):
+    """Unsubscribe from a series.
+    
+    Args:
+        series_id (int): The series ID.
+        
+    Returns:
+        Response: Success message.
+    """
+    try:
+        success = unsubscribe_from_series(series_id)
+        
+        if not success:
+            return jsonify({"error": "Failed to unsubscribe from series"}), 500
+        
+        return jsonify({"message": "Unsubscribed from series"})
+    
+    except Exception as e:
+        LOGGER.error(f"Error unsubscribing from series: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@api_bp.route('/monitor/check-releases', methods=['POST'])
+def check_releases_api():
+    """Check for upcoming releases and send notifications.
+    
+    Returns:
+        Response: The upcoming releases that were notified about.
+    """
+    try:
+        releases = check_upcoming_releases()
+        return jsonify({"releases": releases})
+    
+    except Exception as e:
+        LOGGER.error(f"Error checking releases: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@api_bp.route('/notifications/test', methods=['POST'])
+def send_test_notification_api():
+    """Send a test notification.
+    
+    Returns:
+        Response: Success message.
+    """
+    try:
+        data = request.json or {}
+        title = data.get('title', 'Test Notification')
+        message = data.get('message', 'This is a test notification from MangaArr.')
+        type = data.get('type', 'INFO')
+        
+        success = send_notification(title, message, type)
+        
+        if not success:
+            return jsonify({"error": "Failed to send test notification"}), 500
+        
+        return jsonify({"message": "Test notification sent"})
+    
+    except Exception as e:
+        LOGGER.error(f"Error sending test notification: {e}")
         return jsonify({"error": str(e)}), 500
