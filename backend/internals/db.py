@@ -162,12 +162,15 @@ def setup_db() -> None:
     )
     """, commit=True)
     
+    # Enable foreign key support
+    execute_query("PRAGMA foreign_keys = ON;")
+
     # Create calendar_events table
     execute_query("""
     CREATE TABLE IF NOT EXISTS calendar_events (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        series_id INTEGER,
-        volume_id INTEGER,
+        series_id INTEGER REFERENCES series(id) ON DELETE CASCADE,
+        volume_id INTEGER REFERENCES volumes(id) ON DELETE CASCADE,
         chapter_id INTEGER,
         title TEXT NOT NULL,
         description TEXT,

@@ -165,14 +165,24 @@ Updates an existing series.
 DELETE /api/series/{id}
 ```
 
-Deletes a series and all associated volumes, chapters, and calendar events.
+Deletes a series and all associated data through cascading deletes:
+- All volumes belonging to the series
+- All chapters belonging to the series
+- All calendar events for the series, its volumes, and chapters
 
 **Example Response:**
 ```json
 {
-  "message": "Series deleted successfully"
+  "message": "Series deleted successfully",
+  "cascade_deleted": {
+    "volumes": 5,
+    "chapters": 25,
+    "calendar_events": 3
+  }
 }
 ```
+
+**Note:** This is a cascading delete operation enforced by database constraints. All related data will be automatically removed to maintain referential integrity.
 
 ### Volume Endpoints
 
@@ -251,14 +261,22 @@ Updates an existing volume.
 DELETE /api/volumes/{id}
 ```
 
-Deletes a volume.
+Deletes a volume and its associated data:
+- Sets volume_id to NULL for any chapters in this volume
+- Deletes all calendar events for this volume
 
 **Example Response:**
 ```json
 {
-  "message": "Volume deleted successfully"
+  "message": "Volume deleted successfully",
+  "cascade_deleted": {
+    "calendar_events": 1
+  },
+  "chapters_updated": 5
 }
 ```
+
+**Note:** Chapter records are preserved but their volume_id is set to NULL. Calendar events are deleted through cascading constraints.
 
 ### Chapter Endpoints
 
@@ -344,14 +362,20 @@ Updates an existing chapter.
 DELETE /api/chapters/{id}
 ```
 
-Deletes a chapter.
+Deletes a chapter and its associated data:
+- Deletes all calendar events for this chapter
 
 **Example Response:**
 ```json
 {
-  "message": "Chapter deleted successfully"
+  "message": "Chapter deleted successfully",
+  "cascade_deleted": {
+    "calendar_events": 1
+  }
 }
 ```
+
+**Note:** Calendar events are deleted through cascading constraints.
 
 ### Calendar Endpoints
 

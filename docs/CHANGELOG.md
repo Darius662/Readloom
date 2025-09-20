@@ -5,18 +5,6 @@ All notable changes to MangaArr will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [upcoming]
-
-### Added
-- Enhanced calendar functionality
-  - Removed date range restrictions to show all release dates
-  - Improved handling of historical release dates
-  - Fixed chapter release date display in calendar
-### Fixed
-- Fixed issue with release dates not appearing in calendar
-### Changed
-- Modified calendar event cleanup to preserve historical events
-
 ## [0.0.4] - 2025-09-20
 
 ### Added
@@ -24,15 +12,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Better handling of null chapter numbers
   - Enhanced release date extraction from providers
   - Fixed caching issues with metadata providers
+- Foreign key constraints for better data integrity
+  - Calendar events now automatically deleted when series are removed
+  - Volume events deleted when volumes are removed
+  - Chapter events deleted when chapters are removed
+- SQLite foreign key support enabled by default
+- Improved database schema documentation
+- Enhanced calendar functionality
+  - Removed date range restrictions to show all release dates
+  - Improved handling of historical release dates
+  - Fixed chapter release date display in calendar
 
 ### Changed
 - Updated metadata service to handle different provider return formats
 - Improved error handling for manga imports
+- Modified calendar event cleanup to preserve historical events
+- Updated database initialization to include foreign key constraints
+- Modified calendar event cleanup to use cascading deletes
 
 ### Fixed
 - Fixed metadata cache type parameter issue
 - Fixed database constraints for chapter numbers
 - Improved handling of 'already exists' cases during manga import
+- Fixed issue with release dates not appearing in calendar
+- Fixed issue with orphaned calendar events after series deletion
+- Improved error handling for database constraints
 
 ## [0.0.3] - 2025-09-19
 
