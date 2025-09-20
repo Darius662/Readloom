@@ -46,6 +46,7 @@ class AniListProvider(MetadataProvider):
             self.info_provider = MangaInfoProvider()
         
         # List of popular manga that should use the scraper for better chapter counts
+        # Popular manga patterns for better chapter counts
         self.popular_manga_patterns = [
             re.compile(r'one\s*piece', re.IGNORECASE),
             re.compile(r'naruto', re.IGNORECASE),
@@ -58,6 +59,18 @@ class AniListProvider(MetadataProvider):
             re.compile(r'hunter\s*x\s*hunter', re.IGNORECASE),
             re.compile(r'tokyo\s*ghoul', re.IGNORECASE)
         ]
+        
+        # Known volume counts for manga where the API data might be incorrect
+        self.known_volumes = {
+            # AniList ID: Known volume count
+            "86952": 15,   # Kumo desu ga, Nani ka?
+            "30002": 72,   # Naruto
+            "31499": 41,   # Berserk
+            "97720": 23,   # Kaguya-sama wa Kokurasetai
+            "31478": 14,   # Monster
+            "30013": 27,   # One Punch Man (ongoing)
+            "31251": 13    # Made in Abyss (ongoing)
+        }
 
     def _make_graphql_request(self, query: str, variables: Dict[str, Any]) -> Dict[str, Any]:
         """Make a GraphQL request to the AniList API.
@@ -392,16 +405,54 @@ class AniListProvider(MetadataProvider):
                 # This is needed to prevent NoneType errors during import
                 volumes_list = []
                 
-                # If we have volume count, create placeholder volume entries
-                volume_count = item.get("volumes", 0)
+                # Check if we have a known correct volume count for this manga
+                known_volume_count = self.known_volumes.get(str(item["id"]))
+                if known_volume_count:
+                    self.logger.info(f"Using known volume count {known_volume_count} for {item['title'].get('romaji')}")
+                    volume_count = known_volume_count
+                else:                
+                    # Use AniList reported volume count
+                    volume_count = item.get("volumes", 0)
+                    
+                    # If volume count is still 0 but the manga is completed or has many chapters,
+                    # make a rough estimation
+                    if volume_count == 0 and item.get("status") == "FINISHED":
+                        chapter_count = item.get("chapters", 0)
+                        if chapter_count > 0:
+                            # Estimate 1 volume per 9 chapters as a rough guideline
+                            volume_count = max(1, chapter_count // 9)
+                            self.logger.info(f"Estimated {volume_count} volumes for {item['title'].get('romaji')} based on {chapter_count} chapters")
+                    
+                    # Still ensure we have at least 1 volume for any manga
+                    if volume_count == 0 and item.get("status") != "NOT_YET_RELEASED":
+                        volume_count = 1
                 if volume_count and volume_count > 0:
+                    # Calculate a reasonable interval between volumes
+                    if start_date and end_date and start_date != end_date:
+                        # If we have start and end dates, distribute volumes between them
+                        try:
+                            start = datetime.fromisoformat(start_date)
+                            end = datetime.fromisoformat(end_date)
+                            total_days = (end - start).days
+                            interval_days = max(30, total_days // volume_count)  # At least one month between volumes
+                        except (ValueError, TypeError):
+                            # Default to 3-month intervals if date parsing fails
+                            start = datetime.now() - timedelta(days=volume_count * 90)
+                            interval_days = 90
+                    else:
+                        # Default to 3-month intervals if we don't have proper dates
+                        start = datetime.now() - timedelta(days=volume_count * 90)
+                        interval_days = 90
+                        
                     for i in range(1, volume_count + 1):
+                        # Calculate volume release date (evenly distributed)
+                        volume_date = start + timedelta(days=(i-1) * interval_days)
                         volumes_list.append({
                             "number": str(i),
                             "title": f"Volume {i}",
                             "description": "",
                             "cover_url": "",
-                            "release_date": start_date  # Use manga start date as fallback
+                            "release_date": volume_date.strftime("%Y-%m-%d")  # Use calculated date
                         })
                 
                 return {
@@ -458,17 +509,28 @@ class AniListProvider(MetadataProvider):
             total_volumes = manga_details.get("volumes", 0)
             manga_title = manga_details.get("title", "")
             
-            # Try to get more accurate counts for any manga using our provider
+            # Always try to get accurate counts from external scraper
             provider_data = False
             if self.info_provider and manga_title:
-                self.logger.info(f"Getting accurate chapter counts for: {manga_title}")
+                self.logger.info(f"Getting accurate volume and chapter counts for: {manga_title}")
                 accurate_chapters, accurate_volumes = self.info_provider.get_chapter_count(manga_title)
                 
-                if accurate_chapters > 0:
-                    total_chapters = accurate_chapters
-                    total_volumes = accurate_volumes or total_volumes
+                # For volumes we ALWAYS use the scraped data when available
+                if accurate_volumes > 0:
+                    total_volumes = accurate_volumes
                     provider_data = True
-                    self.logger.info(f"Got accurate data for {manga_title}: {total_chapters} chapters, {total_volumes} volumes")
+                    self.logger.info(f"Using scraped volume count for {manga_title}: {total_volumes} volumes")
+                    
+                # For chapters, only use if greater than what AniList provides
+                if accurate_chapters > 0:
+                    # Handle None values in total_chapters
+                    if total_chapters is None or accurate_chapters > total_chapters:
+                        total_chapters = accurate_chapters
+                        self.logger.info(f"Using scraped chapter count for {manga_title}: {total_chapters} chapters")
+                    provider_data = True
+                    
+                if provider_data:
+                    self.logger.info(f"Final data for {manga_title}: {total_chapters} chapters, {total_volumes} volumes")
             
             # If no chapters count is provided by AniList API or our provider, estimate based on status and type
             if not provider_data and (not total_chapters or total_chapters <= 0):

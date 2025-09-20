@@ -5,9 +5,40 @@ All notable changes to MangaArr will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.0.5] - 2025-09-20
+## [0.0.4] - 2025-09-20
 
 ### Added
+- Improved metadata provider support
+  - Better handling of null chapter numbers
+  - Enhanced release date extraction from providers
+  - Fixed caching issues with metadata providers
+  - Added image proxy for external images to handle CORS issues
+- Foreign key constraints for better data integrity
+  - Calendar events now automatically deleted when series are removed
+  - Volume events deleted when volumes are removed
+  - Chapter events deleted when chapters are removed
+- SQLite foreign key support enabled by default
+- Improved database schema documentation
+- Enhanced calendar functionality
+  - Removed date range restrictions to show all release dates
+  - Improved handling of historical release dates
+  - Fixed chapter release date display in calendar
+- Major performance improvements for manga imports
+  - Series-specific calendar updates instead of full collection scans
+  - Enhanced MangaFire scraper with improved volume detection
+  - Added multiple fallback methods for manga search
+  - Implemented better error handling for API failures
+- Added robust volume detection system
+  - Multiple scraping sources for accurate volume data
+  - Enhanced pattern matching to find volume information
+  - Automatic volume generation when provider data is missing
+- Improved distribution of volume release dates
+  - Intelligent spacing based on publication schedule
+  - More realistic release patterns
+- Utility scripts for bulk operations
+  - `refresh_all_volumes.py` - Batch update volumes for all manga
+  - `update_manga_volumes.py` - Update volumes for specific manga
+  - `test_volume_scraper.py` - Test volume scraping functionality
 - Added AniList API integration as a new metadata provider
   - Complete manga search functionality
   - Detailed manga information retrieval
@@ -28,25 +59,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Past chapters marked as confirmed historical data
   - Future predicted chapters marked as unconfirmed
   - Better display of release patterns
-
-## [0.0.4] - 2025-09-20
-
-### Added
-- Improved metadata provider support
-  - Better handling of null chapter numbers
-  - Enhanced release date extraction from providers
-  - Fixed caching issues with metadata providers
-  - Added image proxy for external images to handle CORS issues
-- Foreign key constraints for better data integrity
-  - Calendar events now automatically deleted when series are removed
-  - Volume events deleted when volumes are removed
-  - Chapter events deleted when chapters are removed
-- SQLite foreign key support enabled by default
-- Improved database schema documentation
-- Enhanced calendar functionality
-  - Removed date range restrictions to show all release dates
-  - Improved handling of historical release dates
-  - Fixed chapter release date display in calendar
 
 ### Changed
 - Updated metadata service to handle different provider return formats

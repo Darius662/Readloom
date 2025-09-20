@@ -18,13 +18,20 @@ The AniList provider leverages AniList's GraphQL API to fetch comprehensive mang
 - **Related Manga**: Connected series information
 - **Recommendations**: Similar manga suggestions
 
-### Chapter Management
+### Chapter and Volume Management
 
 - **Multi-Source Chapter Counting**: Uses multiple data sources to get accurate chapter counts
   - Static database for popular manga (One Piece, Naruto, etc.)
   - Web scraping for less common series
   - MangaDex API integration for additional verification
   - Smart estimation for unknown series
+
+- **Enhanced Volume Detection** (v0.0.5+):
+  - Advanced web scraping from multiple sources (MangaFire, MangaPark, MangaDex)
+  - Pattern-based detection in chapter titles and descriptions
+  - Static database for known series' volume counts
+  - Fallback estimation based on chapter count
+  - Automatic volume generation when external data is unavailable
 
 - **Intelligent Release Date Generation**:
   - Different manga types follow their actual publication schedules
@@ -108,14 +115,21 @@ popular_manga_data = {
 1. **Use with Other Providers**:
    - AniList for general metadata and release schedules
    - MangaDex for detailed chapter information when available
+   - MangaFire for accurate volume counts
 
 2. **Calendar Configuration**:
    - Keep the 7-day upcoming release window for clean calendar display
    - Filter series to focus on actively followed manga
+   - Use series-specific calendar updates for better performance
 
 3. **Release Date Expectations**:
    - Understand that future dates are predictions, not official dates
    - Past chapter dates are more reliable as historical records
+
+4. **Volume Management**:
+   - Use `fix and test/update_manga_volumes.py` to correct inaccurate volume counts
+   - For bulk operations, use `fix and test/refresh_all_volumes.py`
+   - Check scraper logs if volume detection isn't working properly
 
 ## Troubleshooting
 
@@ -124,11 +138,18 @@ popular_manga_data = {
    - Verify if web scraping is enabled
    - Consider adding the manga to the static database
 
-2. **Incorrect Release Dates**:
+2. **Missing or Incorrect Volumes**:
+   - Run `fix and test/update_manga_volumes.py "Manga Title" <correct_volume_count>`
+   - Check if the manga title is recognized by the scrapers
+   - Try alternative spellings if the manga isn't found
+   - Use `fix and test/test_volume_scraper.py` to diagnose issues
+
+3. **Incorrect Release Dates**:
    - Check the publication schedule detection
    - Verify the manga type and publisher
    - Update the schedule detection rules if necessary
 
-3. **Calendar Issues**:
+4. **Calendar Issues**:
    - Ensure calendar_range_days is set appropriately
    - Check if confirmation mode is enabled/disabled as desired
+   - For performance issues, refer to the PERFORMANCE_TIPS.md document
