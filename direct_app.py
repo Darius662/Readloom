@@ -22,7 +22,7 @@ os.environ["MANGARR_DB_PATH"] = str(db_dir / "mangarr.db")
 os.environ["MANGARR_LOG_PATH"] = str(logs_dir)
 
 # Create Flask app
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 
 # Register blueprints
 from frontend.api import api_bp

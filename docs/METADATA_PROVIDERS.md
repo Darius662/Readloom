@@ -7,7 +7,7 @@ This document describes the behavior and implementation details of MangaArr's me
 MangaArr supports multiple metadata providers for fetching manga information, including:
 - MyAnimeList (via Jikan API)
 - MangaDex
-- MangaFire (deprecated)
+- Viz Media
 - Manga-API (deprecated)
 
 ## Provider Behavior
@@ -31,6 +31,18 @@ MangaArr supports multiple metadata providers for fetching manga information, in
   - May include chapters with null chapter numbers
   - Provides chapter titles in multiple languages
   - Release dates are in ISO format
+
+### Viz Media
+
+- **Search**: Returns official manga titles published by Viz Media
+- **Details**: Basic manga information and cover images from official sources
+- **Calendar**:
+  - Access to official Viz Media release calendar
+  - Accurate release dates for upcoming volumes
+  - Includes physical (paperback, hardcover) and digital formats
+- **Rate Limiting**:
+  - Implements automatic rate limiting to prevent API blocks
+  - Uses caching system to minimize requests
 
 ## Release Date Handling
 
@@ -67,7 +79,8 @@ The calendar system has been enhanced to handle release dates from all providers
 1. **Provider Selection**:
    - Use MyAnimeList for reliable metadata
    - Use MangaDex for comprehensive chapter information
-   - Avoid deprecated providers (MangaFire, Manga-API)
+   - Use Viz Media for official release dates and calendar information
+   - Avoid deprecated providers (Manga-API)
 
 2. **Release Date Management**:
    - Always include release dates when available

@@ -343,7 +343,7 @@
     function processImageUrl(url) {
         // If no URL provided, use the fallback
         if (!url) {
-            return '{{ url_for("ui.static", filename="img/no-cover.png") }}';
+            return '/static/img/no-cover.png';
         }
         
         // If URL is already relative, just return it

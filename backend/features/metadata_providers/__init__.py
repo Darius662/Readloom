@@ -7,14 +7,14 @@ This module contains the base classes and implementations for various metadata p
 """
 
 from .base import MetadataProvider, MetadataProviderManager
-from .mangafire import MangaFireProvider
 from .myanimelist import MyAnimeListProvider
 from .manga_api import MangaAPIProvider
+from .vizmedia import VizMediaProvider
 
 __all__ = [
     'MetadataProvider',
     'MetadataProviderManager',
-    'MangaFireProvider',
     'MyAnimeListProvider',
-    'MangaAPIProvider'
+    'MangaAPIProvider',
+    'VizMediaProvider'
 ]

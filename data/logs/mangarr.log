@@ -399,3 +399,1248 @@
 2025-09-20 14:39:46,300 - MangaArr - INFO - Request successful, status code: 200
 2025-09-20 14:39:46,302 - MangaArr - INFO - Returning 17 search results
 2025-09-20 14:39:47,499 - MangaArr - INFO - Settings table created or verified
+2025-09-20 14:52:31,549 - MangaArr - INFO - Logging to data\logs\mangarr.log
+2025-09-20 14:52:31,550 - MangaArr - INFO - Starting MangaArr in development mode
+2025-09-20 14:52:31,550 - MangaArr - INFO - Settings table created or verified
+2025-09-20 14:52:31,550 - MangaArr - INFO - Settings initialized
+2025-09-20 14:52:31,649 - MangaArr - INFO - Registered metadata provider: MangaFire
+2025-09-20 14:52:31,649 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 14:52:31,649 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-20 14:52:31,650 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-20 14:52:31,650 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 14:52:31,650 - MangaArr - INFO - Initialized 4 metadata providers
+2025-09-20 14:52:31,650 - MangaArr - INFO - Metadata service initialized
+2025-09-20 14:52:31,653 - MangaArr - INFO - Registered metadata provider: MangaFire
+2025-09-20 14:52:31,654 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 14:52:31,654 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-20 14:52:31,654 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-20 14:52:31,654 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 14:52:31,655 - MangaArr - INFO - Initialized 4 metadata providers
+2025-09-20 14:52:31,655 - MangaArr - INFO - Metadata service initialized
+2025-09-20 14:52:31,673 - MangaArr - INFO - Application initialized successfully
+2025-09-20 14:52:31,972 - MangaArr - INFO - Logging to data\logs\mangarr.log
+2025-09-20 14:52:31,973 - MangaArr - INFO - Starting MangaArr in development mode
+2025-09-20 14:52:31,973 - MangaArr - INFO - Settings table created or verified
+2025-09-20 14:52:31,973 - MangaArr - INFO - Settings initialized
+2025-09-20 14:52:32,087 - MangaArr - INFO - Registered metadata provider: MangaFire
+2025-09-20 14:52:32,087 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 14:52:32,087 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-20 14:52:32,088 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-20 14:52:32,088 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 14:52:32,088 - MangaArr - INFO - Initialized 4 metadata providers
+2025-09-20 14:52:32,088 - MangaArr - INFO - Metadata service initialized
+2025-09-20 14:52:32,091 - MangaArr - INFO - Registered metadata provider: MangaFire
+2025-09-20 14:52:32,092 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 14:52:32,092 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-20 14:52:32,092 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-20 14:52:32,092 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 14:52:32,093 - MangaArr - INFO - Initialized 4 metadata providers
+2025-09-20 14:52:32,093 - MangaArr - INFO - Metadata service initialized
+2025-09-20 14:52:32,113 - MangaArr - INFO - Application initialized successfully
+2025-09-20 14:52:35,477 - MangaArr - INFO - Settings table created or verified
+2025-09-20 14:52:36,428 - MangaArr - INFO - Settings table created or verified
+2025-09-20 14:52:39,592 - MangaArr - INFO - Settings table created or verified
+2025-09-20 14:52:40,468 - MangaArr - INFO - Settings table created or verified
+2025-09-20 14:52:40,945 - MangaArr - INFO - Settings table created or verified
+2025-09-20 14:52:42,820 - MangaArr - INFO - Settings table created or verified
+2025-09-20 14:52:45,380 - MangaArr - INFO - Settings table created or verified
+2025-09-20 14:52:55,815 - MangaArr - INFO - Settings table created or verified
+2025-09-20 14:52:56,594 - MangaArr - INFO - Settings table created or verified
+2025-09-20 14:53:05,485 - MangaArr - INFO - Settings table created or verified
+2025-09-20 14:53:08,665 - MangaArr - INFO - Settings table created or verified
+2025-09-20 14:53:12,286 - MangaArr - INFO - Settings table created or verified
+2025-09-20 14:53:12,364 - MangaArr - INFO - Settings table created or verified
+2025-09-20 14:53:14,306 - MangaArr - INFO - Settings table created or verified
+2025-09-20 14:53:17,972 - MangaArr - INFO - Settings table created or verified
+2025-09-20 14:53:32,846 - MangaArr - INFO - Settings table created or verified
+2025-09-20 14:53:36,118 - MangaArr - INFO - Settings table created or verified
+2025-09-20 14:53:36,189 - MangaArr - INFO - Settings table created or verified
+2025-09-20 14:53:37,475 - MangaArr - INFO - Settings table created or verified
+2025-09-20 14:53:42,944 - MangaArr - INFO - Settings table created or verified
+2025-09-20 14:53:55,079 - MangaArr - INFO - Settings table created or verified
+2025-09-20 14:53:55,569 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:09:28,617 - MangaArr - INFO - Logging to data\logs\mangarr.log
+2025-09-20 15:09:28,618 - MangaArr - INFO - Starting MangaArr in development mode
+2025-09-20 15:09:28,618 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:09:28,619 - MangaArr - INFO - Settings initialized
+2025-09-20 15:09:28,727 - MangaArr - INFO - Registered metadata provider: MangaFire
+2025-09-20 15:09:28,728 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:09:28,728 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-20 15:09:28,728 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-20 15:09:28,729 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:09:28,729 - MangaArr - INFO - Initialized 4 metadata providers
+2025-09-20 15:09:28,729 - MangaArr - INFO - Metadata service initialized
+2025-09-20 15:09:28,732 - MangaArr - INFO - Registered metadata provider: MangaFire
+2025-09-20 15:09:28,732 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:09:28,732 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-20 15:09:28,733 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-20 15:09:28,733 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:09:28,733 - MangaArr - INFO - Initialized 4 metadata providers
+2025-09-20 15:09:28,734 - MangaArr - INFO - Metadata service initialized
+2025-09-20 15:09:28,751 - MangaArr - INFO - Application initialized successfully
+2025-09-20 15:09:29,044 - MangaArr - INFO - Logging to data\logs\mangarr.log
+2025-09-20 15:09:29,044 - MangaArr - INFO - Starting MangaArr in development mode
+2025-09-20 15:09:29,044 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:09:29,045 - MangaArr - INFO - Settings initialized
+2025-09-20 15:09:29,149 - MangaArr - INFO - Registered metadata provider: MangaFire
+2025-09-20 15:09:29,150 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:09:29,150 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-20 15:09:29,150 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-20 15:09:29,151 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:09:29,151 - MangaArr - INFO - Initialized 4 metadata providers
+2025-09-20 15:09:29,151 - MangaArr - INFO - Metadata service initialized
+2025-09-20 15:09:29,154 - MangaArr - INFO - Registered metadata provider: MangaFire
+2025-09-20 15:09:29,154 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:09:29,154 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-20 15:09:29,155 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-20 15:09:29,155 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:09:29,155 - MangaArr - INFO - Initialized 4 metadata providers
+2025-09-20 15:09:29,155 - MangaArr - INFO - Metadata service initialized
+2025-09-20 15:09:29,172 - MangaArr - INFO - Application initialized successfully
+2025-09-20 15:09:32,583 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:09:34,332 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:09:42,058 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:09:43,402 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:09:44,986 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:11:13,245 - MangaArr - INFO - Logging to data\logs\mangarr.log
+2025-09-20 15:11:13,246 - MangaArr - INFO - Starting MangaArr in development mode
+2025-09-20 15:11:13,246 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:11:13,246 - MangaArr - INFO - Settings initialized
+2025-09-20 15:11:13,345 - MangaArr - INFO - Registered metadata provider: MangaFire
+2025-09-20 15:11:13,345 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:11:13,345 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-20 15:11:13,346 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-20 15:11:13,346 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:11:13,346 - MangaArr - INFO - Initialized 4 metadata providers
+2025-09-20 15:11:13,346 - MangaArr - INFO - Metadata service initialized
+2025-09-20 15:11:13,349 - MangaArr - INFO - Registered metadata provider: MangaFire
+2025-09-20 15:11:13,349 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:11:13,349 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-20 15:11:13,350 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-20 15:11:13,350 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:11:13,350 - MangaArr - INFO - Initialized 4 metadata providers
+2025-09-20 15:11:13,350 - MangaArr - INFO - Metadata service initialized
+2025-09-20 15:11:13,368 - MangaArr - INFO - Application initialized successfully
+2025-09-20 15:11:13,655 - MangaArr - INFO - Logging to data\logs\mangarr.log
+2025-09-20 15:11:13,656 - MangaArr - INFO - Starting MangaArr in development mode
+2025-09-20 15:11:13,656 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:11:13,656 - MangaArr - INFO - Settings initialized
+2025-09-20 15:11:13,753 - MangaArr - INFO - Registered metadata provider: MangaFire
+2025-09-20 15:11:13,754 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:11:13,754 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-20 15:11:13,754 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-20 15:11:13,755 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:11:13,755 - MangaArr - INFO - Initialized 4 metadata providers
+2025-09-20 15:11:13,755 - MangaArr - INFO - Metadata service initialized
+2025-09-20 15:11:13,758 - MangaArr - INFO - Registered metadata provider: MangaFire
+2025-09-20 15:11:13,758 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:11:13,758 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-20 15:11:13,759 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-20 15:11:13,759 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:11:13,759 - MangaArr - INFO - Initialized 4 metadata providers
+2025-09-20 15:11:13,759 - MangaArr - INFO - Metadata service initialized
+2025-09-20 15:11:13,777 - MangaArr - INFO - Application initialized successfully
+2025-09-20 15:11:15,653 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:11:17,086 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:11:18,476 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:12:33,441 - MangaArr - INFO - Logging to data\logs\mangarr.log
+2025-09-20 15:12:33,442 - MangaArr - INFO - Starting MangaArr in development mode
+2025-09-20 15:12:33,442 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:12:33,442 - MangaArr - INFO - Settings initialized
+2025-09-20 15:12:33,574 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:12:33,575 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-20 15:12:33,575 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-20 15:12:33,575 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:12:33,575 - MangaArr - INFO - Initialized 3 metadata providers
+2025-09-20 15:12:33,575 - MangaArr - INFO - Metadata service initialized
+2025-09-20 15:12:33,578 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:12:33,579 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-20 15:12:33,579 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-20 15:12:33,579 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:12:33,579 - MangaArr - INFO - Initialized 3 metadata providers
+2025-09-20 15:12:33,580 - MangaArr - INFO - Metadata service initialized
+2025-09-20 15:12:33,601 - MangaArr - INFO - Application initialized successfully
+2025-09-20 15:12:46,527 - MangaArr - INFO - Logging to data\logs\mangarr.log
+2025-09-20 15:12:46,528 - MangaArr - INFO - Starting MangaArr in development mode
+2025-09-20 15:12:46,528 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:12:46,529 - MangaArr - INFO - Settings initialized
+2025-09-20 15:12:46,679 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:12:46,679 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-20 15:12:46,680 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-20 15:12:46,680 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:12:46,680 - MangaArr - INFO - Initialized 3 metadata providers
+2025-09-20 15:12:46,680 - MangaArr - INFO - Metadata service initialized
+2025-09-20 15:12:46,686 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:12:46,686 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-20 15:12:46,686 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-20 15:12:46,687 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:12:46,687 - MangaArr - INFO - Initialized 3 metadata providers
+2025-09-20 15:12:46,687 - MangaArr - INFO - Metadata service initialized
+2025-09-20 15:12:46,709 - MangaArr - INFO - Application initialized successfully
+2025-09-20 15:17:11,022 - MangaArr - INFO - Logging to data\logs\mangarr.log
+2025-09-20 15:17:11,022 - MangaArr - INFO - Starting MangaArr in development mode
+2025-09-20 15:17:11,023 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:17:11,024 - MangaArr - INFO - Settings initialized
+2025-09-20 15:17:11,121 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:17:11,121 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-20 15:17:11,121 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-20 15:17:11,122 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:17:11,122 - MangaArr - INFO - Initialized 3 metadata providers
+2025-09-20 15:17:11,122 - MangaArr - INFO - Metadata service initialized
+2025-09-20 15:17:11,125 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:17:11,126 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-20 15:17:11,126 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-20 15:17:11,126 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:17:11,126 - MangaArr - INFO - Initialized 3 metadata providers
+2025-09-20 15:17:11,127 - MangaArr - INFO - Metadata service initialized
+2025-09-20 15:17:11,144 - MangaArr - INFO - Application initialized successfully
+2025-09-20 15:17:11,430 - MangaArr - INFO - Logging to data\logs\mangarr.log
+2025-09-20 15:17:11,430 - MangaArr - INFO - Starting MangaArr in development mode
+2025-09-20 15:17:11,430 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:17:11,431 - MangaArr - INFO - Settings initialized
+2025-09-20 15:17:11,532 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:17:11,532 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-20 15:17:11,533 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-20 15:17:11,533 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:17:11,533 - MangaArr - INFO - Initialized 3 metadata providers
+2025-09-20 15:17:11,533 - MangaArr - INFO - Metadata service initialized
+2025-09-20 15:17:11,536 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:17:11,536 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-20 15:17:11,537 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-20 15:17:11,537 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:17:11,537 - MangaArr - INFO - Initialized 3 metadata providers
+2025-09-20 15:17:11,537 - MangaArr - INFO - Metadata service initialized
+2025-09-20 15:17:11,558 - MangaArr - INFO - Application initialized successfully
+2025-09-20 15:17:14,869 - MangaArr - INFO - Searching for 'One Punch Man' on page 1
+2025-09-20 15:17:14,869 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga with params {'q': 'One Punch Man', 'page': 1, 'limit': 20, 'type': 'manga'}
+2025-09-20 15:17:15,871 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:17:15,872 - MangaArr - INFO - Returning 20 search results
+2025-09-20 15:17:17,295 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-20 15:17:17,295 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-20 15:17:17,296 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga/44347/full with params None
+2025-09-20 15:17:17,878 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:17:17,879 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-20 15:17:17,879 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-20 15:17:18,683 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-20 15:17:18,683 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-20 15:17:18,683 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga/44347/full with params None
+2025-09-20 15:17:19,170 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:17:19,170 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-20 15:17:19,170 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-20 15:17:19,173 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-20 15:17:19,174 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-20 15:17:19,174 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga/44347/full with params None
+2025-09-20 15:17:19,645 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:17:19,646 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-20 15:17:19,647 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-20 15:17:19,650 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:17:19,654 - MangaArr - INFO - Calendar updated successfully
+2025-09-20 15:18:11,787 - MangaArr - INFO - Searching for 'Spy x Family Season 3' on page 1
+2025-09-20 15:18:11,788 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga with params {'q': 'Spy x Family Season 3', 'page': 1, 'limit': 20, 'type': 'manga'}
+2025-09-20 15:18:12,443 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:18:12,444 - MangaArr - INFO - Returning 20 search results
+2025-09-20 15:23:36,955 - MangaArr - INFO - Logging to data\logs\mangarr.log
+2025-09-20 15:23:36,955 - MangaArr - INFO - Starting MangaArr in development mode
+2025-09-20 15:23:36,956 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:23:36,956 - MangaArr - INFO - Settings initialized
+2025-09-20 15:23:37,063 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:23:37,064 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-20 15:23:37,064 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-20 15:23:37,064 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:23:37,065 - MangaArr - INFO - Initialized 3 metadata providers
+2025-09-20 15:23:37,065 - MangaArr - INFO - Metadata service initialized
+2025-09-20 15:23:37,069 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:23:37,069 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-20 15:23:37,069 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-20 15:23:37,069 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:23:37,069 - MangaArr - INFO - Initialized 3 metadata providers
+2025-09-20 15:23:37,070 - MangaArr - INFO - Metadata service initialized
+2025-09-20 15:23:37,090 - MangaArr - INFO - Application initialized successfully
+2025-09-20 15:23:37,389 - MangaArr - INFO - Logging to data\logs\mangarr.log
+2025-09-20 15:23:37,389 - MangaArr - INFO - Starting MangaArr in development mode
+2025-09-20 15:23:37,389 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:23:37,390 - MangaArr - INFO - Settings initialized
+2025-09-20 15:23:37,488 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:23:37,489 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-20 15:23:37,489 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-20 15:23:37,489 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:23:37,490 - MangaArr - INFO - Initialized 3 metadata providers
+2025-09-20 15:23:37,490 - MangaArr - INFO - Metadata service initialized
+2025-09-20 15:23:37,493 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:23:37,493 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-20 15:23:37,493 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-20 15:23:37,494 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:23:37,494 - MangaArr - INFO - Initialized 3 metadata providers
+2025-09-20 15:23:37,494 - MangaArr - INFO - Metadata service initialized
+2025-09-20 15:23:37,512 - MangaArr - INFO - Application initialized successfully
+2025-09-20 15:23:39,623 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:23:43,689 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:23:45,885 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:23:46,705 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:23:47,410 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:23:48,253 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:23:50,034 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:23:52,978 - MangaArr - INFO - Searching for 'Tomodachi no Imouto ga Ore ni dake ... (2025)' on page 1
+2025-09-20 15:23:52,979 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga with params {'q': 'Tomodachi no Imouto ga Ore ni dake ... (2025)', 'page': 1, 'limit': 20, 'type': 'manga'}
+2025-09-20 15:23:54,003 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:23:54,004 - MangaArr - INFO - Returning 18 search results
+2025-09-20 15:23:55,678 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-20 15:23:55,719 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-20 15:23:55,750 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga/123632/full with params None
+2025-09-20 15:23:56,225 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:23:56,226 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-20 15:23:56,226 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-20 15:23:57,430 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-20 15:23:57,431 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-20 15:23:57,431 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga/123632/full with params None
+2025-09-20 15:23:57,901 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:23:57,902 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-20 15:23:57,902 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-20 15:23:57,906 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-20 15:23:57,906 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-20 15:23:57,906 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga/123632/full with params None
+2025-09-20 15:23:58,376 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:23:58,377 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-20 15:23:58,377 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-20 15:23:58,380 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:23:58,384 - MangaArr - INFO - Calendar updated successfully
+2025-09-20 15:24:00,389 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:24:01,178 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:24:15,203 - MangaArr - INFO - Searching for 'Fumetsu no Anata e Season 3 (2025)' on page 1
+2025-09-20 15:24:15,203 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga with params {'q': 'Fumetsu no Anata e Season 3 (2025)', 'page': 1, 'limit': 20, 'type': 'manga'}
+2025-09-20 15:24:15,728 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:24:15,728 - MangaArr - INFO - Returning 20 search results
+2025-09-20 15:24:15,729 - MangaArr - INFO - Searching for 'Fumetsu no Anata e Season 3 (2025)' on page 1
+2025-09-20 15:24:15,729 - MangaArr - INFO - Making request to https://api.mangadex.org/manga with params {'title': 'Fumetsu no Anata e Season 3 (2025)', 'limit': 20, 'offset': 0, 'includes[]': ['cover_art', 'author']}
+2025-09-20 15:24:16,692 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:24:16,692 - MangaArr - INFO - Returning 0 search results
+2025-09-20 15:24:18,331 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-20 15:24:18,331 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-20 15:24:18,331 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga/102343/full with params None
+2025-09-20 15:24:18,804 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:24:18,805 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-20 15:24:18,805 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-20 15:24:19,665 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-20 15:24:19,666 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-20 15:24:19,666 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga/102343/full with params None
+2025-09-20 15:24:20,136 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:24:20,137 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-20 15:24:20,137 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-20 15:24:20,140 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-20 15:24:20,140 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-20 15:24:20,140 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga/102343/full with params None
+2025-09-20 15:24:20,613 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:24:20,616 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-20 15:24:20,617 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-20 15:24:20,687 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:24:21,233 - MangaArr - INFO - Calendar updated successfully
+2025-09-20 15:24:33,985 - MangaArr - INFO - Searching for 'Boku no Hero Academia: Final Season (2025)' on page 1
+2025-09-20 15:24:33,986 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga with params {'q': 'Boku no Hero Academia: Final Season (2025)', 'page': 1, 'limit': 20, 'type': 'manga'}
+2025-09-20 15:24:34,458 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:24:34,459 - MangaArr - INFO - Returning 15 search results
+2025-09-20 15:24:34,459 - MangaArr - INFO - Searching for 'Boku no Hero Academia: Final Season (2025)' on page 1
+2025-09-20 15:24:34,460 - MangaArr - INFO - Making request to https://api.mangadex.org/manga with params {'title': 'Boku no Hero Academia: Final Season (2025)', 'limit': 20, 'offset': 0, 'includes[]': ['cover_art', 'author']}
+2025-09-20 15:24:35,444 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:24:35,444 - MangaArr - INFO - Returning 0 search results
+2025-09-20 15:24:38,036 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:24:39,574 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:24:42,293 - MangaArr - INFO - Searching for 'Boku no Hero Academia: Final Season (2025)' on page 1
+2025-09-20 15:24:42,293 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga with params {'q': 'Boku no Hero Academia: Final Season (2025)', 'page': 1, 'limit': 20, 'type': 'manga'}
+2025-09-20 15:24:42,767 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:24:42,768 - MangaArr - INFO - Returning 15 search results
+2025-09-20 15:24:42,768 - MangaArr - INFO - Searching for 'Boku no Hero Academia: Final Season (2025)' on page 1
+2025-09-20 15:24:42,768 - MangaArr - INFO - Making request to https://api.mangadex.org/manga with params {'title': 'Boku no Hero Academia: Final Season (2025)', 'limit': 20, 'offset': 0, 'includes[]': ['cover_art', 'author']}
+2025-09-20 15:24:43,625 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:24:43,625 - MangaArr - INFO - Returning 0 search results
+2025-09-20 15:24:57,274 - MangaArr - INFO - Searching for 'Boku no Hero Academia: Final Season (2025)' on page 1
+2025-09-20 15:24:57,274 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga with params {'q': 'Boku no Hero Academia: Final Season (2025)', 'page': 1, 'limit': 20, 'type': 'manga'}
+2025-09-20 15:24:57,768 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:24:57,769 - MangaArr - INFO - Returning 15 search results
+2025-09-20 15:25:00,610 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-20 15:25:00,611 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-20 15:25:00,611 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga/75989/full with params None
+2025-09-20 15:25:01,083 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:25:01,084 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-20 15:25:01,084 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-20 15:25:01,764 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-20 15:25:01,765 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-20 15:25:01,765 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga/75989/full with params None
+2025-09-20 15:25:02,235 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:25:02,236 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-20 15:25:02,236 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-20 15:25:02,241 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-20 15:25:02,241 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-20 15:25:02,241 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga/75989/full with params None
+2025-09-20 15:25:02,714 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:25:02,718 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-20 15:25:02,718 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-20 15:25:02,840 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:25:03,999 - MangaArr - INFO - Calendar updated successfully
+2025-09-20 15:25:18,335 - MangaArr - INFO - Searching for 'Spy x Family Season 3 (2025)' on page 1
+2025-09-20 15:25:18,335 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga with params {'q': 'Spy x Family Season 3 (2025)', 'page': 1, 'limit': 20, 'type': 'manga'}
+2025-09-20 15:25:18,998 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:25:18,999 - MangaArr - INFO - Returning 20 search results
+2025-09-20 15:25:20,526 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-20 15:25:20,527 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-20 15:25:20,527 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga/119161/full with params None
+2025-09-20 15:25:20,997 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:25:20,998 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-20 15:25:20,998 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-20 15:25:26,064 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-20 15:25:26,064 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-20 15:25:26,064 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga/119161/full with params None
+2025-09-20 15:25:26,535 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:25:26,536 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-20 15:25:26,536 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-20 15:25:27,182 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-20 15:25:27,182 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-20 15:25:27,182 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga/119161/full with params None
+2025-09-20 15:25:27,655 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:25:27,656 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-20 15:25:27,656 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-20 15:25:27,659 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-20 15:25:27,659 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-20 15:25:27,660 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga/119161/full with params None
+2025-09-20 15:25:28,130 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:25:28,130 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-20 15:25:28,131 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-20 15:25:28,134 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:25:28,179 - MangaArr - INFO - Calendar updated successfully
+2025-09-20 15:25:36,966 - MangaArr - INFO - Searching for 'One Punch Man 3 (2025)' on page 1
+2025-09-20 15:25:36,966 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga with params {'q': 'One Punch Man 3 (2025)', 'page': 1, 'limit': 20, 'type': 'manga'}
+2025-09-20 15:25:38,051 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:25:38,052 - MangaArr - INFO - Returning 20 search results
+2025-09-20 15:25:39,664 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-20 15:25:39,664 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-20 15:25:39,664 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga/44347/full with params None
+2025-09-20 15:25:40,136 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:25:40,137 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-20 15:25:40,137 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-20 15:25:42,521 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-20 15:25:42,521 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-20 15:25:42,521 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga/44347/full with params None
+2025-09-20 15:25:42,995 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:25:42,996 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-20 15:25:42,996 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-20 15:25:45,051 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:30:06,361 - MangaArr - INFO - Logging to data\logs\mangarr.log
+2025-09-20 15:30:06,362 - MangaArr - INFO - Starting MangaArr in development mode
+2025-09-20 15:30:06,362 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:30:06,363 - MangaArr - INFO - Settings initialized
+2025-09-20 15:30:06,481 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:30:06,481 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-20 15:30:06,482 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-20 15:30:06,482 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:30:06,482 - MangaArr - INFO - Initialized 3 metadata providers
+2025-09-20 15:30:06,483 - MangaArr - INFO - Metadata service initialized
+2025-09-20 15:30:06,486 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:30:06,486 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-20 15:30:06,486 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-20 15:30:06,487 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:30:06,487 - MangaArr - INFO - Initialized 3 metadata providers
+2025-09-20 15:30:06,487 - MangaArr - INFO - Metadata service initialized
+2025-09-20 15:30:06,505 - MangaArr - INFO - Application initialized successfully
+2025-09-20 15:32:32,651 - MangaArr - INFO - Logging to data\logs\mangarr.log
+2025-09-20 15:32:32,651 - MangaArr - INFO - Starting MangaArr in development mode
+2025-09-20 15:32:32,652 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:32:32,652 - MangaArr - INFO - Settings initialized
+2025-09-20 15:32:32,784 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:32:32,784 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-20 15:32:32,784 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-20 15:32:32,784 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:32:32,785 - MangaArr - INFO - Registered metadata provider: VizMedia
+2025-09-20 15:32:32,785 - MangaArr - INFO - Initialized 4 metadata providers
+2025-09-20 15:32:32,785 - MangaArr - INFO - Metadata service initialized
+2025-09-20 15:32:32,789 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:32:32,789 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-20 15:32:32,789 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-20 15:32:32,789 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:32:32,790 - MangaArr - INFO - Registered metadata provider: VizMedia
+2025-09-20 15:32:32,790 - MangaArr - INFO - Initialized 4 metadata providers
+2025-09-20 15:32:32,790 - MangaArr - INFO - Metadata service initialized
+2025-09-20 15:32:32,808 - MangaArr - INFO - Application initialized successfully
+2025-09-20 15:32:33,110 - MangaArr - INFO - Logging to data\logs\mangarr.log
+2025-09-20 15:32:33,110 - MangaArr - INFO - Starting MangaArr in development mode
+2025-09-20 15:32:33,110 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:32:33,110 - MangaArr - INFO - Settings initialized
+2025-09-20 15:32:33,212 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:32:33,212 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-20 15:32:33,213 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-20 15:32:33,213 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:32:33,213 - MangaArr - INFO - Registered metadata provider: VizMedia
+2025-09-20 15:32:33,214 - MangaArr - INFO - Initialized 4 metadata providers
+2025-09-20 15:32:33,214 - MangaArr - INFO - Metadata service initialized
+2025-09-20 15:32:33,217 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:32:33,217 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-20 15:32:33,218 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-20 15:32:33,218 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:32:33,218 - MangaArr - INFO - Registered metadata provider: VizMedia
+2025-09-20 15:32:33,218 - MangaArr - INFO - Initialized 4 metadata providers
+2025-09-20 15:32:33,218 - MangaArr - INFO - Metadata service initialized
+2025-09-20 15:32:33,236 - MangaArr - INFO - Application initialized successfully
+2025-09-20 15:42:35,145 - MangaArr - INFO - Logging to data\logs\mangarr.log
+2025-09-20 15:42:35,146 - MangaArr - INFO - Starting MangaArr in development mode
+2025-09-20 15:42:35,147 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:42:35,147 - MangaArr - INFO - Settings initialized
+2025-09-20 15:42:35,253 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:42:35,253 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-20 15:42:35,253 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-20 15:42:35,254 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:42:35,254 - MangaArr - INFO - Registered metadata provider: VizMedia
+2025-09-20 15:42:35,254 - MangaArr - INFO - Initialized 4 metadata providers
+2025-09-20 15:42:35,255 - MangaArr - INFO - Metadata service initialized
+2025-09-20 15:42:35,257 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:42:35,257 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-20 15:42:35,258 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-20 15:42:35,258 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:42:35,258 - MangaArr - INFO - Registered metadata provider: VizMedia
+2025-09-20 15:42:35,259 - MangaArr - INFO - Initialized 4 metadata providers
+2025-09-20 15:42:35,259 - MangaArr - INFO - Metadata service initialized
+2025-09-20 15:42:35,276 - MangaArr - INFO - Application initialized successfully
+2025-09-20 15:42:35,617 - MangaArr - INFO - Logging to data\logs\mangarr.log
+2025-09-20 15:42:35,617 - MangaArr - INFO - Starting MangaArr in development mode
+2025-09-20 15:42:35,618 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:42:35,618 - MangaArr - INFO - Settings initialized
+2025-09-20 15:42:35,759 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:42:35,760 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-20 15:42:35,760 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-20 15:42:35,760 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:42:35,761 - MangaArr - INFO - Registered metadata provider: VizMedia
+2025-09-20 15:42:35,761 - MangaArr - INFO - Initialized 4 metadata providers
+2025-09-20 15:42:35,761 - MangaArr - INFO - Metadata service initialized
+2025-09-20 15:42:35,767 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:42:35,768 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-20 15:42:35,768 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-20 15:42:35,768 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:42:35,768 - MangaArr - INFO - Registered metadata provider: VizMedia
+2025-09-20 15:42:35,769 - MangaArr - INFO - Initialized 4 metadata providers
+2025-09-20 15:42:35,769 - MangaArr - INFO - Metadata service initialized
+2025-09-20 15:42:35,790 - MangaArr - INFO - Application initialized successfully
+2025-09-20 15:42:37,327 - MangaArr - INFO - Searching for 'A Star Brighter than the Sun Manga' on page 1
+2025-09-20 15:42:37,328 - MangaArr - INFO - Making request to https://www.viz.com/search with params {'search': 'A Star Brighter than the Sun Manga', 'category': 'manga', 'page': 1}
+2025-09-20 15:42:37,791 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:42:37,818 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-4/product/8609
+2025-09-20 15:42:37,818 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-4/product/8609 with params None
+2025-09-20 15:42:37,887 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:42:37,922 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-3/product/8486
+2025-09-20 15:42:37,922 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-3/product/8486 with params None
+2025-09-20 15:42:37,988 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:42:38,017 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-2/product/8339
+2025-09-20 15:42:38,018 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-2/product/8339 with params None
+2025-09-20 15:42:38,082 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:42:38,111 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-1/product/8220
+2025-09-20 15:42:38,112 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-1/product/8220 with params None
+2025-09-20 15:42:38,176 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:42:42,232 - MangaArr - INFO - Searching for 'naruto' on page 1
+2025-09-20 15:42:42,232 - MangaArr - INFO - Making request to https://www.viz.com/search with params {'search': 'naruto', 'category': 'manga', 'page': 1}
+2025-09-20 15:42:42,306 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:42:42,338 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/naruto-volume-46/product/2187
+2025-09-20 15:42:42,339 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/naruto-volume-46/product/2187 with params None
+2025-09-20 15:42:42,779 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:42:42,806 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/naruto-volume-15/product/1071
+2025-09-20 15:42:42,806 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/naruto-volume-15/product/1071 with params None
+2025-09-20 15:42:43,234 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:42:43,265 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/naruto-volume-72/product/3500
+2025-09-20 15:42:43,266 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/naruto-volume-72/product/3500 with params None
+2025-09-20 15:42:43,539 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:42:43,566 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/naruto-volume-53/product/2614
+2025-09-20 15:42:43,566 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/naruto-volume-53/product/2614 with params None
+2025-09-20 15:42:43,851 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:42:43,882 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/naruto-volume-1/product/91
+2025-09-20 15:42:43,882 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/naruto-volume-1/product/91 with params None
+2025-09-20 15:42:44,168 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:42:44,196 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/naruto-volume-70/product/3499
+2025-09-20 15:42:44,196 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/naruto-volume-70/product/3499 with params None
+2025-09-20 15:42:44,564 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:42:44,600 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/naruto-volume-58/product/2824
+2025-09-20 15:42:44,600 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/naruto-volume-58/product/2824 with params None
+2025-09-20 15:42:44,886 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:42:44,917 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/naruto-volume-29/product/1320
+2025-09-20 15:42:44,917 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/naruto-volume-29/product/1320 with params None
+2025-09-20 15:42:45,198 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:42:45,228 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/naruto-volume-26/product/1317
+2025-09-20 15:42:45,228 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/naruto-volume-26/product/1317 with params None
+2025-09-20 15:42:45,503 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:42:45,530 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/naruto-volume-57/product/2823
+2025-09-20 15:42:45,530 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/naruto-volume-57/product/2823 with params None
+2025-09-20 15:42:45,803 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:42:45,833 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/naruto-volume-49/product/2415
+2025-09-20 15:42:45,834 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/naruto-volume-49/product/2415 with params None
+2025-09-20 15:42:45,989 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/naruto-volume-49/product/2415: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/naruto-volume-49/product/2415
+2025-09-20 15:42:45,989 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/naruto-volume-49/product/2415
+2025-09-20 15:42:45,990 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/naruto-volume-54/product/2820
+2025-09-20 15:42:45,990 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/naruto-volume-54/product/2820 with params None
+2025-09-20 15:42:46,141 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/naruto-volume-54/product/2820: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/naruto-volume-54/product/2820
+2025-09-20 15:42:46,142 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/naruto-volume-54/product/2820
+2025-09-20 15:42:46,142 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/naruto-volume-31/product/1527
+2025-09-20 15:42:46,143 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/naruto-volume-31/product/1527 with params None
+2025-09-20 15:42:46,295 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/naruto-volume-31/product/1527: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/naruto-volume-31/product/1527
+2025-09-20 15:42:46,296 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/naruto-volume-31/product/1527
+2025-09-20 15:42:46,296 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/naruto-volume-18/product/1309
+2025-09-20 15:42:46,296 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/naruto-volume-18/product/1309 with params None
+2025-09-20 15:42:46,453 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/naruto-volume-18/product/1309: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/naruto-volume-18/product/1309
+2025-09-20 15:42:46,453 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/naruto-volume-18/product/1309
+2025-09-20 15:42:46,453 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/naruto-volume-17/product/1308
+2025-09-20 15:42:46,454 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/naruto-volume-17/product/1308 with params None
+2025-09-20 15:42:46,607 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/naruto-volume-17/product/1308: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/naruto-volume-17/product/1308
+2025-09-20 15:42:46,607 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/naruto-volume-17/product/1308
+2025-09-20 15:42:46,608 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/naruto-volume-60/product/2826
+2025-09-20 15:42:46,608 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/naruto-volume-60/product/2826 with params None
+2025-09-20 15:42:46,757 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/naruto-volume-60/product/2826: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/naruto-volume-60/product/2826
+2025-09-20 15:42:46,758 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/naruto-volume-60/product/2826
+2025-09-20 15:42:46,758 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/naruto-volume-50/product/2416
+2025-09-20 15:42:46,758 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/naruto-volume-50/product/2416 with params None
+2025-09-20 15:42:46,911 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/naruto-volume-50/product/2416: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/naruto-volume-50/product/2416
+2025-09-20 15:42:46,911 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/naruto-volume-50/product/2416
+2025-09-20 15:42:46,912 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/naruto-volume-47/product/2188
+2025-09-20 15:42:46,912 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/naruto-volume-47/product/2188 with params None
+2025-09-20 15:42:47,075 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/naruto-volume-47/product/2188: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/naruto-volume-47/product/2188
+2025-09-20 15:42:47,075 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/naruto-volume-47/product/2188
+2025-09-20 15:42:47,076 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/naruto-volume-45/product/2186
+2025-09-20 15:42:47,076 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/naruto-volume-45/product/2186 with params None
+2025-09-20 15:42:47,226 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/naruto-volume-45/product/2186: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/naruto-volume-45/product/2186
+2025-09-20 15:42:47,227 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/naruto-volume-45/product/2186
+2025-09-20 15:42:47,227 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/naruto-volume-4/product/311
+2025-09-20 15:42:47,228 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/naruto-volume-4/product/311 with params None
+2025-09-20 15:42:47,380 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/naruto-volume-4/product/311: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/naruto-volume-4/product/311
+2025-09-20 15:42:47,381 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/naruto-volume-4/product/311
+2025-09-20 15:42:47,381 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/naruto-volume-69/product/3498
+2025-09-20 15:42:47,381 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/naruto-volume-69/product/3498 with params None
+2025-09-20 15:42:47,533 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/naruto-volume-69/product/3498: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/naruto-volume-69/product/3498
+2025-09-20 15:42:47,533 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/naruto-volume-69/product/3498
+2025-09-20 15:42:47,534 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/naruto-volume-68/product/3496
+2025-09-20 15:42:47,534 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/naruto-volume-68/product/3496 with params None
+2025-09-20 15:42:47,686 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/naruto-volume-68/product/3496: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/naruto-volume-68/product/3496
+2025-09-20 15:42:47,687 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/naruto-volume-68/product/3496
+2025-09-20 15:42:47,687 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/naruto-volume-66/product/3282
+2025-09-20 15:42:47,687 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/naruto-volume-66/product/3282 with params None
+2025-09-20 15:42:47,840 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/naruto-volume-66/product/3282: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/naruto-volume-66/product/3282
+2025-09-20 15:42:47,840 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/naruto-volume-66/product/3282
+2025-09-20 15:42:47,841 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/naruto-volume-44/product/2185
+2025-09-20 15:42:47,841 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/naruto-volume-44/product/2185 with params None
+2025-09-20 15:42:47,993 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/naruto-volume-44/product/2185: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/naruto-volume-44/product/2185
+2025-09-20 15:42:47,994 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/naruto-volume-44/product/2185
+2025-09-20 15:42:47,994 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/naruto-volume-43/product/1971
+2025-09-20 15:42:47,994 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/naruto-volume-43/product/1971 with params None
+2025-09-20 15:42:48,145 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/naruto-volume-43/product/1971: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/naruto-volume-43/product/1971
+2025-09-20 15:42:48,146 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/naruto-volume-43/product/1971
+2025-09-20 15:42:48,146 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/naruto-volume-36/product/1532
+2025-09-20 15:42:48,146 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/naruto-volume-36/product/1532 with params None
+2025-09-20 15:42:48,297 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/naruto-volume-36/product/1532: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/naruto-volume-36/product/1532
+2025-09-20 15:42:48,297 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/naruto-volume-36/product/1532
+2025-09-20 15:42:48,298 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/naruto-volume-33/product/1529
+2025-09-20 15:42:48,298 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/naruto-volume-33/product/1529 with params None
+2025-09-20 15:42:48,549 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/naruto-volume-33/product/1529: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/naruto-volume-33/product/1529
+2025-09-20 15:42:48,550 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/naruto-volume-33/product/1529
+2025-09-20 15:42:48,550 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/naruto-volume-32/product/1528
+2025-09-20 15:42:48,550 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/naruto-volume-32/product/1528 with params None
+2025-09-20 15:42:48,701 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/naruto-volume-32/product/1528: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/naruto-volume-32/product/1528
+2025-09-20 15:42:48,702 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/naruto-volume-32/product/1528
+2025-09-20 15:42:48,702 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/naruto-volume-28/product/1319
+2025-09-20 15:42:48,702 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/naruto-volume-28/product/1319 with params None
+2025-09-20 15:42:48,856 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/naruto-volume-28/product/1319: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/naruto-volume-28/product/1319
+2025-09-20 15:42:48,856 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/naruto-volume-28/product/1319
+2025-09-20 15:42:48,857 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/naruto-volume-25/product/1316
+2025-09-20 15:42:48,857 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/naruto-volume-25/product/1316 with params None
+2025-09-20 15:42:49,010 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/naruto-volume-25/product/1316: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/naruto-volume-25/product/1316
+2025-09-20 15:42:49,010 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/naruto-volume-25/product/1316
+2025-09-20 15:42:49,011 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/naruto-volume-22/product/1313
+2025-09-20 15:42:49,011 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/naruto-volume-22/product/1313 with params None
+2025-09-20 15:42:49,165 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/naruto-volume-22/product/1313: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/naruto-volume-22/product/1313
+2025-09-20 15:42:49,165 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/naruto-volume-22/product/1313
+2025-09-20 15:43:10,390 - MangaArr - INFO - Logging to data\logs\mangarr.log
+2025-09-20 15:43:10,391 - MangaArr - INFO - Starting MangaArr in development mode
+2025-09-20 15:43:10,391 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:43:10,392 - MangaArr - INFO - Settings initialized
+2025-09-20 15:43:10,518 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:43:10,519 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-20 15:43:10,519 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-20 15:43:10,519 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:43:10,519 - MangaArr - INFO - Registered metadata provider: VizMedia
+2025-09-20 15:43:10,520 - MangaArr - INFO - Initialized 4 metadata providers
+2025-09-20 15:43:10,520 - MangaArr - INFO - Metadata service initialized
+2025-09-20 15:43:10,523 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:43:10,524 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-20 15:43:10,524 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-20 15:43:10,524 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:43:10,525 - MangaArr - INFO - Registered metadata provider: VizMedia
+2025-09-20 15:43:10,525 - MangaArr - INFO - Initialized 4 metadata providers
+2025-09-20 15:43:10,525 - MangaArr - INFO - Metadata service initialized
+2025-09-20 15:43:10,548 - MangaArr - INFO - Application initialized successfully
+2025-09-20 15:43:15,601 - MangaArr - INFO - Searching for 'A Star Brighter than the Sun Manga' on page 1
+2025-09-20 15:43:15,601 - MangaArr - INFO - Making request to https://www.viz.com/search with params {'search': 'A Star Brighter than the Sun Manga', 'category': 'manga', 'page': 1}
+2025-09-20 15:43:16,134 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:43:16,164 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-4/product/8609
+2025-09-20 15:43:16,164 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-4/product/8609 with params None
+2025-09-20 15:43:16,236 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:43:16,265 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-3/product/8486
+2025-09-20 15:43:16,266 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-3/product/8486 with params None
+2025-09-20 15:43:16,331 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:43:16,360 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-2/product/8339
+2025-09-20 15:43:16,360 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-2/product/8339 with params None
+2025-09-20 15:43:16,425 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:43:16,453 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-1/product/8220
+2025-09-20 15:43:16,454 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-1/product/8220 with params None
+2025-09-20 15:43:16,520 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:43:32,777 - MangaArr - INFO - Searching for 'A Star Brighter than the Sun Manga' on page 1
+2025-09-20 15:43:32,778 - MangaArr - INFO - Making request to https://www.viz.com/search with params {'search': 'A Star Brighter than the Sun Manga', 'category': 'manga', 'page': 1}
+2025-09-20 15:43:32,845 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:43:32,870 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-4/product/8609
+2025-09-20 15:43:32,871 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-4/product/8609 with params None
+2025-09-20 15:43:32,937 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:43:32,965 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-3/product/8486
+2025-09-20 15:43:32,965 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-3/product/8486 with params None
+2025-09-20 15:43:33,030 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:43:33,062 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-2/product/8339
+2025-09-20 15:43:33,063 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-2/product/8339 with params None
+2025-09-20 15:43:33,129 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:43:33,163 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-1/product/8220
+2025-09-20 15:43:33,163 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-1/product/8220 with params None
+2025-09-20 15:43:33,229 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:43:58,070 - MangaArr - INFO - Logging to data\logs\mangarr.log
+2025-09-20 15:43:58,073 - MangaArr - INFO - Starting MangaArr in development mode
+2025-09-20 15:43:58,074 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:43:58,074 - MangaArr - INFO - Settings initialized
+2025-09-20 15:43:58,265 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:43:58,265 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-20 15:43:58,266 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-20 15:43:58,266 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:43:58,266 - MangaArr - INFO - Registered metadata provider: VizMedia
+2025-09-20 15:43:58,266 - MangaArr - INFO - Initialized 4 metadata providers
+2025-09-20 15:43:58,267 - MangaArr - INFO - Metadata service initialized
+2025-09-20 15:43:58,271 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:43:58,271 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-20 15:43:58,272 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-20 15:43:58,273 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:43:58,273 - MangaArr - INFO - Registered metadata provider: VizMedia
+2025-09-20 15:43:58,274 - MangaArr - INFO - Initialized 4 metadata providers
+2025-09-20 15:43:58,275 - MangaArr - INFO - Metadata service initialized
+2025-09-20 15:43:58,316 - MangaArr - INFO - Application initialized successfully
+2025-09-20 15:44:19,978 - MangaArr - INFO - Searching for 'A Star Brighter than the Sun Manga' on page 1
+2025-09-20 15:44:19,978 - MangaArr - INFO - Making request to https://www.viz.com/search with params {'search': 'A Star Brighter than the Sun Manga', 'category': 'manga', 'page': 1}
+2025-09-20 15:44:20,559 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:44:20,588 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-4/product/8609
+2025-09-20 15:44:20,588 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-4/product/8609 with params None
+2025-09-20 15:44:20,654 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:44:20,684 - MangaArr - INFO - Cached cover image for https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-4/product/8609
+2025-09-20 15:44:20,685 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-3/product/8486
+2025-09-20 15:44:20,685 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-3/product/8486 with params None
+2025-09-20 15:44:20,757 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:44:20,785 - MangaArr - INFO - Cached cover image for https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-3/product/8486
+2025-09-20 15:44:20,786 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-2/product/8339
+2025-09-20 15:44:20,786 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-2/product/8339 with params None
+2025-09-20 15:44:20,860 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:44:20,892 - MangaArr - INFO - Cached cover image for https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-2/product/8339
+2025-09-20 15:44:20,893 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-1/product/8220
+2025-09-20 15:44:20,893 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-1/product/8220 with params None
+2025-09-20 15:44:20,958 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:44:20,991 - MangaArr - INFO - Cached cover image for https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-1/product/8220
+2025-09-20 15:44:29,594 - MangaArr - INFO - Searching for 'A Star Brighter than the Sun Manga' on page 1
+2025-09-20 15:44:29,595 - MangaArr - INFO - Making request to https://www.viz.com/search with params {'search': 'A Star Brighter than the Sun Manga', 'category': 'manga', 'page': 1}
+2025-09-20 15:44:29,653 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:44:29,679 - MangaArr - INFO - Using cached cover image for https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-4/product/8609
+2025-09-20 15:44:29,679 - MangaArr - INFO - Using cached cover image for https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-3/product/8486
+2025-09-20 15:44:29,680 - MangaArr - INFO - Using cached cover image for https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-2/product/8339
+2025-09-20 15:44:29,680 - MangaArr - INFO - Using cached cover image for https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-1/product/8220
+2025-09-20 15:44:38,133 - MangaArr - INFO - Searching for 'one piece' on page 1
+2025-09-20 15:44:38,134 - MangaArr - INFO - Making request to https://www.viz.com/search with params {'search': 'one piece', 'category': 'manga', 'page': 1}
+2025-09-20 15:44:38,542 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:44:38,573 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-2/product/350
+2025-09-20 15:44:38,573 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-2/product/350 with params None
+2025-09-20 15:44:38,755 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:44:38,784 - MangaArr - INFO - Cached cover image for https://www.viz.com/manga-books/manga/one-piece-volume-2/product/350
+2025-09-20 15:44:38,785 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-1/product/139
+2025-09-20 15:44:38,785 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-1/product/139 with params None
+2025-09-20 15:44:39,225 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:44:39,254 - MangaArr - INFO - Cached cover image for https://www.viz.com/manga-books/manga/one-piece-volume-1/product/139
+2025-09-20 15:44:39,255 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-20/product/1136
+2025-09-20 15:44:39,255 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-20/product/1136 with params None
+2025-09-20 15:44:39,692 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:44:39,723 - MangaArr - INFO - Cached cover image for https://www.viz.com/manga-books/manga/one-piece-volume-20/product/1136
+2025-09-20 15:44:39,724 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-15/product/1131
+2025-09-20 15:44:39,724 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-15/product/1131 with params None
+2025-09-20 15:44:40,076 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:44:40,106 - MangaArr - INFO - Cached cover image for https://www.viz.com/manga-books/manga/one-piece-volume-15/product/1131
+2025-09-20 15:44:40,106 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-88/product/5720
+2025-09-20 15:44:40,107 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-88/product/5720 with params None
+2025-09-20 15:44:40,380 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:44:40,407 - MangaArr - INFO - Cached cover image for https://www.viz.com/manga-books/manga/one-piece-volume-88/product/5720
+2025-09-20 15:44:40,408 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-82/product/5135
+2025-09-20 15:44:40,408 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-82/product/5135 with params None
+2025-09-20 15:44:40,748 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:44:40,779 - MangaArr - INFO - Cached cover image for https://www.viz.com/manga-books/manga/one-piece-volume-82/product/5135
+2025-09-20 15:44:40,779 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-64/product/2835
+2025-09-20 15:44:40,780 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-64/product/2835 with params None
+2025-09-20 15:44:41,052 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:44:41,079 - MangaArr - INFO - Cached cover image for https://www.viz.com/manga-books/manga/one-piece-volume-64/product/2835
+2025-09-20 15:44:41,080 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-59/product/2630
+2025-09-20 15:44:41,080 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-59/product/2630 with params None
+2025-09-20 15:44:41,540 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:44:41,568 - MangaArr - INFO - Cached cover image for https://www.viz.com/manga-books/manga/one-piece-volume-59/product/2630
+2025-09-20 15:44:41,568 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-58/product/2197
+2025-09-20 15:44:41,569 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-58/product/2197 with params None
+2025-09-20 15:44:41,874 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:44:41,904 - MangaArr - INFO - Cached cover image for https://www.viz.com/manga-books/manga/one-piece-volume-58/product/2197
+2025-09-20 15:44:41,905 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-49/product/2445
+2025-09-20 15:44:41,905 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-49/product/2445 with params None
+2025-09-20 15:44:42,288 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:44:42,315 - MangaArr - INFO - Cached cover image for https://www.viz.com/manga-books/manga/one-piece-volume-49/product/2445
+2025-09-20 15:44:42,315 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-47/product/2443
+2025-09-20 15:44:42,316 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-47/product/2443 with params None
+2025-09-20 15:44:42,471 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/one-piece-volume-47/product/2443: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-47/product/2443
+2025-09-20 15:44:42,472 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-47/product/2443
+2025-09-20 15:44:42,472 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-42/product/2438
+2025-09-20 15:44:42,473 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-42/product/2438 with params None
+2025-09-20 15:44:42,625 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/one-piece-volume-42/product/2438: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-42/product/2438
+2025-09-20 15:44:42,625 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-42/product/2438
+2025-09-20 15:44:42,626 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-25/product/2002
+2025-09-20 15:44:42,626 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-25/product/2002 with params None
+2025-09-20 15:44:42,780 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/one-piece-volume-25/product/2002: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-25/product/2002
+2025-09-20 15:44:42,780 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-25/product/2002
+2025-09-20 15:44:42,781 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-65/product/2836
+2025-09-20 15:44:42,781 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-65/product/2836 with params None
+2025-09-20 15:44:42,936 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/one-piece-volume-65/product/2836: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-65/product/2836
+2025-09-20 15:44:42,937 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-65/product/2836
+2025-09-20 15:44:42,937 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-18/product/1134
+2025-09-20 15:44:42,937 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-18/product/1134 with params None
+2025-09-20 15:44:43,093 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/one-piece-volume-18/product/1134: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-18/product/1134
+2025-09-20 15:44:43,094 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-18/product/1134
+2025-09-20 15:44:43,094 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-7/product/543
+2025-09-20 15:44:43,094 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-7/product/543 with params None
+2025-09-20 15:44:43,245 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/one-piece-volume-7/product/543: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-7/product/543
+2025-09-20 15:44:43,245 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-7/product/543
+2025-09-20 15:44:43,246 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-6/product/138
+2025-09-20 15:44:43,246 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-6/product/138 with params None
+2025-09-20 15:44:43,400 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/one-piece-volume-6/product/138: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-6/product/138
+2025-09-20 15:44:43,400 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-6/product/138
+2025-09-20 15:44:43,401 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-5/product/349
+2025-09-20 15:44:43,401 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-5/product/349 with params None
+2025-09-20 15:44:43,552 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/one-piece-volume-5/product/349: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-5/product/349
+2025-09-20 15:44:43,553 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-5/product/349
+2025-09-20 15:44:43,553 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-110/product/8583
+2025-09-20 15:44:43,553 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-110/product/8583 with params None
+2025-09-20 15:44:43,710 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/one-piece-volume-110/product/8583: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-110/product/8583
+2025-09-20 15:44:43,710 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-110/product/8583
+2025-09-20 15:44:43,711 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-109/product/8384
+2025-09-20 15:44:43,711 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-109/product/8384 with params None
+2025-09-20 15:44:43,955 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/one-piece-volume-109/product/8384: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-109/product/8384
+2025-09-20 15:44:43,955 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-109/product/8384
+2025-09-20 15:44:43,956 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-108/product/8230
+2025-09-20 15:44:43,956 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-108/product/8230 with params None
+2025-09-20 15:44:44,109 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/one-piece-volume-108/product/8230: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-108/product/8230
+2025-09-20 15:44:44,110 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-108/product/8230
+2025-09-20 15:44:44,110 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-107/product/8076
+2025-09-20 15:44:44,111 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-107/product/8076 with params None
+2025-09-20 15:44:44,267 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/one-piece-volume-107/product/8076: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-107/product/8076
+2025-09-20 15:44:44,267 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-107/product/8076
+2025-09-20 15:44:44,268 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-106/product/7890
+2025-09-20 15:44:44,268 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-106/product/7890 with params None
+2025-09-20 15:44:44,419 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/one-piece-volume-106/product/7890: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-106/product/7890
+2025-09-20 15:44:44,420 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-106/product/7890
+2025-09-20 15:44:44,420 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-105/product/7768
+2025-09-20 15:44:44,421 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-105/product/7768 with params None
+2025-09-20 15:44:44,573 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/one-piece-volume-105/product/7768: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-105/product/7768
+2025-09-20 15:44:44,573 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-105/product/7768
+2025-09-20 15:44:44,574 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-104/product/7636
+2025-09-20 15:44:44,574 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-104/product/7636 with params None
+2025-09-20 15:44:44,727 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/one-piece-volume-104/product/7636: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-104/product/7636
+2025-09-20 15:44:44,728 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-104/product/7636
+2025-09-20 15:44:44,728 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-103/product/7495
+2025-09-20 15:44:44,728 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-103/product/7495 with params None
+2025-09-20 15:44:44,886 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/one-piece-volume-103/product/7495: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-103/product/7495
+2025-09-20 15:44:44,886 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-103/product/7495
+2025-09-20 15:44:44,887 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-102/product/7412
+2025-09-20 15:44:44,887 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-102/product/7412 with params None
+2025-09-20 15:44:45,042 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/one-piece-volume-102/product/7412: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-102/product/7412
+2025-09-20 15:44:45,042 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-102/product/7412
+2025-09-20 15:44:45,043 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-101/product/7277
+2025-09-20 15:44:45,043 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-101/product/7277 with params None
+2025-09-20 15:44:45,193 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/one-piece-volume-101/product/7277: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-101/product/7277
+2025-09-20 15:44:45,193 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-101/product/7277
+2025-09-20 15:44:45,194 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-100/product/7142
+2025-09-20 15:44:45,194 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-100/product/7142 with params None
+2025-09-20 15:44:45,347 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/one-piece-volume-100/product/7142: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-100/product/7142
+2025-09-20 15:44:45,347 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-100/product/7142
+2025-09-20 15:44:45,348 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-99/product/7068
+2025-09-20 15:44:45,348 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-99/product/7068 with params None
+2025-09-20 15:44:45,500 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/one-piece-volume-99/product/7068: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-99/product/7068
+2025-09-20 15:44:45,501 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-99/product/7068
+2025-09-20 15:44:45,501 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-98/product/6890
+2025-09-20 15:44:45,501 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-98/product/6890 with params None
+2025-09-20 15:44:45,748 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/one-piece-volume-98/product/6890: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-98/product/6890
+2025-09-20 15:44:45,748 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-98/product/6890
+2025-09-20 15:44:45,749 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-97/product/6764
+2025-09-20 15:44:45,749 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-97/product/6764 with params None
+2025-09-20 15:44:45,907 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/one-piece-volume-97/product/6764: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-97/product/6764
+2025-09-20 15:44:45,908 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-97/product/6764
+2025-09-20 15:44:51,522 - MangaArr - INFO - Searching for 'A Star Brighter than the Sun Manga' on page 1
+2025-09-20 15:44:51,523 - MangaArr - INFO - Making request to https://www.viz.com/search with params {'search': 'A Star Brighter than the Sun Manga', 'category': 'manga', 'page': 1}
+2025-09-20 15:44:51,598 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:44:51,626 - MangaArr - INFO - Using cached cover image for https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-4/product/8609
+2025-09-20 15:44:51,626 - MangaArr - INFO - Using cached cover image for https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-3/product/8486
+2025-09-20 15:44:51,627 - MangaArr - INFO - Using cached cover image for https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-2/product/8339
+2025-09-20 15:44:51,627 - MangaArr - INFO - Using cached cover image for https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-1/product/8220
+2025-09-20 15:44:57,414 - MangaArr - INFO - Searching for 'one piece' on page 1
+2025-09-20 15:44:57,414 - MangaArr - INFO - Making request to https://www.viz.com/search with params {'search': 'one piece', 'category': 'manga', 'page': 1}
+2025-09-20 15:44:57,485 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:44:57,522 - MangaArr - INFO - Using cached cover image for https://www.viz.com/manga-books/manga/one-piece-volume-2/product/350
+2025-09-20 15:44:57,523 - MangaArr - INFO - Using cached cover image for https://www.viz.com/manga-books/manga/one-piece-volume-1/product/139
+2025-09-20 15:44:57,523 - MangaArr - INFO - Using cached cover image for https://www.viz.com/manga-books/manga/one-piece-volume-20/product/1136
+2025-09-20 15:44:57,523 - MangaArr - INFO - Using cached cover image for https://www.viz.com/manga-books/manga/one-piece-volume-15/product/1131
+2025-09-20 15:44:57,523 - MangaArr - INFO - Using cached cover image for https://www.viz.com/manga-books/manga/one-piece-volume-88/product/5720
+2025-09-20 15:44:57,524 - MangaArr - INFO - Using cached cover image for https://www.viz.com/manga-books/manga/one-piece-volume-82/product/5135
+2025-09-20 15:44:57,524 - MangaArr - INFO - Using cached cover image for https://www.viz.com/manga-books/manga/one-piece-volume-64/product/2835
+2025-09-20 15:44:57,524 - MangaArr - INFO - Using cached cover image for https://www.viz.com/manga-books/manga/one-piece-volume-59/product/2630
+2025-09-20 15:44:57,525 - MangaArr - INFO - Using cached cover image for https://www.viz.com/manga-books/manga/one-piece-volume-58/product/2197
+2025-09-20 15:44:57,525 - MangaArr - INFO - Using cached cover image for https://www.viz.com/manga-books/manga/one-piece-volume-49/product/2445
+2025-09-20 15:44:57,525 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-47/product/2443
+2025-09-20 15:44:57,526 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-47/product/2443 with params None
+2025-09-20 15:44:57,966 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:44:57,994 - MangaArr - INFO - Cached cover image for https://www.viz.com/manga-books/manga/one-piece-volume-47/product/2443
+2025-09-20 15:44:57,994 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-42/product/2438
+2025-09-20 15:44:57,995 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-42/product/2438 with params None
+2025-09-20 15:44:58,282 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:44:58,310 - MangaArr - INFO - Cached cover image for https://www.viz.com/manga-books/manga/one-piece-volume-42/product/2438
+2025-09-20 15:44:58,310 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-25/product/2002
+2025-09-20 15:44:58,310 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-25/product/2002 with params None
+2025-09-20 15:44:58,758 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:44:58,822 - MangaArr - INFO - Cached cover image for https://www.viz.com/manga-books/manga/one-piece-volume-25/product/2002
+2025-09-20 15:44:58,823 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-65/product/2836
+2025-09-20 15:44:58,823 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-65/product/2836 with params None
+2025-09-20 15:44:59,107 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:44:59,133 - MangaArr - INFO - Cached cover image for https://www.viz.com/manga-books/manga/one-piece-volume-65/product/2836
+2025-09-20 15:44:59,134 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-18/product/1134
+2025-09-20 15:44:59,134 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-18/product/1134 with params None
+2025-09-20 15:44:59,428 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:44:59,455 - MangaArr - INFO - Cached cover image for https://www.viz.com/manga-books/manga/one-piece-volume-18/product/1134
+2025-09-20 15:44:59,455 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-7/product/543
+2025-09-20 15:44:59,455 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-7/product/543 with params None
+2025-09-20 15:44:59,887 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:44:59,916 - MangaArr - INFO - Cached cover image for https://www.viz.com/manga-books/manga/one-piece-volume-7/product/543
+2025-09-20 15:44:59,917 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-6/product/138
+2025-09-20 15:44:59,917 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-6/product/138 with params None
+2025-09-20 15:45:00,185 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:45:00,216 - MangaArr - INFO - Cached cover image for https://www.viz.com/manga-books/manga/one-piece-volume-6/product/138
+2025-09-20 15:45:00,217 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-5/product/349
+2025-09-20 15:45:00,217 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-5/product/349 with params None
+2025-09-20 15:45:00,513 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:45:00,539 - MangaArr - INFO - Cached cover image for https://www.viz.com/manga-books/manga/one-piece-volume-5/product/349
+2025-09-20 15:45:00,540 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-110/product/8583
+2025-09-20 15:45:00,540 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-110/product/8583 with params None
+2025-09-20 15:45:00,710 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:45:00,740 - MangaArr - INFO - Cached cover image for https://www.viz.com/manga-books/manga/one-piece-volume-110/product/8583
+2025-09-20 15:45:00,740 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-109/product/8384
+2025-09-20 15:45:00,741 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-109/product/8384 with params None
+2025-09-20 15:45:01,016 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:45:01,044 - MangaArr - INFO - Cached cover image for https://www.viz.com/manga-books/manga/one-piece-volume-109/product/8384
+2025-09-20 15:45:01,044 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-108/product/8230
+2025-09-20 15:45:01,044 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-108/product/8230 with params None
+2025-09-20 15:45:01,194 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/one-piece-volume-108/product/8230: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-108/product/8230
+2025-09-20 15:45:01,194 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-108/product/8230
+2025-09-20 15:45:01,195 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-107/product/8076
+2025-09-20 15:45:01,195 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-107/product/8076 with params None
+2025-09-20 15:45:01,344 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/one-piece-volume-107/product/8076: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-107/product/8076
+2025-09-20 15:45:01,345 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-107/product/8076
+2025-09-20 15:45:01,345 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-106/product/7890
+2025-09-20 15:45:01,345 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-106/product/7890 with params None
+2025-09-20 15:45:01,495 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/one-piece-volume-106/product/7890: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-106/product/7890
+2025-09-20 15:45:01,495 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-106/product/7890
+2025-09-20 15:45:01,496 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-105/product/7768
+2025-09-20 15:45:01,496 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-105/product/7768 with params None
+2025-09-20 15:45:01,652 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/one-piece-volume-105/product/7768: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-105/product/7768
+2025-09-20 15:45:01,652 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-105/product/7768
+2025-09-20 15:45:01,653 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-104/product/7636
+2025-09-20 15:45:01,653 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-104/product/7636 with params None
+2025-09-20 15:45:01,801 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/one-piece-volume-104/product/7636: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-104/product/7636
+2025-09-20 15:45:01,802 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-104/product/7636
+2025-09-20 15:45:01,802 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-103/product/7495
+2025-09-20 15:45:01,803 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-103/product/7495 with params None
+2025-09-20 15:45:01,958 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/one-piece-volume-103/product/7495: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-103/product/7495
+2025-09-20 15:45:01,958 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-103/product/7495
+2025-09-20 15:45:01,958 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-102/product/7412
+2025-09-20 15:45:01,959 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-102/product/7412 with params None
+2025-09-20 15:45:02,105 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/one-piece-volume-102/product/7412: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-102/product/7412
+2025-09-20 15:45:02,106 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-102/product/7412
+2025-09-20 15:45:02,106 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-101/product/7277
+2025-09-20 15:45:02,107 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-101/product/7277 with params None
+2025-09-20 15:45:02,255 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/one-piece-volume-101/product/7277: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-101/product/7277
+2025-09-20 15:45:02,255 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-101/product/7277
+2025-09-20 15:45:02,256 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-100/product/7142
+2025-09-20 15:45:02,256 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-100/product/7142 with params None
+2025-09-20 15:45:02,406 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/one-piece-volume-100/product/7142: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-100/product/7142
+2025-09-20 15:45:02,406 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-100/product/7142
+2025-09-20 15:45:02,407 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-99/product/7068
+2025-09-20 15:45:02,407 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-99/product/7068 with params None
+2025-09-20 15:45:02,563 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/one-piece-volume-99/product/7068: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-99/product/7068
+2025-09-20 15:45:02,564 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-99/product/7068
+2025-09-20 15:45:02,564 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-98/product/6890
+2025-09-20 15:45:02,565 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-98/product/6890 with params None
+2025-09-20 15:45:02,714 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/one-piece-volume-98/product/6890: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-98/product/6890
+2025-09-20 15:45:02,715 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-98/product/6890
+2025-09-20 15:45:02,715 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/one-piece-volume-97/product/6764
+2025-09-20 15:45:02,716 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/one-piece-volume-97/product/6764 with params None
+2025-09-20 15:45:02,866 - MangaArr - ERROR - Error making request to https://www.viz.com/manga-books/manga/one-piece-volume-97/product/6764: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-97/product/6764
+2025-09-20 15:45:02,866 - MangaArr - ERROR - Error fetching cover image from product page: 429 Client Error: Too Many Requests for url: https://www.viz.com/manga-books/manga/one-piece-volume-97/product/6764
+2025-09-20 15:45:12,775 - MangaArr - INFO - Searching for 'A Star Brighter than the Sun Manga' on page 1
+2025-09-20 15:45:12,775 - MangaArr - INFO - Making request to https://www.viz.com/search with params {'search': 'A Star Brighter than the Sun Manga', 'category': 'manga', 'page': 1}
+2025-09-20 15:45:12,851 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:45:12,879 - MangaArr - INFO - Using cached cover image for https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-4/product/8609
+2025-09-20 15:45:12,880 - MangaArr - INFO - Using cached cover image for https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-3/product/8486
+2025-09-20 15:45:12,880 - MangaArr - INFO - Using cached cover image for https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-2/product/8339
+2025-09-20 15:45:12,880 - MangaArr - INFO - Using cached cover image for https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-1/product/8220
+2025-09-20 15:45:22,728 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-20 15:45:22,729 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-20 15:45:22,729 - MangaArr - INFO - Making request to https://www.viz.com/manga/product with params None
+2025-09-20 15:45:23,522 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:45:23,590 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-20 15:45:23,590 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-20 15:45:29,113 - MangaArr - INFO - Searching for 'A Star Brighter than the Sun Manga' on page 1
+2025-09-20 15:45:29,113 - MangaArr - INFO - Making request to https://www.viz.com/search with params {'search': 'A Star Brighter than the Sun Manga', 'category': 'manga', 'page': 1}
+2025-09-20 15:45:29,183 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:45:29,209 - MangaArr - INFO - Using cached cover image for https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-4/product/8609
+2025-09-20 15:45:29,209 - MangaArr - INFO - Using cached cover image for https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-3/product/8486
+2025-09-20 15:45:29,209 - MangaArr - INFO - Using cached cover image for https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-2/product/8339
+2025-09-20 15:45:29,209 - MangaArr - INFO - Using cached cover image for https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-1/product/8220
+2025-09-20 15:47:36,590 - MangaArr - INFO - Logging to data\logs\mangarr.log
+2025-09-20 15:47:36,590 - MangaArr - INFO - Starting MangaArr in development mode
+2025-09-20 15:47:36,591 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:47:36,591 - MangaArr - INFO - Settings initialized
+2025-09-20 15:47:36,767 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:47:36,767 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-20 15:47:36,768 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-20 15:47:36,768 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:47:36,768 - MangaArr - INFO - Registered metadata provider: VizMedia
+2025-09-20 15:47:36,768 - MangaArr - INFO - Initialized 4 metadata providers
+2025-09-20 15:47:36,768 - MangaArr - INFO - Metadata service initialized
+2025-09-20 15:47:36,776 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:47:36,776 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-20 15:47:36,777 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-20 15:47:36,777 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:47:36,777 - MangaArr - INFO - Registered metadata provider: VizMedia
+2025-09-20 15:47:36,777 - MangaArr - INFO - Initialized 4 metadata providers
+2025-09-20 15:47:36,778 - MangaArr - INFO - Metadata service initialized
+2025-09-20 15:47:36,809 - MangaArr - INFO - Application initialized successfully
+2025-09-20 15:48:08,181 - MangaArr - INFO - Logging to data\logs\mangarr.log
+2025-09-20 15:48:08,183 - MangaArr - INFO - Starting MangaArr in development mode
+2025-09-20 15:48:08,185 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:48:08,194 - MangaArr - INFO - Settings initialized
+2025-09-20 15:55:16,954 - MangaArr - INFO - Logging to data\logs\mangarr.log
+2025-09-20 15:55:16,954 - MangaArr - INFO - Starting MangaArr in development mode
+2025-09-20 15:55:16,955 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:55:16,955 - MangaArr - INFO - Settings initialized
+2025-09-20 15:55:17,077 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:55:17,077 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-20 15:55:17,077 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-20 15:55:17,077 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:55:17,078 - MangaArr - INFO - Registered metadata provider: VizMedia
+2025-09-20 15:55:17,078 - MangaArr - INFO - Initialized 4 metadata providers
+2025-09-20 15:55:17,078 - MangaArr - INFO - Metadata service initialized
+2025-09-20 15:55:17,083 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:55:17,083 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-20 15:55:17,084 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-20 15:55:17,084 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:55:17,084 - MangaArr - INFO - Registered metadata provider: VizMedia
+2025-09-20 15:55:17,085 - MangaArr - INFO - Initialized 4 metadata providers
+2025-09-20 15:55:17,085 - MangaArr - INFO - Metadata service initialized
+2025-09-20 15:55:17,108 - MangaArr - INFO - Application initialized successfully
+2025-09-20 15:55:17,487 - MangaArr - INFO - Logging to data\logs\mangarr.log
+2025-09-20 15:55:17,488 - MangaArr - INFO - Starting MangaArr in development mode
+2025-09-20 15:55:17,488 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:55:17,489 - MangaArr - INFO - Settings initialized
+2025-09-20 15:55:17,623 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:55:17,624 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-20 15:55:17,624 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-20 15:55:17,624 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:55:17,625 - MangaArr - INFO - Registered metadata provider: VizMedia
+2025-09-20 15:55:17,625 - MangaArr - INFO - Initialized 4 metadata providers
+2025-09-20 15:55:17,625 - MangaArr - INFO - Metadata service initialized
+2025-09-20 15:55:17,629 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:55:17,629 - MangaArr - INFO - Registered metadata provider: MangaAPI
+2025-09-20 15:55:17,629 - MangaArr - INFO - Registered metadata provider: MangaDex
+2025-09-20 15:55:17,629 - MangaArr - INFO - Registered metadata provider: MyAnimeList
+2025-09-20 15:55:17,630 - MangaArr - INFO - Registered metadata provider: VizMedia
+2025-09-20 15:55:17,630 - MangaArr - INFO - Initialized 4 metadata providers
+2025-09-20 15:55:17,630 - MangaArr - INFO - Metadata service initialized
+2025-09-20 15:55:17,659 - MangaArr - INFO - Application initialized successfully
+2025-09-20 15:55:20,853 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:55:22,797 - MangaArr - INFO - Searching for 'dragon ball' on page 1
+2025-09-20 15:55:22,797 - MangaArr - INFO - Making request to https://www.viz.com/search with params {'search': 'dragon ball', 'category': 'manga', 'page': 1}
+2025-09-20 15:55:23,524 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:55:23,557 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/dragon-ball-volume-2/product/105
+2025-09-20 15:55:23,557 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/dragon-ball-volume-2/product/105 with params None
+2025-09-20 15:55:23,824 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:55:23,854 - MangaArr - INFO - Cached cover image for https://www.viz.com/manga-books/manga/dragon-ball-volume-2/product/105
+2025-09-20 15:55:23,854 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/dragon-ball-volume-1/product/104
+2025-09-20 15:55:23,854 - MangaArr - INFO - Rate limiting: Sleeping for 0.20 seconds
+2025-09-20 15:55:24,058 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/dragon-ball-volume-1/product/104 with params None
+2025-09-20 15:55:24,752 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:55:24,779 - MangaArr - INFO - Cached cover image for https://www.viz.com/manga-books/manga/dragon-ball-volume-1/product/104
+2025-09-20 15:55:24,780 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/dragon-ball-volume-14/product/116
+2025-09-20 15:55:24,780 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/dragon-ball-volume-14/product/116 with params None
+2025-09-20 15:55:25,285 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:55:25,321 - MangaArr - INFO - Cached cover image for https://www.viz.com/manga-books/manga/dragon-ball-volume-14/product/116
+2025-09-20 15:55:25,321 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/dragon-ball-volume-9/product/113
+2025-09-20 15:55:25,322 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/dragon-ball-volume-9/product/113 with params None
+2025-09-20 15:55:25,606 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:55:25,637 - MangaArr - INFO - Cached cover image for https://www.viz.com/manga-books/manga/dragon-ball-volume-9/product/113
+2025-09-20 15:55:25,638 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/dragon-ball-volume-7/product/110
+2025-09-20 15:55:25,638 - MangaArr - INFO - Rate limiting: Sleeping for 0.18 seconds
+2025-09-20 15:55:25,823 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/dragon-ball-volume-7/product/110 with params None
+2025-09-20 15:55:26,097 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:55:26,126 - MangaArr - INFO - Cached cover image for https://www.viz.com/manga-books/manga/dragon-ball-volume-7/product/110
+2025-09-20 15:55:28,874 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:55:32,349 - MangaArr - INFO - Searching for 'Taiyou yori mo Mabushii Hoshi' on page 1
+2025-09-20 15:55:32,349 - MangaArr - INFO - Making request to https://www.viz.com/search with params {'search': 'Taiyou yori mo Mabushii Hoshi', 'category': 'manga', 'page': 1}
+2025-09-20 15:55:32,416 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:55:42,824 - MangaArr - INFO - Searching for 'A star brighter than the sun' on page 1
+2025-09-20 15:55:42,824 - MangaArr - INFO - Making request to https://www.viz.com/search with params {'search': 'A star brighter than the sun', 'category': 'manga', 'page': 1}
+2025-09-20 15:55:43,034 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:55:43,069 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-4/product/8609
+2025-09-20 15:55:43,070 - MangaArr - INFO - Rate limiting: Sleeping for 0.25 seconds
+2025-09-20 15:55:43,325 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-4/product/8609 with params None
+2025-09-20 15:55:43,391 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:55:43,417 - MangaArr - INFO - Cached cover image for https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-4/product/8609
+2025-09-20 15:55:43,418 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-3/product/8486
+2025-09-20 15:55:43,418 - MangaArr - INFO - Rate limiting: Sleeping for 0.41 seconds
+2025-09-20 15:55:43,825 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-3/product/8486 with params None
+2025-09-20 15:55:43,897 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:55:43,926 - MangaArr - INFO - Cached cover image for https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-3/product/8486
+2025-09-20 15:55:43,927 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-2/product/8339
+2025-09-20 15:55:43,927 - MangaArr - INFO - Rate limiting: Sleeping for 0.40 seconds
+2025-09-20 15:55:44,326 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-2/product/8339 with params None
+2025-09-20 15:55:44,390 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:55:44,424 - MangaArr - INFO - Cached cover image for https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-2/product/8339
+2025-09-20 15:55:44,425 - MangaArr - INFO - Fetching cover image from product page: https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-1/product/8220
+2025-09-20 15:55:44,425 - MangaArr - INFO - Rate limiting: Sleeping for 0.40 seconds
+2025-09-20 15:55:44,827 - MangaArr - INFO - Making request to https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-1/product/8220 with params None
+2025-09-20 15:55:44,892 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:55:44,919 - MangaArr - INFO - Cached cover image for https://www.viz.com/manga-books/manga/star-brighter-than-the-sun-volume-1/product/8220
+2025-09-20 15:55:46,536 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-20 15:55:46,538 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-20 15:55:46,538 - MangaArr - INFO - Making request to https://www.viz.com/manga/product with params None
+2025-09-20 15:55:47,089 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:55:47,157 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-20 15:55:47,157 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-20 15:57:12,506 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-20 15:57:12,506 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-20 15:57:12,507 - MangaArr - INFO - Making request to https://www.viz.com/manga/product with params None
+2025-09-20 15:57:13,058 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:57:13,125 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-20 15:57:13,126 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-20 15:57:20,278 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:57:20,373 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:57:21,546 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:57:23,211 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:57:39,529 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:57:51,741 - MangaArr - INFO - Searching for 'a star brighter than the sun' on page 1
+2025-09-20 15:57:51,742 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga with params {'q': 'a star brighter than the sun', 'page': 1, 'limit': 20, 'type': 'manga'}
+2025-09-20 15:57:53,053 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:57:53,054 - MangaArr - INFO - Returning 20 search results
+2025-09-20 15:57:55,497 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-20 15:57:55,498 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-20 15:57:55,499 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga/141572/full with params None
+2025-09-20 15:57:55,969 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:57:55,969 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-20 15:57:55,969 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-20 15:57:58,486 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-20 15:57:58,486 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-20 15:57:58,487 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga/141572/full with params None
+2025-09-20 15:57:58,959 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:57:58,960 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-20 15:57:58,960 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-20 15:57:58,965 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-20 15:57:58,965 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-20 15:57:58,965 - MangaArr - INFO - Making request to https://api.jikan.moe/v4/manga/141572/full with params None
+2025-09-20 15:57:59,435 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:57:59,435 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-20 15:57:59,436 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-20 15:57:59,439 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:57:59,488 - MangaArr - INFO - Calendar updated successfully
+2025-09-20 15:58:03,077 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:58:04,966 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:58:31,464 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:58:31,626 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:58:32,598 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:58:34,088 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:58:43,614 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:58:54,959 - MangaArr - INFO - Searching for 'a star brighter thatn the sun' on page 1
+2025-09-20 15:58:54,960 - MangaArr - INFO - Making request to https://api.mangadex.org/manga with params {'title': 'a star brighter thatn the sun', 'limit': 20, 'offset': 0, 'includes[]': ['cover_art', 'author']}
+2025-09-20 15:58:55,885 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:58:55,886 - MangaArr - INFO - Returning 1 search results
+2025-09-20 15:58:57,543 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-20 15:58:57,543 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-20 15:58:57,545 - MangaArr - INFO - Making request to https://api.mangadex.org/manga/90ff517c-a999-41ff-a94a-b2a74f6d800c with params {'includes[]': ['cover_art', 'author', 'artist', 'tag']}
+2025-09-20 15:58:57,604 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:58:57,605 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-20 15:58:57,605 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-20 15:58:58,759 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-20 15:58:58,759 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-20 15:58:58,759 - MangaArr - INFO - Making request to https://api.mangadex.org/manga/90ff517c-a999-41ff-a94a-b2a74f6d800c with params {'includes[]': ['cover_art', 'author', 'artist', 'tag']}
+2025-09-20 15:58:58,883 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:58:58,884 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-20 15:58:58,884 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-20 15:58:58,888 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-20 15:58:58,888 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-20 15:58:58,889 - MangaArr - INFO - Making request to https://api.mangadex.org/chapter with params {'manga': '90ff517c-a999-41ff-a94a-b2a74f6d800c', 'translatedLanguage[]': ['en'], 'limit': 100, 'order[chapter]': 'desc'}
+2025-09-20 15:58:59,233 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:58:59,233 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-20 15:58:59,234 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-20 15:58:59,234 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:58:59,235 - MangaArr - INFO - Calendar updated successfully
+2025-09-20 15:59:01,750 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:59:07,038 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:59:10,807 - MangaArr - INFO - Searching for 'dandadan' on page 1
+2025-09-20 15:59:10,807 - MangaArr - INFO - Making request to https://api.mangadex.org/manga with params {'title': 'dandadan', 'limit': 20, 'offset': 0, 'includes[]': ['cover_art', 'author']}
+2025-09-20 15:59:12,245 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:59:12,248 - MangaArr - INFO - Returning 1 search results
+2025-09-20 15:59:13,690 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-20 15:59:13,692 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-20 15:59:13,693 - MangaArr - INFO - Making request to https://api.mangadex.org/manga/68112dc1-2b80-4f20-beb8-2f2a8716a430 with params {'includes[]': ['cover_art', 'author', 'artist', 'tag']}
+2025-09-20 15:59:13,970 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:59:13,972 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-20 15:59:13,973 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-20 15:59:14,831 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-20 15:59:14,833 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-20 15:59:14,834 - MangaArr - INFO - Making request to https://api.mangadex.org/manga/68112dc1-2b80-4f20-beb8-2f2a8716a430 with params {'includes[]': ['cover_art', 'author', 'artist', 'tag']}
+2025-09-20 15:59:14,925 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:59:14,927 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-20 15:59:14,928 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-20 15:59:14,934 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-20 15:59:14,936 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-20 15:59:14,937 - MangaArr - INFO - Making request to https://api.mangadex.org/chapter with params {'manga': '68112dc1-2b80-4f20-beb8-2f2a8716a430', 'translatedLanguage[]': ['en'], 'limit': 100, 'order[chapter]': 'desc'}
+2025-09-20 15:59:15,302 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:59:15,304 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-20 15:59:15,309 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-20 15:59:15,326 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:59:15,354 - MangaArr - INFO - Calendar updated successfully
+2025-09-20 15:59:17,821 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:59:19,471 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:59:24,012 - MangaArr - INFO - Searching for 'one punch' on page 1
+2025-09-20 15:59:24,012 - MangaArr - INFO - Making request to https://api.mangadex.org/manga with params {'title': 'one punch', 'limit': 20, 'offset': 0, 'includes[]': ['cover_art', 'author']}
+2025-09-20 15:59:25,149 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:59:25,152 - MangaArr - INFO - Returning 19 search results
+2025-09-20 15:59:25,157 - MangaArr - INFO - Searching for 'one punch' on page 1
+2025-09-20 15:59:25,158 - MangaArr - INFO - Making request to https://api.mangadex.org/manga with params {'title': 'one punch', 'limit': 20, 'offset': 0, 'includes[]': ['cover_art', 'author']}
+2025-09-20 15:59:25,235 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:59:25,238 - MangaArr - INFO - Returning 19 search results
+2025-09-20 15:59:27,447 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-20 15:59:27,447 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-20 15:59:27,447 - MangaArr - INFO - Making request to https://api.mangadex.org/manga/d8a959f7-648e-4c8d-8f23-f1f3f8e129f3 with params {'includes[]': ['cover_art', 'author', 'artist', 'tag']}
+2025-09-20 15:59:27,717 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:59:27,720 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-20 15:59:27,720 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-20 15:59:29,367 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-20 15:59:29,368 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-20 15:59:29,368 - MangaArr - INFO - Making request to https://api.mangadex.org/manga/d8a959f7-648e-4c8d-8f23-f1f3f8e129f3 with params {'includes[]': ['cover_art', 'author', 'artist', 'tag']}
+2025-09-20 15:59:29,448 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:59:29,449 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-20 15:59:29,449 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-20 15:59:29,455 - MangaArr - ERROR - Database query error: no such column: timestamp
+2025-09-20 15:59:29,455 - MangaArr - ERROR - Error getting from cache: Database query error: no such column: timestamp
+2025-09-20 15:59:29,456 - MangaArr - INFO - Making request to https://api.mangadex.org/chapter with params {'manga': 'd8a959f7-648e-4c8d-8f23-f1f3f8e129f3', 'translatedLanguage[]': ['en'], 'limit': 100, 'order[chapter]': 'desc'}
+2025-09-20 15:59:29,988 - MangaArr - INFO - Request successful, status code: 200
+2025-09-20 15:59:29,989 - MangaArr - ERROR - Database query error: no such column: type
+2025-09-20 15:59:29,989 - MangaArr - ERROR - Error saving to cache: Database query error: no such column: type
+2025-09-20 15:59:29,990 - MangaArr - INFO - Settings table created or verified
+2025-09-20 15:59:29,992 - MangaArr - INFO - Calendar updated successfully
+2025-09-20 15:59:33,541 - MangaArr - INFO - Settings table created or verified
