@@ -237,7 +237,18 @@ def api_import_manga(provider, manga_id):
         
         # Update the calendar to include the newly imported manga's release dates
         from backend.features.calendar import update_calendar
-        update_calendar()
+        from backend.base.logging import LOGGER
+        
+        # Log the import source
+        LOGGER.info(f"Imported manga from {provider}, updating calendar...")
+        
+        # Make sure we update the calendar
+        try:
+            update_calendar()
+            LOGGER.info(f"Calendar updated successfully after importing from {provider}")
+        except Exception as e:
+            LOGGER.error(f"Error updating calendar after import: {e}")
+            # Continue anyway - we don't want to fail the import if calendar update fails
         
         return jsonify(result)
     except Exception as e:

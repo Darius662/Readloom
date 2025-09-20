@@ -11,13 +11,32 @@ from backend.internals.db import execute_query
 from backend.internals.settings import Settings
 
 
-def update_calendar() -> None:
-    """Update the calendar with upcoming releases."""
+def update_calendar(series_id: Optional[int] = None) -> None:
+    """Update the calendar with upcoming releases.
+    
+    Args:
+        series_id: Optional series ID to update only one specific series.
+                  If None, updates all series in the collection.
+    """
     try:
         settings = Settings().get_settings()
         
-        # Get all series that we're tracking
-        series_list = execute_query("SELECT id, title FROM series")
+        # Get either a specific series or all series that we're tracking
+        if series_id is not None:
+            series_list = execute_query("SELECT id, title FROM series WHERE id = ?", (series_id,))
+            LOGGER.info(f"Updating calendar for specific series ID: {series_id}")
+        else:
+            series_list = execute_query("SELECT id, title FROM series")
+            LOGGER.info(f"Updating calendar for all {len(series_list)} series")
+        
+        # If updating a specific series, first remove its existing calendar entries
+        if series_id is not None:
+            execute_query(
+                "DELETE FROM calendar_events WHERE series_id = ?",
+                (series_id,),
+                commit=True
+            )
+            LOGGER.info(f"Cleared existing calendar events for series ID: {series_id}")
         
         for series in series_list:
             series_id = series["id"]
@@ -25,21 +44,31 @@ def update_calendar() -> None:
             # Check for upcoming volume releases
             volumes = execute_query(
                 """
-                SELECT id, volume_number, title, release_date 
+                SELECT id, volume_number, title, release_date,
+                       (SELECT metadata_source FROM series WHERE id = ?) as provider 
                 FROM volumes 
                 WHERE series_id = ? AND release_date IS NOT NULL
                 """,
-                (series_id,)
+                (series_id, series_id)
             )
             
             for volume in volumes:
                 try:
                     release_date = datetime.fromisoformat(volume["release_date"])
                     
-                    # Include all dates for testing purposes
-                    # now = datetime.now()
-                    # if now - timedelta(days=7) <= release_date <= now + timedelta(days=settings.calendar_range_days):
-                    if True:  # Include all dates
+                    # Check if this is from AniList (which needs special handling)
+                    provider = volume.get('provider', '')
+                    is_anilist = provider == 'AniList'
+                    
+                    # For normal providers, only include upcoming releases
+                    now = datetime.now()
+                    upcoming_days = settings.calendar_range_days  # Use the calendar range from settings
+                    
+                    # Include all AniList volumes or only upcoming ones for other providers
+                    is_valid_for_calendar = is_anilist or (release_date >= now and release_date <= now + timedelta(days=upcoming_days))
+                    
+                    # If it's a valid entry for the calendar, add it
+                    if is_valid_for_calendar:
                         # Check if this event already exists
                         existing = execute_query(
                             """
@@ -71,24 +100,46 @@ def update_calendar() -> None:
                     # Skip invalid dates
                     continue
             
-            # Check for upcoming chapter releases
+            # Check for all chapter releases with dates
             chapters = execute_query(
                 """
-                SELECT id, chapter_number, title, release_date 
+                SELECT id, chapter_number, title, release_date, 
+                       (SELECT metadata_source FROM series WHERE id = ?) as provider
                 FROM chapters 
                 WHERE series_id = ? AND release_date IS NOT NULL
                 """,
-                (series_id,)
+                (series_id, series_id)
             )
             
             for chapter in chapters:
                 try:
-                    release_date = datetime.fromisoformat(chapter["release_date"])
+                    # Debug logging
+                    LOGGER.info(f"Processing chapter: {chapter.get('id')} - {chapter.get('chapter_number')} - {chapter.get('title')} - Date: {chapter.get('release_date')}")
                     
-                    # Include all dates for testing purposes
-                    # now = datetime.now()
-                    # if now - timedelta(days=7) <= release_date <= now + timedelta(days=settings.calendar_range_days):
-                    if True:  # Include all dates
+                    # Check if release_date is valid
+                    if not chapter.get("release_date"):
+                        LOGGER.warning(f"Missing release date for chapter {chapter.get('chapter_number')} in series {series_id}")
+                        continue
+                    
+                    try:
+                        release_date = datetime.fromisoformat(chapter["release_date"])
+                    except ValueError:
+                        LOGGER.warning(f"Invalid date format for chapter {chapter.get('chapter_number')}: {chapter.get('release_date')}")
+                        continue
+                    
+                    # Check if this is from AniList (which needs special handling)
+                    provider = chapter.get('provider', '')
+                    is_anilist = provider == 'AniList'
+                    
+                    # For normal providers, only include upcoming releases
+                    now = datetime.now()
+                    upcoming_days = settings.calendar_range_days  # Use the calendar range from settings
+                    
+                    # Include all AniList chapters or only upcoming ones for other providers
+                    is_valid_for_calendar = is_anilist or (release_date >= now and release_date <= now + timedelta(days=upcoming_days))
+                    
+                    # If it's a valid entry for the calendar, add it
+                    if is_valid_for_calendar:
                         # Check if this event already exists
                         existing = execute_query(
                             """
@@ -100,6 +151,11 @@ def update_calendar() -> None:
                         
                         if not existing:
                             # Create new calendar event
+                            event_title = f"Chapter {chapter['chapter_number']} - {series['title']}"
+                            event_desc = f"Release of chapter {chapter['chapter_number']}: {chapter['title']}"
+                            
+                            LOGGER.info(f"Adding calendar event: {event_title} on {chapter['release_date']}")
+                            
                             execute_query(
                                 """
                                 INSERT INTO calendar_events 
@@ -109,8 +165,8 @@ def update_calendar() -> None:
                                 (
                                     series_id,
                                     chapter["id"],
-                                    f"Chapter {chapter['chapter_number']} - {series['title']}",
-                                    f"Release of chapter {chapter['chapter_number']}: {chapter['title']}",
+                                    event_title,
+                                    event_desc,
                                     chapter["release_date"],
                                     "CHAPTER_RELEASE"
                                 ),
@@ -119,6 +175,80 @@ def update_calendar() -> None:
                 except (ValueError, TypeError):
                     # Skip invalid dates
                     continue
+        
+        # For AniList series, ensure volumes are included in the calendar
+        # This helps ensure our volume date distribution logic takes effect
+        if series_id is not None:
+            # If we're updating a specific series, check if it's from AniList
+            specific_series = execute_query(
+                "SELECT id, title, metadata_source FROM series WHERE id = ?",
+                (series_id,)
+            )
+            
+            if specific_series and specific_series[0].get('metadata_source') == 'AniList':
+                # Process only this specific AniList series
+                anilist_series = [{'id': series_id, 'title': specific_series[0].get('title')}]
+            else:
+                # Not an AniList series, skip AniList-specific processing
+                anilist_series = []
+        else:
+            # Processing all series, get all AniList series
+            anilist_series = execute_query(
+                "SELECT id, title FROM series WHERE metadata_source = 'AniList'"
+            )
+        
+        # Process AniList volumes
+        for series in anilist_series:
+            series_id = series['id']
+            series_title = series.get('title')
+            
+            LOGGER.info(f"Special processing for AniList series: {series_title}")
+            
+            # Get volumes for this series
+            volumes = execute_query(
+                """
+                SELECT id, volume_number, title, release_date
+                FROM volumes 
+                WHERE series_id = ? AND release_date IS NOT NULL
+                """,
+                (series_id,)
+            )
+            
+            # Re-add all volumes to calendar
+            for volume in volumes:
+                try:
+                    release_date = datetime.fromisoformat(volume["release_date"])
+                    
+                    # Check if this event already exists
+                    existing = execute_query(
+                        """
+                        SELECT id FROM calendar_events 
+                        WHERE series_id = ? AND volume_id = ? AND event_date = ?
+                        """,
+                        (series_id, volume["id"], volume["release_date"])
+                    )
+                    
+                    if not existing:
+                        # Always include AniList volumes
+                        execute_query(
+                            """
+                            INSERT INTO calendar_events 
+                            (series_id, volume_id, title, description, event_date, event_type) 
+                            VALUES (?, ?, ?, ?, ?, ?)
+                            """,
+                            (
+                                series_id,
+                                volume["id"],
+                                f"Volume {volume['volume_number']} - {series_title}",
+                                f"Release of volume {volume['volume_number']}: {volume['title']}",
+                                volume["release_date"],
+                                "VOLUME_RELEASE"
+                            ),
+                            commit=True
+                        )
+                        LOGGER.info(f"Added AniList volume {volume['volume_number']} for {series_title} to calendar")
+                except (ValueError, TypeError) as e:
+                    LOGGER.warning(f"Skipped AniList volume due to date error: {e}")
         
         # Comment out cleanup to keep all events for testing
         # execute_query(

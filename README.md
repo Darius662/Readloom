@@ -6,21 +6,26 @@ MangaArr is a manga, manwa, and comics collection manager with a focus on releas
 
 ## Features
 
-- **Enhanced Release Calendar**: Interactive calendar showing all manga/comic releases
+- **Enhanced Release Calendar**: Interactive calendar showing manga/comic releases
+  - Sonarr/Radarr-like calendar showing only upcoming confirmed releases
   - Complete historical and future release date tracking
   - Filter options for manga/comics by type and series
   - Different view modes (month, week, list)
   - Color coding for different types of releases
   - Add releases to collection directly from calendar
-  - Automatic calendar updates when importing manga
+  - Efficient series-specific calendar updates (v0.0.5+)
+  - Performance-optimized for large collections
 - **Comprehensive Collection Tracking**: Track your manga/comic collection
   - Track ownership status, read status, and purchase details
   - Collection statistics and visualizations
   - Import/export functionality
 - **External Source Integration**: Connect to popular manga sources
-  - MangaFire integration for searching and importing manga
+  - AniList integration with intelligent release date prediction
   - MyAnimeList (MAL) integration for metadata and searching
-  - Manga-API integration for additional manga sources
+  - MangaDex integration for searching and importing manga
+  - Multi-source accurate chapter counting system
+  - Advanced volume detection with multiple scrapers (v0.0.5+)
+  - MangaFire integration for accurate volume data
   - Search interface for finding manga across multiple sources
 - **Monitoring System**: Stay updated on upcoming releases
   - Notification system for upcoming releases
@@ -79,16 +84,31 @@ MangaArr will be available at http://localhost:7227
 
 MangaArr will be available at http://localhost:7227
 
+## Documentation
+
+Comprehensive documentation is available in the `docs/` directory:
+
+- [Installation Guide](docs/INSTALLATION.md) - Detailed setup instructions
+- [API Documentation](docs/API.md) - Complete API reference
+- [Performance Tips](docs/PERFORMANCE_TIPS.md) - Optimize for large collections
+- [AniList Provider](docs/ANILIST_PROVIDER.md) - AniList integration details
+- [Database Schema](docs/DATABASE.md) - Database structure information
+- [Changelog](docs/CHANGELOG.md) - Version history and changes
+
 ## Configuration
 
 MangaArr stores its configuration in a SQLite database. You can modify settings through the web interface at http://localhost:7227/settings.
 
 ### Calendar Settings
 
-- `calendar_range_days`: Default number of days to show in the calendar view (default: 14)
+- `calendar_range_days`: Default number of days to show in the calendar view (default: 7)
   - Note: This only affects the initial calendar view. The calendar system stores and can display events from any date range.
+  - Only upcoming releases in the next 7 days will be displayed by default.
 - `calendar_refresh_hours`: How often to automatically refresh the calendar (default: 12)
   - The calendar is also automatically updated when importing new manga or modifying release dates.
+- `calendar_confirmation_mode`: Controls which releases show in the calendar (default: true)
+  - When enabled, only confirmed releases appear in the calendar (Sonarr/Radarr-like behavior).
+  - When disabled, all predicted releases appear in the calendar.
 
 ### Command Line Arguments
 
@@ -121,12 +141,28 @@ See the [Integrations](http://localhost:7227/integrations) page in the MangaArr 
 - `backend/`: Backend code
   - `base/`: Base definitions and helpers
   - `features/`: Feature implementations
+    - `calendar.py`: Calendar management with performance optimizations
+    - `scrapers/`: Web scraping services for manga data
+    - `metadata_providers/`: External API integrations
   - `internals/`: Internal components (database, server, settings)
 - `frontend/`: Frontend code
   - `api.py`: API endpoints
+  - `api_metadata.py`: Metadata provider endpoints
   - `ui.py`: UI routes
   - `templates/`: HTML templates
   - `static/`: Static files (CSS, JS, images)
+- **Utility Scripts** (in `fix and test` directory):
+  - Volume Management:
+    - `refresh_all_volumes.py`: Batch update all manga volumes
+    - `update_manga_volumes.py`: Fix volumes for specific manga
+    - `fix_manga_volumes.py`: Fix volumes for known manga series
+  - Testing and Diagnostics:
+    - `test_volume_scraper.py`: Test volume detection
+    - `check_series_volumes.py`: Check volumes for specific manga
+    - `debug_anilist_chapters.py`: Debug AniList chapter information
+  - Content Management:
+    - `add_chapter.py`: Add test chapters
+    - `add_series_and_volumes.py`: Create test series with volumes
 
 ### Contributing
 

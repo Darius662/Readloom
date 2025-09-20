@@ -235,9 +235,15 @@ def api_import_manga(provider, manga_id):
             # Otherwise it's a real error
             return jsonify(result), 400
         
-        # Update the calendar to include the newly imported manga's release dates
+        # Update the calendar only for this specific manga
         from backend.features.calendar import update_calendar
-        update_calendar()
+        LOGGER.info(f"Updating calendar for newly imported series (ID: {result.get('series_id')}) from {provider}")
+        # Only update this specific series, not the entire collection
+        update_calendar(series_id=result.get('series_id'))
+        
+        # For AniList imports, log extra message about calendar support
+        if provider == 'AniList':
+            LOGGER.info("AniList series imported - all chapter dates will be visible in calendar")
         
         return jsonify(result)
     except Exception as e:

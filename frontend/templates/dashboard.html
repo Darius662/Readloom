@@ -351,7 +351,7 @@
                             colImg.className = 'col-auto';
                             
                             const img = document.createElement('img');
-                            img.src = event.series.cover_url || '/static/img/no-cover.png';
+                            img.src = processImageUrl(event.series.cover_url);
                             img.alt = 'Cover';
                             img.className = 'release-cover';
                             
@@ -482,7 +482,7 @@
                             
                             // Cover image
                             const img = document.createElement('img');
-                            img.src = item.cover_url || '/static/img/no-cover.png';
+                            img.src = processImageUrl(item.cover_url);
                             img.alt = item.title;
                             img.className = 'series-cover';
                             

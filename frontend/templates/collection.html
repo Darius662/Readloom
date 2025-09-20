@@ -482,7 +482,7 @@
                             // Cover image
                             let coverCell = document.createElement('td');
                             let coverImg = document.createElement('img');
-                            coverImg.src = item.series_cover_url || '/static/img/no-cover.png';
+                            coverImg.src = processImageUrl(item.series_cover_url);
                             coverImg.alt = 'Cover';
                             coverImg.className = 'series-cover';
                             coverCell.appendChild(coverImg);

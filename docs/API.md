@@ -425,7 +425,20 @@ Returns calendar events within a specified date range. The calendar shows all re
 POST /api/calendar/refresh
 ```
 
-Refreshes the calendar data.
+Refreshes the calendar data. You can optionally specify a series ID to only update that specific series.
+
+**Query Parameters:**
+- `series_id` (optional): Only update calendar events for this specific series
+
+**Example Request (Full Refresh):**
+```
+POST /api/calendar/refresh
+```
+
+**Example Request (Series-Specific Refresh):**
+```
+POST /api/calendar/refresh?series_id=42
+```
 
 **Example Response:**
 ```json
@@ -433,6 +446,8 @@ Refreshes the calendar data.
   "message": "Calendar refreshed successfully"
 }
 ```
+
+**Note:** Using the series-specific refresh is much more efficient when adding new manga or updating a single series, as it doesn't scan the entire collection.
 
 ### Settings Endpoints
 

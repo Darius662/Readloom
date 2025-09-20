@@ -5,12 +5,24 @@ This document describes the behavior and implementation details of MangaArr's me
 ## Overview
 
 MangaArr supports multiple metadata providers for fetching manga information, including:
+- AniList (primary recommended provider)
 - MyAnimeList (via Jikan API)
 - MangaDex
-- MangaFire (deprecated)
-- Manga-API (deprecated)
+- Manga-API
 
 ## Provider Behavior
+
+### AniList
+
+- **Search**: Returns manga titles with rich metadata
+- **Details**: Provides comprehensive manga information including description, status, genres
+- **Chapters**: 
+  - Uses intelligent publication schedule detection for release dates
+  - Chapter count is enhanced with multi-source data
+  - Popular manga series get accurate chapter counts from static database
+  - Release dates follow realistic publication schedules based on manga type
+  - Marks past chapters as confirmed historical data
+  - Marks future predicted chapters as unconfirmed
 
 ### MyAnimeList (Jikan)
 
@@ -38,8 +50,13 @@ The calendar system has been enhanced to handle release dates from all providers
 
 1. **Date Format**: All dates are stored in ISO format (YYYY-MM-DD)
 2. **Missing Dates**: Empty dates are allowed and skipped during calendar updates
-3. **Historical Dates**: All historical release dates are preserved
-4. **Future Dates**: Upcoming release dates are tracked without restrictions
+3. **Historical Dates**: All historical release dates are preserved and marked as confirmed
+4. **Future Dates**: Only shows upcoming releases in the next 7 days by default
+5. **Confirmation Status**: Tracks whether dates are confirmed or just predicted
+6. **Publication Patterns**: Uses intelligent detection of publication schedules:
+   - Weekly Shonen Jump titles release on Mondays
+   - Monthly seinen magazines release on Thursdays
+   - Korean manhwa release on Wednesdays
 
 ## Error Handling
 
@@ -65,15 +82,15 @@ The calendar system has been enhanced to handle release dates from all providers
 ## Best Practices
 
 1. **Provider Selection**:
-   - Use MyAnimeList for reliable metadata
-   - Use MangaDex for comprehensive chapter information
-   - Avoid deprecated providers (MangaFire, Manga-API)
+   - Use AniList as the primary provider (most comprehensive data)
+   - Use MangaDex for additional chapter information
+   - Use MyAnimeList for supplementary metadata
 
 2. **Release Date Management**:
    - Always include release dates when available
    - Use ISO format for consistency
-   - Preserve historical dates
-   - Allow future dates without restrictions
+   - Preserve historical dates with confirmation status
+   - Follow realistic publication schedules for future dates
 
 3. **Error Prevention**:
    - Validate chapter numbers before import
