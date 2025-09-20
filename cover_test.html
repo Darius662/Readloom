@@ -1,0 +1,45 @@
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>MangaDex Cover Test</title>
+        <style>
+            body { font-family: Arial, sans-serif; padding: 20px; }
+            .image-container { margin: 20px 0; }
+            img { max-height: 300px; }
+            .debug { background: #f0f0f0; padding: 10px; margin: 20px 0; white-space: pre-wrap; }
+        </style>
+    </head>
+    <body>
+        <h1>MangaDex Cover Test</h1>
+        
+        <div class="image-container">
+            <h2>Direct Image Test</h2>
+            <img src="https://uploads.mangadex.org/covers/68112dc1-2b80-4f20-beb8-2f2a8716a430/10069279-f00a-4dec-a15c-97d01e1689ae.jpg" alt="Manga Cover (Direct)" onerror="this.style.border='2px solid red'; document.getElementById('direct-error').textContent='Error loading image';">
+            <p id="direct-error" style="color: red;"></p>
+        </div>
+        
+        <div class="image-container">
+            <h2>Proxy Image Test</h2>
+            <img src="/get-image?url=https://uploads.mangadex.org/covers/68112dc1-2b80-4f20-beb8-2f2a8716a430/10069279-f00a-4dec-a15c-97d01e1689ae.jpg" alt="Manga Cover (Proxied)" onerror="this.style.border='2px solid red'; document.getElementById('proxy-error').textContent='Error loading image';">
+            <p id="proxy-error" style="color: red;"></p>
+        </div>
+        
+        <div class="debug">
+            <h3>Debug Information</h3>
+            <p>Cover URL: https://uploads.mangadex.org/covers/68112dc1-2b80-4f20-beb8-2f2a8716a430/10069279-f00a-4dec-a15c-97d01e1689ae.jpg</p>
+            <p>Current Time: 2025-09-20 13:51:01</p>
+        </div>
+        
+        <script>
+            // Check if images loaded correctly
+            window.onload = function() {
+                const images = document.querySelectorAll('img');
+                images.forEach(img => {
+                    console.log('Image:', img.src, 'Loaded:', !img.complete || img.naturalHeight === 0 ? 'No' : 'Yes');
+                });
+            };
+        </script>
+    </body>
+    </html>
+    

@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Better handling of null chapter numbers
   - Enhanced release date extraction from providers
   - Fixed caching issues with metadata providers
+  - Added image proxy for external images to handle CORS issues
 - Foreign key constraints for better data integrity
   - Calendar events now automatically deleted when series are removed
   - Volume events deleted when volumes are removed
@@ -37,6 +38,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed issue with release dates not appearing in calendar
 - Fixed issue with orphaned calendar events after series deletion
 - Improved error handling for database constraints
+- Fixed MangaDex cover images not displaying properly due to incorrect URL construction
+- Fixed missing fallback image for manga covers
+- Added image proxy to handle CORS issues with external images
+- Updated all templates (search, series list, series details, collection, dashboard) to use image proxy
+- Embedded image proxy utility function directly in base template for global availability
 
 ## [0.0.3] - 2025-09-19
 

@@ -227,7 +227,7 @@
 {% block scripts %}
 <script>
     $(document).ready(function() {
-        const seriesId = {{ series_id }};
+        const seriesId = "{{ series_id }}";
         let seriesData = null;
         let volumesData = [];
         let chaptersData = [];
@@ -260,7 +260,7 @@
             
             const html = `
                 <div class="col-md-3">
-                    <img src="${series.cover_url || '/static/img/no-cover.png'}" class="img-fluid rounded" alt="${series.title}">
+                    <img src="${processImageUrl(series.cover_url)}" class="img-fluid rounded" alt="${series.title}">
                 </div>
                 <div class="col-md-9">
                     <h2>${series.title}</h2>

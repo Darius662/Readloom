@@ -32,6 +32,40 @@ class MangaDexProvider(MetadataProvider):
             "Accept": "application/json"
         }
         self.session = requests.Session()
+        
+    def _get_cover_url(self, manga_id: str, filename: str) -> str:
+        """Get the cover URL for a manga.
+        
+        Args:
+            manga_id: The manga ID.
+            filename: The cover filename.
+            
+        Returns:
+            The cover URL.
+        """
+        try:
+            # If we already have a filename, construct the URL directly
+            if filename:
+                # The current MangaDex cover URL format uses this pattern
+                return f"https://uploads.mangadex.org/covers/{manga_id}/{filename}"
+            
+            # If no filename provided, try to get it from the API
+            response = self._make_request(f"{self.base_url}/manga/{manga_id}?includes[]=cover_art")
+            if "data" in response and "relationships" in response["data"]:
+                for rel in response["data"]["relationships"]:
+                    if rel["type"] == "cover_art" and "attributes" in rel:
+                        filename = rel["attributes"].get("fileName", "")
+                        if filename:
+                            return f"https://uploads.mangadex.org/covers/{manga_id}/{filename}"
+            
+            # If we still can't get a proper cover URL, return empty string
+            # This will make the frontend use the no-cover image
+            self.logger.warning(f"Could not find cover for manga ID: {manga_id}")
+            return ""
+                
+        except Exception as e:
+            self.logger.error(f"Error getting cover URL: {e}")
+            return ""
 
     def _make_request(self, url: str, params: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         """Make a request to the MangaDex API.
@@ -92,7 +126,7 @@ class MangaDexProvider(MetadataProvider):
                                 if rel["type"] == "cover_art" and "attributes" in rel:
                                     filename = rel["attributes"].get("fileName", "")
                                     if filename:
-                                        cover_url = f"https://uploads.mangadex.org/covers/{manga_id}/{filename}.512.jpg"
+                                        cover_url = self._get_cover_url(manga_id, filename)
                         
                         # Get author
                         author = "Unknown"
@@ -166,7 +200,7 @@ class MangaDexProvider(MetadataProvider):
                     if rel["type"] == "cover_art" and "attributes" in rel:
                         filename = rel["attributes"].get("fileName", "")
                         if filename:
-                            cover_url = f"https://uploads.mangadex.org/covers/{manga_id}/{filename}.512.jpg"
+                            cover_url = self._get_cover_url(manga_id, filename)
             
             # Get author
             author = "Unknown"
@@ -357,7 +391,7 @@ class MangaDexProvider(MetadataProvider):
                                 elif rel["type"] == "cover_art" and "attributes" in rel:
                                     filename = rel["attributes"].get("fileName", "")
                                     if filename and manga_id:
-                                        cover_url = f"https://uploads.mangadex.org/covers/{manga_id}/{filename}.512.jpg"
+                                        cover_url = self._get_cover_url(manga_id, filename)
                         
                         results.append({
                             "manga_id": manga_id,
