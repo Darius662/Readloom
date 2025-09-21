@@ -94,6 +94,9 @@ Comprehensive documentation is available in the `docs/` directory:
 - [AniList Provider](docs/ANILIST_PROVIDER.md) - AniList integration details
 - [Database Schema](docs/DATABASE.md) - Database structure information
 - [Changelog](docs/CHANGELOG.md) - Version history and changes
+- [Codebase Structure](docs/CODEBASE_STRUCTURE.md) - Overview of the modular architecture
+- [Refactoring Guide](docs/REFACTORING_GUIDE.md) - Guidelines for code refactoring
+- [Metadata Providers](docs/METADATA_PROVIDERS.md) - Details on metadata provider implementation
 
 ## Configuration
 
@@ -141,13 +144,25 @@ See the [Integrations](http://localhost:7227/integrations) page in the MangaArr 
 - `backend/`: Backend code
   - `base/`: Base definitions and helpers
   - `features/`: Feature implementations
-    - `calendar.py`: Calendar management with performance optimizations
-    - `scrapers/`: Web scraping services for manga data
-    - `metadata_providers/`: External API integrations
+    - `calendar/`: Calendar management package
+    - `collection/`: Collection tracking package
+    - `home_assistant/`: Home Assistant integration package
+    - `metadata_providers/`: Metadata provider packages
+      - `anilist/`: AniList provider implementation
+      - `jikan/`: Jikan (MyAnimeList) provider implementation
+      - `mangadex/`: MangaDex provider implementation
+      - `mangafire/`: MangaFire provider implementation
+      - `myanimelist/`: MyAnimeList direct provider implementation
+    - `metadata_service/`: Metadata service package
+    - `notifications/`: Notification system package
+    - `scrapers/`: Web scraping services
+      - `mangainfo/`: Multi-source manga information provider
   - `internals/`: Internal components (database, server, settings)
 - `frontend/`: Frontend code
   - `api.py`: API endpoints
-  - `api_metadata.py`: Metadata provider endpoints
+  - `api_metadata_fixed.py`: Metadata provider endpoints
+  - `api_downloader.py`: Downloader API endpoints
+  - `image_proxy.py`: Image proxy functionality
   - `ui.py`: UI routes
   - `templates/`: HTML templates
   - `static/`: Static files (CSS, JS, images)

@@ -1,0 +1,508 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+"""
+Facade for metadata service.
+Exposes public API and delegates to cache and provider gateway.
+"""
+
+from datetime import datetime
+from typing import Dict, List, Any, Optional, Union
+
+from backend.base.logging import LOGGER
+from backend.features.metadata_providers.setup import initialize_providers, get_provider_settings, update_provider_settings
+from .cache import save_to_cache, get_from_cache, clear_cache
+from .provider_gateway import (
+    search_with_provider,
+    search_with_all_providers,
+    get_manga_details_from_provider,
+    get_chapter_list_from_provider,
+    get_chapter_images_from_provider,
+    get_latest_releases_from_provider,
+    get_latest_releases_from_all_providers,
+)
+
+
+def init_metadata_service() -> None:
+    """Initialize the metadata service."""
+    try:
+        # Initialize metadata providers
+        initialize_providers()
+        
+        # Drop and recreate metadata cache table to ensure proper schema
+        from backend.internals.db import execute_query
+        execute_query("DROP TABLE IF EXISTS metadata_cache")
+        
+        # Create metadata cache table with proper schema
+        execute_query("""
+            CREATE TABLE IF NOT EXISTS metadata_cache (
+                id TEXT PRIMARY KEY,
+                provider TEXT NOT NULL,
+                type TEXT NOT NULL,
+                data TEXT NOT NULL,
+                timestamp TEXT DEFAULT CURRENT_TIMESTAMP
+            )
+        """, commit=True)
+        
+        LOGGER.info("Metadata service initialized")
+    except Exception as e:
+        LOGGER.error(f"Error initializing metadata service: {e}")
+
+
+def search_manga(query: str, provider: Optional[str] = None, page: int = 1) -> Dict[str, Any]:
+    """Search for manga across all enabled providers or a specific provider.
+    
+    Args:
+        query: The search query.
+        provider: The provider name (optional).
+        page: The page number.
+        
+    Returns:
+        A dictionary containing search results.
+    """
+    try:
+        if provider:
+            # Search with a specific provider
+            results = {provider: search_with_provider(query, provider, page)}
+        else:
+            # Search with all enabled providers
+            results = search_with_all_providers(query, page)
+        
+        # Format the response
+        response = {
+            "query": query,
+            "page": page,
+            "results": results,
+            "timestamp": datetime.now().isoformat()
+        }
+        
+        return response
+    except Exception as e:
+        LOGGER.error(f"Error searching manga: {e}")
+        return {"error": str(e)}
+
+
+def get_manga_details(manga_id: str, provider: str) -> Dict[str, Any]:
+    """Get details for a manga.
+    
+    Args:
+        manga_id: The manga ID.
+        provider: The provider name.
+        
+    Returns:
+        A dictionary containing manga details.
+    """
+    try:
+        # Check cache first
+        cache_key = f"{provider}_{manga_id}"
+        cached_data = get_from_cache(cache_key, "manga_details")
+        
+        if cached_data:
+            return cached_data
+        
+        # Get from provider if not in cache
+        details = get_manga_details_from_provider(manga_id, provider)
+        
+        if details:
+            # Add to cache
+            save_to_cache(cache_key, "manga_details", details)
+        
+        return details
+    except Exception as e:
+        LOGGER.error(f"Error getting manga details: {e}")
+        return {"error": str(e)}
+
+
+def get_chapter_list(manga_id: str, provider: str) -> Union[List[Dict[str, Any]], Dict[str, Any]]:
+    """Get the chapter list for a manga.
+    
+    Args:
+        manga_id: The manga ID.
+        provider: The provider name.
+        
+    Returns:
+        A list of chapters or a dictionary with error information.
+    """
+    try:
+        # Check if we have a cached version
+        cache_key = f"{provider}_{manga_id}_chapters"
+        cached = get_from_cache(cache_key, "chapters")
+        if cached:
+            return cached
+        
+        # Get chapter list from provider
+        chapters = get_chapter_list_from_provider(manga_id, provider)
+        
+        # Handle different return types
+        if isinstance(chapters, dict):
+            # Already in the right format
+            result = chapters
+        elif isinstance(chapters, list):
+            # Convert list to dict format
+            result = {"chapters": chapters}
+        else:
+            # Handle unexpected return type
+            LOGGER.error(f"Unexpected return type from get_chapter_list: {type(chapters)}")
+            result = {"error": f"Unexpected return type: {type(chapters)}", "chapters": []}
+        
+        # Cache the results
+        save_to_cache(cache_key, "chapters", result)
+        
+        return result
+    except Exception as e:
+        LOGGER.error(f"Error getting chapter list: {e}")
+        return {"error": str(e), "chapters": []}
+
+
+def get_chapter_images(manga_id: str, chapter_id: str, provider: str) -> Dict[str, Any]:
+    """Get the images for a chapter.
+    
+    Args:
+        manga_id: The manga ID.
+        chapter_id: The chapter ID.
+        provider: The provider name.
+        
+    Returns:
+        A dictionary containing chapter images.
+    """
+    try:
+        # Check cache first
+        cache_key = f"{provider}_{manga_id}_{chapter_id}"
+        cached_data = get_from_cache(cache_key, "chapter_images")
+        
+        if cached_data:
+            return {"images": cached_data}
+        
+        # Get from provider if not in cache
+        images = get_chapter_images_from_provider(manga_id, chapter_id, provider)
+        
+        if images:
+            # Add to cache
+            save_to_cache(cache_key, "chapter_images", images)
+        
+        return {"images": images}
+    except Exception as e:
+        LOGGER.error(f"Error getting chapter images: {e}")
+        return {"error": str(e)}
+
+
+def get_latest_releases(provider: Optional[str] = None, page: int = 1) -> Dict[str, Any]:
+    """Get the latest manga releases.
+    
+    Args:
+        provider: The provider name (optional).
+        page: The page number.
+        
+    Returns:
+        A dictionary containing latest releases.
+    """
+    try:
+        if provider:
+            # Get latest releases from a specific provider
+            results = {provider: get_latest_releases_from_provider(provider, page)}
+        else:
+            # Get latest releases from all enabled providers
+            results = get_latest_releases_from_all_providers(page)
+        
+        # Format the response
+        response = {
+            "page": page,
+            "results": results,
+            "timestamp": datetime.now().isoformat()
+        }
+        
+        return response
+    except Exception as e:
+        LOGGER.error(f"Error getting latest releases: {e}")
+        return {"error": str(e)}
+
+
+def get_providers() -> Dict[str, Any]:
+    """Get all metadata providers and their settings.
+    
+    Returns:
+        A dictionary containing provider information.
+    """
+    try:
+        providers = get_provider_settings()
+        
+        return {
+            "providers": providers,
+            "timestamp": datetime.now().isoformat()
+        }
+    except Exception as e:
+        LOGGER.error(f"Error getting providers: {e}")
+        return {"error": str(e)}
+
+
+def update_provider(name: str, enabled: bool, settings: Dict[str, Any]) -> Dict[str, Any]:
+    """Update a metadata provider's settings.
+    
+    Args:
+        name: The provider name.
+        enabled: Whether the provider is enabled.
+        settings: The provider settings.
+        
+    Returns:
+        A dictionary containing the result.
+    """
+    try:
+        success = update_provider_settings(name, enabled, settings)
+        
+        if success:
+            return {
+                "success": True,
+                "message": f"Provider {name} updated successfully"
+            }
+        else:
+            return {
+                "success": False,
+                "message": f"Failed to update provider {name}"
+            }
+    except Exception as e:
+        LOGGER.error(f"Error updating provider: {e}")
+        return {
+            "success": False,
+            "message": str(e)
+        }
+
+
+def import_manga_to_collection(manga_id: str, provider: str) -> Dict[str, Any]:
+    """Import a manga from an external source to the collection.
+    
+    Args:
+        manga_id: The manga ID.
+        provider: The provider name.
+        
+    Returns:
+        A dictionary containing the result.
+    """
+    try:
+        # Get manga details
+        manga_details = get_manga_details(manga_id, provider)
+        
+        if "error" in manga_details:
+            return manga_details
+        
+        # Check if the series already exists
+        from backend.internals.db import execute_query, get_db_connection
+        existing_series = execute_query(
+            "SELECT id FROM series WHERE metadata_source = ? AND metadata_id = ?",
+            (provider, manga_id)
+        )
+        
+        if existing_series:
+            return {
+                "success": False,
+                "message": "Series already exists in the collection",
+                "series_id": existing_series[0]["id"]
+            }
+        
+        # Insert the series
+        try:
+            # Get a direct connection to execute the insert and get the last row ID
+            conn = get_db_connection()
+            cursor = conn.cursor()
+            cursor.execute(
+                """
+                INSERT INTO series (
+                    title, description, author, publisher, cover_url, status, metadata_source, metadata_id
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    manga_details.get("title", "Unknown"),
+                    manga_details.get("description", ""),
+                    manga_details.get("author", "Unknown"),
+                    manga_details.get("publisher", "Unknown"),
+                    manga_details.get("cover_url", ""),
+                    manga_details.get("status", "ONGOING"),
+                    provider,
+                    manga_id
+                )
+            )
+            conn.commit()
+            
+            # Get the ID of the last inserted row
+            series_id = cursor.lastrowid
+            
+            if not series_id:
+                return {
+                    "success": False,
+                    "message": "Failed to insert series into database"
+                }
+        except Exception as e:
+            LOGGER.error(f"Error inserting series: {e}")
+            return {
+                "success": False,
+                "message": f"Database error: {str(e)}"
+            }
+        
+        # Get chapter list
+        from datetime import timedelta
+        chapter_list_result = get_chapter_list(manga_id, provider)
+        
+        # Handle different return types (for backward compatibility)
+        if isinstance(chapter_list_result, dict):
+            if "error" in chapter_list_result:
+                LOGGER.warning(f"Error getting chapters from provider: {chapter_list_result.get('error')}")
+                # Create at least 3 placeholder chapters
+                chapter_list = [
+                    {"number": "1", "title": "Chapter 1", "date": datetime.now().strftime("%Y-%m-%d")},
+                    {"number": "2", "title": "Chapter 2", "date": (datetime.now() + timedelta(days=1)).strftime("%Y-%m-%d")},
+                    {"number": "3", "title": "Chapter 3", "date": (datetime.now() + timedelta(days=2)).strftime("%Y-%m-%d")}
+                ]
+                LOGGER.info("Created 3 placeholder chapters since provider failed")
+            else:
+                chapter_list = chapter_list_result.get("chapters", [])
+        elif isinstance(chapter_list_result, list):
+            chapter_list = chapter_list_result
+        else:
+            # If it's neither a dict nor a list, create placeholder chapters
+            LOGGER.warning(f"Unexpected chapter list result type: {type(chapter_list_result)}")
+            chapter_list = [
+                {"number": "1", "title": "Chapter 1", "date": datetime.now().strftime("%Y-%m-%d")},
+                {"number": "2", "title": "Chapter 2", "date": (datetime.now() + timedelta(days=1)).strftime("%Y-%m-%d")},
+                {"number": "3", "title": "Chapter 3", "date": (datetime.now() + timedelta(days=2)).strftime("%Y-%m-%d")}
+            ]
+            LOGGER.info("Created 3 placeholder chapters due to unexpected result type")
+        
+        # Insert volumes - ensure we create them even if provider doesn't give them
+        volumes = {}
+        create_volumes = True
+        volume_count = 4  # Default minimum volume count
+        
+        if "volumes" in manga_details and isinstance(manga_details["volumes"], list) and manga_details["volumes"]:
+            LOGGER.info(f"Importing {len(manga_details['volumes'])} volumes from {provider}")
+            for volume in manga_details["volumes"]:
+                create_volumes = False  # We're creating them from the provider data
+                try:
+                    # Get a direct connection to execute the insert and get the last row ID
+                    conn = get_db_connection()
+                    cursor = conn.cursor()
+                    cursor.execute(
+                        """
+                        INSERT INTO volumes (
+                            series_id, volume_number, title, description, cover_url, release_date
+                        ) VALUES (?, ?, ?, ?, ?, ?)
+                        """,
+                        (
+                            series_id,
+                            volume.get("number", "0"),
+                            volume.get("title", f"Volume {volume.get('number', '0')}"),
+                            volume.get("description", ""),
+                            volume.get("cover_url", ""),
+                            volume.get("release_date", "") or volume.get("date", "")
+                        )
+                    )
+                    conn.commit()
+                    
+                    # Get the ID of the last inserted row
+                    volume_id = cursor.lastrowid
+                    
+                    if volume_id:
+                        volumes[volume.get("number", "0")] = volume_id
+                except Exception as e:
+                    LOGGER.error(f"Error inserting volume: {e}")
+        
+        # Create default volumes if none provided by the API
+        if create_volumes:
+            LOGGER.info(f"Creating {volume_count} default volumes since none provided by {provider}")
+            start_date = datetime.now() - timedelta(days=volume_count * 90)
+            
+            for i in range(1, volume_count + 1):
+                volume_date = start_date + timedelta(days=i * 90)
+                release_date_str = volume_date.strftime("%Y-%m-%d")
+                
+                try:
+                    conn = get_db_connection()
+                    cursor = conn.cursor()
+                    cursor.execute(
+                        """
+                        INSERT INTO volumes (
+                            series_id, volume_number, title, description, cover_url, release_date
+                        ) VALUES (?, ?, ?, ?, ?, ?)
+                        """,
+                        (
+                            series_id,
+                            str(i),
+                            f"Volume {i}",
+                            "",
+                            "",
+                            release_date_str
+                        )
+                    )
+                    conn.commit()
+                    volume_id = cursor.lastrowid
+                    
+                    if volume_id:
+                        volumes[str(i)] = volume_id
+                        LOGGER.info(f"Created default volume {i} with date {release_date_str}")
+                except Exception as e:
+                    LOGGER.error(f"Error creating default volume {i}: {e}")
+        
+        # Insert chapters
+        chapters_added = 0
+        for chapter in chapter_list:
+            # Try to determine volume number from chapter number
+            volume_number = "0"
+            if "number" in chapter:
+                try:
+                    chapter_num = float(chapter["number"])
+                    volume_number = str(max(1, int(chapter_num / 10)))
+                except (ValueError, TypeError):
+                    volume_number = "0"
+            
+            # Get volume ID if available
+            volume_id = volumes.get(volume_number, None)
+            
+            # If no matching volume, try to use volume 1
+            if volume_id is None and "1" in volumes:
+                volume_id = volumes.get("1", None)
+            
+            # Get release date - prioritize standardized format
+            chapter_date = chapter.get("date", "") or chapter.get("release_date", "")
+            
+            # Log chapter data for debugging
+            LOGGER.info(f"Importing chapter: {chapter.get('number', 'Unknown')} with date {chapter_date}")
+            
+            # Validate the date format
+            if chapter_date:
+                try:
+                    # Try to parse the date to verify format
+                    test_date = datetime.fromisoformat(chapter_date)
+                    # It's valid, keep it
+                except (ValueError, TypeError):
+                    # Invalid format, log warning but continue with the date
+                    LOGGER.warning(f"Potentially invalid date format: {chapter_date} for chapter {chapter.get('number', 'Unknown')}")
+            
+            execute_query(
+                """
+                INSERT INTO chapters (
+                    series_id, volume_id, chapter_number, title, description, release_date, status, read_status
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    series_id,
+                    volume_id,
+                    chapter.get("number", "0") or "0",  # Ensure chapter_number is never null
+                    chapter.get("title", f"Chapter {chapter.get('number', '0') or '0'}"),
+                    "",
+                    chapter_date,  # Use our validated date
+                    "ANNOUNCED",
+                    "UNREAD"
+                )
+            )
+            
+            chapters_added += 1
+        
+        return {
+            "success": True,
+            "message": f"Series added to collection with {chapters_added} chapters",
+            "series_id": series_id
+        }
+    except Exception as e:
+        LOGGER.error(f"Error importing manga to collection: {e}")
+        return {
+            "success": False,
+            "message": str(e)
+        }

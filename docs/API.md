@@ -16,6 +16,34 @@ MangaArr provides a RESTful API that allows you to:
 
 All API endpoints are prefixed with `/api`.
 
+## Module Structure
+
+The API is organized into several modules, each handling different functionality:
+
+```
+frontend/
+├── api.py                # Main API endpoints
+├── api_metadata_fixed.py # Metadata API endpoints
+├── api_downloader.py     # Downloader API endpoints
+├── image_proxy.py        # Image proxy functionality
+└── ui.py                 # UI routes
+```
+
+The backend implementation has been refactored into a modular package structure:
+
+```
+backend/features/
+├── calendar/             # Calendar functionality
+├── collection/           # Collection management
+├── home_assistant/       # Home Assistant integration
+├── metadata_providers/   # Metadata providers
+├── metadata_service/     # Metadata service
+├── notifications/        # Notification system
+└── scrapers/             # Web scrapers
+```
+
+Each module exports a consistent API through its `__init__.py` file, with compatibility shims maintaining backward compatibility.
+
 ## Authentication
 
 Currently, the API does not require authentication when accessed locally. For remote access, standard network security practices should be implemented.

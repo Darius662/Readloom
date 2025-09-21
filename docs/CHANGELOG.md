@@ -5,6 +5,17 @@ All notable changes to MangaArr will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.5] - 2025-09-21
+
+### Added
+- Complete codebase refactoring for better maintainability
+  - Modular package structure for all major components
+  - Split large files into focused, single-responsibility modules
+  - Added compatibility shims for backward compatibility
+  - Improved organization of related functionality
+  - Better separation of concerns throughout the codebase
+  - New documentation explaining the codebase structure
+
 ## [0.0.4] - 2025-09-20
 
 ### Added
