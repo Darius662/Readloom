@@ -120,12 +120,25 @@ def setup_db() -> None:
         publisher TEXT,
         cover_url TEXT,
         status TEXT,
+        content_type TEXT DEFAULT 'MANGA',
         metadata_source TEXT,
         metadata_id TEXT,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
     """, commit=True)
+    
+    # Add content_type column to series table if it doesn't exist
+    try:
+        # Check if the column exists
+        column_check = execute_query("PRAGMA table_info(series)")
+        column_names = [col['name'] for col in column_check]
+        
+        if 'content_type' not in column_names:
+            LOGGER.info("Adding content_type column to series table")
+            execute_query("ALTER TABLE series ADD COLUMN content_type TEXT DEFAULT 'MANGA'", commit=True)
+    except Exception as e:
+        LOGGER.error(f"Error checking/adding content_type column: {e}")
     
     # Create volumes table
     execute_query("""
@@ -204,6 +217,25 @@ def setup_db() -> None:
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         UNIQUE(source, source_id)
+    )
+    """, commit=True)
+    
+    # Create ebook_files table
+    execute_query("""
+    CREATE TABLE IF NOT EXISTS ebook_files (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        series_id INTEGER NOT NULL,
+        volume_id INTEGER NOT NULL,
+        file_path TEXT NOT NULL,
+        file_name TEXT NOT NULL,
+        file_size INTEGER,
+        file_type TEXT,
+        original_name TEXT,
+        added_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (series_id) REFERENCES series (id) ON DELETE CASCADE,
+        FOREIGN KEY (volume_id) REFERENCES volumes (id) ON DELETE CASCADE
     )
     """, commit=True)
     

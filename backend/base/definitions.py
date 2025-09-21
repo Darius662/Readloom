@@ -29,6 +29,7 @@ class Constants:
     DEFAULT_CALENDAR_RANGE_DAYS: int = 14
     DEFAULT_CALENDAR_REFRESH_HOURS: int = 12
     DEFAULT_TASK_INTERVAL_MINUTES: int = 60
+    DEFAULT_EBOOK_STORAGE: str = "ebooks"
 
 
 class Settings(NamedTuple):
@@ -43,6 +44,7 @@ class Settings(NamedTuple):
     calendar_range_days: int
     calendar_refresh_hours: int
     task_interval_minutes: int
+    ebook_storage: str
 
 
 class MangaFormat(Enum):
@@ -82,3 +84,14 @@ class MetadataSource(Enum):
     COMICVINE = auto()
     MANUAL = auto()
     UNKNOWN = auto()
+
+
+class ContentType(Enum):
+    """Type of content."""
+    MANGA = auto()    # Japanese comics
+    MANHWA = auto()   # Korean comics
+    MANHUA = auto()   # Chinese comics
+    COMICS = auto()   # Western comics
+    NOVEL = auto()    # Light novels or text-based stories
+    BOOK = auto()     # Regular books
+    OTHER = auto()    # Other types of content

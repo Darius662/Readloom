@@ -15,8 +15,16 @@ MangaArr is a manga, manwa, and comics collection manager with a focus on releas
   - Add releases to collection directly from calendar
   - Efficient series-specific calendar updates (v0.0.5+)
   - Performance-optimized for large collections
+- **E-book Management System** (v0.0.5+): Organize and track your digital manga/comics
+  - Organized folder structure by content type and series
+  - Automatic volume number detection from filenames
+  - Support for multiple e-book formats (PDF, EPUB, CBZ, CBR, MOBI, AZW)
+  - Periodic scanning for new files
+  - Manual scan button in the UI
+  - Collection integration with digital format tracking
 - **Comprehensive Collection Tracking**: Track your manga/comic collection
   - Track ownership status, read status, and purchase details
+  - Track both physical and digital formats
   - Collection statistics and visualizations
   - Import/export functionality
 - **External Source Integration**: Connect to popular manga sources
@@ -90,6 +98,7 @@ Comprehensive documentation is available in the `docs/` directory:
 
 - [Installation Guide](docs/INSTALLATION.md) - Detailed setup instructions
 - [API Documentation](docs/API.md) - Complete API reference
+- [E-book Management](docs/EBOOKS.md) - E-book organization and scanning
 - [Performance Tips](docs/PERFORMANCE_TIPS.md) - Optimize for large collections
 - [AniList Provider](docs/ANILIST_PROVIDER.md) - AniList integration details
 - [Database Schema](docs/DATABASE.md) - Database structure information
@@ -112,6 +121,15 @@ MangaArr stores its configuration in a SQLite database. You can modify settings 
 - `calendar_confirmation_mode`: Controls which releases show in the calendar (default: true)
   - When enabled, only confirmed releases appear in the calendar (Sonarr/Radarr-like behavior).
   - When disabled, all predicted releases appear in the calendar.
+
+### E-book Settings
+
+- `ebook_storage`: Path to the e-book storage directory (default: "ebooks")
+  - This can be a relative path within the data directory or an absolute path
+  - E-books are organized by content type and series name within this directory
+- `task_interval_minutes`: How often to scan for new e-book files (default: 60)
+  - The system will automatically scan for new files at this interval
+  - You can also manually trigger a scan from the series detail page
 
 ### Command Line Arguments
 

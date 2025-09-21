@@ -21,6 +21,7 @@ CREATE TABLE series (
     publisher TEXT,
     cover_url TEXT,
     status TEXT,
+    content_type TEXT DEFAULT 'MANGA',
     metadata_source TEXT,
     metadata_id TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -88,6 +89,60 @@ CREATE TABLE calendar_events (
 )
 ```
 
+### ebook_files
+
+E-book files associated with volumes.
+
+```sql
+CREATE TABLE ebook_files (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    series_id INTEGER NOT NULL,
+    volume_id INTEGER NOT NULL,
+    file_path TEXT NOT NULL,
+    file_name TEXT NOT NULL,
+    file_size INTEGER,
+    file_type TEXT,
+    original_name TEXT,
+    added_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (series_id) REFERENCES series (id) ON DELETE CASCADE,
+    FOREIGN KEY (volume_id) REFERENCES volumes (id) ON DELETE CASCADE
+)
+```
+
+### collection_items
+
+Items in the user's collection.
+
+```sql
+CREATE TABLE collection_items (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    series_id INTEGER NOT NULL,
+    volume_id INTEGER NULL,
+    chapter_id INTEGER NULL,
+    item_type TEXT NOT NULL CHECK(item_type IN ('SERIES', 'VOLUME', 'CHAPTER')),
+    ownership_status TEXT NOT NULL CHECK(ownership_status IN ('OWNED', 'WANTED', 'ORDERED', 'LOANED', 'NONE')),
+    read_status TEXT NOT NULL CHECK(read_status IN ('READ', 'READING', 'UNREAD', 'NONE')),
+    format TEXT CHECK(format IN ('PHYSICAL', 'DIGITAL', 'BOTH', 'NONE')),
+    digital_format TEXT CHECK(digital_format IN ('PDF', 'EPUB', 'CBZ', 'CBR', 'MOBI', 'AZW', 'NONE')),
+    has_file INTEGER DEFAULT 0,
+    ebook_file_id INTEGER,
+    condition TEXT CHECK(condition IN ('NEW', 'LIKE_NEW', 'VERY_GOOD', 'GOOD', 'FAIR', 'POOR', 'NONE')),
+    purchase_date TEXT,
+    purchase_price REAL,
+    purchase_location TEXT,
+    notes TEXT,
+    custom_tags TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (series_id) REFERENCES series(id) ON DELETE CASCADE,
+    FOREIGN KEY (volume_id) REFERENCES volumes(id) ON DELETE CASCADE,
+    FOREIGN KEY (chapter_id) REFERENCES chapters(id) ON DELETE CASCADE,
+    FOREIGN KEY (ebook_file_id) REFERENCES ebook_files(id) ON DELETE SET NULL
+)
+```
+
 ## Foreign Key Constraints
 
 MangaArr uses foreign key constraints to maintain referential integrity:
@@ -96,13 +151,21 @@ MangaArr uses foreign key constraints to maintain referential integrity:
    - All its volumes are deleted (CASCADE)
    - All its chapters are deleted (CASCADE)
    - All its calendar events are deleted (CASCADE)
+   - All its e-book files are deleted (CASCADE)
+   - All its collection items are deleted (CASCADE)
 
 2. When a volume is deleted:
    - Its chapters' volume_id is set to NULL (SET NULL)
    - Its calendar events are deleted (CASCADE)
+   - Its e-book files are deleted (CASCADE)
+   - Its collection items are deleted (CASCADE)
 
 3. When a chapter is deleted:
    - Its calendar events are deleted (CASCADE)
+   - Its collection items are deleted (CASCADE)
+   
+4. When an e-book file is deleted:
+   - Collection items' ebook_file_id is set to NULL (SET NULL)
 
 ## SQLite Configuration
 
