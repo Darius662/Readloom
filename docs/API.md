@@ -16,6 +16,34 @@ MangaArr provides a RESTful API that allows you to:
 
 All API endpoints are prefixed with `/api`.
 
+## Module Structure
+
+The API is organized into several modules, each handling different functionality:
+
+```
+frontend/
+├── api.py                # Main API endpoints
+├── api_metadata_fixed.py # Metadata API endpoints
+├── api_downloader.py     # Downloader API endpoints
+├── image_proxy.py        # Image proxy functionality
+└── ui.py                 # UI routes
+```
+
+The backend implementation has been refactored into a modular package structure:
+
+```
+backend/features/
+├── calendar/             # Calendar functionality
+├── collection/           # Collection management
+├── home_assistant/       # Home Assistant integration
+├── metadata_providers/   # Metadata providers
+├── metadata_service/     # Metadata service
+├── notifications/        # Notification system
+└── scrapers/             # Web scrapers
+```
+
+Each module exports a consistent API through its `__init__.py` file, with compatibility shims maintaining backward compatibility.
+
 ## Authentication
 
 Currently, the API does not require authentication when accessed locally. For remote access, standard network security practices should be implemented.
@@ -376,6 +404,140 @@ Deletes a chapter and its associated data:
 ```
 
 **Note:** Calendar events are deleted through cascading constraints.
+
+### E-book Endpoints
+
+#### Scan for E-books
+
+```
+POST /api/ebooks/scan
+```
+
+Scans all series folders for e-book files.
+
+**Response:**
+
+```json
+{
+  "stats": {
+    "scanned": 10,
+    "added": 2,
+    "skipped": 7,
+    "errors": 1,
+    "series_processed": 3
+  }
+}
+```
+
+#### Scan Series for E-books
+
+```
+POST /api/ebooks/scan/{series_id}
+```
+
+Scans a specific series folder for e-book files.
+
+**Parameters:**
+
+- `series_id` (path) - The ID of the series to scan
+
+**Response:**
+
+```json
+{
+  "stats": {
+    "scanned": 3,
+    "added": 1,
+    "skipped": 2,
+    "errors": 0,
+    "series_processed": 1
+  }
+}
+```
+
+#### Get E-book Files for Series
+
+```
+GET /api/ebooks/series/{series_id}
+```
+
+Returns all e-book files for a specific series.
+
+**Parameters:**
+
+- `series_id` (path) - The ID of the series
+
+**Response:**
+
+```json
+{
+  "files": [
+    {
+      "id": 1,
+      "series_id": 123,
+      "volume_id": 456,
+      "file_path": "data/ebooks/MANGA/Series_Name/Volume_1.pdf",
+      "file_name": "1632145678_Volume_1.pdf",
+      "file_size": 12345678,
+      "file_type": "PDF",
+      "original_name": "Volume_1.pdf",
+      "added_date": "2025-09-21T22:15:30",
+      "created_at": "2025-09-21T22:15:30",
+      "updated_at": "2025-09-21T22:15:30"
+    }
+  ]
+}
+```
+
+#### Get E-book Files for Volume
+
+```
+GET /api/ebooks/volume/{volume_id}
+```
+
+Returns all e-book files for a specific volume.
+
+**Parameters:**
+
+- `volume_id` (path) - The ID of the volume
+
+**Response:**
+
+```json
+{
+  "files": [
+    {
+      "id": 1,
+      "series_id": 123,
+      "volume_id": 456,
+      "file_path": "data/ebooks/MANGA/Series_Name/Volume_1.pdf",
+      "file_name": "1632145678_Volume_1.pdf",
+      "file_size": 12345678,
+      "file_type": "PDF",
+      "original_name": "Volume_1.pdf",
+      "added_date": "2025-09-21T22:15:30",
+      "created_at": "2025-09-21T22:15:30",
+      "updated_at": "2025-09-21T22:15:30"
+    }
+  ]
+}
+```
+
+#### Download E-book File
+
+```
+GET /api/ebooks/download/{file_id}
+```
+
+Downloads an e-book file.
+
+**Parameters:**
+
+- `file_id` (path) - The ID of the e-book file
+
+**Response:**
+
+The file content with appropriate Content-Type header.
 
 ### Calendar Endpoints
 

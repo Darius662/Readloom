@@ -3,6 +3,8 @@
 
 import os
 import sys
+import shutil
+from datetime import datetime
 from pathlib import Path
 from typing import Optional, Tuple, Union
 
@@ -41,21 +43,27 @@ def get_python_exe() -> Optional[str]:
 
 
 def ensure_dir_exists(path: Union[str, Path]) -> bool:
-    """Ensure that the given directory exists.
+    """Ensure a directory exists.
 
     Args:
-        path (Union[str, Path]): The path to the directory.
+        path (Union[str, Path]): The directory path.
 
     Returns:
         bool: True if the directory exists or was created, False otherwise.
     """
+    from backend.base.logging import LOGGER
+    
     if isinstance(path, str):
         path = Path(path)
     
+    LOGGER.info(f"Ensuring directory exists: {path}")
+    
     try:
         path.mkdir(parents=True, exist_ok=True)
+        LOGGER.info(f"Directory created or already exists: {path}")
         return True
-    except Exception:
+    except Exception as e:
+        LOGGER.error(f"Error creating directory {path}: {e}")
         return False
 
 
@@ -102,3 +110,189 @@ def get_logs_dir() -> Path:
     logs_dir = data_dir / "logs"
     ensure_dir_exists(logs_dir)
     return logs_dir
+
+
+def get_ebook_storage_dir() -> Path:
+    """Get the e-book storage directory.
+
+    Returns:
+        Path: The e-book storage directory.
+    """
+    data_dir = get_data_dir()
+    
+    # Try to get the ebook_storage setting
+    try:
+        from backend.internals.settings import Settings
+        settings = Settings().get_settings()
+        ebook_storage = settings.ebook_storage
+    except Exception:
+        # If there's an error (e.g., during initial setup), use the default
+        from backend.base.definitions import Constants
+        ebook_storage = Constants.DEFAULT_EBOOK_STORAGE
+    
+    # Handle absolute and relative paths
+    ebook_path = Path(ebook_storage)
+    if ebook_path.is_absolute():
+        ebook_dir = ebook_path
+    else:
+        ebook_dir = data_dir / ebook_storage
+    
+    ensure_dir_exists(ebook_dir)
+    return ebook_dir
+
+
+def organize_ebook_path(series_id: int, volume_id: int, filename: str) -> Path:
+    """Organize e-book path by content type, series title, and volume.
+
+    Args:
+        series_id (int): The series ID.
+        volume_id (int): The volume ID.
+        filename (str): The original filename.
+
+    Returns:
+        Path: The organized path for the e-book file.
+    """
+    from backend.internals.db import execute_query
+    
+    # Get series info
+    series_info = execute_query(
+        "SELECT title, content_type FROM series WHERE id = ?", 
+        (series_id,)
+    )
+    
+    if not series_info:
+        # Fallback to old structure if series not found
+        ebook_dir = get_ebook_storage_dir()
+        series_dir = ebook_dir / f"series_{series_id}"
+        volume_dir = series_dir / f"volume_{volume_id}"
+        ensure_dir_exists(volume_dir)
+        return volume_dir / filename
+    
+    # Get series title and content type
+    series_title = series_info[0]['title']
+    content_type = series_info[0].get('content_type', 'MANGA')
+    
+    # Get volume info
+    volume_info = execute_query(
+        "SELECT volume_number FROM volumes WHERE id = ?", 
+        (volume_id,)
+    )
+    volume_number = volume_info[0]['volume_number'] if volume_info else f"volume_{volume_id}"
+    
+    # Create safe directory name
+    safe_series_title = get_safe_folder_name(series_title)
+    
+    # Organize by content type and series title
+    ebook_dir = get_ebook_storage_dir()
+    content_type_dir = ebook_dir / content_type
+    series_dir = content_type_dir / safe_series_title
+    
+    # Create directories
+    ensure_dir_exists(series_dir)
+    
+    # Return full path
+    return series_dir / f"Volume_{volume_number}_{filename}"
+
+
+def get_safe_folder_name(name: str) -> str:
+    """Create a safe folder name from a string.
+
+    Args:
+        name (str): The original name.
+
+    Returns:
+        str: A safe folder name.
+    """
+    # Replace spaces with underscores and remove invalid characters
+    safe_name = "".join(c if c.isalnum() or c in [' ', '_', '-'] else '_' for c in name)
+    safe_name = safe_name.replace(' ', '_')
+    
+    # Ensure the name is not empty
+    if not safe_name:
+        safe_name = "unnamed"
+    
+    return safe_name
+
+
+def create_series_folder_structure(series_id: int, series_title: str, content_type: str) -> Path:
+    """Create folder structure for a series.
+
+    Args:
+        series_id (int): The series ID.
+        series_title (str): The series title.
+        content_type (str): The content type.
+
+    Returns:
+        Path: The path to the series folder.
+    """
+    from backend.base.logging import LOGGER
+    
+    LOGGER.info(f"Creating folder structure for series: {series_title} (ID: {series_id}, Type: {content_type})")
+    
+    # Create safe directory name
+    safe_series_title = get_safe_folder_name(series_title)
+    LOGGER.info(f"Safe series title: {safe_series_title}")
+    
+    # Organize by content type and series title
+    ebook_dir = get_ebook_storage_dir()
+    LOGGER.info(f"E-book directory: {ebook_dir}")
+    
+    content_type_dir = ebook_dir / content_type
+    LOGGER.info(f"Content type directory: {content_type_dir}")
+    
+    # Create content type directory if it doesn't exist
+    ensure_dir_exists(content_type_dir)
+    LOGGER.info(f"Ensured content type directory exists: {content_type_dir}")
+    
+    series_dir = content_type_dir / safe_series_title
+    LOGGER.info(f"Series directory: {series_dir}")
+    
+    # Create series directory
+    ensure_dir_exists(series_dir)
+    LOGGER.info(f"Ensured series directory exists: {series_dir}")
+    
+    # Create a README file with series information
+    readme_path = series_dir / "README.txt"
+    LOGGER.info(f"README path: {readme_path}")
+    
+    if not readme_path.exists():
+        try:
+            with open(readme_path, 'w') as f:
+                f.write(f"Series: {series_title}\n")
+                f.write(f"ID: {series_id}\n")
+                f.write(f"Type: {content_type}\n")
+                f.write(f"Created: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+                f.write("\nThis folder is managed by MangARR. Place your e-book files here.\n")
+            LOGGER.info(f"Created README file: {readme_path}")
+        except Exception as e:
+            LOGGER.error(f"Error creating README file: {e}")
+    
+    return series_dir
+
+
+def copy_file_to_storage(source_path: Union[str, Path], target_path: Union[str, Path]) -> bool:
+    """Copy a file to the storage location.
+
+    Args:
+        source_path (Union[str, Path]): The source file path.
+        target_path (Union[str, Path]): The target file path.
+
+    Returns:
+        bool: True if the file was copied successfully, False otherwise.
+    """
+    try:
+        if isinstance(source_path, str):
+            source_path = Path(source_path)
+        if isinstance(target_path, str):
+            target_path = Path(target_path)
+            
+        if not source_path.exists() or not source_path.is_file():
+            return False
+        
+        # Ensure the target directory exists
+        target_path.parent.mkdir(parents=True, exist_ok=True)
+        
+        shutil.copy2(source_path, target_path)
+        return True
+    except Exception:
+        return False

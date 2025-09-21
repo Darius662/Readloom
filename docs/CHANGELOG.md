@@ -5,6 +5,36 @@ All notable changes to MangaArr will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.5] - 2025-09-21
+
+### Added
+- Comprehensive e-book management system
+  - Organized folder structure by content type and series name
+  - Automatic volume number detection from filenames
+  - Support for multiple e-book formats (PDF, EPUB, CBZ, CBR, MOBI, AZW)
+  - Periodic scanning for new files
+  - Manual scan button in the UI
+  - Collection integration with digital format tracking
+  - Detailed documentation for e-book management
+- Enhanced file organization
+  - Content type categorization (MANGA, MANHWA, MANHUA, COMICS, NOVEL, BOOK, OTHER)
+  - Human-readable folder names based on series titles
+  - Automatic folder creation when adding new series
+  - README files in each series folder with metadata
+- Database schema updates
+  - Added `content_type` field to series table
+  - Created `ebook_files` table for tracking e-book files
+  - Extended `collection_items` table with digital format tracking
+  - Added foreign key constraints for e-book files
+- Utility scripts for e-book management
+  - `create_content_type_dirs.py` - Create content type directories
+  - `create_missing_folders.py` - Create folders for all series
+  - `create_series_folder.py` - Create folder for a specific series
+  - `test_folder_scan.py` - Test e-book scanning functionality
+- Periodic task system for background operations
+  - Configurable scan interval for e-book files
+  - Automatic collection updates when new files are found
+
 ## [0.0.4] - 2025-09-20
 
 ### Added

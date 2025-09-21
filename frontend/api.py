@@ -10,6 +10,7 @@ from flask import Blueprint, Response, jsonify, request
 from backend.base.custom_exceptions import (APIError, DatabaseError,
                                            InvalidSettingValue, MetadataError)
 from backend.base.logging import LOGGER
+from backend.base.helpers import create_series_folder_structure, get_safe_folder_name, get_ebook_storage_dir
 from backend.features.calendar import get_calendar_events, update_calendar
 from backend.features.collection import (add_to_collection, export_collection,
                                         get_collection_items, get_collection_stats,
@@ -180,6 +181,45 @@ def refresh_calendar():
 
 
 # Series endpoints
+@api_bp.route('/series/folder-path', methods=['POST'])
+def get_series_folder_path():
+    """Get the folder path for a series.
+
+    Returns:
+        Response: The folder path.
+    """
+    try:
+        data = request.json
+        if not data:
+            return jsonify({"error": "No data provided"}), 400
+        
+        # Check if required fields are provided
+        required_fields = ["series_id", "title", "content_type"]
+        for field in required_fields:
+            if field not in data:
+                return jsonify({"error": f"Missing required field: {field}"}), 400
+        
+        # Get the folder path
+        series_id = data["series_id"]
+        title = data["title"]
+        content_type = data["content_type"]
+        
+        # Create safe folder name
+        safe_title = get_safe_folder_name(title)
+        
+        # Get ebook storage directory
+        ebook_dir = get_ebook_storage_dir()
+        content_type_dir = ebook_dir / content_type
+        series_dir = content_type_dir / safe_title
+        
+        # Return the folder path
+        return jsonify({"folder_path": str(series_dir)})
+    
+    except Exception as e:
+        LOGGER.error(f"Error getting folder path: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
 @api_bp.route('/series', methods=['GET'])
 def get_series_list():
     """Get all series.
@@ -191,7 +231,7 @@ def get_series_list():
         series = execute_query("""
         SELECT 
             id, title, description, author, publisher, cover_url, status, 
-            metadata_source, metadata_id, created_at, updated_at
+            content_type, metadata_source, metadata_id, created_at, updated_at
         FROM series
         ORDER BY title
         """)
@@ -217,7 +257,7 @@ def get_series(series_id: int):
         series = execute_query("""
         SELECT 
             id, title, description, author, publisher, cover_url, status, 
-            metadata_source, metadata_id, created_at, updated_at
+            content_type, metadata_source, metadata_id, created_at, updated_at
         FROM series
         WHERE id = ?
         """, (series_id,))
@@ -282,12 +322,23 @@ def add_series():
             if field not in data:
                 return jsonify({"error": f"Missing required field: {field}"}), 400
         
+        # Set default content type if not provided
+        content_type = data.get("content_type", "MANGA")
+        
+        # Ensure content_type is uppercase
+        if content_type:
+            content_type = content_type.upper()
+        else:
+            content_type = "MANGA"
+            
+        LOGGER.info(f"Adding series with content type: {content_type}")
+        
         # Insert the series
         series_id = execute_query("""
         INSERT INTO series (
             title, description, author, publisher, cover_url, status, 
-            metadata_source, metadata_id
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            content_type, metadata_source, metadata_id
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         """, (
             data.get("title"),
             data.get("description"),
@@ -295,6 +346,7 @@ def add_series():
             data.get("publisher"),
             data.get("cover_url"),
             data.get("status"),
+            content_type,
             data.get("metadata_source"),
             data.get("metadata_id")
         ), commit=True)
@@ -303,10 +355,32 @@ def add_series():
         series = execute_query("""
         SELECT 
             id, title, description, author, publisher, cover_url, status, 
-            metadata_source, metadata_id, created_at, updated_at
+            content_type, metadata_source, metadata_id, created_at, updated_at
         FROM series
         WHERE id = last_insert_rowid()
         """)
+        
+        # Create folder structure
+        try:
+            series_data = series[0]
+            LOGGER.info(f"Creating folder structure for series: {series_data['title']} (ID: {series_data['id']})")
+            LOGGER.info(f"Series content type: {series_data['content_type']}")
+            
+            series_path = create_series_folder_structure(
+                series_data['id'],
+                series_data['title'],
+                series_data['content_type']
+            )
+            
+            LOGGER.info(f"Folder structure created at: {series_path}")
+            
+            # Add folder path to response
+            series_data['folder_path'] = str(series_path)
+        except Exception as e:
+            LOGGER.error(f"Error creating folder structure: {e}")
+            import traceback
+            LOGGER.error(traceback.format_exc())
+            # Continue even if folder creation fails
         
         return jsonify({"series": series[0]}), 201
     
@@ -339,7 +413,7 @@ def update_series(series_id: int):
         update_fields = []
         params = []
         
-        for field in ["title", "description", "author", "publisher", "cover_url", "status", "metadata_source", "metadata_id"]:
+        for field in ["title", "description", "author", "publisher", "cover_url", "status", "content_type", "metadata_source", "metadata_id"]:
             if field in data:
                 update_fields.append(f"{field} = ?")
                 params.append(data[field])
@@ -362,10 +436,26 @@ def update_series(series_id: int):
         updated_series = execute_query("""
         SELECT 
             id, title, description, author, publisher, cover_url, status, 
-            metadata_source, metadata_id, created_at, updated_at
+            content_type, metadata_source, metadata_id, created_at, updated_at
         FROM series
         WHERE id = ?
         """, (series_id,))
+        
+        # Check if title or content_type was updated
+        if 'title' in data or 'content_type' in data:
+            try:
+                series_data = updated_series[0]
+                series_path = create_series_folder_structure(
+                    series_data['id'],
+                    series_data['title'],
+                    series_data['content_type']
+                )
+                
+                # Add folder path to response
+                series_data['folder_path'] = str(series_path)
+            except Exception as e:
+                LOGGER.error(f"Error updating folder structure: {e}")
+                # Continue even if folder update fails
         
         return jsonify({"series": updated_series[0]})
     
@@ -741,7 +831,8 @@ def get_settings():
             "metadata_cache_days": settings.metadata_cache_days,
             "calendar_range_days": settings.calendar_range_days,
             "calendar_refresh_hours": settings.calendar_refresh_hours,
-            "task_interval_minutes": settings.task_interval_minutes
+            "task_interval_minutes": settings.task_interval_minutes,
+            "ebook_storage": settings.ebook_storage
         })
     
     except Exception as e:
@@ -775,7 +866,8 @@ def update_settings():
             "metadata_cache_days": updated_settings.metadata_cache_days,
             "calendar_range_days": updated_settings.calendar_range_days,
             "calendar_refresh_hours": updated_settings.calendar_refresh_hours,
-            "task_interval_minutes": updated_settings.task_interval_minutes
+            "task_interval_minutes": updated_settings.task_interval_minutes,
+            "ebook_storage": updated_settings.ebook_storage
         })
     
     except InvalidSettingValue as e:
@@ -902,6 +994,134 @@ def get_collection_statistics():
     
     except Exception as e:
         LOGGER.error(f"Error getting collection stats: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@api_bp.route('/collection/volume/<int:volume_id>/format', methods=['PUT'])
+def update_volume_format(volume_id: int):
+    """Update the format of a volume in the collection.
+    
+    Args:
+        volume_id (int): The volume ID.
+        
+    Returns:
+        Response: Success message.
+    """
+    try:
+        data = request.json
+        if not data:
+            return jsonify({"error": "No data provided"}), 400
+        
+        # Check if volume exists
+        volume = execute_query("SELECT id FROM volumes WHERE id = ?", (volume_id,))
+        if not volume:
+            return jsonify({"error": "Volume not found"}), 404
+        
+        # Get series_id for this volume
+        volume_info = execute_query("SELECT series_id FROM volumes WHERE id = ?", (volume_id,))
+        series_id = volume_info[0]['series_id'] if volume_info else None
+        
+        if not series_id:
+            return jsonify({"error": "Volume has no associated series"}), 400
+            
+        # Check if this volume is in the collection
+        collection_item = execute_query("""
+        SELECT id FROM collection_items 
+        WHERE volume_id = ? AND item_type = 'VOLUME'
+        """, (volume_id,))
+        
+        format_value = data.get('format')
+        digital_format_value = data.get('digital_format')
+        
+        if collection_item:
+            # Update existing collection item
+            update_result = update_collection_item(
+                item_id=collection_item[0]['id'],
+                format=format_value,
+                digital_format=digital_format_value
+            )
+            
+            if update_result:
+                return jsonify({"message": "Format updated successfully"})
+            else:
+                return jsonify({"error": "Failed to update format"}), 500
+        else:
+            # Add new collection item
+            add_to_collection(
+                series_id=series_id,
+                item_type="VOLUME",
+                volume_id=volume_id,
+                format=format_value,
+                digital_format=digital_format_value or "NONE"
+            )
+            
+            return jsonify({"message": "Format set successfully"})
+    
+    except Exception as e:
+        LOGGER.error(f"Error updating volume format: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@api_bp.route('/collection/volume/<int:volume_id>/digital-format', methods=['PUT'])
+def update_volume_digital_format(volume_id: int):
+    """Update the digital format of a volume in the collection.
+    
+    Args:
+        volume_id (int): The volume ID.
+        
+    Returns:
+        Response: Success message.
+    """
+    try:
+        data = request.json
+        if not data:
+            return jsonify({"error": "No data provided"}), 400
+        
+        # Check if volume exists
+        volume = execute_query("SELECT id FROM volumes WHERE id = ?", (volume_id,))
+        if not volume:
+            return jsonify({"error": "Volume not found"}), 404
+        
+        # Get series_id for this volume
+        volume_info = execute_query("SELECT series_id FROM volumes WHERE id = ?", (volume_id,))
+        series_id = volume_info[0]['series_id'] if volume_info else None
+        
+        if not series_id:
+            return jsonify({"error": "Volume has no associated series"}), 400
+            
+        # Check if this volume is in the collection
+        collection_item = execute_query("""
+        SELECT id FROM collection_items 
+        WHERE volume_id = ? AND item_type = 'VOLUME'
+        """, (volume_id,))
+        
+        digital_format_value = data.get('digital_format')
+        
+        if collection_item:
+            # Update existing collection item
+            update_result = update_collection_item(
+                item_id=collection_item[0]['id'],
+                digital_format=digital_format_value
+            )
+            
+            if update_result:
+                return jsonify({"message": "Digital format updated successfully"})
+            else:
+                return jsonify({"error": "Failed to update digital format"}), 500
+        else:
+            # Add new collection item
+            add_to_collection(
+                series_id=series_id,
+                item_type="VOLUME",
+                volume_id=volume_id,
+                format="DIGITAL",
+                digital_format=digital_format_value
+            )
+            
+            return jsonify({"message": "Digital format set successfully"})
+    
+    except Exception as e:
+        LOGGER.error(f"Error updating volume digital format: {e}")
         return jsonify({"error": str(e)}), 500
 
 

@@ -30,7 +30,8 @@ class Settings:
             "metadata_cache_days": Constants.DEFAULT_METADATA_CACHE_DAYS,
             "calendar_range_days": Constants.DEFAULT_CALENDAR_RANGE_DAYS,
             "calendar_refresh_hours": Constants.DEFAULT_CALENDAR_REFRESH_HOURS,
-            "task_interval_minutes": Constants.DEFAULT_TASK_INTERVAL_MINUTES
+            "task_interval_minutes": Constants.DEFAULT_TASK_INTERVAL_MINUTES,
+            "ebook_storage": Constants.DEFAULT_EBOOK_STORAGE
         }
         
         # Ensure settings table exists
@@ -84,7 +85,8 @@ class Settings:
             metadata_cache_days=settings_dict.get("metadata_cache_days", Constants.DEFAULT_METADATA_CACHE_DAYS),
             calendar_range_days=settings_dict.get("calendar_range_days", Constants.DEFAULT_CALENDAR_RANGE_DAYS),
             calendar_refresh_hours=settings_dict.get("calendar_refresh_hours", Constants.DEFAULT_CALENDAR_REFRESH_HOURS),
-            task_interval_minutes=settings_dict.get("task_interval_minutes", Constants.DEFAULT_TASK_INTERVAL_MINUTES)
+            task_interval_minutes=settings_dict.get("task_interval_minutes", Constants.DEFAULT_TASK_INTERVAL_MINUTES),
+            ebook_storage=settings_dict.get("ebook_storage", Constants.DEFAULT_EBOOK_STORAGE)
         )
     
     def get_setting(self, key: str) -> Any:
@@ -167,6 +169,10 @@ class Settings:
             elif key == "task_interval_minutes":
                 if not isinstance(value, int) or value < 1:
                     raise InvalidSettingValue("Task interval minutes must be a positive integer")
+                    
+            elif key == "ebook_storage":
+                if not isinstance(value, str):
+                    raise InvalidSettingValue("E-book storage path must be a string")
             
             # Update setting
             execute_query(

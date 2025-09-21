@@ -94,14 +94,21 @@ def run_app():
         from backend.features.metadata_service import init_metadata_service
         init_metadata_service()
         
+        # Start periodic task manager
+        from backend.features.periodic_tasks import periodic_task_manager
+        periodic_task_manager.start()
+        LOGGER.info("Periodic task manager started")
+        
         # Register blueprints
         from frontend.api import api_bp
         from frontend.api_metadata_fixed import metadata_api_bp
+        from frontend.api_ebooks import ebooks_api_bp
         from frontend.ui import ui_bp
         from frontend.image_proxy import image_proxy_bp
         
         app.register_blueprint(api_bp)
         app.register_blueprint(metadata_api_bp, url_prefix='/api/metadata')
+        app.register_blueprint(ebooks_api_bp)
         app.register_blueprint(ui_bp)
         app.register_blueprint(image_proxy_bp)
         
