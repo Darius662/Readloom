@@ -16,6 +16,11 @@ class DatabaseError(MangaArrException):
     pass
 
 
+class InvalidCollectionError(MangaArrException):
+    """Exception raised for invalid collection operations."""
+    pass
+
+
 class MetadataError(MangaArrException):
     """Exception raised when there is a metadata error."""
     pass

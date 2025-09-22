@@ -132,6 +132,10 @@ def _main(
         # Initialize metadata service
         from backend.features.metadata_service import init_metadata_service
         init_metadata_service()
+        
+        # Run setup check
+        from backend.features.setup_check import check_setup_on_startup
+        check_setup_on_startup()
 
         task_handler = TaskHandler()
         task_handler.handle_intervals()

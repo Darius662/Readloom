@@ -1,0 +1,284 @@
+{% extends "base.html" %}
+
+{% block title %}Setup Wizard - MangaArr{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h1 class="mb-0">MangaArr Setup Wizard</h1>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        <p><strong>Welcome to MangaArr!</strong></p>
+                        <p>Before you can start using MangaArr, you need to set up at least one collection and one root folder.</p>
+                        <p>This wizard will guide you through the initial setup process.</p>
+                    </div>
+
+                    <div class="setup-progress mb-4">
+                        <div class="progress">
+                            <div id="setupProgressBar" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                        </div>
+                    </div>
+
+                    <!-- Step 1: Create Collection -->
+                    <div class="setup-step" id="step1">
+                        <h3>Step 1: Create Your First Collection</h3>
+                        <p>Collections allow you to organize your manga/comics into groups and connect them to specific root folders.</p>
+                        
+                        <form id="setupCollectionForm" class="mt-4">
+                            <div class="mb-3">
+                                <label for="collectionName" class="form-label">Collection Name</label>
+                                <input type="text" class="form-control" id="collectionName" value="My Collection" required>
+                                <div class="form-text">Give your collection a descriptive name (e.g., "Manga Collection", "Comics Library")</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="collectionDescription" class="form-label">Description (Optional)</label>
+                                <textarea class="form-control" id="collectionDescription" rows="2">My first manga collection</textarea>
+                                <div class="form-text">Add an optional description for your collection</div>
+                            </div>
+                            <div class="mb-3 form-check">
+                                <input type="checkbox" class="form-check-input" id="collectionIsDefault" checked>
+                                <label class="form-check-label" for="collectionIsDefault">Set as default collection</label>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <div></div>
+                                <button type="button" class="btn btn-primary" id="nextStep1">Next</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Step 2: Create Root Folder -->
+                    <div class="setup-step" id="step2" style="display: none;">
+                        <h3>Step 2: Add a Root Folder</h3>
+                        <p>Root folders are where MangaArr will store and organize your manga/comic files.</p>
+                        
+                        <form id="setupRootFolderForm" class="mt-4">
+                            <div class="mb-3">
+                                <label for="rootFolderName" class="form-label">Root Folder Name</label>
+                                <input type="text" class="form-control" id="rootFolderName" value="Manga Library" required>
+                                <div class="form-text">Give your root folder a descriptive name</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="rootFolderPath" class="form-label">Root Folder Path</label>
+                                <input type="text" class="form-control" id="rootFolderPath" required>
+                                <div class="form-text">Enter the full path to the folder where your manga/comics will be stored (e.g., C:\Manga or /home/user/manga)</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="rootFolderContentType" class="form-label">Primary Content Type</label>
+                                <select class="form-select" id="rootFolderContentType">
+                                    <option value="MANGA">Manga</option>
+                                    <option value="MANHWA">Manhwa</option>
+                                    <option value="MANHUA">Manhua</option>
+                                    <option value="COMICS">Comics</option>
+                                    <option value="NOVEL">Novel</option>
+                                    <option value="BOOK">Book</option>
+                                    <option value="OTHER">Other</option>
+                                </select>
+                                <div class="form-text">Select the primary type of content that will be stored in this folder</div>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <button type="button" class="btn btn-secondary" id="prevStep2">Previous</button>
+                                <button type="button" class="btn btn-primary" id="nextStep2">Next</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Step 3: Link Collection and Root Folder -->
+                    <div class="setup-step" id="step3" style="display: none;">
+                        <h3>Step 3: Link Collection and Root Folder</h3>
+                        <p>Now we'll link your collection to your root folder.</p>
+                        
+                        <div class="card mb-4">
+                            <div class="card-header">Collection</div>
+                            <div class="card-body">
+                                <h5 id="summaryCollectionName">My Collection</h5>
+                                <p id="summaryCollectionDescription">My first manga collection</p>
+                            </div>
+                        </div>
+                        
+                        <div class="card mb-4">
+                            <div class="card-header">Root Folder</div>
+                            <div class="card-body">
+                                <h5 id="summaryRootFolderName">Manga Library</h5>
+                                <p id="summaryRootFolderPath">C:\Manga</p>
+                                <p>Content Type: <span id="summaryRootFolderContentType">Manga</span></p>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between">
+                            <button type="button" class="btn btn-secondary" id="prevStep3">Previous</button>
+                            <button type="button" class="btn btn-success" id="finishSetup">Finish Setup</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Setup Complete -->
+                    <div class="setup-step" id="step4" style="display: none;">
+                        <div class="text-center">
+                            <i class="fas fa-check-circle text-success" style="font-size: 64px;"></i>
+                            <h3 class="mt-3">Setup Complete!</h3>
+                            <p>Your MangaArr instance is now ready to use.</p>
+                            <a href="{{ url_for('ui.index') }}" class="btn btn-primary mt-3">Go to Dashboard</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Variables to store the created collection and root folder IDs
+    let collectionId = null;
+    let rootFolderId = null;
+    
+    // Progress tracking
+    function updateProgress(step) {
+        const progressBar = document.getElementById('setupProgressBar');
+        const progress = step * 33; // 3 steps total
+        progressBar.style.width = `${progress}%`;
+        progressBar.setAttribute('aria-valuenow', progress);
+        progressBar.textContent = `${Math.round(progress)}%`;
+    }
+    
+    // Step 1: Create Collection
+    document.getElementById('nextStep1').addEventListener('click', function() {
+        const collectionName = document.getElementById('collectionName').value;
+        const collectionDescription = document.getElementById('collectionDescription').value;
+        const collectionIsDefault = document.getElementById('collectionIsDefault').checked;
+        
+        if (!collectionName) {
+            alert('Please enter a collection name');
+            return;
+        }
+        
+        // Create the collection via API
+        fetch('/api/collections', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: collectionName,
+                description: collectionDescription,
+                is_default: collectionIsDefault
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                collectionId = data.collection.id;
+                
+                // Update summary
+                document.getElementById('summaryCollectionName').textContent = collectionName;
+                document.getElementById('summaryCollectionDescription').textContent = collectionDescription || 'No description';
+                
+                // Move to next step
+                document.getElementById('step1').style.display = 'none';
+                document.getElementById('step2').style.display = 'block';
+                updateProgress(1);
+            } else {
+                alert('Error creating collection: ' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while creating the collection');
+        });
+    });
+    
+    // Step 2: Create Root Folder
+    document.getElementById('prevStep2').addEventListener('click', function() {
+        document.getElementById('step2').style.display = 'none';
+        document.getElementById('step1').style.display = 'block';
+        updateProgress(0);
+    });
+    
+    document.getElementById('nextStep2').addEventListener('click', function() {
+        const rootFolderName = document.getElementById('rootFolderName').value;
+        const rootFolderPath = document.getElementById('rootFolderPath').value;
+        const rootFolderContentType = document.getElementById('rootFolderContentType').value;
+        
+        if (!rootFolderName || !rootFolderPath) {
+            alert('Please enter both a name and path for the root folder');
+            return;
+        }
+        
+        // Create the root folder via API
+        fetch('/api/root-folders', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: rootFolderName,
+                path: rootFolderPath,
+                content_type: rootFolderContentType
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                rootFolderId = data.root_folder.id;
+                
+                // Update summary
+                document.getElementById('summaryRootFolderName').textContent = rootFolderName;
+                document.getElementById('summaryRootFolderPath').textContent = rootFolderPath;
+                document.getElementById('summaryRootFolderContentType').textContent = 
+                    document.getElementById('rootFolderContentType').options[
+                        document.getElementById('rootFolderContentType').selectedIndex
+                    ].text;
+                
+                // Move to next step
+                document.getElementById('step2').style.display = 'none';
+                document.getElementById('step3').style.display = 'block';
+                updateProgress(2);
+            } else {
+                alert('Error creating root folder: ' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while creating the root folder');
+        });
+    });
+    
+    // Step 3: Link Collection and Root Folder
+    document.getElementById('prevStep3').addEventListener('click', function() {
+        document.getElementById('step3').style.display = 'none';
+        document.getElementById('step2').style.display = 'block';
+        updateProgress(1);
+    });
+    
+    document.getElementById('finishSetup').addEventListener('click', function() {
+        // Link the collection and root folder
+        fetch(`/api/collections/${collectionId}/root-folders/${rootFolderId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Move to completion step
+                document.getElementById('step3').style.display = 'none';
+                document.getElementById('step4').style.display = 'block';
+                updateProgress(3);
+            } else {
+                alert('Error linking collection and root folder: ' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while linking the collection and root folder');
+        });
+    });
+});
+</script>
+{% endblock %}

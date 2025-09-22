@@ -20,6 +20,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Properly handles question marks and other problematic characters
 - Fixed metadata provider search issues with special characters
 
+### Added
+- Collection-based organization system:
+  - Added collections to organize manga/comics into groups
+  - Collections can be linked to multiple root folders
+  - Series can belong to multiple collections
+  - Setup wizard for first-time users to create collections and root folders
+  - Required setup check on application startup
+- Improved e-book scanning:
+  - Automatic scanning of existing folders when importing series
+  - Better detection of CBZ files in existing folders
+  - Enhanced logging for troubleshooting scanning issues
+
+### Changed
+- Application now requires at least one collection and one root folder before use
+- Updated API endpoints to enforce setup requirements
+- Import process now includes information about existing folders and e-books
+
 ## [0.0.5] - 2025-09-21
 
 ### Added

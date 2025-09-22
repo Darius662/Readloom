@@ -294,35 +294,67 @@ def ensure_readme_file(series_dir: Path, series_title: str, series_id: int, cont
         return False
 
 
-def create_series_folder_structure(series_id: int, series_title: str, content_type: str) -> Path:
+def create_series_folder_structure(series_id: int, series_title: str, content_type: str, collection_id: Optional[int] = None) -> Path:
     """Create folder structure for a series.
 
     Args:
         series_id (int): The series ID.
         series_title (str): The series title.
         content_type (str): The content type.
+        collection_id (Optional[int], optional): The collection ID. Defaults to None.
 
     Returns:
         Path: The path to the series folder.
     """
     from backend.base.logging import LOGGER
-    from backend.internals.settings import Settings
+    from backend.internals.db import execute_query
     import os
     
     LOGGER.info(f"Creating folder structure for series: {series_title} (ID: {series_id}, Type: {content_type})")
     
-    # Get root folders from settings
-    settings = Settings().get_settings()
-    root_folders = settings.root_folders
+    # Create directory name that preserves spaces but replaces invalid characters
+    safe_series_title = get_safe_folder_name(series_title)
+    LOGGER.info(f"Original series title: '{series_title}', Safe series title for folder: '{safe_series_title}'")
     
-    # If no root folders configured, use default ebook storage
+    # If collection_id is provided, get root folders for that collection
+    root_folders = []
+    if collection_id is not None:
+        LOGGER.info(f"Getting root folders for collection ID: {collection_id}")
+        query = """
+        SELECT rf.* FROM root_folders rf
+        JOIN collection_root_folders crf ON rf.id = crf.root_folder_id
+        WHERE crf.collection_id = ?
+        ORDER BY rf.name ASC
+        """
+        root_folders = execute_query(query, (collection_id,))
+        LOGGER.info(f"Found {len(root_folders)} root folders for collection ID {collection_id}")
+    
+    # If no collection specified or no root folders found for the collection, use default root folders
+    if not root_folders:
+        LOGGER.info("No collection-specific root folders found, checking for default collection")
+        # Try to get the default collection
+        default_collections = execute_query("SELECT id FROM collections WHERE is_default = 1")
+        if default_collections:
+            default_collection_id = default_collections[0]["id"]
+            LOGGER.info(f"Using default collection ID: {default_collection_id}")
+            query = """
+            SELECT rf.* FROM root_folders rf
+            JOIN collection_root_folders crf ON rf.id = crf.root_folder_id
+            WHERE crf.collection_id = ?
+            ORDER BY rf.name ASC
+            """
+            root_folders = execute_query(query, (default_collection_id,))
+            LOGGER.info(f"Found {len(root_folders)} root folders for default collection")
+    
+    # If still no root folders, use the first root folder from the database
+    if not root_folders:
+        LOGGER.info("No collection-specific or default root folders found, checking for any root folders")
+        root_folders = execute_query("SELECT * FROM root_folders ORDER BY name ASC LIMIT 1")
+        LOGGER.info(f"Found {len(root_folders)} root folders in database")
+    
+    # If still no root folders, use default ebook storage
     if not root_folders:
         LOGGER.warning("No root folders configured, using default ebook storage")
-        # Create directory name that preserves spaces but replaces invalid characters
-        safe_series_title = get_safe_folder_name(series_title)
-        LOGGER.info(f"Original series title: '{series_title}', Safe series title for folder: '{safe_series_title}'")
-
-        
         # Use default ebook storage directory
         ebook_dir = get_ebook_storage_dir()
         LOGGER.info(f"E-book directory: {ebook_dir}")
@@ -333,10 +365,6 @@ def create_series_folder_structure(series_id: int, series_title: str, content_ty
         # Use the first root folder
         root_folder = root_folders[0]
         LOGGER.info(f"Using root folder: {root_folder['name']} ({root_folder['path']})")
-        
-        # Create directory name that preserves spaces but replaces invalid characters
-        safe_series_title = get_safe_folder_name(series_title)
-        LOGGER.info(f"Original series title: '{series_title}', Safe series title for folder: '{safe_series_title}'")
         
         # Create series directory directly in the root folder
         root_path = Path(root_folder['path'])

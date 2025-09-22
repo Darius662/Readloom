@@ -8,7 +8,7 @@ API endpoints for metadata services.
 from flask import Blueprint, request, jsonify
 
 from backend.base.logging import LOGGER
-from frontend.middleware import root_folders_required
+from frontend.middleware import setup_required
 from backend.features.metadata_service import (
     search_manga, get_manga_details, get_chapter_list, get_chapter_images,
     get_latest_releases, get_providers, update_provider, clear_cache,
@@ -210,7 +210,7 @@ def api_clear_cache():
 
 
 @metadata_api_bp.route('/import/<provider>/<manga_id>', methods=['POST'])
-@root_folders_required
+@setup_required
 def api_import_manga(provider, manga_id):
     """Import a manga to the collection.
     
@@ -225,18 +225,61 @@ def api_import_manga(provider, manga_id):
     from backend.base.logging import LOGGER
     
     try:
+        # Get collection_id from request if provided
+        data = request.json or {}
+        collection_id = data.get('collection_id')
+        
+        # Import the manga
         result = import_manga_to_collection(manga_id, provider)
         
         if not result.get("success", False):
             # Check if it's because the series already exists
             if "already exists" in result.get("message", "").lower():
-                # Return a 200 status with the series_id for the UI to handle gracefully
-                return jsonify({
-                    "success": False,
-                    "already_exists": True,
-                    "message": result.get("message", "Series already exists in the collection"),
-                    "series_id": result.get("series_id")
-                }), 200
+                # Get the series details to include folder information
+                series_id = result.get("series_id")
+                
+                # Get the series folder path
+                from backend.base.helpers import get_safe_folder_name
+                from pathlib import Path
+                from backend.internals.db import execute_query
+                from backend.internals.settings import Settings
+                
+                # Get series title
+                series_info = execute_query("SELECT title FROM series WHERE id = ?", (series_id,))
+                if series_info:
+                    series_title = series_info[0]['title']
+                    safe_title = get_safe_folder_name(series_title)
+                    
+                    # Check if folder exists in any root folder
+                    settings = Settings().get_settings()
+                    root_folders = settings.root_folders
+                    folder_path = None
+                    
+                    if root_folders:
+                        for root_folder in root_folders:
+                            root_path = Path(root_folder['path'])
+                            potential_series_dir = root_path / safe_title
+                            
+                            if potential_series_dir.exists() and potential_series_dir.is_dir():
+                                folder_path = str(potential_series_dir)
+                                break
+                    
+                    # Return a 200 status with the series_id and folder information
+                    return jsonify({
+                        "success": False,
+                        "already_exists": True,
+                        "message": result.get("message", "Series already exists in the collection"),
+                        "series_id": series_id,
+                        "folder_path": folder_path
+                    }), 200
+                else:
+                    # Return a 200 status with just the series_id
+                    return jsonify({
+                        "success": False,
+                        "already_exists": True,
+                        "message": result.get("message", "Series already exists in the collection"),
+                        "series_id": series_id
+                    }), 200
             # Otherwise it's a real error
             return jsonify(result), 400
         
@@ -253,6 +296,44 @@ def api_import_manga(provider, manga_id):
         except Exception as e:
             LOGGER.error(f"Error updating calendar after import: {e}")
             # Continue anyway - we don't want to fail the import if calendar update fails
+        
+        # Get the folder path for the newly imported series
+        series_id = result.get("series_id")
+        folder_path = None
+        
+        if series_id:
+            from backend.base.helpers import get_safe_folder_name
+            from pathlib import Path
+            from backend.internals.db import execute_query
+            from backend.internals.settings import Settings
+            
+            # Get series title
+            series_info = execute_query("SELECT title FROM series WHERE id = ?", (series_id,))
+            if series_info:
+                series_title = series_info[0]['title']
+                safe_title = get_safe_folder_name(series_title)
+                
+                # Check if folder exists in any root folder
+                settings = Settings().get_settings()
+                root_folders = settings.root_folders
+                
+                if root_folders:
+                    for root_folder in root_folders:
+                        root_path = Path(root_folder['path'])
+                        potential_series_dir = root_path / safe_title
+                        
+                        if potential_series_dir.exists() and potential_series_dir.is_dir():
+                            folder_path = str(potential_series_dir)
+                            break
+        
+        # Add folder path to the result
+        result["folder_path"] = folder_path
+        
+        # Get e-book files for the series if any were found during import
+        if series_id:
+            from backend.features.ebook_files import get_ebook_files_for_series
+            ebook_files = get_ebook_files_for_series(series_id)
+            result["ebook_files_found"] = len(ebook_files)
         
         return jsonify(result)
     except Exception as e:

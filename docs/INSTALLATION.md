@@ -103,37 +103,51 @@ python MangaArr.py -d /path/to/data -l /path/to/logs -p 8080
 
 ## Initial Configuration
 
-After installing MangaArr, follow these steps to configure it:
+After installing MangaArr, you'll be guided through a setup wizard to configure the essential components:
 
-1. **Access the web interface** at http://localhost:7227 (or your custom port)
+### Setup Wizard
 
-2. **Configure settings**:
+When you first access MangaArr at http://localhost:7227 (or your custom port), you'll be presented with a setup wizard that will guide you through:
+
+1. **Creating your first collection**:
+   - Enter a name for your collection (e.g., "My Manga Collection")
+   - Add an optional description
+   - Choose whether this should be your default collection
+
+2. **Setting up your first root folder**:
+   - Enter a name for your root folder (e.g., "Main Library")
+   - Specify the full path where your manga/comics will be stored
+   - Select the primary content type for this folder
+
+3. **Linking your collection and root folder**:
+   - The wizard will automatically link your new collection to your root folder
+
+After completing the setup wizard, you can proceed with further configuration:
+
+### Additional Configuration
+
+1. **Configure settings**:
    - Go to the Settings page
    - Adjust general settings, calendar settings, and notification settings as needed
    - Save your changes
 
-3. **Add your first series**:
+2. **Add your first series**:
    - Go to the Series page
    - Click "Add Series"
    - Fill in the details and save
    
-4. **Set up your collection**:
-   - Go to the Collection page
-   - Add volumes or chapters to your collection
-   - Track ownership status, read status, and purchase details
+3. **Manage your collections**:
+   - Go to the Collections page
+   - Create additional collections if needed
+   - Add more root folders and link them to collections
+   - Organize your series into different collections
    
-5. **Configure notifications**:
+4. **Configure notifications**:
    - Go to the Notifications page
    - Set up notification preferences
    - Subscribe to series for release notifications
    
-6. **Configure folder structure** (for e-books):
-   - Go to the Settings page
-   - Set the root folder for e-books (default: data/ebooks)
-   - MangaArr will automatically create folders for each series with human-readable names
-   - Folders will include README.txt files with series information
-   
-7. **Set up integrations** (optional):
+5. **Set up integrations** (optional):
    - Go to the Integrations page
    - Configure Home Assistant integration
    - Configure Homarr integration

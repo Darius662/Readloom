@@ -12,7 +12,7 @@ from backend.base.logging import LOGGER
 from backend.features.calendar import get_calendar_events
 from backend.internals.db import execute_query
 from backend.internals.settings import Settings
-from frontend.middleware import root_folders_required
+from frontend.middleware import root_folders_required, collections_required, setup_required
 
 # Create UI blueprint
 ui_bp = Blueprint(
@@ -31,14 +31,27 @@ def index():
     Returns:
         Response: The rendered dashboard page.
     """
-    # Check if root folders are configured
-    settings = Settings().get_settings()
-    root_folders = settings.root_folders
+    # Check if setup is complete
+    try:
+        # Check if collections table exists and has at least one collection
+        collections = execute_query("SELECT COUNT(*) as count FROM collections")
+        if not collections or collections[0]['count'] == 0:
+            return redirect(url_for('ui.setup_wizard'))
+            
+        # Check if root folders are configured
+        settings = Settings().get_settings()
+        root_folders = settings.root_folders
+        if not root_folders:
+            return redirect(url_for('ui.setup_wizard'))
+    except Exception as e:
+        LOGGER.error(f"Error checking setup status: {e}")
+        return redirect(url_for('ui.setup_wizard'))
     
     return render_template('dashboard.html', root_folders=root_folders)
 
 
 @ui_bp.route('/calendar')
+@setup_required
 def calendar():
     """Render the calendar page.
 
@@ -49,7 +62,7 @@ def calendar():
 
 
 @ui_bp.route('/series')
-@root_folders_required
+@setup_required
 def series_list():
     """Render the series list page.
 
@@ -64,6 +77,7 @@ def series_list():
 
 
 @ui_bp.route('/collection')
+@setup_required
 def collection():
     """Render the collection page.
 
@@ -74,7 +88,7 @@ def collection():
 
 
 @ui_bp.route('/series/<int:series_id>')
-@root_folders_required
+@setup_required
 def series_detail(series_id: int):
     """Render the series detail page.
 
@@ -102,6 +116,7 @@ def settings():
 
 
 @ui_bp.route('/root-folders')
+@collections_required
 def root_folders():
     """Render the root folders page.
 
@@ -109,6 +124,26 @@ def root_folders():
         Response: The rendered root folders page.
     """
     return render_template('root_folders.html')
+
+
+@ui_bp.route('/setup-wizard')
+def setup_wizard():
+    """Render the setup wizard page.
+
+    Returns:
+        Response: The rendered setup wizard page.
+    """
+    return render_template('setup_wizard.html')
+
+
+@ui_bp.route('/collections')
+def collections():
+    """Render the collections management page.
+
+    Returns:
+        Response: The rendered collections page.
+    """
+    return render_template('collections.html')
 
 
 @ui_bp.route('/integrations')
@@ -162,7 +197,7 @@ def notifications():
 
 
 @ui_bp.route('/search')
-@root_folders_required
+@setup_required
 def search():
     """Render the search page for external manga sources.
 

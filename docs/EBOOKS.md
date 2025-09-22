@@ -6,9 +6,11 @@ This document describes the e-book management functionality in MangARR, includin
 
 MangARR supports managing e-book files for your manga/comic collection. It organizes files by series name, automatically detects volume numbers from filenames, and integrates with your collection tracking.
 
+In version 0.0.7, the e-book scanning functionality has been significantly improved with better detection of files in existing folders and automatic scanning when importing series.
+
 ## Folder Structure
 
-E-books are organized directly in root folders that you configure:
+E-books are organized directly in root folders that are linked to collections. Each collection can have multiple root folders, and each root folder can be linked to multiple collections:
 
 ```
 /your/root/folder/
@@ -98,16 +100,45 @@ There are two ways to add e-book files to your collection:
 
 ## Automatic Scanning
 
+MangARR provides several ways to scan for e-book files:
+
+### Periodic Scanning
+
 MangARR periodically scans for new e-book files in the background. The scan interval can be configured in the settings.
+
+### Manual Scanning
+
+You can manually trigger a scan from:
+- The series detail page (scans just that series)
+- The E-books page (scans all series)
+
+### Import-time Scanning
+
+When you import a series from a metadata provider, MangARR automatically:
+1. Checks if a folder for the series already exists in any of your root folders
+2. If found, automatically scans the folder for e-book files
+3. Adds any found e-books to your collection
+
+This makes it easy to import series that you already have files for.
 
 ## Collection Integration
 
-When an e-book file is detected:
+E-books are now fully integrated with the new collection system in v0.0.7:
+
+### When an e-book file is detected:
 
 1. The system checks if a collection item exists for the volume
 2. If it exists, it updates the item with the digital format and file information
 3. If it doesn't exist, it creates a new collection item with ownership status "OWNED"
 4. The format is set to "DIGITAL" or "BOTH" (if you already own a physical copy)
+5. The series is added to the collection associated with the root folder where the file was found
+
+### When importing a series:
+
+1. The series is added to the specified collection (or the default collection)
+2. If a folder for the series already exists, it's automatically scanned for e-books
+3. Any found e-books are added to your collection
+4. The API response includes information about the folder and any e-books found
 
 ## Database Schema
 
@@ -170,11 +201,31 @@ Returns all e-book files for a specific volume.
 
 If you're having issues with the e-book functionality:
 
-1. Make sure the content type directories exist in the `data/ebooks` folder
+### File Detection Issues
+
+1. Check that your e-book files have supported extensions (.pdf, .epub, .cbz, .cbr, .mobi, .azw)
+2. Verify that your files follow the naming conventions for volume detection
+3. Check the logs for any errors during scanning
+4. Try running a manual scan from the series detail page
+
+### Folder Structure Issues
+
+1. Make sure your collections are properly set up with root folders
 2. Check that your series folders are named correctly
-3. Verify that your e-book files follow the naming conventions
+3. Verify that the folder paths exist and are accessible
 4. Run the `create_missing_folders.py` script to create any missing folders
-5. Restart the application to ensure all changes are picked up
+
+### Collection Integration Issues
+
+1. Make sure the series is added to at least one collection
+2. Check that the collection is linked to the root folder containing the files
+3. Verify that the volume exists in the database
+
+### Debugging
+
+1. Enable debug logging in the settings
+2. Check the logs for detailed information about the scanning process
+3. Restart the application to ensure all changes are picked up
 
 ## Scripts
 
@@ -188,5 +239,16 @@ MangARR includes several helper scripts for managing e-book folders:
 
 E-book functionality can be configured in the settings:
 
-- `ebook_storage`: The path to the e-book storage directory (default: "ebooks")
+### General Settings
+
 - `task_interval_minutes`: The interval for automatic scanning (default: 60 minutes)
+
+### Collection and Root Folder Settings
+
+In v0.0.7+, e-book storage is configured through collections and root folders:
+
+1. Create a collection (e.g., "Manga Collection")
+2. Create a root folder with a path where your e-books are stored
+3. Link the root folder to the collection
+
+You can have multiple root folders for different types of content, all linked to the same collection or to different collections.

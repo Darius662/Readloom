@@ -447,6 +447,472 @@ Creates folders for all series that don't have folders yet.
 }
 ```
 
+### Collection Endpoints
+
+#### Get All Collections
+
+```
+GET /api/collections
+```
+
+Returns a list of all collections.
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "collections": [
+    {
+      "id": 1,
+      "name": "My Collection",
+      "description": "My first manga collection",
+      "is_default": 1,
+      "created_at": "2025-09-22T10:00:00",
+      "updated_at": "2025-09-22T10:00:00",
+      "root_folder_count": 2,
+      "series_count": 5
+    }
+  ]
+}
+```
+
+#### Get Collection Details
+
+```
+GET /api/collections/{collection_id}
+```
+
+Returns details of a specific collection.
+
+**Parameters:**
+
+- `collection_id` (path) - The ID of the collection
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "collection": {
+    "id": 1,
+    "name": "My Collection",
+    "description": "My first manga collection",
+    "is_default": 1,
+    "created_at": "2025-09-22T10:00:00",
+    "updated_at": "2025-09-22T10:00:00",
+    "root_folder_count": 2,
+    "series_count": 5
+  }
+}
+```
+
+#### Create Collection
+
+```
+POST /api/collections
+```
+
+Creates a new collection.
+
+**Request Body:**
+
+```json
+{
+  "name": "New Collection",
+  "description": "My new manga collection",
+  "is_default": false
+}
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "message": "Collection 'New Collection' created successfully",
+  "collection": {
+    "id": 2,
+    "name": "New Collection",
+    "description": "My new manga collection",
+    "is_default": 0,
+    "created_at": "2025-09-22T10:00:00",
+    "updated_at": "2025-09-22T10:00:00",
+    "root_folder_count": 0,
+    "series_count": 0
+  }
+}
+```
+
+#### Update Collection
+
+```
+PUT /api/collections/{collection_id}
+```
+
+Updates an existing collection.
+
+**Parameters:**
+
+- `collection_id` (path) - The ID of the collection
+
+**Request Body:**
+
+```json
+{
+  "name": "Updated Collection",
+  "description": "Updated description",
+  "is_default": true
+}
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "message": "Collection updated successfully",
+  "collection": {
+    "id": 2,
+    "name": "Updated Collection",
+    "description": "Updated description",
+    "is_default": 1,
+    "created_at": "2025-09-22T10:00:00",
+    "updated_at": "2025-09-22T10:01:00",
+    "root_folder_count": 0,
+    "series_count": 0
+  }
+}
+```
+
+#### Delete Collection
+
+```
+DELETE /api/collections/{collection_id}
+```
+
+Deletes a collection.
+
+**Parameters:**
+
+- `collection_id` (path) - The ID of the collection
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "message": "Collection deleted successfully"
+}
+```
+
+#### Get Default Collection
+
+```
+GET /api/collections/default
+```
+
+Returns the default collection.
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "collection": {
+    "id": 1,
+    "name": "My Collection",
+    "description": "My first manga collection",
+    "is_default": 1,
+    "created_at": "2025-09-22T10:00:00",
+    "updated_at": "2025-09-22T10:00:00"
+  }
+}
+```
+
+### Root Folder Endpoints
+
+#### Get All Root Folders
+
+```
+GET /api/root-folders
+```
+
+Returns a list of all root folders.
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "root_folders": [
+    {
+      "id": 1,
+      "path": "C:\\Manga",
+      "name": "Main Library",
+      "content_type": "MANGA",
+      "created_at": "2025-09-22T10:00:00",
+      "updated_at": "2025-09-22T10:00:00",
+      "collection_count": 1,
+      "exists": true
+    }
+  ]
+}
+```
+
+#### Create Root Folder
+
+```
+POST /api/root-folders
+```
+
+Creates a new root folder.
+
+**Request Body:**
+
+```json
+{
+  "path": "D:\\Comics",
+  "name": "Comics Library",
+  "content_type": "COMICS"
+}
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "message": "Root folder 'Comics Library' created successfully",
+  "root_folder": {
+    "id": 2,
+    "path": "D:\\Comics",
+    "name": "Comics Library",
+    "content_type": "COMICS",
+    "created_at": "2025-09-22T10:00:00",
+    "updated_at": "2025-09-22T10:00:00",
+    "collection_count": 0,
+    "exists": true
+  }
+}
+```
+
+#### Update Root Folder
+
+```
+PUT /api/root-folders/{root_folder_id}
+```
+
+Updates an existing root folder.
+
+**Parameters:**
+
+- `root_folder_id` (path) - The ID of the root folder
+
+**Request Body:**
+
+```json
+{
+  "name": "Updated Comics Library",
+  "content_type": "COMICS"
+}
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "message": "Root folder updated successfully",
+  "root_folder": {
+    "id": 2,
+    "path": "D:\\Comics",
+    "name": "Updated Comics Library",
+    "content_type": "COMICS",
+    "created_at": "2025-09-22T10:00:00",
+    "updated_at": "2025-09-22T10:01:00",
+    "collection_count": 0,
+    "exists": true
+  }
+}
+```
+
+#### Delete Root Folder
+
+```
+DELETE /api/root-folders/{root_folder_id}
+```
+
+Deletes a root folder.
+
+**Parameters:**
+
+- `root_folder_id` (path) - The ID of the root folder
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "message": "Root folder deleted successfully"
+}
+```
+
+#### Get Collection Root Folders
+
+```
+GET /api/collections/{collection_id}/root-folders
+```
+
+Returns all root folders for a collection.
+
+**Parameters:**
+
+- `collection_id` (path) - The ID of the collection
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "root_folders": [
+    {
+      "id": 1,
+      "path": "C:\\Manga",
+      "name": "Main Library",
+      "content_type": "MANGA",
+      "created_at": "2025-09-22T10:00:00",
+      "updated_at": "2025-09-22T10:00:00",
+      "exists": true
+    }
+  ]
+}
+```
+
+#### Add Root Folder to Collection
+
+```
+POST /api/collections/{collection_id}/root-folders/{root_folder_id}
+```
+
+Adds a root folder to a collection.
+
+**Parameters:**
+
+- `collection_id` (path) - The ID of the collection
+- `root_folder_id` (path) - The ID of the root folder
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "message": "Root folder added to collection successfully"
+}
+```
+
+#### Remove Root Folder from Collection
+
+```
+DELETE /api/collections/{collection_id}/root-folders/{root_folder_id}
+```
+
+Removes a root folder from a collection.
+
+**Parameters:**
+
+- `collection_id` (path) - The ID of the collection
+- `root_folder_id` (path) - The ID of the root folder
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "message": "Root folder removed from collection successfully"
+}
+```
+
+#### Get Collection Series
+
+```
+GET /api/collections/{collection_id}/series
+```
+
+Returns all series in a collection.
+
+**Parameters:**
+
+- `collection_id` (path) - The ID of the collection
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "series": [
+    {
+      "id": 1,
+      "title": "One Piece",
+      "description": "The story follows the adventures of Monkey D. Luffy...",
+      "author": "Eiichiro Oda",
+      "publisher": "Shueisha",
+      "cover_url": "https://example.com/cover.jpg",
+      "status": "ONGOING",
+      "content_type": "MANGA",
+      "metadata_source": "MANUAL",
+      "metadata_id": null,
+      "created_at": "2025-09-18T10:00:00",
+      "updated_at": "2025-09-18T10:00:00"
+    }
+  ]
+}
+```
+
+#### Add Series to Collection
+
+```
+POST /api/collections/{collection_id}/series/{series_id}
+```
+
+Adds a series to a collection.
+
+**Parameters:**
+
+- `collection_id` (path) - The ID of the collection
+- `series_id` (path) - The ID of the series
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "message": "Series added to collection successfully"
+}
+```
+
+#### Remove Series from Collection
+
+```
+DELETE /api/collections/{collection_id}/series/{series_id}
+```
+
+Removes a series from a collection.
+
+**Parameters:**
+
+- `collection_id` (path) - The ID of the collection
+- `series_id` (path) - The ID of the series
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "message": "Series removed from collection successfully"
+}
+```
+
 ### E-book Endpoints
 
 #### Scan for E-books

@@ -1,0 +1,204 @@
+<!-- Add Root Folder Modal -->
+<div class="modal fade" id="addRootFolderModal" tabindex="-1" aria-labelledby="addRootFolderModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addRootFolderModalLabel">Add Root Folder</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addRootFolderForm">
+                    <div class="mb-3">
+                        <label for="rootFolderName" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="rootFolderName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="rootFolderPath" class="form-label">Path</label>
+                        <input type="text" class="form-control" id="rootFolderPath" required>
+                        <small class="form-text text-muted">Enter the full path to the folder (e.g., C:\Manga or /home/user/manga)</small>
+                    </div>
+                    <div class="mb-3">
+                        <label for="rootFolderContentType" class="form-label">Content Type</label>
+                        <select class="form-select" id="rootFolderContentType">
+                            <option value="MANGA">Manga</option>
+                            <option value="MANHWA">Manhwa</option>
+                            <option value="MANHUA">Manhua</option>
+                            <option value="COMICS">Comics</option>
+                            <option value="NOVEL">Novel</option>
+                            <option value="BOOK">Book</option>
+                            <option value="OTHER">Other</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="saveRootFolderBtn">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Root Folder Modal -->
+<div class="modal fade" id="editRootFolderModal" tabindex="-1" aria-labelledby="editRootFolderModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editRootFolderModalLabel">Edit Root Folder</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editRootFolderForm">
+                    <input type="hidden" id="editRootFolderId">
+                    <div class="mb-3">
+                        <label for="editRootFolderName" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="editRootFolderName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editRootFolderPath" class="form-label">Path</label>
+                        <input type="text" class="form-control" id="editRootFolderPath" required>
+                        <small class="form-text text-muted">Enter the full path to the folder (e.g., C:\Manga or /home/user/manga)</small>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editRootFolderContentType" class="form-label">Content Type</label>
+                        <select class="form-select" id="editRootFolderContentType">
+                            <option value="MANGA">Manga</option>
+                            <option value="MANHWA">Manhwa</option>
+                            <option value="MANHUA">Manhua</option>
+                            <option value="COMICS">Comics</option>
+                            <option value="NOVEL">Novel</option>
+                            <option value="BOOK">Book</option>
+                            <option value="OTHER">Other</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="updateRootFolderBtn">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Root Folder to Collection Modal -->
+<div class="modal fade" id="addRootFolderToCollectionModal" tabindex="-1" aria-labelledby="addRootFolderToCollectionModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addRootFolderToCollectionModalLabel">Add Root Folder to Collection</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addRootFolderToCollectionForm">
+                    <input type="hidden" id="addToCollectionId">
+                    <div class="mb-3">
+                        <label for="selectRootFolder" class="form-label">Select Root Folder</label>
+                        <select class="form-select" id="selectRootFolder" required>
+                            <option value="">Select a root folder</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="addRootFolderToCollectionConfirmBtn">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteConfirmationModalLabel">Confirm Delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="deleteConfirmationText">Are you sure you want to delete this item?</p>
+                <div class="alert alert-warning" id="deleteWarning" style="display: none;">
+                    <i class="fas fa-exclamation-triangle"></i> Warning: This action cannot be undone.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Setup Wizard Modal -->
+<div class="modal fade" id="setupWizardModal" tabindex="-1" aria-labelledby="setupWizardModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="setupWizardModalLabel">MangaArr Setup Wizard</h5>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-info">
+                    <p><strong>Welcome to MangaArr!</strong></p>
+                    <p>Before you can start using MangaArr, you need to set up at least one collection and one root folder.</p>
+                    <p>This wizard will guide you through the initial setup process.</p>
+                </div>
+                
+                <div class="setup-step" id="step1">
+                    <h5>Step 1: Create Your First Collection</h5>
+                    <form id="setupCollectionForm">
+                        <div class="mb-3">
+                            <label for="setupCollectionName" class="form-label">Collection Name</label>
+                            <input type="text" class="form-control" id="setupCollectionName" value="My Collection" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="setupCollectionDescription" class="form-label">Description (Optional)</label>
+                            <textarea class="form-control" id="setupCollectionDescription" rows="2">My first manga collection</textarea>
+                        </div>
+                    </form>
+                    <button type="button" class="btn btn-primary" id="setupNextStep1">Next</button>
+                </div>
+                
+                <div class="setup-step" id="step2" style="display: none;">
+                    <h5>Step 2: Add a Root Folder</h5>
+                    <form id="setupRootFolderForm">
+                        <div class="mb-3">
+                            <label for="setupRootFolderName" class="form-label">Root Folder Name</label>
+                            <input type="text" class="form-control" id="setupRootFolderName" value="Manga Library" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="setupRootFolderPath" class="form-label">Root Folder Path</label>
+                            <input type="text" class="form-control" id="setupRootFolderPath" required>
+                            <small class="form-text text-muted">Enter the full path to the folder where your manga/comics will be stored (e.g., C:\Manga or /home/user/manga)</small>
+                        </div>
+                        <div class="mb-3">
+                            <label for="setupRootFolderContentType" class="form-label">Primary Content Type</label>
+                            <select class="form-select" id="setupRootFolderContentType">
+                                <option value="MANGA">Manga</option>
+                                <option value="MANHWA">Manhwa</option>
+                                <option value="MANHUA">Manhua</option>
+                                <option value="COMICS">Comics</option>
+                                <option value="NOVEL">Novel</option>
+                                <option value="BOOK">Book</option>
+                                <option value="OTHER">Other</option>
+                            </select>
+                        </div>
+                    </form>
+                    <button type="button" class="btn btn-secondary" id="setupPrevStep2">Previous</button>
+                    <button type="button" class="btn btn-primary" id="setupNextStep2">Next</button>
+                </div>
+                
+                <div class="setup-step" id="step3" style="display: none;">
+                    <h5>Step 3: Finish Setup</h5>
+                    <div class="alert alert-success">
+                        <p><strong>Great job!</strong> You've completed the initial setup.</p>
+                        <p>Your collection and root folder will be created when you click Finish.</p>
+                        <p>You can add more collections and root folders later from the Collections page.</p>
+                    </div>
+                    <button type="button" class="btn btn-secondary" id="setupPrevStep3">Previous</button>
+                    <button type="button" class="btn btn-success" id="finishSetupBtn">Finish Setup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

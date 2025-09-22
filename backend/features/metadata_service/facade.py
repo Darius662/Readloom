@@ -500,17 +500,46 @@ def import_manga_to_collection(manga_id: str, provider: str) -> Dict[str, Any]:
         
         # Create folder structure for the series
         try:
-            from backend.base.helpers import create_series_folder_structure
+            from backend.base.helpers import create_series_folder_structure, get_safe_folder_name
+            from pathlib import Path
             
             LOGGER.info(f"Creating folder structure for imported series: {manga_details.get('title', 'Unknown')} (ID: {series_id})")
             
-            series_path = create_series_folder_structure(
-                series_id,
-                manga_details.get('title', 'Unknown'),
-                manga_details.get('content_type', 'MANGA')
-            )
+            # Get the safe folder name
+            safe_title = get_safe_folder_name(manga_details.get('title', 'Unknown'))
             
-            LOGGER.info(f"Folder structure created at: {series_path}")
+            # Check if folder already exists in any root folder
+            folder_already_exists = False
+            existing_folder_path = None
+            
+            # Get root folders from settings
+            from backend.internals.settings import Settings
+            settings = Settings().get_settings()
+            root_folders = settings.root_folders
+            
+            if root_folders:
+                for root_folder in root_folders:
+                    root_path = Path(root_folder['path'])
+                    potential_series_dir = root_path / safe_title
+                    LOGGER.info(f"Checking if folder already exists: {potential_series_dir}")
+                    
+                    if potential_series_dir.exists() and potential_series_dir.is_dir():
+                        folder_already_exists = True
+                        existing_folder_path = potential_series_dir
+                        LOGGER.info(f"Found existing folder: {existing_folder_path}")
+                        break
+            
+            # Create the folder if it doesn't exist
+            if not folder_already_exists:
+                series_path = create_series_folder_structure(
+                    series_id,
+                    manga_details.get('title', 'Unknown'),
+                    manga_details.get('content_type', 'MANGA')
+                )
+                LOGGER.info(f"Folder structure created at: {series_path}")
+            else:
+                series_path = existing_folder_path
+                LOGGER.info(f"Using existing folder: {series_path}")
             
             # Add the series to the collection
             from backend.features.collection import add_to_collection
@@ -523,6 +552,13 @@ def import_manga_to_collection(manga_id: str, provider: str) -> Dict[str, Any]:
             )
             
             LOGGER.info(f"Series added to collection with ID: {collection_item_id}")
+            
+            # If the folder already existed, scan it for e-books
+            if folder_already_exists:
+                LOGGER.info(f"Scanning existing folder for e-books: {series_path}")
+                from backend.features.ebook_files import scan_for_ebooks
+                scan_stats = scan_for_ebooks(specific_series_id=series_id)
+                LOGGER.info(f"Scan results: {scan_stats}")
         except Exception as e:
             LOGGER.error(f"Error creating folder structure or adding to collection: {e}")
             import traceback

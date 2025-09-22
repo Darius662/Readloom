@@ -23,7 +23,10 @@ MangaArr is a manga, manwa, and comics collection manager with a focus on releas
   - Manual scan button in the UI
   - Collection integration with digital format tracking
   - Automatic README files with series information
-- **Comprehensive Collection Tracking**: Track your manga/comic collection
+- **Comprehensive Collection System** (v0.0.7+): Organize and track your manga/comic collection
+  - Flexible collection-based organization system
+  - Link collections to multiple root folders
+  - Add series to multiple collections
   - Track ownership status, read status, and purchase details
   - Track both physical and digital formats
   - Collection statistics and visualizations
@@ -202,6 +205,7 @@ Comprehensive documentation is available in the `docs/` directory:
 
 - [Installation Guide](docs/INSTALLATION.md) - Detailed setup instructions
 - [API Documentation](docs/API.md) - Complete API reference
+- [Collections](docs/COLLECTIONS.md) - Collection-based organization system
 - [E-book Management](docs/EBOOKS.md) - E-book organization and scanning
 - [Folder Structure](docs/FOLDER_STRUCTURE.md) - Series folder organization and naming
 - [Performance Tips](docs/PERFORMANCE_TIPS.md) - Optimize for large collections

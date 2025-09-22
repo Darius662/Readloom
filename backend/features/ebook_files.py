@@ -244,6 +244,7 @@ def scan_for_ebooks(specific_series_id: Optional[int] = None) -> Dict:
     Returns:
         Dict: Statistics about the scan.
     """
+    LOGGER.info(f"Starting e-book scan with specific_series_id={specific_series_id}")
     try:
         stats = {
             'scanned': 0,
@@ -283,13 +284,22 @@ def scan_for_ebooks(specific_series_id: Optional[int] = None) -> Dict:
             content_type = series_info[0]['content_type']
             safe_title = get_safe_folder_name(series_title)
             
+            LOGGER.info(f"Scanning for series: {series_title} (ID: {specific_series_id})")
+            LOGGER.info(f"Safe folder name: {safe_title}")
+            
             # Only scan this specific series directory in all root folders
             series_dirs = []
             
             for root_path in root_paths:
+                LOGGER.info(f"Checking root path: {root_path}")
                 series_dir = root_path / safe_title
+                LOGGER.info(f"Looking for series directory: {series_dir}")
+                
                 if series_dir.exists() and series_dir.is_dir():
-                    series_dirs.append((series_dir, content_type))
+                    LOGGER.info(f"Found series directory: {series_dir}")
+                    series_dirs.append((series_dir, content_type, specific_series_id))
+                else:
+                    LOGGER.warning(f"Series directory not found: {series_dir}")
         else:
             # Initialize series directories
             series_dirs = []
@@ -334,6 +344,7 @@ def scan_for_ebooks(specific_series_id: Optional[int] = None) -> Dict:
                         # Find a match where the safe folder name matches
                         for series in all_series:
                             safe_title = get_safe_folder_name(series['title'])
+                            LOGGER.debug(f"Comparing: '{safe_title}' with '{series_dir_name}'")
                             if safe_title == series_dir_name:
                                 series_info = [series]
                                 LOGGER.info(f"Found match: {series['title']} -> {safe_title}")
@@ -342,7 +353,7 @@ def scan_for_ebooks(specific_series_id: Optional[int] = None) -> Dict:
                     if series_info:
                         series_id = series_info[0]['id']
                         content_type = series_info[0]['content_type']
-                        series_dirs.append((series_dir, content_type))
+                        series_dirs.append((series_dir, content_type, series_id))
                         
                         # Ensure README file exists
                         from backend.base.helpers import ensure_readme_file
@@ -372,18 +383,12 @@ def scan_for_ebooks(specific_series_id: Optional[int] = None) -> Dict:
         }
         
         # Process each series directory
-        for series_dir, content_type in series_dirs:
+        for series_dir, content_type, series_id in series_dirs:
             if not series_dir.is_dir():
+                LOGGER.warning(f"Skipping {series_dir} as it's not a directory")
                 continue
             
-            # Get or create series
-            series_title = series_dir.name.replace('_', ' ')
-            
-            # If scanning all series, get or create the series
-            if not specific_series_id:
-                series_id = get_or_create_series(series_title, content_type)
-            else:
-                series_id = specific_series_id
+            LOGGER.info(f"Processing directory: {series_dir} for series ID: {series_id}")
             
             if not series_id:
                 stats['errors'] += 1
@@ -396,13 +401,20 @@ def scan_for_ebooks(specific_series_id: Optional[int] = None) -> Dict:
             processed_files = set()
             
             # Process each file in the series directory (recursive)
-            for file_path in series_dir.glob('**/*'):
+            LOGGER.info(f"Scanning directory {series_dir} for e-book files")
+            all_files = list(series_dir.glob('**/*'))
+            LOGGER.info(f"Found {len(all_files)} total files/directories")
+            
+            for file_path in all_files:
                 if not file_path.is_file():
                     continue
+                    
+                LOGGER.debug(f"Checking file: {file_path}")
                     
                 # Skip if already processed (can happen with symlinks)
                 file_key = str(file_path.resolve())
                 if file_key in processed_files:
+                    LOGGER.debug(f"Skipping already processed file: {file_path}")
                     continue
                     
                 processed_files.add(file_key)
@@ -411,9 +423,14 @@ def scan_for_ebooks(specific_series_id: Optional[int] = None) -> Dict:
                 
                 # Get file extension and check if supported
                 file_ext = file_path.suffix.lower()
+                LOGGER.debug(f"File extension: {file_ext}")
+                
                 if file_ext not in supported_extensions:
+                    LOGGER.debug(f"Skipping unsupported file type: {file_path}")
                     stats['skipped'] += 1
                     continue
+                    
+                LOGGER.info(f"Found supported file: {file_path} with extension {file_ext}")
                 
                 # Extract volume number from filename or path
                 volume_number = extract_volume_number(file_path)
@@ -423,47 +440,60 @@ def scan_for_ebooks(specific_series_id: Optional[int] = None) -> Dict:
                     stats['skipped'] += 1
                     continue
                 
+                LOGGER.info(f"Extracted volume number: {volume_number} from {file_path}")
+                
                 # Get or create volume
                 volume_id = get_or_create_volume(series_id, volume_number)
                 
                 if not volume_id:
+                    LOGGER.error(f"Failed to get or create volume for series {series_id}, volume {volume_number}")
                     stats['errors'] += 1
                     continue
+                    
+                LOGGER.info(f"Using volume ID: {volume_id} for volume {volume_number}")
                 
                 # Check if file already exists in database
                 existing_files = get_ebook_files_for_volume(volume_id)
+                LOGGER.info(f"Found {len(existing_files)} existing files for volume {volume_id}")
                 
                 # Check if file path matches or if file is identical (same path after resolving symlinks)
                 file_exists = False
                 for ef in existing_files:
                     if not os.path.exists(ef['file_path']):
+                        LOGGER.debug(f"Existing file path not found: {ef['file_path']}")
                         continue
                         
                     try:
                         if os.path.samefile(file_path, Path(ef['file_path'])):
+                            LOGGER.info(f"File already exists in database: {file_path}")
                             file_exists = True
                             break
-                    except OSError:
+                    except OSError as e:
+                        LOGGER.warning(f"Error comparing files: {e}")
                         # Handle case where files can't be compared
                         pass
                 
                 if file_exists:
+                    LOGGER.info(f"Skipping existing file: {file_path}")
                     stats['skipped'] += 1
                     continue
                 
                 # Get file type from extension
                 file_type = supported_extensions[file_ext]
+                LOGGER.info(f"File type: {file_type} for file: {file_path}")
                 
                 # Add file to database
+                LOGGER.info(f"Adding file to database: {file_path}")
                 file_info = add_ebook_file(series_id, volume_id, str(file_path), file_type)
                 
                 if file_info:
                     stats['added'] += 1
-                    LOGGER.info(f"Added file: {file_path.name} as Volume {volume_number}")
+                    LOGGER.info(f"Successfully added file: {file_path.name} as Volume {volume_number}")
                     
                     # Update collection item to mark it as having a file
                     update_collection_for_volume(series_id, volume_id, file_type)
                 else:
+                    LOGGER.error(f"Failed to add file to database: {file_path}")
                     stats['errors'] += 1
         
         return stats
