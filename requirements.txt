@@ -10,3 +10,7 @@ cryptography==44.0.1
 # Use simpler packages for development
 simple-websocket==1.0.0
 bidict==0.23.1
+
+# Platform-specific dependencies
+# pywin32 is only needed on Windows and should not be installed in Docker containers
+# To install on Windows: pip install pywin32

@@ -4,7 +4,7 @@
 from argparse import ArgumentParser
 from atexit import register
 from multiprocessing import set_start_method
-from os import environ, name
+from os import environ, name, path
 from signal import SIGINT, SIGTERM, signal
 from subprocess import Popen
 from sys import argv
@@ -16,6 +16,33 @@ from backend.base.logging import LOGGER, setup_logging
 from backend.features.tasks import TaskHandler
 from backend.internals.db import set_db_location, setup_db
 from backend.internals.server import SERVER, handle_start_type
+
+
+def _is_running_in_docker() -> bool:
+    """Check if the application is running inside a Docker container.
+    
+    Returns:
+        bool: True if running in Docker, False otherwise.
+    """
+    # Check for .dockerenv file
+    if path.exists('/.dockerenv'):
+        return True
+    
+    # Check for cgroup
+    try:
+        with open('/proc/1/cgroup', 'r') as f:
+            if 'docker' in f.read():
+                return True
+    except (IOError, FileNotFoundError):
+        pass
+    
+    # Check for environment variable that we set in our Dockerfile
+    if environ.get('MANGARR_DOCKER') == '1':
+        return True
+    
+    return False
+
+
 from backend.internals.settings import Settings
 
 
@@ -114,8 +141,13 @@ def _main(
         task_handler.stop_handle()
 
         if SERVER.start_type is not None:
-            LOGGER.info('Restarting MangaArr')
-            exit(SERVER.start_type.value)
+            # Check if we're running in Docker
+            if _is_running_in_docker():
+                LOGGER.info('Restart requested, but running in Docker. Exiting with code 0 instead.')
+                exit(0)
+            else:
+                LOGGER.info('Restarting MangaArr')
+                exit(SERVER.start_type.value)
 
         exit(0)
 
@@ -136,14 +168,20 @@ def _stop_sub_process(proc: Popen) -> None:
             except ProcessLookupError:
                 pass
         else:
-            import win32api  # type: ignore
-            import win32con  # type: ignore
             try:
-                win32api.GenerateConsoleCtrlEvent(
-                    win32con.CTRL_C_EVENT, proc.pid
-                )
-            except KeyboardInterrupt:
-                pass
+                # Only import win32api and win32con on Windows platforms
+                import win32api  # type: ignore
+                import win32con  # type: ignore
+                try:
+                    win32api.GenerateConsoleCtrlEvent(
+                        win32con.CTRL_C_EVENT, proc.pid
+                    )
+                except KeyboardInterrupt:
+                    pass
+            except ImportError:
+                # If pywin32 is not available, fall back to terminate
+                print("Warning: pywin32 not available, using terminate instead of CTRL+C")
+                proc.terminate()
     except BaseException:
         proc.terminate()
 

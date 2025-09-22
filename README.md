@@ -60,10 +60,113 @@ git clone https://github.com/yourusername/MangaArr.git
 cd MangaArr
 
 # Start with Docker Compose
-docker-compose up -d
+docker compose up -d
 ```
 
 MangaArr will be available at http://localhost:7227
+
+#### Docker Compose Configuration
+
+The default `docker-compose.yml` file includes the following configuration:
+
+```yaml
+version: '3'
+
+services:
+  mangarr:
+    build: .
+    container_name: mangarr
+    restart: unless-stopped
+    ports:
+      - "7227:7227"
+    volumes:
+      - ./data:/config
+    environment:
+      - TZ=UTC
+      - PYTHONUNBUFFERED=1
+    command:
+      - "-o"
+      - "0.0.0.0"
+      - "-p"
+      - "7227"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+```
+
+#### Docker Volumes
+
+The Docker container uses the following volume:
+
+- `./data:/config`: Stores all MangaArr data, including the database, logs, and e-books
+
+#### Docker Environment Variables
+
+- `TZ`: Set your timezone (default: UTC)
+- `PYTHONUNBUFFERED`: Ensures Python output is unbuffered for better logging
+
+#### Docker Healthcheck
+
+The Docker container includes a healthcheck that verifies the application is running properly. The healthcheck uses curl to check if the application is responding on port 7227.
+
+#### Container Behavior
+
+The Docker container is designed to keep running even if the MangaArr application exits. This allows you to inspect logs and troubleshoot any issues that might cause the application to exit unexpectedly.
+
+If you need to restart the application without restarting the container, you can use:
+
+```bash
+docker exec -it mangarr python MangaArr.py -d /config/data -l /config/logs -o 0.0.0.0 -p 7227
+```
+
+To view logs:
+
+```bash
+docker logs mangarr
+```
+
+To access the container shell:
+
+```bash
+docker exec -it mangarr /bin/bash
+```
+
+#### Troubleshooting
+
+If you can't access MangaArr at http://localhost:7227 or http://127.0.0.1:7227, try the following:
+
+1. **Check if the container is running**:
+   ```bash
+   docker ps | grep mangarr
+   ```
+
+2. **Check container logs**:
+   ```bash
+   docker logs mangarr
+   ```
+
+3. **Run the debug script**:
+   ```bash
+   docker exec -it mangarr /usr/local/bin/docker-debug.sh
+   ```
+
+4. **Check if the port is correctly mapped**:
+   ```bash
+   docker port mangarr
+   ```
+
+5. **Try accessing with your Docker host IP**:
+   If you're using Docker Desktop, try using the Docker host IP instead of localhost.
+   
+6. **Restart the application inside the container**:
+   ```bash
+   docker exec -it mangarr python MangaArr.py -d /config/data -l /config/logs -o 0.0.0.0 -p 7227
+   ```
+
+7. **Check firewall settings**:
+   Make sure your firewall allows connections to port 7227.
 
 ### Manual Installation
 

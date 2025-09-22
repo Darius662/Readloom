@@ -1,9 +1,9 @@
 version: '3'
 
 services:
-  mangarr:
+  mangarr-test:
     build: .
-    container_name: mangarr
+    container_name: mangarr-test
     restart: "no"
     ports:
       - "7227:7227"
@@ -12,11 +12,9 @@ services:
     environment:
       - TZ=UTC
       - PYTHONUNBUFFERED=1
-    command:
-      - "-o"
-      - "0.0.0.0"
-      - "-p"
-      - "7227"
+      - FLASK_ENV=development
+      - FLASK_DEBUG=1
+    command: /usr/local/bin/run_test_server.sh
     logging:
       driver: "json-file"
       options:
