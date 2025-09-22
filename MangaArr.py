@@ -129,6 +129,10 @@ def _main(
         settings = s.get_settings()
         SERVER.set_url_base(settings.url_base)
 
+        # Initialize metadata service
+        from backend.features.metadata_service import init_metadata_service
+        init_metadata_service()
+
         task_handler = TaskHandler()
         task_handler.handle_intervals()
 

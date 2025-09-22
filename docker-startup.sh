@@ -17,25 +17,14 @@ cleanup() {
 # Set up signal handlers
 trap cleanup SIGTERM SIGINT
 
-# Start MangaArr in the background with explicit host and port
-echo "Running MangaArr with arguments: -d /config/data -l /config/logs -o 0.0.0.0 -p 7227"
-python -u MangaArr.py -d /config/data -l /config/logs -o 0.0.0.0 -p 7227 &
-MANGARR_PID=$!
+# Print network information for debugging
+echo "Network interfaces:"
+ip addr
 
-# Log the PID
-echo "MangaArr started with PID: $MANGARR_PID"
+echo "Listening ports:"
+netstat -tulpn
 
-# Wait for MangaArr to exit
-wait $MANGARR_PID || true
-EXIT_CODE=$?
-echo "MangaArr exited with code: $EXIT_CODE"
-
-# Keep the container running
-echo "MangaArr has exited, but keeping container running for inspection..."
-echo "You can access the container with: docker exec -it mangarr /bin/bash"
-echo "To view logs: docker logs mangarr"
-
-# Sleep indefinitely
-while true; do
-    sleep 3600 & wait $!
-done
+# Start MangaArr directly (no background)
+echo "Running MangaArr_direct.py with arguments: -d /config/data -l /config/logs -o 0.0.0.0 -p 7227"
+# Using exec replaces the current process, so nothing after this will run
+exec python -u MangaArr_direct.py -d /config/data -l /config/logs -o 0.0.0.0 -p 7227

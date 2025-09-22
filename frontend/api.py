@@ -29,7 +29,7 @@ from backend.features.notifications import (check_upcoming_releases, create_noti
                                            update_notification_settings)
 from backend.internals.db import execute_query
 from backend.internals.settings import Settings
-from frontend.api_metadata import metadata_api_bp
+from frontend.api_metadata_fixed import metadata_api_bp
 
 # Create API blueprint
 api_bp = Blueprint('api', __name__, url_prefix='/api')

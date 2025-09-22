@@ -23,6 +23,9 @@ RUN apt-get update && apt-get install -y curl netcat-openbsd && \
 # Copy application code
 COPY . .
 
+# Copy the direct version of MangaArr.py
+COPY MangaArr_direct.py /app/
+
 # Create volume directories
 RUN mkdir -p /config/data /config/logs
 
