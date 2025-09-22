@@ -13,6 +13,7 @@ from backend.features.ebook_files import (add_ebook_file, delete_ebook_file,
                                          get_ebook_file, get_ebook_files_for_series,
                                          get_ebook_files_for_volume, scan_for_ebooks)
 from backend.internals.db import execute_query
+from frontend.middleware import root_folders_required
 
 # Create API blueprint
 ebooks_api_bp = Blueprint('api_ebooks', __name__, url_prefix='/api/ebooks')
@@ -194,6 +195,7 @@ def delete_file(file_id: int):
 
 
 @ebooks_api_bp.route('/scan', methods=['POST'])
+@root_folders_required
 def scan_files():
     """Scan the data directory for e-book files and add them to the database.
     

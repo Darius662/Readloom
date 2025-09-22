@@ -277,6 +277,9 @@ def import_manga_to_collection(manga_id: str, provider: str) -> Dict[str, Any]:
     Returns:
         A dictionary containing the result.
     """
+    # Import LOGGER at the top of the function to ensure it's available in all code paths
+    from backend.base.logging import LOGGER
+    
     try:
         # Get manga details
         manga_details = get_manga_details(manga_id, provider)
@@ -494,6 +497,37 @@ def import_manga_to_collection(manga_id: str, provider: str) -> Dict[str, Any]:
             )
             
             chapters_added += 1
+        
+        # Create folder structure for the series
+        try:
+            from backend.base.helpers import create_series_folder_structure
+            
+            LOGGER.info(f"Creating folder structure for imported series: {manga_details.get('title', 'Unknown')} (ID: {series_id})")
+            
+            series_path = create_series_folder_structure(
+                series_id,
+                manga_details.get('title', 'Unknown'),
+                manga_details.get('content_type', 'MANGA')
+            )
+            
+            LOGGER.info(f"Folder structure created at: {series_path}")
+            
+            # Add the series to the collection
+            from backend.features.collection import add_to_collection
+            
+            collection_item_id = add_to_collection(
+                series_id=series_id,
+                item_type="SERIES",
+                ownership_status="OWNED",
+                read_status="UNREAD"
+            )
+            
+            LOGGER.info(f"Series added to collection with ID: {collection_item_id}")
+        except Exception as e:
+            LOGGER.error(f"Error creating folder structure or adding to collection: {e}")
+            import traceback
+            LOGGER.error(traceback.format_exc())
+            # Continue even if folder creation fails
         
         return {
             "success": True,

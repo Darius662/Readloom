@@ -6,12 +6,13 @@ from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Union
 
 from flask import (Blueprint, Response, jsonify, redirect, render_template,
-                  request, send_from_directory, url_for)
+                  request, send_from_directory, url_for, flash)
 
 from backend.base.logging import LOGGER
 from backend.features.calendar import get_calendar_events
 from backend.internals.db import execute_query
 from backend.internals.settings import Settings
+from frontend.middleware import root_folders_required
 
 # Create UI blueprint
 ui_bp = Blueprint(
@@ -30,7 +31,11 @@ def index():
     Returns:
         Response: The rendered dashboard page.
     """
-    return render_template('dashboard.html')
+    # Check if root folders are configured
+    settings = Settings().get_settings()
+    root_folders = settings.root_folders
+    
+    return render_template('dashboard.html', root_folders=root_folders)
 
 
 @ui_bp.route('/calendar')
@@ -44,13 +49,18 @@ def calendar():
 
 
 @ui_bp.route('/series')
+@root_folders_required
 def series_list():
     """Render the series list page.
 
     Returns:
         Response: The rendered series list page.
     """
-    return render_template('series_list.html')
+    # Get root folders for the template
+    settings = Settings().get_settings()
+    root_folders = settings.root_folders
+    
+    return render_template('series_list.html', root_folders=root_folders)
 
 
 @ui_bp.route('/collection')
@@ -64,6 +74,7 @@ def collection():
 
 
 @ui_bp.route('/series/<int:series_id>')
+@root_folders_required
 def series_detail(series_id: int):
     """Render the series detail page.
 
@@ -73,7 +84,11 @@ def series_detail(series_id: int):
     Returns:
         Response: The rendered series detail page.
     """
-    return render_template('series_detail.html', series_id=series_id)
+    # Get root folders for the template
+    settings = Settings().get_settings()
+    root_folders = settings.root_folders
+    
+    return render_template('series_detail.html', series_id=series_id, root_folders=root_folders)
 
 
 @ui_bp.route('/settings')
@@ -84,6 +99,16 @@ def settings():
         Response: The rendered settings page.
     """
     return render_template('settings.html')
+
+
+@ui_bp.route('/root-folders')
+def root_folders():
+    """Render the root folders page.
+
+    Returns:
+        Response: The rendered root folders page.
+    """
+    return render_template('root_folders.html')
 
 
 @ui_bp.route('/integrations')
@@ -137,13 +162,18 @@ def notifications():
 
 
 @ui_bp.route('/search')
+@root_folders_required
 def search():
     """Render the search page for external manga sources.
 
     Returns:
         Response: The rendered search page.
     """
-    return render_template('search.html')
+    # Get root folders for the template
+    settings = Settings().get_settings()
+    root_folders = settings.root_folders
+    
+    return render_template('search.html', root_folders=root_folders)
 
 
 @ui_bp.route('/about')

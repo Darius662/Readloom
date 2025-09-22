@@ -4,36 +4,47 @@ This document describes the e-book management functionality in MangARR, includin
 
 ## Overview
 
-MangARR supports managing e-book files for your manga/comic collection. It organizes files by content type and series name, automatically detects volume numbers from filenames, and integrates with your collection tracking.
+MangARR supports managing e-book files for your manga/comic collection. It organizes files by series name, automatically detects volume numbers from filenames, and integrates with your collection tracking.
 
 ## Folder Structure
 
-E-books are organized in a hierarchical folder structure:
+E-books are organized directly in root folders that you configure:
 
 ```
-data/ebooks/
-├── MANGA/
-│   ├── Series_Name_1/
-│   │   ├── README.txt
-│   │   ├── Volume_1.pdf
-│   │   └── Volume_2.epub
-│   └── Series_Name_2/
-│       ├── README.txt
-│       └── Volume_1.cbz
-├── MANHWA/
-│   └── ...
-├── MANHUA/
-│   └── ...
+/your/root/folder/
+├── Series Name 1/
+│   ├── README.txt
+│   ├── Volume 1.pdf
+│   └── Volume 2.epub
+├── Series Name 2/
+│   ├── README.txt
+│   └── Volume 1.cbz
 └── ...
 ```
 
 Each series folder contains:
-- A README.txt file with series information
+- A README.txt file with series information (including series ID, type, and creation date)
 - E-book files for each volume
+
+### Folder Naming
+
+MangARR preserves spaces and most special characters in folder names for better readability. Only characters that are invalid in file names are replaced:
+
+- `?` is replaced with `_` (question mark)
+- `*` is replaced with `_` (asterisk)
+- `/` is replaced with `_` (forward slash)
+- `\` is replaced with `_` (backslash)
+- `<` is replaced with `_` (less than)
+- `>` is replaced with `_` (greater than)
+- `:` is replaced with `_` (colon)
+- `"` is replaced with `_` (double quote)
+- `|` is replaced with `_` (pipe)
+
+This ensures that folder names remain as close as possible to the original series titles while still being valid file system paths.
 
 ## Content Types
 
-MangARR supports the following content types, each with its own directory:
+MangARR tracks the following content types in its database:
 
 - MANGA: Japanese comics
 - MANHWA: Korean comics
@@ -42,6 +53,8 @@ MangARR supports the following content types, each with its own directory:
 - NOVEL: Light novels or text-based stories
 - BOOK: Regular books
 - OTHER: Other types of content
+
+While content types are stored in the database and used for filtering and organization in the UI, they no longer correspond to separate directories in the file system.
 
 ## Supported File Formats
 

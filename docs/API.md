@@ -405,6 +405,48 @@ Deletes a chapter and its associated data:
 
 **Note:** Calendar events are deleted through cascading constraints.
 
+### Folder Management Endpoints
+
+#### Create Series Folder
+
+```
+POST /api/folders/create/{series_id}
+```
+
+Creates a folder for a specific series in the configured root folder.
+
+**Parameters:**
+
+- `series_id` (path) - The ID of the series
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "folder_path": "C:\\Users\\username\\Documents\\Mangas\\One Piece",
+  "readme_created": true
+}
+```
+
+#### Create All Missing Folders
+
+```
+POST /api/folders/create-all
+```
+
+Creates folders for all series that don't have folders yet.
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "folders_created": 5,
+  "errors": 0
+}
+```
+
 ### E-book Endpoints
 
 #### Scan for E-books
@@ -1291,6 +1333,35 @@ Get details for a manga from a specific provider.
   "source": "MangaFire"
 }
 ```
+
+#### Import Manga to Collection
+
+```
+POST /api/metadata/manga/{provider}/{manga_id}/import
+```
+
+Imports a manga from a provider to your collection. This endpoint:
+1. Adds the manga to your database
+2. Creates a folder structure for the manga in your configured root folder
+3. Generates a README.txt file with series information
+4. Updates the calendar with release dates
+
+**Example Request:**
+```
+POST /api/metadata/manga/AniList/21/import
+```
+
+**Example Response:**
+```json
+{
+  "success": true,
+  "message": "Manga imported successfully",
+  "series_id": 42,
+  "folder_created": "C:\\Users\\username\\Documents\\Mangas\\One Piece"
+}
+```
+
+**Note:** The folder name preserves spaces and most special characters from the original title, only replacing characters that are invalid in file names.
 
 #### Get Chapter List
 

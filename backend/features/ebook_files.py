@@ -253,8 +253,21 @@ def scan_for_ebooks(specific_series_id: Optional[int] = None) -> Dict:
             'series_processed': 0
         }
         
-        # Get the e-book storage directory
-        ebook_dir = get_ebook_storage_dir()
+        # Get root folders from settings
+        from backend.internals.settings import Settings
+        settings = Settings().get_settings()
+        root_folders = settings.root_folders
+        
+        # If no root folders configured, use default ebook storage
+        if not root_folders:
+            LOGGER.warning("No root folders configured, using default ebook storage")
+            # Get the e-book storage directory
+            ebook_dir = get_ebook_storage_dir()
+            root_paths = [ebook_dir]
+        else:
+            # Use all configured root folders
+            root_paths = [Path(folder['path']) for folder in root_folders]
+            LOGGER.info(f"Using {len(root_paths)} root folders for scanning")
         
         # If scanning for a specific series, get its details
         if specific_series_id:
@@ -270,19 +283,82 @@ def scan_for_ebooks(specific_series_id: Optional[int] = None) -> Dict:
             content_type = series_info[0]['content_type']
             safe_title = get_safe_folder_name(series_title)
             
-            # Only scan this specific series directory
-            content_types = [content_type]
-            series_dirs = {content_type: [ebook_dir / content_type / safe_title]}
-        else:
-            # Get all content types
-            content_types = [d.name for d in ebook_dir.iterdir() if d.is_dir()]
+            # Only scan this specific series directory in all root folders
+            series_dirs = []
             
-            # Get all series directories for each content type
-            series_dirs = {}
-            for content_type in content_types:
-                content_type_dir = ebook_dir / content_type
-                if content_type_dir.is_dir():
-                    series_dirs[content_type] = [d for d in content_type_dir.iterdir() if d.is_dir()]
+            for root_path in root_paths:
+                series_dir = root_path / safe_title
+                if series_dir.exists() and series_dir.is_dir():
+                    series_dirs.append((series_dir, content_type))
+        else:
+            # Initialize series directories
+            series_dirs = []
+            
+            # Process each root folder
+            for root_path in root_paths:
+                if not root_path.exists() or not root_path.is_dir():
+                    LOGGER.warning(f"Root folder does not exist or is not a directory: {root_path}")
+                    continue
+                    
+                # Get all series directories directly in the root folder
+                for series_dir in root_path.iterdir():
+                    if not series_dir.is_dir():
+                        continue
+                    
+                    # Try to find the series in the database to get its content type
+                    # The folder name should match the series title (with invalid chars replaced)
+                    series_dir_name = series_dir.name
+                    LOGGER.info(f"Looking for series with folder name: {series_dir_name}")
+                    
+                    # First try exact match
+                    series_info = execute_query(
+                        "SELECT id, content_type FROM series WHERE title = ?", 
+                        (series_dir_name,)
+                    )
+                    
+                    # If not found, try case-insensitive match
+                    if not series_info:
+                        LOGGER.info(f"No exact match found, trying case-insensitive match")
+                        series_info = execute_query(
+                            "SELECT id, content_type FROM series WHERE LOWER(title) = LOWER(?)", 
+                            (series_dir_name,)
+                        )
+                        
+                    # If still not found, try with similar name (replace special chars)
+                    if not series_info:
+                        LOGGER.info(f"No case-insensitive match found, trying with similar name")
+                        from backend.base.helpers import get_safe_folder_name
+                        # Get all series
+                        all_series = execute_query("SELECT id, title, content_type FROM series")
+                        
+                        # Find a match where the safe folder name matches
+                        for series in all_series:
+                            safe_title = get_safe_folder_name(series['title'])
+                            if safe_title == series_dir_name:
+                                series_info = [series]
+                                LOGGER.info(f"Found match: {series['title']} -> {safe_title}")
+                                break
+                    
+                    if series_info:
+                        series_id = series_info[0]['id']
+                        content_type = series_info[0]['content_type']
+                        series_dirs.append((series_dir, content_type))
+                        
+                        # Ensure README file exists
+                        from backend.base.helpers import ensure_readme_file
+                        # Get series title from database
+                        series_title_info = execute_query(
+                            "SELECT title FROM series WHERE id = ?", 
+                            (series_id,)
+                        )
+                        if series_title_info:
+                            series_title = series_title_info[0]['title']
+                            # Ensure README file exists
+                            ensure_readme_file(series_dir, series_title, series_id, content_type)
+                    else:
+                        # If series not found in database, skip it
+                        LOGGER.warning(f"Series directory found but not in database: {series_dir}")
+                        continue
         
         # Define supported file extensions
         supported_extensions = {
@@ -295,105 +371,100 @@ def scan_for_ebooks(specific_series_id: Optional[int] = None) -> Dict:
             '.azw3': 'AZW'
         }
         
-        # Process each content type directory
-        for content_type in content_types:
-            if content_type not in series_dirs:
+        # Process each series directory
+        for series_dir, content_type in series_dirs:
+            if not series_dir.is_dir():
                 continue
+            
+            # Get or create series
+            series_title = series_dir.name.replace('_', ' ')
+            
+            # If scanning all series, get or create the series
+            if not specific_series_id:
+                series_id = get_or_create_series(series_title, content_type)
+            else:
+                series_id = specific_series_id
+            
+            if not series_id:
+                stats['errors'] += 1
+                continue
+            
+            stats['series_processed'] += 1
+            LOGGER.info(f"Processing series: {series_title} (ID: {series_id})")
+            
+            # Keep track of processed files to avoid duplicates
+            processed_files = set()
+            
+            # Process each file in the series directory (recursive)
+            for file_path in series_dir.glob('**/*'):
+                if not file_path.is_file():
+                    continue
+                    
+                # Skip if already processed (can happen with symlinks)
+                file_key = str(file_path.resolve())
+                if file_key in processed_files:
+                    continue
+                    
+                processed_files.add(file_key)
                 
-            # Process each series directory
-            for series_dir in series_dirs[content_type]:
-                if not series_dir.is_dir():
+                stats['scanned'] += 1
+                
+                # Get file extension and check if supported
+                file_ext = file_path.suffix.lower()
+                if file_ext not in supported_extensions:
+                    stats['skipped'] += 1
                     continue
                 
-                # Get or create series
-                series_title = series_dir.name.replace('_', ' ')
+                # Extract volume number from filename or path
+                volume_number = extract_volume_number(file_path)
                 
-                # If scanning all series, get or create the series
-                if not specific_series_id:
-                    series_id = get_or_create_series(series_title, content_type)
-                else:
-                    series_id = specific_series_id
+                if not volume_number:
+                    LOGGER.warning(f"Could not extract volume number from {file_path}")
+                    stats['skipped'] += 1
+                    continue
                 
-                if not series_id:
+                # Get or create volume
+                volume_id = get_or_create_volume(series_id, volume_number)
+                
+                if not volume_id:
                     stats['errors'] += 1
                     continue
                 
-                stats['series_processed'] += 1
-                LOGGER.info(f"Processing series: {series_title} (ID: {series_id})")
+                # Check if file already exists in database
+                existing_files = get_ebook_files_for_volume(volume_id)
                 
-                # Keep track of processed files to avoid duplicates
-                processed_files = set()
+                # Check if file path matches or if file is identical (same path after resolving symlinks)
+                file_exists = False
+                for ef in existing_files:
+                    if not os.path.exists(ef['file_path']):
+                        continue
+                        
+                    try:
+                        if os.path.samefile(file_path, Path(ef['file_path'])):
+                            file_exists = True
+                            break
+                    except OSError:
+                        # Handle case where files can't be compared
+                        pass
                 
-                # Process each file in the series directory (recursive)
-                for file_path in series_dir.glob('**/*'):
-                    if not file_path.is_file():
-                        continue
-                        
-                    # Skip if already processed (can happen with symlinks)
-                    file_key = str(file_path.resolve())
-                    if file_key in processed_files:
-                        continue
-                        
-                    processed_files.add(file_key)
+                if file_exists:
+                    stats['skipped'] += 1
+                    continue
+                
+                # Get file type from extension
+                file_type = supported_extensions[file_ext]
+                
+                # Add file to database
+                file_info = add_ebook_file(series_id, volume_id, str(file_path), file_type)
+                
+                if file_info:
+                    stats['added'] += 1
+                    LOGGER.info(f"Added file: {file_path.name} as Volume {volume_number}")
                     
-                    stats['scanned'] += 1
-                    
-                    # Get file extension and check if supported
-                    file_ext = file_path.suffix.lower()
-                    if file_ext not in supported_extensions:
-                        stats['skipped'] += 1
-                        continue
-                    
-                    # Extract volume number from filename or path
-                    volume_number = extract_volume_number(file_path)
-                    
-                    if not volume_number:
-                        LOGGER.warning(f"Could not extract volume number from {file_path}")
-                        stats['skipped'] += 1
-                        continue
-                    
-                    # Get or create volume
-                    volume_id = get_or_create_volume(series_id, volume_number)
-                    
-                    if not volume_id:
-                        stats['errors'] += 1
-                        continue
-                    
-                    # Check if file already exists in database
-                    existing_files = get_ebook_files_for_volume(volume_id)
-                    
-                    # Check if file path matches or if file is identical (same path after resolving symlinks)
-                    file_exists = False
-                    for ef in existing_files:
-                        if not os.path.exists(ef['file_path']):
-                            continue
-                            
-                        try:
-                            if os.path.samefile(file_path, Path(ef['file_path'])):
-                                file_exists = True
-                                break
-                        except OSError:
-                            # Handle case where files can't be compared
-                            pass
-                    
-                    if file_exists:
-                        stats['skipped'] += 1
-                        continue
-                    
-                    # Get file type from extension
-                    file_type = supported_extensions[file_ext]
-                    
-                    # Add file to database
-                    file_info = add_ebook_file(series_id, volume_id, str(file_path), file_type)
-                    
-                    if file_info:
-                        stats['added'] += 1
-                        LOGGER.info(f"Added file: {file_path.name} as Volume {volume_number}")
-                        
-                        # Update collection item to mark it as having a file
-                        update_collection_for_volume(series_id, volume_id, file_type)
-                    else:
-                        stats['errors'] += 1
+                    # Update collection item to mark it as having a file
+                    update_collection_for_volume(series_id, volume_id, file_type)
+                else:
+                    stats['errors'] += 1
         
         return stats
     

@@ -9,8 +9,12 @@ from flask import Blueprint, Response, jsonify, request
 
 from backend.base.custom_exceptions import (APIError, DatabaseError,
                                            InvalidSettingValue, MetadataError)
+from backend.base.helpers import (
+    create_series_folder_structure, ensure_dir_exists, get_safe_folder_name,
+    get_ebook_storage_dir
+)
 from backend.base.logging import LOGGER
-from backend.base.helpers import create_series_folder_structure, get_safe_folder_name, get_ebook_storage_dir
+from frontend.middleware import root_folders_required
 from backend.features.calendar import get_calendar_events, update_calendar
 from backend.features.collection import (add_to_collection, export_collection,
                                         get_collection_items, get_collection_stats,
@@ -204,13 +208,27 @@ def get_series_folder_path():
         title = data["title"]
         content_type = data["content_type"]
         
-        # Create safe folder name
+        # Create folder name that preserves spaces but replaces invalid characters
         safe_title = get_safe_folder_name(title)
+        LOGGER.info(f"Original title: '{title}', Safe title for folder: '{safe_title}'")
         
-        # Get ebook storage directory
-        ebook_dir = get_ebook_storage_dir()
-        content_type_dir = ebook_dir / content_type
-        series_dir = content_type_dir / safe_title
+        
+        # Get root folders from settings
+        from backend.internals.settings import Settings
+        from pathlib import Path
+        settings = Settings().get_settings()
+        root_folders = settings.root_folders
+        
+        # If no root folders configured, use default ebook storage
+        if not root_folders:
+            # Get ebook storage directory
+            ebook_dir = get_ebook_storage_dir()
+            series_dir = ebook_dir / safe_title
+        else:
+            # Use the first root folder
+            root_folder = root_folders[0]
+            root_path = Path(root_folder['path'])
+            series_dir = root_path / safe_title
         
         # Return the folder path
         return jsonify({"folder_path": str(series_dir)})
@@ -306,6 +324,7 @@ def get_series(series_id: int):
 
 
 @api_bp.route('/series', methods=['POST'])
+@root_folders_required
 def add_series():
     """Add a new series.
 
@@ -366,6 +385,33 @@ def add_series():
             LOGGER.info(f"Creating folder structure for series: {series_data['title']} (ID: {series_data['id']})")
             LOGGER.info(f"Series content type: {series_data['content_type']}")
             
+            # Get root folders from settings
+            from backend.internals.settings import Settings
+            from pathlib import Path
+            import os
+            settings = Settings().get_settings()
+            LOGGER.info(f"Root folders: {settings.root_folders}")
+            
+            # Check if root folders are configured
+            if not settings.root_folders:
+                LOGGER.warning("No root folders configured, using default ebook storage")
+            else:
+                # Check if the first root folder exists
+                root_folder = settings.root_folders[0]
+                root_path = Path(root_folder['path'])
+                LOGGER.info(f"Root folder path: {root_path}, exists: {root_path.exists()}, is directory: {root_path.is_dir() if root_path.exists() else False}")
+                
+                # Try to create the root folder if it doesn't exist
+                if not root_path.exists():
+                    try:
+                        LOGGER.info(f"Creating root folder: {root_path}")
+                        os.makedirs(str(root_path), exist_ok=True)
+                        LOGGER.info(f"Root folder created: {root_path}")
+                    except Exception as e:
+                        LOGGER.error(f"Error creating root folder: {e}")
+                        import traceback
+                        LOGGER.error(traceback.format_exc())
+            
             series_path = create_series_folder_structure(
                 series_data['id'],
                 series_data['title'],
@@ -373,6 +419,7 @@ def add_series():
             )
             
             LOGGER.info(f"Folder structure created at: {series_path}")
+            LOGGER.info(f"Folder exists: {os.path.exists(str(series_path))}, is directory: {os.path.isdir(str(series_path)) if os.path.exists(str(series_path)) else False}")
             
             # Add folder path to response
             series_data['folder_path'] = str(series_path)
@@ -832,7 +879,8 @@ def get_settings():
             "calendar_range_days": settings.calendar_range_days,
             "calendar_refresh_hours": settings.calendar_refresh_hours,
             "task_interval_minutes": settings.task_interval_minutes,
-            "ebook_storage": settings.ebook_storage
+            "ebook_storage": settings.ebook_storage,
+            "root_folders": settings.root_folders
         })
     
     except Exception as e:
@@ -867,7 +915,8 @@ def update_settings():
             "calendar_range_days": updated_settings.calendar_range_days,
             "calendar_refresh_hours": updated_settings.calendar_refresh_hours,
             "task_interval_minutes": updated_settings.task_interval_minutes,
-            "ebook_storage": updated_settings.ebook_storage
+            "ebook_storage": updated_settings.ebook_storage,
+            "root_folders": updated_settings.root_folders
         })
     
     except InvalidSettingValue as e:
@@ -1126,6 +1175,7 @@ def update_volume_digital_format(volume_id: int):
 
 
 @api_bp.route('/collection', methods=['POST'])
+@root_folders_required
 def add_to_collection_api():
     """Add an item to the collection.
     
@@ -1183,6 +1233,38 @@ def add_to_collection_api():
             notes=data.get("notes"),
             custom_tags=data.get("custom_tags")
         )
+        
+        # Ensure folder structure is created for the series
+        if item_type == "SERIES":
+            try:
+                # Get series details
+                series_details = execute_query(
+                    "SELECT title, content_type FROM series WHERE id = ?", 
+                    (series_id,)
+                )
+                
+                if series_details:
+                    LOGGER.info(f"Creating folder structure for series added to collection: {series_details[0]['title']} (ID: {series_id})")
+                    
+                    # Import necessary modules
+                    from backend.base.helpers import create_series_folder_structure
+                    from pathlib import Path
+                    import os
+                    
+                    # Create folder structure
+                    series_path = create_series_folder_structure(
+                        series_id,
+                        series_details[0]['title'],
+                        series_details[0]['content_type']
+                    )
+                    
+                    LOGGER.info(f"Folder structure created at: {series_path}")
+                    LOGGER.info(f"Folder exists: {os.path.exists(str(series_path))}, is directory: {os.path.isdir(str(series_path)) if os.path.exists(str(series_path)) else False}")
+            except Exception as e:
+                LOGGER.error(f"Error creating folder structure for series added to collection: {e}")
+                import traceback
+                LOGGER.error(traceback.format_exc())
+                # Continue even if folder creation fails
         
         return jsonify({"id": item_id}), 201
     

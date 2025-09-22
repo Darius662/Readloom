@@ -127,7 +127,13 @@ After installing MangaArr, follow these steps to configure it:
    - Set up notification preferences
    - Subscribe to series for release notifications
    
-6. **Set up integrations** (optional):
+6. **Configure folder structure** (for e-books):
+   - Go to the Settings page
+   - Set the root folder for e-books (default: data/ebooks)
+   - MangaArr will automatically create folders for each series with human-readable names
+   - Folders will include README.txt files with series information
+   
+7. **Set up integrations** (optional):
    - Go to the Integrations page
    - Configure Home Assistant integration
    - Configure Homarr integration
@@ -199,6 +205,20 @@ If integrations with Home Assistant or Homarr aren't working:
 5. For Homarr:
    - Ensure the status endpoint is correctly configured
    - Check that the MangaArr service is properly added to your Homarr dashboard
+
+#### Folder Structure Issues
+
+If you encounter issues with folder creation or e-book management:
+
+1. Verify the root folder exists and is writable
+2. Check that series are properly added to the database
+3. Run the helper scripts to create missing folders:
+   ```bash
+   python create_missing_folders.py
+   ```
+4. Check the logs for any errors during folder creation
+5. Verify that the folder names match the series titles (with invalid characters replaced)
+6. If folder names contain unexpected characters, check the sanitization rules in `helpers.py`
 
 #### Collection Tracking Issues
 

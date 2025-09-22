@@ -142,7 +142,7 @@ def get_ebook_storage_dir() -> Path:
 
 
 def organize_ebook_path(series_id: int, volume_id: int, filename: str) -> Path:
-    """Organize e-book path by content type, series title, and volume.
+    """Organize e-book path by series title and volume.
 
     Args:
         series_id (int): The series ID.
@@ -153,6 +153,8 @@ def organize_ebook_path(series_id: int, volume_id: int, filename: str) -> Path:
         Path: The organized path for the e-book file.
     """
     from backend.internals.db import execute_query
+    from backend.base.logging import LOGGER
+    from backend.internals.settings import Settings
     
     # Get series info
     series_info = execute_query(
@@ -164,9 +166,8 @@ def organize_ebook_path(series_id: int, volume_id: int, filename: str) -> Path:
         # Fallback to old structure if series not found
         ebook_dir = get_ebook_storage_dir()
         series_dir = ebook_dir / f"series_{series_id}"
-        volume_dir = series_dir / f"volume_{volume_id}"
-        ensure_dir_exists(volume_dir)
-        return volume_dir / filename
+        ensure_dir_exists(series_dir)
+        return series_dir / filename
     
     # Get series title and content type
     series_title = series_info[0]['title']
@@ -182,10 +183,20 @@ def organize_ebook_path(series_id: int, volume_id: int, filename: str) -> Path:
     # Create safe directory name
     safe_series_title = get_safe_folder_name(series_title)
     
-    # Organize by content type and series title
-    ebook_dir = get_ebook_storage_dir()
-    content_type_dir = ebook_dir / content_type
-    series_dir = content_type_dir / safe_series_title
+    # Get root folders from settings
+    settings = Settings().get_settings()
+    root_folders = settings.root_folders
+    
+    # Determine the series directory
+    if not root_folders:
+        # If no root folders configured, use default ebook storage
+        ebook_dir = get_ebook_storage_dir()
+        series_dir = ebook_dir / safe_series_title
+    else:
+        # Use the first root folder
+        root_folder = root_folders[0]
+        root_path = Path(root_folder['path'])
+        series_dir = root_path / safe_series_title
     
     # Create directories
     ensure_dir_exists(series_dir)
@@ -201,17 +212,86 @@ def get_safe_folder_name(name: str) -> str:
         name (str): The original name.
 
     Returns:
-        str: A safe folder name.
+        str: A safe folder name that preserves spaces but replaces invalid characters.
     """
-    # Replace spaces with underscores and remove invalid characters
-    safe_name = "".join(c if c.isalnum() or c in [' ', '_', '-'] else '_' for c in name)
-    safe_name = safe_name.replace(' ', '_')
+    from backend.base.logging import LOGGER
+    
+    # Characters not allowed in Windows filenames
+    invalid_chars = ['<', '>', ':', '"', '/', '\\', '|', '?', '*']
+    
+    # Replace invalid characters with underscores but keep spaces and other valid characters
+    safe_name = name
+    for char in invalid_chars:
+        safe_name = safe_name.replace(char, '_')
+    
+    # Remove leading/trailing periods and spaces as they can cause issues
+    safe_name = safe_name.strip('. ')
     
     # Ensure the name is not empty
     if not safe_name:
         safe_name = "unnamed"
     
+    LOGGER.info(f"Original name: '{name}', Safe name: '{safe_name}'")
     return safe_name
+
+
+def ensure_readme_file(series_dir: Path, series_title: str, series_id: int, content_type: str) -> bool:
+    """Ensure a README file exists in the series directory.
+
+    Args:
+        series_dir (Path): The series directory.
+        series_title (str): The series title.
+        series_id (int): The series ID.
+        content_type (str): The content type.
+
+    Returns:
+        bool: True if the README file exists or was created, False otherwise.
+    """
+    from backend.base.logging import LOGGER
+    import os
+    
+    readme_path = series_dir / "README.txt"
+    LOGGER.info(f"Ensuring README file exists: {readme_path}")
+    
+    if readme_path.exists():
+        LOGGER.info(f"README file already exists: {readme_path}")
+        return True
+    
+    try:
+        # Make sure the directory exists
+        if not series_dir.exists():
+            LOGGER.warning(f"Series directory does not exist: {series_dir}")
+            try:
+                LOGGER.info(f"Creating series directory: {series_dir}")
+                os.makedirs(str(series_dir), exist_ok=True)
+                LOGGER.info(f"Series directory created: {series_dir}, exists: {series_dir.exists()}")
+            except Exception as e:
+                LOGGER.error(f"Failed to create series directory: {e}")
+                import traceback
+                LOGGER.error(traceback.format_exc())
+                return False
+        
+        # Create the README file
+        LOGGER.info(f"Creating README file: {readme_path}")
+        with open(readme_path, 'w') as f:
+            f.write(f"Series: {series_title}\n")
+            f.write(f"ID: {series_id}\n")
+            f.write(f"Type: {content_type}\n")
+            f.write(f"Created: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+            f.write("\nThis folder is managed by MangARR. Place your e-book files here.\n")
+        
+        # Verify the file was created
+        if readme_path.exists():
+            LOGGER.info(f"README file created successfully: {readme_path}")
+            return True
+        else:
+            LOGGER.error(f"Failed to create README file: {readme_path}")
+            return False
+    except Exception as e:
+        LOGGER.error(f"Error creating README file: {e}")
+        import traceback
+        LOGGER.error(traceback.format_exc())
+        return False
 
 
 def create_series_folder_structure(series_id: int, series_title: str, content_type: str) -> Path:
@@ -226,46 +306,71 @@ def create_series_folder_structure(series_id: int, series_title: str, content_ty
         Path: The path to the series folder.
     """
     from backend.base.logging import LOGGER
+    from backend.internals.settings import Settings
+    import os
     
     LOGGER.info(f"Creating folder structure for series: {series_title} (ID: {series_id}, Type: {content_type})")
     
-    # Create safe directory name
-    safe_series_title = get_safe_folder_name(series_title)
-    LOGGER.info(f"Safe series title: {safe_series_title}")
+    # Get root folders from settings
+    settings = Settings().get_settings()
+    root_folders = settings.root_folders
     
-    # Organize by content type and series title
-    ebook_dir = get_ebook_storage_dir()
-    LOGGER.info(f"E-book directory: {ebook_dir}")
+    # If no root folders configured, use default ebook storage
+    if not root_folders:
+        LOGGER.warning("No root folders configured, using default ebook storage")
+        # Create directory name that preserves spaces but replaces invalid characters
+        safe_series_title = get_safe_folder_name(series_title)
+        LOGGER.info(f"Original series title: '{series_title}', Safe series title for folder: '{safe_series_title}'")
+
+        
+        # Use default ebook storage directory
+        ebook_dir = get_ebook_storage_dir()
+        LOGGER.info(f"E-book directory: {ebook_dir}")
+        
+        # Create series directory directly in the ebook directory
+        series_dir = ebook_dir / safe_series_title
+    else:
+        # Use the first root folder
+        root_folder = root_folders[0]
+        LOGGER.info(f"Using root folder: {root_folder['name']} ({root_folder['path']})")
+        
+        # Create directory name that preserves spaces but replaces invalid characters
+        safe_series_title = get_safe_folder_name(series_title)
+        LOGGER.info(f"Original series title: '{series_title}', Safe series title for folder: '{safe_series_title}'")
+        
+        # Create series directory directly in the root folder
+        root_path = Path(root_folder['path'])
+        LOGGER.info(f"Root path exists: {root_path.exists()}, is directory: {root_path.is_dir() if root_path.exists() else False}")
+        
+        # Check if root path exists, if not try to create it
+        if not root_path.exists():
+            try:
+                LOGGER.info(f"Root path doesn't exist, creating: {root_path}")
+                root_path.mkdir(parents=True, exist_ok=True)
+                LOGGER.info(f"Created root path: {root_path}")
+            except Exception as e:
+                LOGGER.error(f"Failed to create root path: {e}")
+                import traceback
+                LOGGER.error(traceback.format_exc())
+        
+        series_dir = root_path / safe_series_title
     
-    content_type_dir = ebook_dir / content_type
-    LOGGER.info(f"Content type directory: {content_type_dir}")
-    
-    # Create content type directory if it doesn't exist
-    ensure_dir_exists(content_type_dir)
-    LOGGER.info(f"Ensured content type directory exists: {content_type_dir}")
-    
-    series_dir = content_type_dir / safe_series_title
     LOGGER.info(f"Series directory: {series_dir}")
     
-    # Create series directory
-    ensure_dir_exists(series_dir)
-    LOGGER.info(f"Ensured series directory exists: {series_dir}")
+    # Create series directory using os.makedirs for more robust directory creation
+    try:
+        LOGGER.info(f"Attempting to create directory: {series_dir}")
+        os.makedirs(str(series_dir), exist_ok=True)
+        LOGGER.info(f"Directory created or already exists: {series_dir}")
+        LOGGER.info(f"Directory exists after creation: {series_dir.exists()}, is directory: {series_dir.is_dir() if series_dir.exists() else False}")
+    except Exception as e:
+        LOGGER.error(f"Error creating series directory: {e}")
+        import traceback
+        LOGGER.error(traceback.format_exc())
+        raise  # Re-raise to ensure caller knows there was an error
     
     # Create a README file with series information
-    readme_path = series_dir / "README.txt"
-    LOGGER.info(f"README path: {readme_path}")
-    
-    if not readme_path.exists():
-        try:
-            with open(readme_path, 'w') as f:
-                f.write(f"Series: {series_title}\n")
-                f.write(f"ID: {series_id}\n")
-                f.write(f"Type: {content_type}\n")
-                f.write(f"Created: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
-                f.write("\nThis folder is managed by MangARR. Place your e-book files here.\n")
-            LOGGER.info(f"Created README file: {readme_path}")
-        except Exception as e:
-            LOGGER.error(f"Error creating README file: {e}")
+    ensure_readme_file(series_dir, series_title, series_id, content_type)
     
     return series_dir
 

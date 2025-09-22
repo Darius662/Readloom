@@ -103,12 +103,14 @@ def run_app():
         from frontend.api import api_bp
         from frontend.api_metadata_fixed import metadata_api_bp
         from frontend.api_ebooks import ebooks_api_bp
+        from frontend.api_rootfolders import rootfolders_api_bp
         from frontend.ui import ui_bp
         from frontend.image_proxy import image_proxy_bp
         
         app.register_blueprint(api_bp)
         app.register_blueprint(metadata_api_bp, url_prefix='/api/metadata')
         app.register_blueprint(ebooks_api_bp)
+        app.register_blueprint(rootfolders_api_bp)
         app.register_blueprint(ui_bp)
         app.register_blueprint(image_proxy_bp)
         

@@ -8,6 +8,7 @@ API endpoints for metadata services.
 from flask import Blueprint, request, jsonify
 
 from backend.base.logging import LOGGER
+from frontend.middleware import root_folders_required
 from backend.features.metadata_service import (
     search_manga, get_manga_details, get_chapter_list, get_chapter_images,
     get_latest_releases, get_providers, update_provider, clear_cache,
@@ -209,6 +210,7 @@ def api_clear_cache():
 
 
 @metadata_api_bp.route('/import/<provider>/<manga_id>', methods=['POST'])
+@root_folders_required
 def api_import_manga(provider, manga_id):
     """Import a manga to the collection.
     
@@ -219,6 +221,9 @@ def api_import_manga(provider, manga_id):
     Returns:
         Response: The result.
     """
+    # Import LOGGER at the top of the function to ensure it's available in all code paths
+    from backend.base.logging import LOGGER
+    
     try:
         result = import_manga_to_collection(manga_id, provider)
         
@@ -237,7 +242,6 @@ def api_import_manga(provider, manga_id):
         
         # Update the calendar to include the newly imported manga's release dates
         from backend.features.calendar import update_calendar
-        from backend.base.logging import LOGGER
         
         # Log the import source
         LOGGER.info(f"Imported manga from {provider}, updating calendar...")

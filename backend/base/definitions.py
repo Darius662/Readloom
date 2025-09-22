@@ -30,6 +30,7 @@ class Constants:
     DEFAULT_CALENDAR_REFRESH_HOURS: int = 12
     DEFAULT_TASK_INTERVAL_MINUTES: int = 60
     DEFAULT_EBOOK_STORAGE: str = "ebooks"
+    DEFAULT_ROOT_FOLDERS: List[Dict[str, str]] = []  # Empty list by default
 
 
 class Settings(NamedTuple):
@@ -45,6 +46,7 @@ class Settings(NamedTuple):
     calendar_refresh_hours: int
     task_interval_minutes: int
     ebook_storage: str
+    root_folders: List[Dict[str, str]]  # List of root folders with path and name
 
 
 class MangaFormat(Enum):

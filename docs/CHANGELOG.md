@@ -5,6 +5,21 @@ All notable changes to MangaArr will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.6] - 2025-09-22
+
+### Fixed
+- Fixed folder structure creation issues:
+  - Corrected LOGGER import in the `import_manga_to_collection` function
+  - Fixed LOGGER import in the `api_import_manga` function
+  - Ensured proper folder name sanitization while preserving spaces
+  - Fixed README file creation in series folders
+  - Improved error handling during folder creation
+- Enhanced folder name sanitization:
+  - Only replaces characters that are invalid in file names
+  - Preserves spaces and most special characters for better readability
+  - Properly handles question marks and other problematic characters
+- Fixed metadata provider search issues with special characters
+
 ## [0.0.5] - 2025-09-21
 
 ### Added
