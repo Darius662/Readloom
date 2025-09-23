@@ -87,6 +87,17 @@ def collection():
     return render_template('collection.html')
 
 
+@ui_bp.route('/collections')
+@setup_required
+def collections_manager():
+    """Render the collections manager page.
+
+    Returns:
+        Response: The rendered collections manager page.
+    """
+    return render_template('collections_manager.html')
+
+
 @ui_bp.route('/series/<int:series_id>')
 @setup_required
 def series_detail(series_id: int):

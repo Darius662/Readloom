@@ -26,11 +26,13 @@ from .collections import (
     get_collection_root_folders,
     create_root_folder,
     get_root_folders,
+    get_root_folder_by_id,
     update_root_folder,
     delete_root_folder,
     add_series_to_collection,
     remove_series_from_collection,
     get_collection_series,
+    get_default_collection,
 )
 
 __all__ = [
@@ -64,6 +66,7 @@ __all__ = [
     "get_collection_root_folders",
     "create_root_folder",
     "get_root_folders",
+    "get_root_folder_by_id",
     "update_root_folder",
     "delete_root_folder",
     
@@ -71,4 +74,7 @@ __all__ = [
     "add_series_to_collection",
     "remove_series_from_collection",
     "get_collection_series",
+    
+    # Default Collection
+    "get_default_collection",
 ]

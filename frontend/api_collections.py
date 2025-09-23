@@ -25,6 +25,7 @@ from backend.features.collection import (
     get_collection_root_folders,
     create_root_folder,
     get_root_folders,
+    get_root_folder_by_id,
     update_root_folder,
     delete_root_folder,
     add_series_to_collection,

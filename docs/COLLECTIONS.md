@@ -6,6 +6,8 @@ This document explains the collection system in MangaArr and how it relates to r
 
 Collections in MangaArr provide a way to organize your manga/comics into logical groups. Each collection can be linked to multiple root folders, and each series can belong to multiple collections. This flexible system allows you to organize your content in various ways.
 
+The Library tab (formerly Collection tab) shows your content organized by the currently selected collection, while the Collections Manager allows you to create and manage multiple collections and their relationships with root folders.
+
 ## Key Concepts
 
 ### Collections
@@ -44,7 +46,7 @@ MangaArr requires at least one collection and one root folder to be set up befor
 
 ### Creating a Collection
 
-1. Go to the Collections page
+1. Go to the Collections Manager page
 2. Click "Add Collection"
 3. Enter a name and optional description
 4. Choose whether this should be the default collection
@@ -52,27 +54,51 @@ MangaArr requires at least one collection and one root folder to be set up befor
 
 ### Adding Root Folders to a Collection
 
-1. Go to the Collections page
-2. Click on a collection to view its details
-3. In the "Root Folders" section, click "Add Root Folder"
-4. Select a root folder from the dropdown or create a new one
-5. Click "Add"
+1. Go to the Collections Manager page
+2. Select a collection by clicking the select button (checkmark icon)
+3. In the Root Folders section of the page, find the root folder you want to add
+4. Click the "Add to Selected Collection" button (plus icon)
+
+Alternatively, you can create a new root folder and add it to the selected collection:
+
+1. Click "Add Root Folder"
+2. Enter the path, name, and content type
+3. Click "Save"
+4. When prompted, confirm that you want to add it to the selected collection
 
 ### Adding Series to a Collection
 
 Series are automatically added to the collection associated with the root folder they're imported into. You can also manually add series to collections:
 
-1. Go to the Collections page
-2. Click on a collection to view its details
-3. In the "Series" section, click "Add Series"
+1. Go to the Collections Manager page
+2. Select a collection
+3. In the Series section of the collection details, click "Add Series"
 4. Select series from the dropdown
 5. Click "Add"
+
+### Removing Root Folders from a Collection
+
+1. Go to the Collections Manager page
+2. Select a collection
+3. In the Root Folders section of the collection details, find the root folder you want to remove
+4. Click the remove button (X icon)
+5. Confirm the removal
+
+### Removing Series from a Collection
+
+1. Go to the Collections Manager page
+2. Select a collection
+3. In the Series section of the collection details, find the series you want to remove
+4. Click the remove button (X icon)
+5. Confirm the removal
 
 ## Default Collection
 
 One collection can be designated as the default collection. This collection is used when:
 - Importing series without specifying a collection
 - Creating new series without specifying a collection
+
+The default collection is marked with a green "Default" badge in the Collections Manager. You can change which collection is the default by editing a collection and checking the "Set as default collection" option.
 
 ## API Endpoints
 
@@ -136,3 +162,17 @@ If you're having trouble completing the setup wizard:
 1. Ensure you've entered valid paths for root folders
 2. Check that the application has permission to create directories
 3. Try using absolute paths instead of relative paths
+
+### Duplicate Default Collections
+
+If you notice multiple "Default Collection" entries:
+1. Run the `fix_collections.py` script to clean up duplicate collections
+2. Restart the application
+
+### Delete Button Not Working
+
+If you're unable to delete collections or remove root folders:
+1. Make sure you're not trying to delete the default collection (which is not allowed)
+2. Check the browser console for any JavaScript errors
+3. Try refreshing the page and attempting the operation again
+4. If problems persist, run the `fix_collections.py` script to clean up the database

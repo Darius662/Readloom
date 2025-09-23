@@ -11,6 +11,7 @@ This document provides an overview of all available documentation for MangaArr.
 ## Core Features
 
 - [Collections](COLLECTIONS.md) - Collection-based organization system (v0.0.7+)
+- [Collection Maintenance](COLLECTION_MAINTENANCE.md) - Troubleshooting and fixing collection issues
 - [E-book Management](EBOOKS.md) - E-book organization and scanning
 - [Folder Structure](FOLDER_STRUCTURE.md) - Series folder organization and naming
 - [API Documentation](API.md) - Complete API reference
@@ -39,6 +40,9 @@ This document provides an overview of all available documentation for MangaArr.
 ### v0.0.7 (Latest)
 
 - **Collection System**: Organize manga/comics into collections linked to root folders
+- **Collections Manager**: Create and manage multiple collections and their relationships
+- **Library Tab**: Renamed from "Collection" tab for clarity
+- **Collection Maintenance Tools**: Scripts to fix collection database issues
 - **Setup Wizard**: Guide for first-time users to create collections and root folders
 - **Improved E-book Scanning**: Better detection of files in existing folders
 - **Automatic Import Scanning**: Scan existing folders when importing series

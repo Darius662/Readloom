@@ -238,11 +238,14 @@ def create_root_folder(path: str, name: str, content_type: str = "MANGA") -> int
     if existing:
         raise InvalidCollectionError(f"Root folder with path '{path}' already exists")
     
-    # Ensure the directory exists
-    try:
-        ensure_dir_exists(path)
-    except Exception as e:
-        raise InvalidCollectionError(f"Failed to create directory at '{path}': {e}")
+    # Check if the directory exists
+    if not os.path.exists(path):
+        raise InvalidCollectionError(f"Directory '{path}' does not exist. Please create it first.")
+    
+    if not os.path.isdir(path):
+        raise InvalidCollectionError(f"Path '{path}' is not a directory.")
+        
+    # Directory exists, we can use it
     
     # Create the root folder
     execute_query(
@@ -257,6 +260,27 @@ def create_root_folder(path: str, name: str, content_type: str = "MANGA") -> int
         raise DatabaseError("Failed to create root folder")
     
     root_folder_id = result[0]["id"]
+    
+    # Update the root_folders setting
+    from backend.internals.settings import Settings
+    settings = Settings()
+    
+    # Get current root folders
+    current_settings = settings.get_settings()
+    current_root_folders = current_settings.root_folders
+    
+    # Add the new root folder
+    new_root_folder = {
+        "id": root_folder_id,
+        "path": path,
+        "name": name,
+        "content_type": content_type
+    }
+    
+    # Update the setting
+    current_root_folders.append(new_root_folder)
+    settings.update({"root_folders": current_root_folders})
+    
     LOGGER.info(f"Created root folder '{name}' at '{path}' with ID {root_folder_id}")
     return root_folder_id
 
@@ -399,6 +423,18 @@ def delete_root_folder(root_folder_id: int) -> bool:
     root_folder = get_root_folder_by_id(root_folder_id)
     if not root_folder:
         raise InvalidCollectionError(f"Root folder with ID {root_folder_id} does not exist")
+    
+    # Update the root_folders setting
+    from backend.internals.settings import Settings
+    settings = Settings()
+    
+    # Get current root folders
+    current_settings = settings.get_settings()
+    current_root_folders = current_settings.root_folders
+    
+    # Remove the root folder from the settings
+    updated_root_folders = [rf for rf in current_root_folders if rf.get('id') != root_folder_id]
+    settings.update({"root_folders": updated_root_folders})
     
     # Delete the root folder (cascade will handle relationships)
     execute_query("DELETE FROM root_folders WHERE id = ?", (root_folder_id,), commit=True)
@@ -629,12 +665,72 @@ def get_default_collection() -> Dict[str, Any]:
     Raises:
         DatabaseError: If no default collection exists.
     """
-    collections = execute_query("SELECT * FROM collections WHERE is_default = 1")
-    if not collections:
-        # Create a default collection if none exists
-        collection_id = create_collection("Default Collection", "Default collection created by the system", True)
-        collections = execute_query("SELECT * FROM collections WHERE id = ?", (collection_id,))
-        if not collections:
-            raise DatabaseError("Failed to create default collection")
+    # First check if there are multiple default collections and fix if needed
+    default_collections = execute_query("SELECT * FROM collections WHERE is_default = 1")
     
-    return collections[0]
+    if len(default_collections) > 1:
+        # Keep only the first default collection and unset the others
+        LOGGER.warning(f"Found {len(default_collections)} default collections. Fixing...")
+        first_default_id = default_collections[0]['id']
+        execute_query(
+            "UPDATE collections SET is_default = 0 WHERE is_default = 1 AND id != ?",
+            (first_default_id,),
+            commit=True
+        )
+        # Refresh the list
+        default_collections = execute_query("SELECT * FROM collections WHERE is_default = 1")
+    
+    # Check for duplicate "Default Collection" entries and clean them up
+    named_default_collections = execute_query("SELECT * FROM collections WHERE name = ?", ("Default Collection",))
+    if len(named_default_collections) > 1:
+        LOGGER.warning(f"Found {len(named_default_collections)} collections named 'Default Collection'. Cleaning up...")
+        
+        # Find if any is marked as default
+        default_among_named = next((c for c in named_default_collections if c['is_default'] == 1), None)
+        
+        if default_among_named:
+            keep_id = default_among_named['id']
+        else:
+            keep_id = named_default_collections[0]['id']
+            # Set this one as default
+            execute_query("UPDATE collections SET is_default = 1 WHERE id = ?", (keep_id,), commit=True)
+        
+        # Delete all other "Default Collection" entries
+        for collection in named_default_collections:
+            if collection['id'] != keep_id:
+                try:
+                    # First remove any relationships
+                    execute_query("DELETE FROM collection_root_folders WHERE collection_id = ?", (collection['id'],))
+                    execute_query("DELETE FROM series_collections WHERE collection_id = ?", (collection['id'],))
+                    
+                    # Then delete the collection
+                    execute_query("DELETE FROM collections WHERE id = ?", (collection['id'],), commit=True)
+                    LOGGER.info(f"Deleted duplicate Default Collection with ID {collection['id']}")
+                except Exception as e:
+                    LOGGER.error(f"Error deleting duplicate collection {collection['id']}: {e}")
+        
+        # Refresh the default collections list
+        default_collections = execute_query("SELECT * FROM collections WHERE is_default = 1")
+    
+    if not default_collections:
+        # Check if there's a collection named 'Default Collection' already
+        existing = execute_query("SELECT * FROM collections WHERE name = ?", ("Default Collection",))
+        
+        if existing:
+            # Set the existing one as default
+            execute_query(
+                "UPDATE collections SET is_default = 1 WHERE id = ?",
+                (existing[0]['id'],),
+                commit=True
+            )
+            LOGGER.info(f"Set existing collection '{existing[0]['name']}' as default")
+            return existing[0]
+        else:
+            # Create a default collection if none exists
+            collection_id = create_collection("Default Collection", "Default collection created by the system", True)
+            collections = execute_query("SELECT * FROM collections WHERE id = ?", (collection_id,))
+            if not collections:
+                raise DatabaseError("Failed to create default collection")
+            return collections[0]
+    
+    return default_collections[0]

@@ -5,6 +5,26 @@ All notable changes to MangaArr will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [not implemented] - 2025-09-23
+### Fixed
+- Fixed collections management issues:
+  - Resolved issue with duplicate Default Collections being created on restart
+  - Fixed delete functionality for collections and root folders
+
+
+## [0.0.7] - 2025-09-23
+
+### Fixed
+- Fixed collections management issues:
+  - Improved error handling in collections management
+  - Added cleanup script to fix collection database issues
+  - Enhanced collection-root folder relationship management
+- UI improvements:
+  - Renamed "Collection" tab to "Library" for clarity
+  - Added Collections Manager for managing multiple collections
+  - Improved UI feedback when performing collection operations
+  - Enhanced error handling and debugging in JavaScript functions
+
 ## [0.0.6] - 2025-09-22
 
 ### Fixed

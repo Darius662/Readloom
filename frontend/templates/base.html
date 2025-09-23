@@ -232,9 +232,14 @@
                         <i class="fas fa-book"></i> <span>Series</span>
                     </a>
                 </li>
-                <li {% if request.path.startswith('/collection') %}class="active"{% endif %}>
+                <li {% if request.path == '/collection' %}class="active"{% endif %}>
                     <a href="{{ url_for('ui.collection') }}">
-                        <i class="fas fa-bookmark"></i> <span>Collection</span>
+                        <i class="fas fa-bookmark"></i> <span>Library</span>
+                    </a>
+                </li>
+                <li {% if request.path == '/collections' %}class="active"{% endif %}>
+                    <a href="{{ url_for('ui.collections_manager') }}">
+                        <i class="fas fa-layer-group"></i> <span>Collections Manager</span>
                     </a>
                 </li>
                 <li {% if request.path.startswith('/search') %}class="active"{% endif %}>
