@@ -1,12 +1,12 @@
-# Performance Tips for MangaArr
+# Performance Tips for Readloom
 
-This document provides tips and information about performance optimizations in MangaArr, helping you get the best experience even with large manga collections.
+This document provides tips and information about performance optimizations in Readloom, helping you get the best experience even with large manga collections.
 
 ## Calendar Performance
 
 ### Series-Specific Calendar Updates (v0.0.5+)
 
-Starting with version 0.0.5, MangaArr optimizes calendar updates by only processing the specific manga you're adding or modifying, instead of scanning your entire collection every time.
+Starting with version 0.0.5, Readloom optimizes calendar updates by only processing the specific manga you're adding or modifying, instead of scanning your entire collection every time.
 
 **Benefits:**
 - Much faster manga imports
@@ -28,7 +28,7 @@ Starting with version 0.0.5, MangaArr optimizes calendar updates by only process
 
 While individual manga operations are optimized, sometimes you may want to refresh the entire calendar:
 
-1. After updating to a new version of MangaArr
+1. After updating to a new version of Readloom
 2. If you notice missing calendar events
 3. When changing global settings that affect the calendar
 
@@ -46,7 +46,7 @@ python "fix and test/refresh_all_volumes.py"
 
 ## Volume Detection System
 
-MangaArr now uses multiple approaches to ensure accurate volume data:
+Readloom now uses multiple approaches to ensure accurate volume data:
 
 1. **Multi-source scraping**: Data is collected from multiple sources (MangaFire, MangaDex, etc.)
 2. **Static database**: Well-known series have correct volume counts built-in
@@ -74,7 +74,7 @@ For large collections, consider these database optimization tips:
 
 ## Metadata Caching
 
-MangaArr caches metadata to avoid repeated API calls:
+Readloom caches metadata to avoid repeated API calls:
 
 1. The default cache duration is 7 days
 2. You can adjust this in Settings → Advanced → `metadata_cache_days`

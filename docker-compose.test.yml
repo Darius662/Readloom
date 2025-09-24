@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  readloom-test:
+    build: .
+    container_name: readloom-test
+    restart: "no"
+    ports:
+      - "7227:7227"
+    volumes:
+      - ./data:/config
+    environment:
+      - TZ=UTC
+      - PYTHONUNBUFFERED=1
+      - FLASK_ENV=development
+      - FLASK_DEBUG=1
+    command: /usr/local/bin/run_test_server.sh
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"

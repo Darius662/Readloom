@@ -1,12 +1,76 @@
-# MangaArr Database Schema
+# Readloom Database Schema
 
-This document describes the database schema used by MangaArr, including tables, relationships, and constraints.
+This document describes the database schema used by Readloom, including tables, relationships, and constraints.
 
 ## Overview
 
-MangaArr uses SQLite as its database engine. The database includes foreign key constraints to maintain data integrity and prevent orphaned records.
+Readloom uses SQLite as its database engine. The database includes foreign key constraints to maintain data integrity and prevent orphaned records.
 
 ## Tables
+
+### collections
+
+Collections for organizing manga/comics.
+
+```sql
+CREATE TABLE collections (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    description TEXT,
+    is_default INTEGER DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)
+```
+
+### root_folders
+
+Root folders for storing manga/comic files.
+
+```sql
+CREATE TABLE root_folders (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    path TEXT NOT NULL,
+    name TEXT NOT NULL,
+    content_type TEXT DEFAULT 'MANGA',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(path)
+)
+```
+
+### collection_root_folders
+
+Many-to-many relationship between collections and root folders.
+
+```sql
+CREATE TABLE collection_root_folders (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    collection_id INTEGER NOT NULL,
+    root_folder_id INTEGER NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(collection_id, root_folder_id),
+    FOREIGN KEY (collection_id) REFERENCES collections(id) ON DELETE CASCADE
+)
+```
+
+### series_collections
+
+Many-to-many relationship between series and collections.
+
+```sql
+CREATE TABLE series_collections (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    series_id INTEGER NOT NULL,
+    collection_id INTEGER NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(series_id, collection_id),
+    FOREIGN KEY (series_id) REFERENCES series(id) ON DELETE CASCADE,
+    FOREIGN KEY (collection_id) REFERENCES collections(id) ON DELETE CASCADE
+)
+```
 
 ### series
 
@@ -24,10 +88,13 @@ CREATE TABLE series (
     content_type TEXT DEFAULT 'MANGA',
     metadata_source TEXT,
     metadata_id TEXT,
+    custom_path TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )
 ```
+
+The `custom_path` column was added in version 0.0.9 to allow users to specify a custom folder path for a series, enabling the use of existing folder structures without copying files.
 
 ### volumes
 
@@ -145,14 +212,19 @@ CREATE TABLE collection_items (
 
 ## Foreign Key Constraints
 
-MangaArr uses foreign key constraints to maintain referential integrity:
+Readloom uses foreign key constraints to maintain referential integrity:
 
-1. When a series is deleted:
+1. When a collection is deleted:
+   - All its links to root folders are deleted (CASCADE)
+   - All its links to series are deleted (CASCADE)
+
+2. When a series is deleted:
    - All its volumes are deleted (CASCADE)
    - All its chapters are deleted (CASCADE)
    - All its calendar events are deleted (CASCADE)
    - All its e-book files are deleted (CASCADE)
    - All its collection items are deleted (CASCADE)
+   - All its links to collections are deleted (CASCADE)
 
 2. When a volume is deleted:
    - Its chapters' volume_id is set to NULL (SET NULL)
@@ -188,10 +260,21 @@ All dates are stored in ISO format (YYYY-MM-DD) as TEXT.
 
 ## Migrations
 
+### Upgrading to v0.0.7
+
+When upgrading to v0.0.7, a migration script will:
+1. Create the new collection tables
+2. Create a default collection
+3. Migrate existing root folders from settings to the database
+4. Link root folders to the default collection
+5. Add existing series to the default collection
+
+### Upgrading from before v0.0.5
+
 When upgrading from a version before 0.0.5:
 1. Back up your database
 2. Delete the existing database file
-3. Restart MangaArr to create a new database with proper constraints
+3. Restart Readloom to create a new database with proper constraints
 4. Re-import your series using the metadata providers
 
 ## Best Practices

@@ -68,7 +68,7 @@ def get_this_month_releases():
     headers = {
         "Content-Type": "application/json",
         "Accept": "application/json",
-        "User-Agent": "MangaArr/1.0.0"
+        "User-Agent": "Readloom/1.0.0"
     }
     
     payload = {

@@ -23,7 +23,7 @@ def setup_dev_environment():
     db_dir.mkdir(exist_ok=True)
     
     # Create empty database file if it doesn't exist
-    db_file = db_dir / "mangarr.db"
+    db_file = db_dir / "readloom.db"
     if not db_file.exists():
         try:
             db_file.touch()
@@ -38,7 +38,7 @@ def setup_dev_environment():
 def generate_test_data():
     """Generate test data for development."""
     try:
-        print("Generating test data in data\\db\\mangarr.db")
+        print("Generating test data in data\\db\\readloom.db")
         
         # Import necessary modules
         from backend.internals.db import set_db_location, setup_db
@@ -67,9 +67,9 @@ def generate_test_data():
         return False
 
 def run_app():
-    """Run the MangaArr application directly with Flask."""
+    """Run the Readloom application directly with Flask."""
     try:
-        print("Starting MangaArr on 127.0.0.1:7227...")
+        print("Starting Readloom on 127.0.0.1:7227...")
         
         # Set database location first
         from backend.internals.db import set_db_location, setup_db
@@ -77,8 +77,8 @@ def run_app():
         
         # Set up logging
         from backend.base.logging import setup_logging, LOGGER
-        setup_logging("data/logs", "mangarr.log")
-        LOGGER.info("Starting MangaArr in development mode")
+        setup_logging("data/logs", "readloom.log")
+        LOGGER.info("Starting Readloom in development mode")
         
         # Initialize settings
         from backend.internals.settings import Settings
@@ -86,7 +86,7 @@ def run_app():
         LOGGER.info("Settings initialized")
         
         # Create Flask app
-        app = Flask(__name__)
+        app = Flask(__name__, static_folder='frontend/static', static_url_path='/static')
         app.config["SECRET_KEY"] = os.urandom(24)
         app.config["JSON_SORT_KEYS"] = False
         
@@ -103,12 +103,20 @@ def run_app():
         from frontend.api import api_bp
         from frontend.api_metadata_fixed import metadata_api_bp
         from frontend.api_ebooks import ebooks_api_bp
+        from frontend.api_rootfolders import rootfolders_api_bp
+        from frontend.api_collections import collections_api
+        from frontend.api_collection import collection_api
+        from frontend.api_folders import folders_api
         from frontend.ui import ui_bp
         from frontend.image_proxy import image_proxy_bp
         
         app.register_blueprint(api_bp)
         app.register_blueprint(metadata_api_bp, url_prefix='/api/metadata')
         app.register_blueprint(ebooks_api_bp)
+        app.register_blueprint(rootfolders_api_bp)
+        app.register_blueprint(collections_api)
+        app.register_blueprint(collection_api)
+        app.register_blueprint(folders_api)
         app.register_blueprint(ui_bp)
         app.register_blueprint(image_proxy_bp)
         
@@ -116,18 +124,18 @@ def run_app():
         print("\nOpen your browser and navigate to http://127.0.0.1:7227/ to view the application")
         
         # Run the app
-        app.run(host='127.0.0.1', port=7227, debug=True)
+        app.run(host='0.0.0.0', port=7227, debug=True)
         
         return True
     except Exception as e:
-        print(f"Error running MangaArr: {e}")
+        print(f"Error running Readloom: {e}")
         import traceback
         traceback.print_exc()
         return False
 
 def main():
     """Main function."""
-    parser = argparse.ArgumentParser(description="MangaArr development script")
+    parser = argparse.ArgumentParser(description="Readloom development script")
     parser.add_argument("--no-data", action="store_true", help="Skip test data generation")
     args = parser.parse_args()
     

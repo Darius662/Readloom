@@ -1,10 +1,10 @@
-# MangaArr Codebase Structure
+# Readloom Codebase Structure
 
-This document provides an overview of the MangaArr codebase structure after the modularization refactoring.
+This document provides an overview of the Readloom codebase structure after the modularization refactoring.
 
 ## Overview
 
-MangaArr's backend has been refactored to follow a modular package-based structure. Large monolithic files have been split into smaller, focused modules organized into packages. This improves maintainability, readability, and makes the codebase easier to extend.
+Readloom's backend has been refactored to follow a modular package-based structure. Large monolithic files have been split into smaller, focused modules organized into packages. This improves maintainability, readability, and makes the codebase easier to extend.
 
 ## Directory Structure
 
@@ -13,7 +13,7 @@ backend/
 ├── base/                     # Base utilities and common functionality
 │   ├── custom_exceptions.py  # Custom exception classes
 │   ├── definitions.py        # Constant definitions and enums
-│   ├── helpers.py            # Helper functions
+│   ├── helpers.py            # Helper functions (file operations, folder creation, string sanitization)
 │   └── logging.py            # Logging configuration
 │
 ├── features/                 # Core application features
@@ -183,6 +183,43 @@ The notification system has been modularized into:
 5. **Easier Testing**: Smaller modules with clear responsibilities are easier to test
 6. **Enhanced Extensibility**: The new structure makes it easier to add new features
 
+## File and Folder Management
+
+Readloom includes utilities for managing files and folders, particularly for e-book organization:
+
+### Folder Creation
+
+The `helpers.py` module in the `backend/base` package provides functions for creating and managing folders:
+
+- **`create_series_folder`**: Creates a folder for a series with proper name sanitization
+- **`sanitize_filename`**: Sanitizes a string for use as a file or folder name while preserving spaces
+- **`get_root_folder`**: Gets the configured root folder for a content type
+- **`ensure_readme_file`**: Creates a README.txt file in a series folder with metadata
+
+These functions handle:
+- Preserving spaces and most special characters in folder names
+- Replacing invalid characters with underscores
+- Creating necessary parent directories
+- Generating README files with series information
+- Error handling for file system operations
+
+### Folder Structure
+
+When a series is added to the library or imported from a metadata source, Readloom automatically creates a folder structure:
+
+```
+/your/root/folder/
+├── Series Name/
+│   └── README.txt
+```
+
+The README.txt file contains:
+- Series title
+- Series ID
+- Content type
+- Creation date
+- Brief instructions for users
+
 ## Best Practices for Development
 
 1. **Add new code to the appropriate package**: When adding new functionality, place it in the relevant package
@@ -190,3 +227,4 @@ The notification system has been modularized into:
 3. **Update the compatibility shim**: Add new exports to the compatibility shim
 4. **Follow the established patterns**: Maintain consistency with the existing code structure
 5. **Write tests for new modules**: Take advantage of the modular structure for better testing
+6. **Use the helper functions**: For file operations, use the functions in `helpers.py` rather than implementing your own

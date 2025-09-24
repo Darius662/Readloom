@@ -13,6 +13,7 @@ from backend.features.ebook_files import (add_ebook_file, delete_ebook_file,
                                          get_ebook_file, get_ebook_files_for_series,
                                          get_ebook_files_for_volume, scan_for_ebooks)
 from backend.internals.db import execute_query
+from frontend.middleware import setup_required
 
 # Create API blueprint
 ebooks_api_bp = Blueprint('api_ebooks', __name__, url_prefix='/api/ebooks')
@@ -194,6 +195,7 @@ def delete_file(file_id: int):
 
 
 @ebooks_api_bp.route('/scan', methods=['POST'])
+@setup_required
 def scan_files():
     """Scan the data directory for e-book files and add them to the database.
     
@@ -204,6 +206,20 @@ def scan_files():
         # Check if a specific series ID is provided
         data = request.json or {}
         series_id = data.get('series_id')
+        custom_path = data.get('custom_path')
+        
+        if custom_path:
+            LOGGER.info(f"Custom path provided: {custom_path}")
+            # Validate the path
+            if not os.path.exists(custom_path):
+                LOGGER.error(f"Custom path does not exist: {custom_path}")
+                return jsonify({"error": f"Path does not exist: {custom_path}"}), 400
+            if not os.path.isdir(custom_path):
+                LOGGER.error(f"Custom path is not a directory: {custom_path}")
+                return jsonify({"error": f"Path is not a directory: {custom_path}"}), 400
+            if not os.access(custom_path, os.R_OK):
+                LOGGER.error(f"No read permission for custom path: {custom_path}")
+                return jsonify({"error": f"No read permission for path: {custom_path}"}), 400
         
         if series_id:
             try:
@@ -211,12 +227,36 @@ def scan_files():
             except (ValueError, TypeError):
                 return jsonify({"error": "Invalid series ID"}), 400
                 
-            LOGGER.info(f"Scanning for e-books for series ID: {series_id}")
-            stats = scan_for_ebooks(specific_series_id=series_id)
+            if custom_path:
+                LOGGER.info(f"Scanning for e-books for series ID: {series_id} with custom path: {custom_path}")
+                stats = scan_for_ebooks(specific_series_id=series_id, custom_path=custom_path)
+            else:
+                LOGGER.info(f"Scanning for e-books for series ID: {series_id}")
+                stats = scan_for_ebooks(specific_series_id=series_id)
         else:
-            LOGGER.info("Scanning for all e-books")
-            stats = scan_for_ebooks()
-            
+            if custom_path:
+                LOGGER.info(f"Scanning for all e-books with custom path: {custom_path}")
+                stats = scan_for_ebooks(custom_path=custom_path)
+            else:
+                LOGGER.info("Scanning for all e-books")
+                stats = scan_for_ebooks()
+        
+        # Log the stats before returning
+        LOGGER.info(f"Scan completed, returning stats: {stats}")
+        
+        # Ensure stats is a dictionary with all required keys
+        if not isinstance(stats, dict):
+            stats = {}
+        
+        # Make sure all required keys exist with default values
+        required_keys = ['scanned', 'added', 'skipped', 'errors', 'series_processed']
+        for key in required_keys:
+            if key not in stats:
+                stats[key] = 0
+            elif stats[key] is None:
+                stats[key] = 0
+        
+        LOGGER.info(f"Final stats after API cleanup: {stats}")
         return jsonify({"stats": stats})
     
     except Exception as e:

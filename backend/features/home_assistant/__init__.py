@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Home Assistant integration package for MangaArr.
+Home Assistant integration package for Readloom.
 """
 
 from .data import get_home_assistant_sensor_data

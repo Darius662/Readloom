@@ -1,6 +1,6 @@
 # AniList Provider
 
-This document describes the AniList provider implementation in MangaArr, including its features, limitations, and best practices.
+This document describes the AniList provider implementation in Readloom, including its features, limitations, and best practices.
 
 ## Overview
 

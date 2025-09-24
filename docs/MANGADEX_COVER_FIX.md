@@ -3,7 +3,7 @@
 ## Issues
 
 ### Issue 1: Incorrect Cover URL Construction
-MangaDex manga covers were not displaying properly in the MangaARR application. Instead of the actual manga covers, the application was showing a MangaDex logo placeholder.
+MangaDex manga covers were not displaying properly in the Readloom application. Instead of the actual manga covers, the application was showing a MangaDex logo placeholder.
 
 ### Issue 2: Empty Fallback Image
 The fallback image (`no-cover.png`) was an empty file (0 bytes), so when the actual cover image failed to load, nothing was displayed.

@@ -28,7 +28,7 @@ def generate_home_assistant_config() -> Dict:
             "sensor": [
                 {
                     "platform": "rest",
-                    "name": "mangarr_stats",
+                    "name": "readloom_stats",
                     "resource": f"{base_url}/api/integrations/home-assistant",
                     "scan_interval": 300,
                     "json_attributes_path": "$.stats",
@@ -44,7 +44,7 @@ def generate_home_assistant_config() -> Dict:
                 },
                 {
                     "platform": "rest",
-                    "name": "mangarr_releases",
+                    "name": "readloom_releases",
                     "resource": f"{base_url}/api/integrations/home-assistant",
                     "scan_interval": 300,
                     "json_attributes_path": "$",
@@ -58,66 +58,66 @@ def generate_home_assistant_config() -> Dict:
             ],
             "automation": [
                 {
-                    "alias": "MangaArr Daily Release Notification",
+                    "alias": "Readloom Daily Release Notification",
                     "description": "Send a notification when there are new manga/comic releases today",
                     "trigger": {
                         "platform": "state",
-                        "entity_id": "sensor.mangarr_releases",
+                        "entity_id": "sensor.readloom_releases",
                         "attribute": "releases_today"
                     },
                     "condition": {
                         "condition": "numeric_state",
-                        "entity_id": "sensor.mangarr_releases",
+                        "entity_id": "sensor.readloom_releases",
                         "attribute": "releases_today",
                         "above": 0
                     },
                     "action": {
                         "service": "notify.mobile_app",
                         "data": {
-                            "title": "MangaArr - New Releases Today",
-                            "message": "{{ states.sensor.mangarr_releases.attributes.releases_today }} new manga/comic releases today!"
+                            "title": "Readloom - New Releases Today",
+                            "message": "{{ states.sensor.readloom_releases.attributes.releases_today }} new manga/comic releases today!"
                         }
                     }
                 }
             ],
             "lovelace": {
-                "title": "MangaArr",
+                "title": "Readloom",
                 "cards": [
                     {
                         "type": "entities",
-                        "title": "MangaArr Collection",
+                        "title": "Readloom Collection",
                         "entities": [
                             {
-                                "entity": "sensor.mangarr_stats",
+                                "entity": "sensor.readloom_stats",
                                 "name": "Series Count",
                                 "icon": "mdi:book-multiple"
                             },
                             {
-                                "entity": "sensor.mangarr_stats",
+                                "entity": "sensor.readloom_stats",
                                 "name": "Volume Count",
                                 "icon": "mdi:book",
                                 "attribute": "volume_count"
                             },
                             {
-                                "entity": "sensor.mangarr_stats",
+                                "entity": "sensor.readloom_stats",
                                 "name": "Chapter Count",
                                 "icon": "mdi:file-document",
                                 "attribute": "chapter_count"
                             },
                             {
-                                "entity": "sensor.mangarr_stats",
+                                "entity": "sensor.readloom_stats",
                                 "name": "Owned Volumes",
                                 "icon": "mdi:bookshelf",
                                 "attribute": "owned_volumes"
                             },
                             {
-                                "entity": "sensor.mangarr_stats",
+                                "entity": "sensor.readloom_stats",
                                 "name": "Read Volumes",
                                 "icon": "mdi:book-open-variant",
                                 "attribute": "read_volumes"
                             },
                             {
-                                "entity": "sensor.mangarr_stats",
+                                "entity": "sensor.readloom_stats",
                                 "name": "Collection Value",
                                 "icon": "mdi:currency-usd",
                                 "attribute": "collection_value"
@@ -126,13 +126,13 @@ def generate_home_assistant_config() -> Dict:
                     },
                     {
                         "type": "entity",
-                        "entity": "sensor.mangarr_releases",
+                        "entity": "sensor.readloom_releases",
                         "name": "Releases Today",
                         "icon": "mdi:calendar-today"
                     },
                     {
                         "type": "entity",
-                        "entity": "sensor.mangarr_releases",
+                        "entity": "sensor.readloom_releases",
                         "name": "Releases This Week",
                         "icon": "mdi:calendar-week",
                         "attribute": "releases_this_week"
@@ -164,8 +164,8 @@ def get_home_assistant_setup_instructions() -> Dict:
         
         # Format instructions
         instructions = {
-            "title": "MangaArr Home Assistant Integration",
-            "description": "Follow these steps to integrate MangaArr with your Home Assistant instance.",
+            "title": "Readloom Home Assistant Integration",
+            "description": "Follow these steps to integrate Readloom with your Home Assistant instance.",
             "base_url": base_url,
             "api_endpoint": f"{base_url}/api/integrations/home-assistant",
             "steps": [
@@ -186,7 +186,7 @@ def get_home_assistant_setup_instructions() -> Dict:
                 }
             ],
             "notes": [
-                "Make sure your Home Assistant instance can reach your MangaArr instance at the base URL.",
+                "Make sure your Home Assistant instance can reach your Readloom instance at the base URL.",
                 "Adjust the scan_interval value (in seconds) based on your needs.",
                 "Customize the automation to use your preferred notification service."
             ]

@@ -7,10 +7,13 @@ Schema setup for collection tracking.
 
 from backend.base.logging import LOGGER
 from backend.internals.db import execute_query
+from .collections_schema import setup_collections_tables
 
 
 def setup_collection_tables():
     """Set up the collection tracking tables if they don't exist."""
+    # First set up the collections tables
+    setup_collections_tables()
     try:
         # Create collection items table
         execute_query("""

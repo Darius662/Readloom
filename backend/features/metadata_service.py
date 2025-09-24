@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Metadata service for MangaArr - compatibility shim.
+Metadata service for Readloom - compatibility shim.
 
 This module re-exports all public functions from the metadata_service package.
 The implementation has been moved to backend.features.metadata_service.

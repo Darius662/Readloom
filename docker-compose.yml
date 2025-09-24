@@ -1,18 +1,24 @@
 version: '3'
 
 services:
-  mangarr:
+  readloom:
     build: .
-    container_name: mangarr
-    restart: unless-stopped
+    container_name: readloom
+    restart: "no"
     ports:
       - "7227:7227"
     volumes:
       - ./data:/config
     environment:
       - TZ=UTC
+      - PYTHONUNBUFFERED=1
     command:
       - "-o"
       - "0.0.0.0"
       - "-p"
       - "7227"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"

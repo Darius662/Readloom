@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Calendar module for MangaArr - compatibility shim.
+Calendar module for Readloom - compatibility shim.
 
 This module re-exports all public functions from the calendar package.
 The implementation has been moved to backend.features.calendar.

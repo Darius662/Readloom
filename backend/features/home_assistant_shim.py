@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Home Assistant integration module for MangaArr - compatibility shim.
+Home Assistant integration module for Readloom - compatibility shim.
 
 This module re-exports all public functions from the home_assistant package.
 The implementation has been moved to backend.features.home_assistant.

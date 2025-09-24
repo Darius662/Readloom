@@ -14,7 +14,7 @@ set_db_location("data/db")
 
 # Set up logging
 from backend.base.logging import setup_logging, LOGGER
-setup_logging("data/logs", "mangarr.log")
+setup_logging("data/logs", "readloom.log")
 LOGGER.info("Starting folder creation script")
 
 # Import necessary functions

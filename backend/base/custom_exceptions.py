@@ -1,31 +1,36 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-class MangaArrException(Exception):
-    """Base exception for MangaArr."""
+class ReadloomException(Exception):
+    """Base exception for Readloom."""
     pass
 
 
-class InvalidSettingValue(MangaArrException):
+class InvalidSettingValue(ReadloomException):
     """Exception raised when a setting value is invalid."""
     pass
 
 
-class DatabaseError(MangaArrException):
+class DatabaseError(ReadloomException):
     """Exception raised when there is a database error."""
     pass
 
 
-class MetadataError(MangaArrException):
+class InvalidCollectionError(ReadloomException):
+    """Exception raised for invalid collection operations."""
+    pass
+
+
+class MetadataError(ReadloomException):
     """Exception raised when there is a metadata error."""
     pass
 
 
-class APIError(MangaArrException):
+class APIError(ReadloomException):
     """Exception raised when there is an API error."""
     pass
 
 
-class IntegrationError(MangaArrException):
+class IntegrationError(ReadloomException):
     """Exception raised when there is an integration error."""
     pass

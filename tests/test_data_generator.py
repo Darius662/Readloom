@@ -107,7 +107,7 @@ def create_database_schema(cursor):
     print("Database schema created successfully!")
 
 def generate_test_data(db_path):
-    """Generate test data for the MangaArr database.
+    """Generate test data for the Readloom database.
     
     Args:
         db_path (str): Path to the database file.

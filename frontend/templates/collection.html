@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 
-{% block title %}MangaArr - Collection{% endblock %}
+{% block title %}Readloom - Library{% endblock %}
 
-{% block page_title %}My Collection{% endblock %}
+{% block page_title %}My Library{% endblock %}
 
 {% block styles %}
 <style>
@@ -96,7 +96,7 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">Collection Statistics</h5>
+                <h5 class="mb-0">Library Statistics</h5>
                 <button id="refresh-stats" class="btn btn-sm btn-primary">
                     <i class="fas fa-sync-alt"></i> Refresh
                 </button>
@@ -138,7 +138,7 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">Collection Items</h5>
+                <h5 class="mb-0">Library Items</h5>
                 <div>
                     <button id="add-to-collection" class="btn btn-sm btn-success me-2">
                         <i class="fas fa-plus"></i> Add Item
@@ -222,8 +222,8 @@
                 
                 <div id="no-items-message" class="text-center py-5 d-none">
                     <i class="fas fa-book fa-3x mb-3 text-muted"></i>
-                    <h5>Your collection is empty</h5>
-                    <p class="text-muted">Start adding manga and comics to your collection</p>
+                    <h5>Your library is empty</h5>
+                    <p class="text-muted">Start adding manga and comics to your library</p>
                     <button id="add-first-item" class="btn btn-primary">
                         <i class="fas fa-plus"></i> Add First Item
                     </button>
@@ -238,7 +238,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="itemModalLabel">Add to Collection</h5>
+                <h5 class="modal-title" id="itemModalLabel">Add to Library</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -371,7 +371,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="importExportModalLabel">Import/Export Collection</h5>
+                <h5 class="modal-title" id="importExportModalLabel">Import/Export Library</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -389,7 +389,7 @@
                     <p>Download your collection data as a JSON file.</p>
                     <div class="d-grid">
                         <a id="export-download" href="#" class="btn btn-primary">
-                            <i class="fas fa-download"></i> Download Collection Data
+                            <i class="fas fa-download"></i> Download Library Data
                         </a>
                     </div>
                 </div>
@@ -404,559 +404,5 @@
 {% endblock %}
 
 {% block scripts %}
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // DOM elements
-        const collectionItems = document.getElementById('collection-items');
-        const noItemsMessage = document.getElementById('no-items-message');
-        const itemModal = new bootstrap.Modal(document.getElementById('itemModal'));
-        const importExportModal = new bootstrap.Modal(document.getElementById('importExportModal'));
-        const itemForm = document.getElementById('item-form');
-        
-        // Filter elements
-        const filterType = document.getElementById('filter-type');
-        const filterOwnership = document.getElementById('filter-ownership');
-        const filterRead = document.getElementById('filter-read');
-        const filterFormat = document.getElementById('filter-format');
-        
-        // Form elements
-        const itemId = document.getElementById('item-id');
-        const seriesSelect = document.getElementById('series-select');
-        const itemType = document.getElementById('item-type');
-        const volumeSelectContainer = document.getElementById('volume-select-container');
-        const volumeSelect = document.getElementById('volume-select');
-        const chapterSelectContainer = document.getElementById('chapter-select-container');
-        const chapterSelect = document.getElementById('chapter-select');
-        
-        // Load collection stats
-        function loadStats() {
-            fetch('/api/collection/stats')
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('total-series').textContent = data.total_series || 0;
-                    document.getElementById('owned-volumes').textContent = data.owned_volumes || 0;
-                    document.getElementById('read-volumes').textContent = data.read_volumes || 0;
-                    document.getElementById('total-value').textContent = '$' + (data.total_value || 0).toFixed(2);
-                })
-                .catch(error => {
-                    console.error('Error loading collection stats:', error);
-                });
-        }
-        
-        // Load collection items
-        function loadCollectionItems() {
-            // Build query string from filters
-            const params = new URLSearchParams();
-            
-            if (filterType.value) {
-                params.append('item_type', filterType.value);
-            }
-            
-            if (filterOwnership.value) {
-                params.append('ownership_status', filterOwnership.value);
-            }
-            
-            if (filterRead.value) {
-                params.append('read_status', filterRead.value);
-            }
-            
-            if (filterFormat.value) {
-                params.append('format', filterFormat.value);
-            }
-            
-            // Fetch collection items
-            fetch(`/api/collection?${params.toString()}`)
-                .then(response => response.json())
-                .then(data => {
-                    // Clear table
-                    collectionItems.innerHTML = '';
-                    
-                    // Show/hide no items message
-                    if (data.items && data.items.length > 0) {
-                        noItemsMessage.classList.add('d-none');
-                        
-                        // Render items
-                        data.items.forEach(item => {
-                            const row = document.createElement('tr');
-                            
-                            // Cover image
-                            let coverCell = document.createElement('td');
-                            let coverImg = document.createElement('img');
-                            coverImg.src = processImageUrl(item.series_cover_url);
-                            coverImg.alt = 'Cover';
-                            coverImg.className = 'series-cover';
-                            coverCell.appendChild(coverImg);
-                            row.appendChild(coverCell);
-                            
-                            // Title
-                            let titleCell = document.createElement('td');
-                            let title = '';
-                            
-                            if (item.item_type === 'SERIES') {
-                                title = item.series_title;
-                            } else if (item.item_type === 'VOLUME') {
-                                title = `${item.series_title} - Volume ${item.volume_number}`;
-                                if (item.volume_title) {
-                                    title += `: ${item.volume_title}`;
-                                }
-                            } else if (item.item_type === 'CHAPTER') {
-                                title = `${item.series_title} - Chapter ${item.chapter_number}`;
-                                if (item.chapter_title) {
-                                    title += `: ${item.chapter_title}`;
-                                }
-                            }
-                            
-                            titleCell.textContent = title;
-                            row.appendChild(titleCell);
-                            
-                            // Type
-                            let typeCell = document.createElement('td');
-                            typeCell.textContent = item.item_type.charAt(0) + item.item_type.slice(1).toLowerCase();
-                            row.appendChild(typeCell);
-                            
-                            // Ownership status
-                            let ownershipCell = document.createElement('td');
-                            let ownershipBadge = document.createElement('span');
-                            ownershipBadge.className = `badge badge-${item.ownership_status.toLowerCase()}`;
-                            ownershipBadge.textContent = item.ownership_status.charAt(0) + item.ownership_status.slice(1).toLowerCase();
-                            ownershipCell.appendChild(ownershipBadge);
-                            row.appendChild(ownershipCell);
-                            
-                            // Read status
-                            let readCell = document.createElement('td');
-                            let readBadge = document.createElement('span');
-                            readBadge.className = `badge badge-${item.read_status.toLowerCase()}`;
-                            readBadge.textContent = item.read_status.charAt(0) + item.read_status.slice(1).toLowerCase();
-                            readCell.appendChild(readBadge);
-                            row.appendChild(readCell);
-                            
-                            // Format
-                            let formatCell = document.createElement('td');
-                            formatCell.textContent = item.format.charAt(0) + item.format.slice(1).toLowerCase();
-                            row.appendChild(formatCell);
-                            
-                            // Purchase date
-                            let dateCell = document.createElement('td');
-                            dateCell.textContent = item.purchase_date || '-';
-                            row.appendChild(dateCell);
-                            
-                            // Price
-                            let priceCell = document.createElement('td');
-                            priceCell.textContent = item.purchase_price ? `$${parseFloat(item.purchase_price).toFixed(2)}` : '-';
-                            row.appendChild(priceCell);
-                            
-                            // Actions
-                            let actionsCell = document.createElement('td');
-                            actionsCell.className = 'collection-actions';
-                            
-                            let editBtn = document.createElement('button');
-                            editBtn.className = 'btn btn-sm btn-outline-primary me-1';
-                            editBtn.innerHTML = '<i class="fas fa-edit"></i>';
-                            editBtn.title = 'Edit';
-                            editBtn.onclick = () => editItem(item);
-                            actionsCell.appendChild(editBtn);
-                            
-                            let deleteBtn = document.createElement('button');
-                            deleteBtn.className = 'btn btn-sm btn-outline-danger';
-                            deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
-                            deleteBtn.title = 'Delete';
-                            deleteBtn.onclick = () => deleteItem(item.id);
-                            actionsCell.appendChild(deleteBtn);
-                            
-                            row.appendChild(actionsCell);
-                            
-                            collectionItems.appendChild(row);
-                        });
-                    } else {
-                        noItemsMessage.classList.remove('d-none');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error loading collection items:', error);
-                });
-        }
-        
-        // Load series list for dropdown
-        function loadSeriesList() {
-            fetch('/api/series')
-                .then(response => response.json())
-                .then(data => {
-                    // Clear existing options except the first one
-                    while (seriesSelect.options.length > 1) {
-                        seriesSelect.remove(1);
-                    }
-                    
-                    // Add series options
-                    data.series.forEach(series => {
-                        const option = document.createElement('option');
-                        option.value = series.id;
-                        option.textContent = series.title;
-                        seriesSelect.appendChild(option);
-                    });
-                })
-                .catch(error => {
-                    console.error('Error loading series list:', error);
-                });
-        }
-        
-        // Load volumes for selected series
-        function loadVolumes(seriesId) {
-            // Clear existing options except the first one
-            while (volumeSelect.options.length > 1) {
-                volumeSelect.remove(1);
-            }
-            
-            if (!seriesId) {
-                return;
-            }
-            
-            fetch(`/api/series/${seriesId}`)
-                .then(response => response.json())
-                .then(data => {
-                    // Add volume options
-                    data.volumes.forEach(volume => {
-                        const option = document.createElement('option');
-                        option.value = volume.id;
-                        option.textContent = `Volume ${volume.volume_number}${volume.title ? ': ' + volume.title : ''}`;
-                        volumeSelect.appendChild(option);
-                    });
-                })
-                .catch(error => {
-                    console.error('Error loading volumes:', error);
-                });
-        }
-        
-        // Load chapters for selected series
-        function loadChapters(seriesId) {
-            // Clear existing options except the first one
-            while (chapterSelect.options.length > 1) {
-                chapterSelect.remove(1);
-            }
-            
-            if (!seriesId) {
-                return;
-            }
-            
-            fetch(`/api/series/${seriesId}`)
-                .then(response => response.json())
-                .then(data => {
-                    // Add chapter options
-                    data.chapters.forEach(chapter => {
-                        const option = document.createElement('option');
-                        option.value = chapter.id;
-                        option.textContent = `Chapter ${chapter.chapter_number}${chapter.title ? ': ' + chapter.title : ''}`;
-                        chapterSelect.appendChild(option);
-                    });
-                })
-                .catch(error => {
-                    console.error('Error loading chapters:', error);
-                });
-        }
-        
-        // Show add item modal
-        function showAddItemModal() {
-            // Reset form
-            itemForm.reset();
-            itemId.value = '';
-            document.getElementById('itemModalLabel').textContent = 'Add to Collection';
-            
-            // Hide volume and chapter selects
-            volumeSelectContainer.classList.add('d-none');
-            chapterSelectContainer.classList.add('d-none');
-            
-            // Set default values
-            document.getElementById('ownership-status').value = 'OWNED';
-            document.getElementById('read-status').value = 'UNREAD';
-            document.getElementById('format').value = 'PHYSICAL';
-            document.getElementById('condition').value = 'NONE';
-            
-            // Show modal
-            itemModal.show();
-        }
-        
-        // Edit item
-        function editItem(item) {
-            // Set form values
-            itemId.value = item.id;
-            document.getElementById('itemModalLabel').textContent = 'Edit Collection Item';
-            
-            seriesSelect.value = item.series_id;
-            itemType.value = item.item_type;
-            
-            // Load volumes and chapters
-            loadVolumes(item.series_id);
-            loadChapters(item.series_id);
-            
-            // Show/hide volume and chapter selects
-            if (item.item_type === 'VOLUME') {
-                volumeSelectContainer.classList.remove('d-none');
-                chapterSelectContainer.classList.add('d-none');
-                setTimeout(() => {
-                    volumeSelect.value = item.volume_id;
-                }, 500);
-            } else if (item.item_type === 'CHAPTER') {
-                volumeSelectContainer.classList.add('d-none');
-                chapterSelectContainer.classList.remove('d-none');
-                setTimeout(() => {
-                    chapterSelect.value = item.chapter_id;
-                }, 500);
-            } else {
-                volumeSelectContainer.classList.add('d-none');
-                chapterSelectContainer.classList.add('d-none');
-            }
-            
-            // Set other form values
-            document.getElementById('ownership-status').value = item.ownership_status;
-            document.getElementById('read-status').value = item.read_status;
-            document.getElementById('format').value = item.format;
-            document.getElementById('condition').value = item.condition;
-            document.getElementById('purchase-date').value = item.purchase_date || '';
-            document.getElementById('purchase-price').value = item.purchase_price || '';
-            document.getElementById('purchase-location').value = item.purchase_location || '';
-            document.getElementById('notes').value = item.notes || '';
-            document.getElementById('custom-tags').value = item.custom_tags || '';
-            
-            // Show modal
-            itemModal.show();
-        }
-        
-        // Save item
-        function saveItem() {
-            // Validate form
-            if (!seriesSelect.value) {
-                alert('Please select a series');
-                return;
-            }
-            
-            if (!itemType.value) {
-                alert('Please select an item type');
-                return;
-            }
-            
-            if (itemType.value === 'VOLUME' && !volumeSelect.value) {
-                alert('Please select a volume');
-                return;
-            }
-            
-            if (itemType.value === 'CHAPTER' && !chapterSelect.value) {
-                alert('Please select a chapter');
-                return;
-            }
-            
-            // Prepare data
-            const data = {
-                series_id: parseInt(seriesSelect.value),
-                item_type: itemType.value,
-                ownership_status: document.getElementById('ownership-status').value,
-                read_status: document.getElementById('read-status').value,
-                format: document.getElementById('format').value,
-                condition: document.getElementById('condition').value,
-                purchase_date: document.getElementById('purchase-date').value || null,
-                purchase_price: document.getElementById('purchase-price').value ? parseFloat(document.getElementById('purchase-price').value) : null,
-                purchase_location: document.getElementById('purchase-location').value || null,
-                notes: document.getElementById('notes').value || null,
-                custom_tags: document.getElementById('custom-tags').value || null
-            };
-            
-            if (itemType.value === 'VOLUME') {
-                data.volume_id = parseInt(volumeSelect.value);
-            } else if (itemType.value === 'CHAPTER') {
-                data.chapter_id = parseInt(chapterSelect.value);
-            }
-            
-            // Determine if this is an add or update operation
-            const isUpdate = itemId.value !== '';
-            const url = isUpdate ? `/api/collection/${itemId.value}` : '/api/collection';
-            const method = isUpdate ? 'PUT' : 'POST';
-            
-            // Send request
-            fetch(url, {
-                method: method,
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        return response.json().then(err => { throw new Error(err.error || 'Failed to save item'); });
-                    }
-                    return response.json();
-                })
-                .then(() => {
-                    // Close modal
-                    itemModal.hide();
-                    
-                    // Reload collection items and stats
-                    loadCollectionItems();
-                    loadStats();
-                })
-                .catch(error => {
-                    console.error('Error saving item:', error);
-                    alert(error.message);
-                });
-        }
-        
-        // Delete item
-        function deleteItem(id) {
-            if (!confirm('Are you sure you want to remove this item from your collection?')) {
-                return;
-            }
-            
-            fetch(`/api/collection/${id}`, {
-                method: 'DELETE'
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        return response.json().then(err => { throw new Error(err.error || 'Failed to delete item'); });
-                    }
-                    return response.json();
-                })
-                .then(() => {
-                    // Reload collection items and stats
-                    loadCollectionItems();
-                    loadStats();
-                })
-                .catch(error => {
-                    console.error('Error deleting item:', error);
-                    alert(error.message);
-                });
-        }
-        
-        // Import collection
-        function importCollection() {
-            const fileInput = document.getElementById('import-file');
-            
-            if (!fileInput.files || fileInput.files.length === 0) {
-                alert('Please select a file to import');
-                return;
-            }
-            
-            const file = fileInput.files[0];
-            const reader = new FileReader();
-            
-            reader.onload = function(e) {
-                try {
-                    const data = JSON.parse(e.target.result);
-                    
-                    fetch('/api/collection/import', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(data)
-                    })
-                        .then(response => {
-                            if (!response.ok) {
-                                return response.json().then(err => { throw new Error(err.error || 'Failed to import collection'); });
-                            }
-                            return response.json();
-                        })
-                        .then(stats => {
-                            alert(`Import complete:\n${stats.imported} items imported\n${stats.skipped} items skipped\n${stats.errors} errors`);
-                            
-                            // Close modal
-                            importExportModal.hide();
-                            
-                            // Reload collection items and stats
-                            loadCollectionItems();
-                            loadStats();
-                        })
-                        .catch(error => {
-                            console.error('Error importing collection:', error);
-                            alert(error.message);
-                        });
-                } catch (error) {
-                    console.error('Error parsing JSON:', error);
-                    alert('Invalid JSON file');
-                }
-            };
-            
-            reader.readAsText(file);
-        }
-        
-        // Export collection
-        function exportCollection() {
-            fetch('/api/collection/export')
-                .then(response => {
-                    if (!response.ok) {
-                        return response.json().then(err => { throw new Error(err.error || 'Failed to export collection'); });
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    // Create download link
-                    const json = JSON.stringify(data.items, null, 2);
-                    const blob = new Blob([json], { type: 'application/json' });
-                    const url = URL.createObjectURL(blob);
-                    const downloadLink = document.getElementById('export-download');
-                    downloadLink.href = url;
-                    downloadLink.download = `mangarr_collection_${new Date().toISOString().split('T')[0]}.json`;
-                    
-                    // Show export container
-                    document.getElementById('import-container').classList.add('d-none');
-                    document.getElementById('export-container').classList.remove('d-none');
-                    document.getElementById('import-button').classList.add('d-none');
-                })
-                .catch(error => {
-                    console.error('Error exporting collection:', error);
-                    alert(error.message);
-                });
-        }
-        
-        // Event listeners
-        document.getElementById('refresh-stats').addEventListener('click', loadStats);
-        document.getElementById('add-to-collection').addEventListener('click', showAddItemModal);
-        document.getElementById('add-first-item').addEventListener('click', showAddItemModal);
-        document.getElementById('save-item').addEventListener('click', saveItem);
-        
-        // Filter change events
-        filterType.addEventListener('change', loadCollectionItems);
-        filterOwnership.addEventListener('change', loadCollectionItems);
-        filterRead.addEventListener('change', loadCollectionItems);
-        filterFormat.addEventListener('change', loadCollectionItems);
-        
-        // Series select change event
-        seriesSelect.addEventListener('change', function() {
-            loadVolumes(this.value);
-            loadChapters(this.value);
-        });
-        
-        // Item type change event
-        itemType.addEventListener('change', function() {
-            if (this.value === 'VOLUME') {
-                volumeSelectContainer.classList.remove('d-none');
-                chapterSelectContainer.classList.add('d-none');
-            } else if (this.value === 'CHAPTER') {
-                volumeSelectContainer.classList.add('d-none');
-                chapterSelectContainer.classList.remove('d-none');
-            } else {
-                volumeSelectContainer.classList.add('d-none');
-                chapterSelectContainer.classList.add('d-none');
-            }
-        });
-        
-        // Import/Export buttons
-        document.getElementById('import-collection').addEventListener('click', function() {
-            document.getElementById('import-container').classList.remove('d-none');
-            document.getElementById('export-container').classList.add('d-none');
-            document.getElementById('import-button').classList.remove('d-none');
-            document.getElementById('importExportModalLabel').textContent = 'Import Collection';
-            importExportModal.show();
-        });
-        
-        document.getElementById('export-collection').addEventListener('click', function() {
-            document.getElementById('importExportModalLabel').textContent = 'Export Collection';
-            exportCollection();
-            importExportModal.show();
-        });
-        
-        document.getElementById('import-button').addEventListener('click', importCollection);
-        
-        // Initial load
-        loadStats();
-        loadCollectionItems();
-        loadSeriesList();
-    });
-</script>
+<script src="{{ url_for('static', filename='js/collection.js') }}"></script>
 {% endblock %}

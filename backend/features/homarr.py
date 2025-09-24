@@ -53,7 +53,7 @@ def get_homarr_data() -> Dict:
         
         # Format data for Homarr
         data = {
-            "app": "MangaArr",
+            "app": "Readloom",
             "version": app_version,
             "status": status,
             "info": {
@@ -71,7 +71,7 @@ def get_homarr_data() -> Dict:
     except Exception as e:
         LOGGER.error(f"Error getting Homarr data: {e}")
         return {
-            "app": "MangaArr",
+            "app": "Readloom",
             "version": "1.0.0",
             "status": "error",
             "error": str(e)
@@ -91,18 +91,18 @@ def get_homarr_setup_instructions() -> Dict:
         
         # Format instructions
         instructions = {
-            "title": "MangaArr Homarr Integration",
-            "description": "Follow these steps to integrate MangaArr with your Homarr dashboard.",
+            "title": "Readloom Homarr Integration",
+            "description": "Follow these steps to integrate Readloom with your Homarr dashboard.",
             "base_url": base_url,
             "api_endpoint": f"{base_url}/api/integrations/homarr",
             "steps": [
                 {
-                    "title": "Add MangaArr to Homarr",
-                    "description": "In your Homarr dashboard, add MangaArr as a service with the following configuration:",
+                    "title": "Add Readloom to Homarr",
+                    "description": "In your Homarr dashboard, add Readloom as a service with the following configuration:",
                     "fields": [
                         {
                             "name": "Name",
-                            "value": "MangaArr"
+                            "value": "Readloom"
                         },
                         {
                             "name": "Icon",
@@ -120,8 +120,8 @@ def get_homarr_setup_instructions() -> Dict:
                 }
             ],
             "notes": [
-                "Make sure your Homarr instance can reach your MangaArr instance at the base URL.",
-                "The status endpoint will return information about your MangaArr instance, including the number of series, volumes, and chapters.",
+                "Make sure your Homarr instance can reach your Readloom instance at the base URL.",
+                "The status endpoint will return information about your Readloom instance, including the number of series, volumes, and chapters.",
                 "Homarr will display the number of releases today in the dashboard."
             ]
         }

@@ -27,7 +27,7 @@ class MangaAPIProvider(MetadataProvider):
         super().__init__("MangaAPI", enabled)
         self.api_url = api_url
         self.headers = {
-            "User-Agent": "MangaArr/1.0.0",
+            "User-Agent": "Readloom/1.0.0",
             "Accept": "application/json"
         }
         self.session = requests.Session()

@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="MangaArr - Manga, Manwa, and Comics Collection Manager">
+    <meta name="description" content="Readloom - Manga, Manwa, and Comics Collection Manager">
     <meta name="theme-color" content="#212529">
-    <title>{% block title %}MangaArr{% endblock %}</title>
+    <title>{% block title %}Readloom{% endblock %}</title>
     <link rel="icon" href="{{ url_for('ui.static', filename='img/favicon.ico') }}">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -213,7 +213,7 @@
         <!-- Sidebar -->
         <nav id="sidebar" class="sidebar">
             <div class="sidebar-header">
-                <h3>MangaArr</h3>
+                <h3>Readloom</h3>
             </div>
 
             <ul class="list-unstyled components">
@@ -232,9 +232,14 @@
                         <i class="fas fa-book"></i> <span>Series</span>
                     </a>
                 </li>
-                <li {% if request.path.startswith('/collection') %}class="active"{% endif %}>
+                <li {% if request.path == '/collection' %}class="active"{% endif %}>
                     <a href="{{ url_for('ui.collection') }}">
-                        <i class="fas fa-bookmark"></i> <span>Collection</span>
+                        <i class="fas fa-bookmark"></i> <span>Library</span>
+                    </a>
+                </li>
+                <li {% if request.path == '/collections' %}class="active"{% endif %}>
+                    <a href="{{ url_for('ui.collections_manager') }}">
+                        <i class="fas fa-layer-group"></i> <span>Collections Manager</span>
                     </a>
                 </li>
                 <li {% if request.path.startswith('/search') %}class="active"{% endif %}>
@@ -251,6 +256,11 @@
                 <li {% if request.path.startswith('/settings') %}class="active"{% endif %}>
                     <a href="{{ url_for('ui.settings') }}">
                         <i class="fas fa-cog"></i> <span>Settings</span>
+                    </a>
+                </li>
+                <li {% if request.path.startswith('/root-folders') %}class="active"{% endif %}>
+                    <a href="{{ url_for('ui.root_folders') }}">
+                        <i class="fas fa-folder"></i> <span>Root Folders</span>
                     </a>
                 </li>
                 <li {% if request.path.startswith('/integrations') %}class="active"{% endif %}>
@@ -282,7 +292,7 @@
                     <button type="button" id="sidebarCollapse" class="btn btn-dark">
                         <i class="fas fa-bars"></i>
                     </button>
-                    <span class="navbar-brand ms-3">{% block page_title %}MangaArr{% endblock %}</span>
+                    <span class="navbar-brand ms-3">{% block page_title %}Readloom{% endblock %}</span>
                     <div class="d-flex align-items-center">
                         <div id="notifications-dropdown" class="dropdown me-3">
                             <button class="btn btn-dark position-relative" type="button" id="notificationsButton" data-bs-toggle="dropdown" aria-expanded="false">
@@ -321,7 +331,7 @@
             
             <footer class="footer mt-auto py-3 bg-dark">
                 <div class="container-fluid text-center">
-                    <span class="text-muted">© {{ current_year }} MangaArr | <a href="{{ url_for('ui.about') }}" class="text-muted text-decoration-none">About</a></span>
+                    <span class="text-muted">© {{ current_year }} Readloom | <a href="{{ url_for('ui.about') }}" class="text-muted text-decoration-none">About</a></span>
                 </div>
             </footer>
         </div>

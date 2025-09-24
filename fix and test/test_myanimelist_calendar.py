@@ -181,7 +181,7 @@ def test_calendar():
         # Look for SQL errors in the log
         print("\nLooking for errors in the log file...")
         try:
-            with open(os.path.join('data', 'logs', 'mangarr.log'), 'r') as log_file:
+            with open(os.path.join('data', 'logs', 'readloom.log'), 'r') as log_file:
                 last_lines = log_file.readlines()[-20:]  # Get the last 20 lines
                 for line in last_lines:
                     if 'ERROR' in line:

@@ -12,7 +12,7 @@ from backend.base.logging import LOGGER
 
 
 class Server:
-    """Server class for MangaArr."""
+    """Server class for Readloom."""
     
     def __init__(self):
         """Initialize the server."""
@@ -36,12 +36,23 @@ class Server:
         self.app.config["JSON_SORT_KEYS"] = False
         
         # Register blueprints
-        from frontend.api import api_bp, metadata_api_bp
+        from frontend.api import api_bp
+        from frontend.api_metadata_fixed import metadata_api_bp
+        from frontend.api_ebooks import ebooks_api_bp
+        from frontend.api_collections import collections_api
+        from frontend.api_folders import folders_api
+        from frontend.api_rootfolders import rootfolders_api_bp
         from frontend.ui import ui_bp
+        from frontend.image_proxy import image_proxy_bp
         
         self.app.register_blueprint(api_bp)
         self.app.register_blueprint(metadata_api_bp, url_prefix='/api/metadata')
+        self.app.register_blueprint(ebooks_api_bp)
+        self.app.register_blueprint(collections_api)
+        self.app.register_blueprint(folders_api)
+        self.app.register_blueprint(rootfolders_api_bp)
         self.app.register_blueprint(ui_bp)
+        self.app.register_blueprint(image_proxy_bp)
         
         return self.app
     
@@ -91,8 +102,8 @@ def handle_start_type(start_type: StartType) -> None:
     SERVER.start_type = None
     
     if start_type == StartType.STARTUP:
-        LOGGER.info("Starting up MangaArr")
+        LOGGER.info("Starting up Readloom")
     elif start_type == StartType.RESTART:
-        LOGGER.info("Restarting MangaArr")
+        LOGGER.info("Restarting Readloom")
     elif start_type == StartType.UPDATE:
-        LOGGER.info("Updating MangaArr")
+        LOGGER.info("Updating Readloom")
