@@ -26,6 +26,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - More consistent API naming conventions
 
 ### Fixed
+- Fixed API request issues:
+  - Added proper Content-Type header to AJAX requests
+  - Fixed 415 Unsupported Media Type errors when importing manga
+  - Ensured consistent JSON data handling across all API endpoints
 - Fixed static file serving configuration:
   - Corrected static folder paths in Flask application
   - Ensured consistent static URL paths across blueprints
