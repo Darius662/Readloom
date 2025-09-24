@@ -1,5 +1,5 @@
 /**
- * MangaArr - Main JavaScript file
+ * Readloom - Main JavaScript file
  */
 
 // Show loading spinner

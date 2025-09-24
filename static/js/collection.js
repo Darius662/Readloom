@@ -1,5 +1,5 @@
 /**
- * MangaArr - Collection Management
+ * Readloom - Collection Management
  */
 
 // Load collection statistics

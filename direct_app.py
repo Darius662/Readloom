@@ -18,8 +18,8 @@ db_dir = Path("data/db")
 db_dir.mkdir(exist_ok=True)
 
 # Set environment variables for database and logs
-os.environ["MANGARR_DB_PATH"] = str(db_dir / "mangarr.db")
-os.environ["MANGARR_LOG_PATH"] = str(logs_dir)
+os.environ["READLOOM_DB_PATH"] = str(db_dir / "readloom.db")
+os.environ["READLOOM_LOG_PATH"] = str(logs_dir)
 
 # Create Flask app
 app = Flask(__name__)
@@ -41,14 +41,14 @@ with app.app_context():
     setup_db()
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Run MangaArr directly")
+    parser = argparse.ArgumentParser(description="Run Readloom directly")
     parser.add_argument("--host", default="127.0.0.1", help="Host to bind to (default: 127.0.0.1)")
     parser.add_argument("--port", type=int, default=7227, help="Port to bind to (default: 7227)")
     parser.add_argument("--debug", action="store_true", help="Run in debug mode")
     
     args = parser.parse_args()
     
-    print(f"Starting MangaArr on {args.host}:{args.port}...")
+    print(f"Starting Readloom on {args.host}:{args.port}...")
     print(f"Open your browser and navigate to http://{args.host}:{args.port}/ to view the application")
     
     app.run(host=args.host, port=args.port, debug=args.debug)

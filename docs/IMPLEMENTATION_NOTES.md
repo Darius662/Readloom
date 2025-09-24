@@ -1,6 +1,6 @@
 # Implementation Notes: Collection System and E-book Scanning
 
-This document provides technical details about the implementation of the collection system and e-book scanning improvements in MangaArr v0.0.7.
+This document provides technical details about the implementation of the collection system and e-book scanning improvements in Readloom v0.0.7.
 
 ## Collection System Implementation
 

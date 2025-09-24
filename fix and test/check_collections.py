@@ -7,7 +7,7 @@ from pathlib import Path
 def main():
     """Check collections in the database."""
     # Connect to the database
-    db_path = Path("data/db/mangarr.db")
+    db_path = Path("data/db/readloom.db")
     if not db_path.exists():
         print(f"Database file not found at {db_path}")
         return

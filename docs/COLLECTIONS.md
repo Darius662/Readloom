@@ -1,10 +1,10 @@
-# Collections in MangaArr
+# Collections in Readloom
 
-This document explains the collection system in MangaArr and how it relates to root folders and series.
+This document explains the collection system in Readloom and how it relates to root folders and series.
 
 ## Overview
 
-Collections in MangaArr provide a way to organize your manga/comics into logical groups. Each collection can be linked to multiple root folders, and each series can belong to multiple collections. This flexible system allows you to organize your content in various ways.
+Collections in Readloom provide a way to organize your manga/comics into logical groups. Each collection can be linked to multiple root folders, and each series can belong to multiple collections. This flexible system allows you to organize your content in various ways.
 
 The Library tab (formerly Collection tab) shows your content organized by the currently selected collection, while the Collections Manager allows you to create and manage multiple collections and their relationships with root folders.
 
@@ -27,7 +27,7 @@ Each collection has:
 
 ### Root Folders
 
-A root folder is a physical location on your file system where MangaArr stores and organizes your manga/comic files. Each root folder has:
+A root folder is a physical location on your file system where Readloom stores and organizes your manga/comic files. Each root folder has:
 - A path (e.g., `C:\Manga` or `/home/user/manga`)
 - A name (e.g., "Main Manga Library")
 - A primary content type (e.g., MANGA, COMICS, etc.)
@@ -40,7 +40,7 @@ Series can belong to multiple collections, allowing you to categorize them in di
 
 ## Setup Requirements
 
-MangaArr requires at least one collection and one root folder to be set up before you can use the application. When you first launch MangaArr, you'll be guided through a setup wizard to create these.
+Readloom requires at least one collection and one root folder to be set up before you can use the application. When you first launch Readloom, you'll be guided through a setup wizard to create these.
 
 ## Managing Collections
 
@@ -102,7 +102,7 @@ The default collection is marked with a green "Default" badge in the Collections
 
 ## API Endpoints
 
-MangaArr provides API endpoints for managing collections:
+Readloom provides API endpoints for managing collections:
 
 ### Collections
 

@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document describes the implementation of the image proxy solution for displaying external cover images in MangaARR.
+This document describes the implementation of the image proxy solution for displaying external cover images in Readloom.
 
 ## Problem
 

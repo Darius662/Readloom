@@ -1,8 +1,8 @@
-# MangaArr
+# Readloom
 
-MangaArr is a manga, manwa, and comics collection manager with a focus on release tracking and calendar functionality. It follows the design principles of the *arr suite of applications but with a specialized focus on manga and comics.
+Readloom is a manga, manwa, and comics collection manager with a focus on release tracking and calendar functionality. It follows the design principles of the *arr suite of applications but with a specialized focus on manga and comics.
 
-![MangaArr Dashboard](frontend/static/img/screenshot.png)
+![Readloom Dashboard](frontend/static/img/screenshot.png)
 
 ## Features
 
@@ -56,18 +56,18 @@ MangaArr is a manga, manwa, and comics collection manager with a focus on releas
 
 ### Docker (Recommended)
 
-The easiest way to run MangaArr is using Docker:
+The easiest way to run Readloom is using Docker:
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/MangaArr.git
-cd MangaArr
+git clone https://github.com/yourusername/Readloom.git
+cd Readloom
 
 # Start with Docker Compose
 docker compose up -d
 ```
 
-MangaArr will be available at http://localhost:7227
+Readloom will be available at http://localhost:7227
 
 #### Docker Compose Configuration
 
@@ -77,9 +77,9 @@ The default `docker-compose.yml` file includes the following configuration:
 version: '3'
 
 services:
-  mangarr:
+  readloom:
     build: .
-    container_name: mangarr
+    container_name: readloom
     restart: unless-stopped
     ports:
       - "7227:7227"
@@ -104,7 +104,7 @@ services:
 
 The Docker container uses the following volume:
 
-- `./data:/config`: Stores all MangaArr data, including the database, logs, and e-books
+- `./data:/config`: Stores all Readloom data, including the database, logs, and e-books
 
 #### Docker Environment Variables
 
@@ -117,48 +117,48 @@ The Docker container includes a healthcheck that verifies the application is run
 
 #### Container Behavior
 
-The Docker container is designed to keep running even if the MangaArr application exits. This allows you to inspect logs and troubleshoot any issues that might cause the application to exit unexpectedly.
+The Docker container is designed to keep running even if the Readloom application exits. This allows you to inspect logs and troubleshoot any issues that might cause the application to exit unexpectedly.
 
 If you need to restart the application without restarting the container, you can use:
 
 ```bash
-docker exec -it mangarr python MangaArr.py -d /config/data -l /config/logs -o 0.0.0.0 -p 7227
+docker exec -it readloom python Readloom.py -d /config/data -l /config/logs -o 0.0.0.0 -p 7227
 ```
 
 To view logs:
 
 ```bash
-docker logs mangarr
+docker logs readloom
 ```
 
 To access the container shell:
 
 ```bash
-docker exec -it mangarr /bin/bash
+docker exec -it readloom /bin/bash
 ```
 
 #### Troubleshooting
 
-If you can't access MangaArr at http://localhost:7227 or http://127.0.0.1:7227, try the following:
+If you can't access Readloom at http://localhost:7227 or http://127.0.0.1:7227, try the following:
 
 1. **Check if the container is running**:
    ```bash
-   docker ps | grep mangarr
+   docker ps | grep readloom
    ```
 
 2. **Check container logs**:
    ```bash
-   docker logs mangarr
+   docker logs readloom
    ```
 
 3. **Run the debug script**:
    ```bash
-   docker exec -it mangarr /usr/local/bin/docker-debug.sh
+   docker exec -it readloom /usr/local/bin/docker-debug.sh
    ```
 
 4. **Check if the port is correctly mapped**:
    ```bash
-   docker port mangarr
+   docker port readloom
    ```
 
 5. **Try accessing with your Docker host IP**:
@@ -166,7 +166,7 @@ If you can't access MangaArr at http://localhost:7227 or http://127.0.0.1:7227, 
    
 6. **Restart the application inside the container**:
    ```bash
-   docker exec -it mangarr python MangaArr.py -d /config/data -l /config/logs -o 0.0.0.0 -p 7227
+   docker exec -it readloom python Readloom.py -d /config/data -l /config/logs -o 0.0.0.0 -p 7227
    ```
 
 7. **Check firewall settings**:
@@ -183,8 +183,8 @@ If you can't access MangaArr at http://localhost:7227 or http://127.0.0.1:7227, 
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/MangaArr.git
-   cd MangaArr
+   git clone https://github.com/yourusername/Readloom.git
+   cd Readloom
    ```
 
 2. Install dependencies:
@@ -192,12 +192,12 @@ If you can't access MangaArr at http://localhost:7227 or http://127.0.0.1:7227, 
    pip install -r requirements.txt
    ```
 
-3. Run MangaArr:
+3. Run Readloom:
    ```bash
-   python MangaArr.py
+   python Readloom.py
    ```
 
-MangaArr will be available at http://localhost:7227
+Readloom will be available at http://localhost:7227
 
 ## Documentation
 
@@ -218,7 +218,7 @@ Comprehensive documentation is available in the `docs/` directory:
 
 ## Configuration
 
-MangaArr stores its configuration in a SQLite database. You can modify settings through the web interface at http://localhost:7227/settings.
+Readloom stores its configuration in a SQLite database. You can modify settings through the web interface at http://localhost:7227/settings.
 
 ### Calendar Settings
 
@@ -247,27 +247,27 @@ MangaArr stores its configuration in a SQLite database. You can modify settings 
 - `-f, --LogFile`: The log file name
 - `-o, --Host`: The host to bind to (default: 0.0.0.0)
 - `-p, --Port`: The port to bind to (default: 7227)
-- `-u, --UrlBase`: The URL base (e.g., /mangarr)
+- `-u, --UrlBase`: The URL base (e.g., /readloom)
 
 ## Integrations
 
 ### Home Assistant
 
-MangaArr can integrate with Home Assistant to display your manga/comic collection and upcoming releases on your dashboard.
+Readloom can integrate with Home Assistant to display your manga/comic collection and upcoming releases on your dashboard.
 
-See the [Integrations](http://localhost:7227/integrations) page in the MangaArr web interface for setup instructions.
+See the [Integrations](http://localhost:7227/integrations) page in the Readloom web interface for setup instructions.
 
 ### Homarr
 
-MangaArr can integrate with Homarr to display your manga/comic collection status on your dashboard.
+Readloom can integrate with Homarr to display your manga/comic collection status on your dashboard.
 
-See the [Integrations](http://localhost:7227/integrations) page in the MangaArr web interface for setup instructions.
+See the [Integrations](http://localhost:7227/integrations) page in the Readloom web interface for setup instructions.
 
 ## Development
 
 ### Project Structure
 
-- `MangaArr.py`: Main application entry point
+- `Readloom.py`: Main application entry point
 - `backend/`: Backend code
   - `base/`: Base definitions and helpers
   - `features/`: Feature implementations
@@ -312,4 +312,4 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-MangaArr is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+Readloom is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.

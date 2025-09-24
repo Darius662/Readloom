@@ -158,7 +158,7 @@ def organize_ebook_path(series_id: int, volume_id: int, filename: str) -> Path:
     
     # Get series info
     series_info = execute_query(
-        "SELECT title, content_type FROM series WHERE id = ?", 
+        "SELECT title, content_type, custom_path FROM series WHERE id = ?", 
         (series_id,)
     )
     
@@ -169,9 +169,10 @@ def organize_ebook_path(series_id: int, volume_id: int, filename: str) -> Path:
         ensure_dir_exists(series_dir)
         return series_dir / filename
     
-    # Get series title and content type
+    # Get series title, content type, and custom path
     series_title = series_info[0]['title']
     content_type = series_info[0].get('content_type', 'MANGA')
+    custom_path = series_info[0].get('custom_path')
     
     # Get volume info
     volume_info = execute_query(
@@ -183,26 +184,31 @@ def organize_ebook_path(series_id: int, volume_id: int, filename: str) -> Path:
     # Create safe directory name
     safe_series_title = get_safe_folder_name(series_title)
     
-    # Get root folders from settings
-    settings = Settings().get_settings()
-    root_folders = settings.root_folders
-    
-    # Determine the series directory
-    if not root_folders:
-        # If no root folders configured, use default ebook storage
-        ebook_dir = get_ebook_storage_dir()
-        series_dir = ebook_dir / safe_series_title
+    # Check if custom path is set
+    if custom_path:
+        LOGGER.info(f"Using custom path for series {series_id}: {custom_path}")
+        series_dir = Path(custom_path)
     else:
-        # Use the first root folder
-        root_folder = root_folders[0]
-        root_path = Path(root_folder['path'])
-        series_dir = root_path / safe_series_title
+        # Get root folders from settings
+        settings = Settings().get_settings()
+        root_folders = settings.root_folders
+        
+        # Determine the series directory
+        if not root_folders:
+            # If no root folders configured, use default ebook storage
+            ebook_dir = get_ebook_storage_dir()
+            series_dir = ebook_dir / safe_series_title
+        else:
+            # Use the first root folder
+            root_folder = root_folders[0]
+            root_path = Path(root_folder['path'])
+            series_dir = root_path / safe_series_title
     
     # Create directories
     ensure_dir_exists(series_dir)
     
-    # Return full path
-    return series_dir / f"Volume_{volume_number}_{filename}"
+    # Return full path without adding Volume_ prefix
+    return series_dir / filename
 
 
 def get_safe_folder_name(name: str) -> str:
@@ -278,7 +284,7 @@ def ensure_readme_file(series_dir: Path, series_title: str, series_id: int, cont
             f.write(f"ID: {series_id}\n")
             f.write(f"Type: {content_type}\n")
             f.write(f"Created: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
-            f.write("\nThis folder is managed by MangARR. Place your e-book files here.\n")
+            f.write("\nThis folder is managed by Readloom. Place your e-book files here.\n")
         
         # Verify the file was created
         if readme_path.exists():

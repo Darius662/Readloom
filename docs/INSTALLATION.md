@@ -1,6 +1,6 @@
-# MangaArr Installation Guide
+# Readloom Installation Guide
 
-This guide will help you install and configure MangaArr on your system.
+This guide will help you install and configure Readloom on your system.
 
 ## Table of Contents
 
@@ -9,12 +9,12 @@ This guide will help you install and configure MangaArr on your system.
   - [Docker Installation (Recommended)](#docker-installation-recommended)
   - [Manual Installation](#manual-installation)
 - [Initial Configuration](#initial-configuration)
-- [Updating MangaArr](#updating-mangarr)
+- [Updating Readloom](#updating-readloom)
 - [Troubleshooting](#troubleshooting)
 
 ## Prerequisites
 
-Before installing MangaArr, make sure you have:
+Before installing Readloom, make sure you have:
 
 - A system running Windows, macOS, or Linux
 - For Docker installation:
@@ -28,20 +28,20 @@ Before installing MangaArr, make sure you have:
 
 ### Docker Installation (Recommended)
 
-Using Docker is the easiest way to get MangaArr up and running.
+Using Docker is the easiest way to get Readloom up and running.
 
 1. **Clone the repository** (or download and extract the ZIP file):
    ```bash
-   git clone https://github.com/yourusername/MangaArr.git
-   cd MangaArr
+   git clone https://github.com/yourusername/Readloom.git
+   cd Readloom
    ```
 
-2. **Start MangaArr with Docker Compose**:
+2. **Start Readloom with Docker Compose**:
    ```bash
    docker-compose up -d
    ```
 
-3. **Access MangaArr** at http://localhost:7227
+3. **Access Readloom** at http://localhost:7227
 
 #### Docker Compose Configuration
 
@@ -51,9 +51,9 @@ You can customize the Docker Compose configuration by editing the `docker-compos
 version: '3'
 
 services:
-  mangarr:
+  readloom:
     build: .
-    container_name: mangarr
+    container_name: readloom
     restart: unless-stopped
     ports:
       - "7227:7227"  # Change the first number to use a different port
@@ -65,12 +65,12 @@ services:
 
 ### Manual Installation
 
-If you prefer not to use Docker, you can install MangaArr manually.
+If you prefer not to use Docker, you can install Readloom manually.
 
 1. **Clone the repository** (or download and extract the ZIP file):
    ```bash
-   git clone https://github.com/yourusername/MangaArr.git
-   cd MangaArr
+   git clone https://github.com/yourusername/Readloom.git
+   cd Readloom
    ```
 
 2. **Install dependencies**:
@@ -78,36 +78,36 @@ If you prefer not to use Docker, you can install MangaArr manually.
    pip install -r requirements.txt
    ```
 
-3. **Run MangaArr**:
+3. **Run Readloom**:
    ```bash
-   python MangaArr.py
+   python Readloom.py
    ```
 
-4. **Access MangaArr** at http://localhost:7227
+4. **Access Readloom** at http://localhost:7227
 
 #### Command Line Arguments
 
-MangaArr supports several command line arguments:
+Readloom supports several command line arguments:
 
 - `-d, --DatabaseFolder`: The folder to store the database in
 - `-l, --LogFolder`: The folder to store logs in
 - `-f, --LogFile`: The log file name
 - `-o, --Host`: The host to bind to (default: 0.0.0.0)
 - `-p, --Port`: The port to bind to (default: 7227)
-- `-u, --UrlBase`: The URL base (e.g., /mangarr)
+- `-u, --UrlBase`: The URL base (e.g., /readloom)
 
 Example:
 ```bash
-python MangaArr.py -d /path/to/data -l /path/to/logs -p 8080
+python Readloom.py -d /path/to/data -l /path/to/logs -p 8080
 ```
 
 ## Initial Configuration
 
-After installing MangaArr, you'll be guided through a setup wizard to configure the essential components:
+After installing Readloom, you'll be guided through a setup wizard to configure the essential components:
 
 ### Setup Wizard
 
-When you first access MangaArr at http://localhost:7227 (or your custom port), you'll be presented with a setup wizard that will guide you through:
+When you first access Readloom at http://localhost:7227 (or your custom port), you'll be presented with a setup wizard that will guide you through:
 
 1. **Creating your first collection**:
    - Enter a name for your collection (e.g., "My Manga Collection")
@@ -152,7 +152,7 @@ After completing the setup wizard, you can proceed with further configuration:
    - Configure Home Assistant integration
    - Configure Homarr integration
 
-## Updating MangaArr
+## Updating Readloom
 
 ### Docker Update
 
@@ -180,9 +180,9 @@ After completing the setup wizard, you can proceed with further configuration:
    pip install -r requirements.txt
    ```
 
-3. **Restart MangaArr**:
+3. **Restart Readloom**:
    ```bash
-   python MangaArr.py
+   python Readloom.py
    ```
 
 ## Troubleshooting
@@ -196,7 +196,7 @@ If you encounter database errors:
 1. Make sure the database directory is writable
 2. Try backing up and recreating the database:
    ```bash
-   mv data/mangarr.db data/mangarr.db.bak
+   mv data/readloom.db data/readloom.db.bak
    ```
 
 #### Port Already in Use
@@ -218,7 +218,7 @@ If integrations with Home Assistant or Homarr aren't working:
    - Verify sensor entities are created correctly
 5. For Homarr:
    - Ensure the status endpoint is correctly configured
-   - Check that the MangaArr service is properly added to your Homarr dashboard
+   - Check that the Readloom service is properly added to your Homarr dashboard
 
 #### Folder Structure Issues
 
@@ -260,4 +260,4 @@ If you encounter issues not covered here:
 2. Search for similar issues in the GitHub repository
 3. Open a new issue with detailed information about your problem
 
-For more information, visit the [MangaArr GitHub repository](https://github.com/yourusername/MangaArr).
+For more information, visit the [Readloom GitHub repository](https://github.com/yourusername/Readloom).

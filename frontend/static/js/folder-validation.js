@@ -1,5 +1,5 @@
 /**
- * Folder validation utilities for the MangaArr UI.
+ * Folder validation utilities for the Readloom UI.
  */
 
 /**

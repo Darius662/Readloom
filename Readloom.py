@@ -38,7 +38,7 @@ def _is_running_in_docker() -> bool:
         pass
     
     # Check for environment variable that we set in our Dockerfile
-    if environ.get('MANGARR_DOCKER') == '1':
+    if environ.get('READLOOM_DOCKER') == '1':
         return True
     
     return False
@@ -56,21 +56,21 @@ def _main(
     port: Union[int, None] = None,
     url_base: Union[str, None] = None
 ) -> NoReturn:
-    """The main function of the MangaArr sub-process.
+    """The main function of the Readlook sub-process.
 
     Args:
         start_type (StartType): The type of (re)start.
 
         db_folder (Union[str, None], optional): The folder in which the database
-        will be stored or in which a database is for MangaArr to use.
+        will be stored or in which a database is for Readloom to use.
             Defaults to None.
 
         log_folder (Union[str, None], optional): The folder in which the logs
-        from MangaArr will be stored.
+        from Readlook will be stored.
             Defaults to None.
 
         log_file (Union[str, None], optional): The filename of the file in which
-        the logs from MangaArr will be stored.
+        the logs from Readlook will be stored.
             Defaults to None.
 
         host (Union[str, None], optional): The host to bind the server to.
@@ -92,7 +92,7 @@ def _main(
     """
     set_start_method('spawn')
     setup_logging(log_folder, log_file)
-    LOGGER.info('Starting up MangaArr')
+    LOGGER.info('Starting up Readloom')
 
     if not check_min_python_version(*Constants.MIN_PYTHON_VERSION):
         exit(1)
@@ -158,7 +158,7 @@ def _main(
                 LOGGER.info('Restart requested, but running in Docker. Exiting with code 0 instead.')
                 exit(0)
             else:
-                LOGGER.info('Restarting MangaArr')
+                LOGGER.info('Restarting Readloom')
                 exit(SERVER.start_type.value)
 
         exit(0)
@@ -201,10 +201,10 @@ def _stop_sub_process(proc: Popen) -> None:
 def _run_sub_process(
     start_type: StartType = StartType.STARTUP
 ) -> int:
-    """Start the sub-process that MangaArr will be run in.
+    """Start the sub-process that Readloom will be run in.
 
     Args:
-        start_type (StartType, optional): Why MangaArr was started.
+        start_type (StartType, optional): Why Readloom was started.
             Defaults to `StartType.STARTUP`.
 
     Returns:
@@ -212,8 +212,8 @@ def _run_sub_process(
     """
     env = {
         **environ,
-        "MANGARR_RUN_MAIN": "1",
-        "MANGARR_START_TYPE": str(start_type.value)
+        "READLOOM_RUN_MAIN": "1",
+        "READLOOM_START_TYPE": str(start_type.value)
     }
 
     py_exe = get_python_exe()
@@ -236,8 +236,8 @@ def _run_sub_process(
         return 0
 
 
-def MangaArr() -> int:
-    """The main function of MangaArr.
+def Readloom() -> int:
+    """The main function of Readloom.
 
     Returns:
         int: The return code.
@@ -252,26 +252,26 @@ def MangaArr() -> int:
 
 
 if __name__ == "__main__":
-    if environ.get("MANGARR_RUN_MAIN") == "1":
+    if environ.get("READLOOM_RUN_MAIN") == "1":
 
         parser = ArgumentParser(
-            description="MangaArr is a manga, manwa, and comics collection manager with a focus on release tracking and calendar functionality.")
+            description="Readloom is a manga, manwa, and comics collection manager with a focus on release tracking and calendar functionality.")
 
         fs = parser.add_argument_group(title="Folders and files")
         fs.add_argument(
             '-d', '--DatabaseFolder',
             type=str,
-            help="The folder in which the database will be stored or in which a database is for MangaArr to use"
+            help="The folder in which the database will be stored or in which a database is for Readloom to use"
         )
         fs.add_argument(
             '-l', '--LogFolder',
             type=str,
-            help="The folder in which the logs from MangaArr will be stored"
+            help="The folder in which the logs from Readloom will be stored"
         )
         fs.add_argument(
             '-f', '--LogFile',
             type=str,
-            help="The filename of the file in which the logs from MangaArr will be stored"
+            help="The filename of the file in which the logs from Readloom will be stored"
         )
 
         hs = parser.add_argument_group(title="Hosting settings")
@@ -294,7 +294,7 @@ if __name__ == "__main__":
         args = parser.parse_args()
 
         st = StartType(int(environ.get(
-            "MANGARR_START_TYPE",
+            "READLOOM_START_TYPE",
             StartType.STARTUP.value
         )))
 
@@ -358,5 +358,5 @@ if __name__ == "__main__":
                 raise e
 
     else:
-        rc = MangaArr()
+        rc = Readloom()
         exit(rc)

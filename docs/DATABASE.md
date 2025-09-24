@@ -1,10 +1,10 @@
-# MangaArr Database Schema
+# Readloom Database Schema
 
-This document describes the database schema used by MangaArr, including tables, relationships, and constraints.
+This document describes the database schema used by Readloom, including tables, relationships, and constraints.
 
 ## Overview
 
-MangaArr uses SQLite as its database engine. The database includes foreign key constraints to maintain data integrity and prevent orphaned records.
+Readloom uses SQLite as its database engine. The database includes foreign key constraints to maintain data integrity and prevent orphaned records.
 
 ## Tables
 
@@ -88,10 +88,13 @@ CREATE TABLE series (
     content_type TEXT DEFAULT 'MANGA',
     metadata_source TEXT,
     metadata_id TEXT,
+    custom_path TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )
 ```
+
+The `custom_path` column was added in version 0.0.9 to allow users to specify a custom folder path for a series, enabling the use of existing folder structures without copying files.
 
 ### volumes
 
@@ -209,7 +212,7 @@ CREATE TABLE collection_items (
 
 ## Foreign Key Constraints
 
-MangaArr uses foreign key constraints to maintain referential integrity:
+Readloom uses foreign key constraints to maintain referential integrity:
 
 1. When a collection is deleted:
    - All its links to root folders are deleted (CASCADE)
@@ -271,7 +274,7 @@ When upgrading to v0.0.7, a migration script will:
 When upgrading from a version before 0.0.5:
 1. Back up your database
 2. Delete the existing database file
-3. Restart MangaArr to create a new database with proper constraints
+3. Restart Readloom to create a new database with proper constraints
 4. Re-import your series using the metadata providers
 
 ## Best Practices

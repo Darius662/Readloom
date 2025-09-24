@@ -1,9 +1,9 @@
 version: '3'
 
 services:
-  mangarr-test:
+  readloom-test:
     build: .
-    container_name: mangarr-test
+    container_name: readloom-test
     restart: "no"
     ports:
       - "7227:7227"

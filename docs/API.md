@@ -1,10 +1,10 @@
-# MangaArr API Documentation
+# Readloom API Documentation
 
-This document describes the API endpoints available in MangaArr for integration with other applications.
+This document describes the API endpoints available in Readloom for integration with other applications.
 
 ## API Overview
 
-MangaArr provides a RESTful API that allows you to:
+Readloom provides a RESTful API that allows you to:
 
 - Manage series, volumes, and chapters
 - Access calendar events
@@ -164,7 +164,8 @@ Updates an existing series.
 ```json
 {
   "title": "One Piece (Updated)",
-  "status": "HIATUS"
+  "status": "HIATUS",
+  "custom_path": "/path/to/my/manga/One Piece"
 }
 ```
 
@@ -181,9 +182,39 @@ Updates an existing series.
     "status": "HIATUS",
     "metadata_source": "MANUAL",
     "metadata_id": null,
+    "custom_path": "/path/to/my/manga/One Piece",
     "created_at": "2025-09-18T10:00:00",
     "updated_at": "2025-09-18T10:05:00"
   }
+}
+```
+
+#### Set Custom Path for Series
+
+```
+PUT /api/series/{id}/custom-path
+```
+
+Sets a custom path for a series. This allows using an existing folder structure without copying files.
+
+**Request Body:**
+```json
+{
+  "custom_path": "/path/to/my/manga/One Piece"
+}
+```
+
+**Example Response:**
+```json
+{
+  "message": "Custom path set successfully: /path/to/my/manga/One Piece"
+}
+```
+
+If the path doesn't exist or isn't accessible:
+```json
+{
+  "error": "Path does not exist: /path/to/my/manga/One Piece"
 }
 ```
 
@@ -1681,8 +1712,8 @@ Returns setup instructions for Home Assistant integration.
 **Example Response:**
 ```json
 {
-  "title": "MangaArr Home Assistant Integration",
-  "description": "Follow these steps to integrate MangaArr with your Home Assistant instance.",
+  "title": "Readloom Home Assistant Integration",
+  "description": "Follow these steps to integrate Readloom with your Home Assistant instance.",
   "base_url": "http://localhost:7227",
   "api_endpoint": "http://localhost:7227/api/integrations/home-assistant",
   "steps": [...],
@@ -1701,7 +1732,7 @@ Returns data for Homarr integration.
 **Example Response:**
 ```json
 {
-  "app": "MangaArr",
+  "app": "Readloom",
   "version": "1.0.0",
   "status": "ok",
   "info": {
@@ -1725,8 +1756,8 @@ Returns setup instructions for Homarr integration.
 **Example Response:**
 ```json
 {
-  "title": "MangaArr Homarr Integration",
-  "description": "Follow these steps to integrate MangaArr with your Homarr dashboard.",
+  "title": "Readloom Homarr Integration",
+  "description": "Follow these steps to integrate Readloom with your Homarr dashboard.",
   "base_url": "http://localhost:7227",
   "api_endpoint": "http://localhost:7227/api/integrations/homarr",
   "steps": [...],

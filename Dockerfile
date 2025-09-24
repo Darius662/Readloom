@@ -1,13 +1,13 @@
 FROM python:3.11-slim
 
-LABEL maintainer="MangaArr Team"
+LABEL maintainer="Readloom Team"
 LABEL description="Manga, Manwa, and Comics Collection Manager"
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
-ENV MANGARR_DATA=/config
-ENV MANGARR_DOCKER=1
+ENV READLOOM_DATA=/config
+ENV READLOOM_DOCKER=1
 
 # Create app directory
 WORKDIR /app
@@ -23,8 +23,8 @@ RUN apt-get update && apt-get install -y curl netcat-openbsd && \
 # Copy application code
 COPY . .
 
-# Copy the direct version of MangaArr.py
-COPY MangaArr_direct.py /app/
+# Copy the direct version of Readloom.py
+COPY Readloom_direct.py /app/
 
 # Create volume directories
 RUN mkdir -p /config/data /config/logs

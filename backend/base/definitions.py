@@ -22,8 +22,8 @@ class Constants:
     DEFAULT_LOG_LEVEL: str = "INFO"
     DEFAULT_LOG_ROTATION: int = 5
     DEFAULT_LOG_SIZE: int = 10
-    DEFAULT_DB_NAME: str = "mangarr.db"
-    DEFAULT_LOG_NAME: str = "mangarr.log"
+    DEFAULT_DB_NAME: str = "readloom.db"
+    DEFAULT_LOG_NAME: str = "readloom.log"
     DEFAULT_CONFIG_NAME: str = "config"
     DEFAULT_METADATA_CACHE_DAYS: int = 7
     DEFAULT_CALENDAR_RANGE_DAYS: int = 14

@@ -40,7 +40,7 @@ class AniListProvider(MetadataProvider):
         self.headers = {
             "Content-Type": "application/json",
             "Accept": "application/json",
-            "User-Agent": "MangaArr/1.0.0",
+            "User-Agent": "Readloom/1.0.0",
         }
         self.session = requests.Session()
 

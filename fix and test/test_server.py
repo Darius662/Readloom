@@ -10,7 +10,7 @@ def hello():
     return """
     <html>
     <head>
-        <title>MangaArr Test Server</title>
+        <title>Readloom Test Server</title>
         <style>
             body {
                 font-family: Arial, sans-serif;
@@ -35,10 +35,10 @@ def hello():
     </head>
     <body>
         <div class="container">
-            <h1>MangaArr Test Server</h1>
+            <h1>Readloom Test Server</h1>
             <p class="success">✅ If you can see this page, the Flask server is running correctly!</p>
             <p>This is a simple test server to verify that the Docker container's networking is set up correctly.</p>
-            <p>You should now be able to access the main MangaArr application.</p>
+            <p>You should now be able to access the main Readloom application.</p>
         </div>
     </body>
     </html>

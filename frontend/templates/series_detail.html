@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}MangaArr - Series Detail{% endblock %}
+{% block title %}Readloom - Series Detail{% endblock %}
 
 {% block page_title %}Series Detail{% endblock %}
 
@@ -253,6 +253,20 @@
                         <label for="series-cover-url" class="form-label">Cover URL</label>
                         <input type="url" class="form-control" id="series-cover-url">
                     </div>
+                    <div class="mb-3">
+                        <label for="series-custom-path" class="form-label">Custom Path</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="series-custom-path" placeholder="/path/to/manga/folder or C:\Path\to\manga\folder">
+                            <button class="btn btn-outline-secondary" type="button" id="validate-series-custom-path-btn">Validate</button>
+                        </div>
+                        <div class="form-text">If your e-books are in a different location than the default, specify the full path here.</div>
+                        <div id="series-custom-path-validation-status" class="mt-2"></div>
+                        <div class="mt-2">
+                            <button type="button" class="btn btn-outline-primary btn-sm" id="create-series-custom-path-btn" style="display: none;" disabled>
+                                <i class="fas fa-folder-plus"></i> Create Folder
+                            </button>
+                        </div>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -314,11 +328,53 @@
     .toast-container {
         z-index: 9999;
     }
+    
+    /* Modal styling fixes */
+    .modal {
+        overflow-y: auto !important;
+        z-index: 1050 !important;
+    }
+    
+    .modal-backdrop {
+        z-index: 1040 !important;
+    }
+    
+    .modal-dialog {
+        margin: 1.75rem auto;
+        max-width: 600px;
+        width: auto;
+        z-index: 1055 !important;
+    }
+    
+    .modal-content {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        pointer-events: auto;
+        background-color: var(--bs-modal-bg, #fff);
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        border-radius: 0.3rem;
+        outline: 0;
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    }
+    
+    /* Ensure modal elements are clickable */
+    .modal-header,
+    .modal-body,
+    .modal-footer,
+    .modal-content button,
+    .modal-content input,
+    .modal-content .input-group {
+        pointer-events: auto !important;
+        position: relative;
+        z-index: 1060 !important;
+    }
 </style>
 {% endblock %}
 
 {% block scripts %}
 <script src="{{ url_for('ui.static', filename='js/ebook-manager.js') }}"></script>
+<script src="{{ url_for('static', filename='js/folder-validation.js') }}"></script>
 <script>
     $(document).ready(function() {
         const seriesId = "{{ series_id }}";
@@ -389,10 +445,16 @@
                     $('#series-status').val(series.status || 'UNKNOWN');
                     $('#series-description').val(series.description || '');
                     $('#series-cover-url').val(series.cover_url || '');
+                    $('#series-custom-path').val(series.custom_path || '');
                     
                     // Set content type if available, default to MANGA
                     const contentType = series.content_type || 'MANGA';
                     $('#series-content-type').val(contentType);
+                    
+                    // Validate the custom path if it exists
+                    if (series.custom_path) {
+                        validatePath($('#series-custom-path').val(), 'series-custom-path-validation-status', 'save-series-btn', 'create-series-custom-path-btn');
+                    }
                     
                     // Show the modal
                     const seriesModal = new bootstrap.Modal(document.getElementById('seriesModal'));
@@ -1007,7 +1069,8 @@
                 status: $('#series-status').val(),
                 description: $('#series-description').val(),
                 cover_url: $('#series-cover-url').val(),
-                content_type: $('#series-content-type').val()
+                content_type: $('#series-content-type').val(),
+                custom_path: $('#series-custom-path').val()
             };
             
             // Disable button and show loading
@@ -1064,9 +1127,27 @@
                                 <p class="text-muted">Place your e-book files in this folder: <span id="folder-path-info" class="font-monospace">Loading...</span></p>
                                 <p class="small">Supported file formats: PDF, EPUB, CBZ, CBR, MOBI, AZW</p>
                                 <p class="small">Naming examples: "Volume 1.pdf", "Vol 2.epub", "v3.cbz", "4.pdf"</p>
+                                
+                                <div class="mt-3">
+                                    <p class="small">To set a custom path for this series, use the <strong>Edit Series</strong> button above.</p>
+                                </div>
                             </div>
                             <hr>
                             <p>Scan your data directory for e-books and automatically add them to the database.</p>
+                            <div class="mb-3">
+                                <label for="custom-path" class="form-label">Custom Path (Optional)</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="custom-path" placeholder="/path/to/manga/folder or C:\Path\to\manga\folder">
+                                    <button class="btn btn-outline-secondary" type="button" id="validate-custom-path-btn">Validate</button>
+                                </div>
+                                <div class="form-text">If your e-books are in a different location than the default, specify the full path here.</div>
+                                <div id="custom-path-validation-status" class="mt-2"></div>
+                                <div class="mt-2">
+                                    <button type="button" class="btn btn-outline-primary" id="create-custom-path-btn" style="display: none;" disabled>
+                                        <i class="fas fa-folder-plus"></i> Create Folder
+                                    </button>
+                                </div>
+                            </div>
                             <button class="btn btn-primary" id="scan-ebooks-btn">
                                 <i class="fas fa-search"></i> Scan for E-books
                             </button>
@@ -1084,15 +1165,26 @@
             const originalText = button.text();
             button.prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Scanning...');
             
+            // Get custom path if provided
+            const customPath = $('#custom-path').val().trim();
+            
+            // Prepare request data
+            const requestData = {
+                series_id: seriesId
+            };
+            
+            // Add custom path if provided
+            if (customPath) {
+                requestData.custom_path = customPath;
+            }
+            
             // Scan for e-books for this specific series
             fetch('/api/ebooks/scan', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
-                    series_id: seriesId
-                })
+                body: JSON.stringify(requestData)
             })
             .then(response => response.json())
             .then(data => {
@@ -1100,14 +1192,22 @@
                     console.error('Error scanning for e-books:', data.error);
                     $('#scan-results').html(`<div class="alert alert-danger">Error: ${data.error}</div>`).show();
                 } else {
-                    const stats = data.stats;
+                    // Get stats from response, ensure all values are defined
+                    const stats = data.stats || {};
+                    const scanned = stats.scanned || 0;
+                    const added = stats.added || 0;
+                    const skipped = stats.skipped || 0;
+                    const errors = stats.errors || 0;
+                    
+                    console.log('Scan stats:', stats);
+                    
                     $('#scan-results').html(`
                         <div class="alert alert-success">
                             <h5>Scan Complete</h5>
-                            <p>Scanned: ${stats.scanned} files</p>
-                            <p>Added: ${stats.added} files</p>
-                            <p>Skipped: ${stats.skipped} files</p>
-                            <p>Errors: ${stats.errors} files</p>
+                            <p>Scanned: ${scanned} files</p>
+                            <p>Added: ${added} files</p>
+                            <p>Skipped: ${skipped} files</p>
+                            <p>Errors: ${errors} files</p>
                         </div>
                     `).show();
                     
@@ -1127,6 +1227,14 @@
         
         // Initial load
         loadSeriesData();
+        
+        // Set up folder validation for the custom path
+        setupFolderValidation('custom-path', 'custom-path-validation-status', 'validate-custom-path-btn', 'create-custom-path-btn');
+        
+        // Set up folder validation for the series custom path in the Edit Series modal
+        setupFolderValidation('series-custom-path', 'series-custom-path-validation-status', 'validate-series-custom-path-btn', 'create-series-custom-path-btn');
+        
+        // No custom path modal code needed as we've moved the functionality to the Edit Series modal
     });
 </script>
 {% endblock %}

@@ -11,7 +11,7 @@ MAL_URL = "https://myanimelist.net/manga"
 
 # Headers
 DEFAULT_HEADERS = {
-    "User-Agent": "MangaArr/1.0.0",
+    "User-Agent": "Readloom/1.0.0",
     "Accept": "application/json"
 }
 

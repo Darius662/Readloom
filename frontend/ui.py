@@ -257,7 +257,7 @@ def inject_globals():
     settings = Settings().get_settings()
     
     return {
-        'app_name': 'MangaArr',
+        'app_name': 'Readloom',
         'app_version': '1.0.0',
         'current_year': datetime.now().year,
         'url_base': settings.url_base

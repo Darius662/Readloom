@@ -7,7 +7,7 @@ MangaDex constants.
 
 # Default headers for MangaDex API requests
 DEFAULT_HEADERS = {
-    "User-Agent": "MangaArr/1.0.0",
+    "User-Agent": "Readloom/1.0.0",
     "Accept": "application/json",
     "Content-Type": "application/json"
 }

@@ -1,10 +1,10 @@
 # Metadata Providers
 
-This document describes the behavior and implementation details of MangaArr's metadata providers.
+This document describes the behavior and implementation details of Readloom's metadata providers.
 
 ## Overview
 
-MangaArr supports multiple metadata providers for fetching manga information, including:
+Readloom supports multiple metadata providers for fetching manga information, including:
 - AniList (primary recommended provider)
 - MyAnimeList (via Jikan API)
 - MangaDex

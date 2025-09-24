@@ -208,27 +208,42 @@ def get_series_folder_path():
         title = data["title"]
         content_type = data["content_type"]
         
-        # Create folder name that preserves spaces but replaces invalid characters
-        safe_title = get_safe_folder_name(title)
-        LOGGER.info(f"Original title: '{title}', Safe title for folder: '{safe_title}'")
+        # Check if the series has a custom path
+        custom_path = execute_query("SELECT custom_path FROM series WHERE id = ?", (series_id,))
+        has_custom_path = False
         
+        if custom_path:
+            try:
+                if custom_path[0]['custom_path']:
+                    has_custom_path = True
+            except (KeyError, IndexError) as e:
+                LOGGER.warning(f"Error accessing custom path: {e}")
         
-        # Get root folders from settings
-        from backend.internals.settings import Settings
-        from pathlib import Path
-        settings = Settings().get_settings()
-        root_folders = settings.root_folders
-        
-        # If no root folders configured, use default ebook storage
-        if not root_folders:
-            # Get ebook storage directory
-            ebook_dir = get_ebook_storage_dir()
-            series_dir = ebook_dir / safe_title
+        if has_custom_path:
+            # Use the custom path
+            series_dir = Path(custom_path[0]['custom_path'])
+            LOGGER.info(f"Using custom path for series {series_id}: {series_dir}")
         else:
-            # Use the first root folder
-            root_folder = root_folders[0]
-            root_path = Path(root_folder['path'])
-            series_dir = root_path / safe_title
+            # Create folder name that preserves spaces but replaces invalid characters
+            safe_title = get_safe_folder_name(title)
+            LOGGER.info(f"Original title: '{title}', Safe title for folder: '{safe_title}'")
+            
+            # Get root folders from settings
+            from backend.internals.settings import Settings
+            from pathlib import Path
+            settings = Settings().get_settings()
+            root_folders = settings.root_folders
+            
+            # If no root folders configured, use default ebook storage
+            if not root_folders:
+                # Get ebook storage directory
+                ebook_dir = get_ebook_storage_dir()
+                series_dir = ebook_dir / safe_title
+            else:
+                # Use the first root folder
+                root_folder = root_folders[0]
+                root_path = Path(root_folder['path'])
+                series_dir = root_path / safe_title
         
         # Return the folder path
         return jsonify({"folder_path": str(series_dir)})
@@ -460,7 +475,7 @@ def update_series(series_id: int):
         update_fields = []
         params = []
         
-        for field in ["title", "description", "author", "publisher", "cover_url", "status", "content_type", "metadata_source", "metadata_id"]:
+        for field in ["title", "description", "author", "publisher", "cover_url", "status", "content_type", "metadata_source", "metadata_id", "custom_path"]:
             if field in data:
                 update_fields.append(f"{field} = ?")
                 params.append(data[field])
@@ -508,6 +523,77 @@ def update_series(series_id: int):
     
     except Exception as e:
         LOGGER.error(f"Error updating series {series_id}: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@api_bp.route('/series/<int:series_id>/custom-path', methods=['PUT'])
+def set_series_custom_path(series_id: int):
+    """Set a custom path for a series.
+    
+    Args:
+        series_id (int): The series ID.
+        
+    Returns:
+        Response: Success message or error.
+    """
+    try:
+        data = request.json or {}
+        custom_path = data.get('custom_path')
+        
+        if not custom_path:
+            return jsonify({"error": "Custom path is required"}), 400
+        
+        # Check if series exists
+        series = execute_query("SELECT * FROM series WHERE id = ?", (series_id,))
+        if not series:
+            return jsonify({"error": f"Series with ID {series_id} not found"}), 404
+        
+        # Validate the custom path
+        import os
+        from pathlib import Path
+        
+        path_obj = Path(custom_path)
+        if not path_obj.exists():
+            return jsonify({"error": f"Path does not exist: {custom_path}"}), 400
+        
+        if not path_obj.is_dir():
+            return jsonify({"error": f"Path is not a directory: {custom_path}"}), 400
+        
+        if not os.access(custom_path, os.R_OK):
+            return jsonify({"error": f"No read permission for path: {custom_path}"}), 400
+        
+        # Update the series with the custom path
+        execute_query("""
+        UPDATE series 
+        SET custom_path = ?,
+            updated_at = CURRENT_TIMESTAMP
+        WHERE id = ?
+        """, (custom_path, series_id), commit=True)
+        
+        # Check if the default folder is empty and remove it if needed
+        series_title = series[0]['title']
+        safe_title = get_safe_folder_name(series_title)
+        
+        # Get root folders from settings
+        from backend.internals.settings import Settings
+        settings = Settings().get_settings()
+        root_folders = settings.root_folders
+        
+        for root_folder in root_folders:
+            default_path = Path(root_folder['path']) / safe_title
+            if default_path.exists() and default_path.is_dir():
+                # Check if the folder is empty (except for README.txt)
+                files = list(default_path.glob('*'))
+                if not files or (len(files) == 1 and files[0].name == 'README.txt'):
+                    # Folder is empty or only contains README.txt, remove it
+                    import shutil
+                    LOGGER.info(f"Removing empty default folder: {default_path}")
+                    shutil.rmtree(default_path)
+        
+        return jsonify({"message": f"Custom path set successfully: {custom_path}"})
+    
+    except Exception as e:
+        LOGGER.error(f"Error setting custom path: {e}")
         return jsonify({"error": str(e)}), 500
 
 
@@ -1649,7 +1735,7 @@ def send_test_notification_api():
     try:
         data = request.json or {}
         title = data.get('title', 'Test Notification')
-        message = data.get('message', 'This is a test notification from MangaArr.')
+        message = data.get('message', 'This is a test notification from Readloom.')
         type = data.get('type', 'INFO')
         
         success = send_notification(title, message, type)

@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}MangaArr - Collection{% endblock %}
+{% block title %}Readloom - Collection{% endblock %}
 
 {% block page_title %}My Collection{% endblock %}
 

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Collection management functions for MangaArr.
+Collection management functions for Readloom.
 
 This module provides functions for managing collections and their relationships
 with root folders and series.

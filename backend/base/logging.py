@@ -11,7 +11,7 @@ from backend.base.definitions import Constants
 from backend.base.helpers import ensure_dir_exists, get_logs_dir
 
 # Create a logger
-LOGGER = logging.getLogger("MangaArr")
+LOGGER = logging.getLogger("Readloom")
 
 
 def setup_logging(log_folder: Optional[str] = None, log_file: Optional[str] = None) -> None:

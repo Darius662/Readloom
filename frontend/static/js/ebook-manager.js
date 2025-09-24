@@ -1,5 +1,5 @@
 /**
- * E-book manager for MangaArr
+ * E-book manager for Readloom
  */
 
 class EbookManager {

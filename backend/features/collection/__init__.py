@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-"""Collection package for MangaArr.
+"""Collection package for Readloom.
 
 Provides functions for managing manga collection tracking.
 """

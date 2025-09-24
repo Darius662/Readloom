@@ -1,10 +1,10 @@
-# MangaArr Codebase Structure
+# Readloom Codebase Structure
 
-This document provides an overview of the MangaArr codebase structure after the modularization refactoring.
+This document provides an overview of the Readloom codebase structure after the modularization refactoring.
 
 ## Overview
 
-MangaArr's backend has been refactored to follow a modular package-based structure. Large monolithic files have been split into smaller, focused modules organized into packages. This improves maintainability, readability, and makes the codebase easier to extend.
+Readloom's backend has been refactored to follow a modular package-based structure. Large monolithic files have been split into smaller, focused modules organized into packages. This improves maintainability, readability, and makes the codebase easier to extend.
 
 ## Directory Structure
 
@@ -185,7 +185,7 @@ The notification system has been modularized into:
 
 ## File and Folder Management
 
-MangaArr includes utilities for managing files and folders, particularly for e-book organization:
+Readloom includes utilities for managing files and folders, particularly for e-book organization:
 
 ### Folder Creation
 
@@ -205,7 +205,7 @@ These functions handle:
 
 ### Folder Structure
 
-When a series is added to the library or imported from a metadata source, MangaArr automatically creates a folder structure:
+When a series is added to the library or imported from a metadata source, Readloom automatically creates a folder structure:
 
 ```
 /your/root/folder/

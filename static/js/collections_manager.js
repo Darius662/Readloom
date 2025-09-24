@@ -1,5 +1,5 @@
 /**
- * MangaArr - Collections Manager
+ * Readloom - Collections Manager
  * Handles the management of multiple collections and their root folders
  */
 

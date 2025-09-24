@@ -1,14 +1,14 @@
 #!/bin/bash
 
-echo "=== MangaArr Docker Debug Script ==="
-echo "Checking if MangaArr is running..."
+echo "=== Readloom Docker Debug Script ==="
+echo "Checking if Readloom is running..."
 
 # Check if the process is running
-if pgrep -f "python.*MangaArr.py" > /dev/null; then
-    echo "✓ MangaArr process is running"
-    ps aux | grep "python.*MangaArr.py" | grep -v grep
+if pgrep -f "python.*Readloom.py" > /dev/null; then
+    echo "✓ Readloom process is running"
+    ps aux | grep "python.*Readloom.py" | grep -v grep
 else
-    echo "✗ MangaArr process is NOT running"
+    echo "✗ Readloom process is NOT running"
 fi
 
 # Check if the port is open

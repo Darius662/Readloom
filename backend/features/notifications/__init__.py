@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Notifications package for MangaArr.
+Notifications package for Readloom.
 """
 
 from .schema import setup_notifications_tables

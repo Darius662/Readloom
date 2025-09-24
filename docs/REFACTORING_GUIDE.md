@@ -1,6 +1,6 @@
-# MangaArr Refactoring Guide
+# Readloom Refactoring Guide
 
-This document provides guidelines and best practices for refactoring code in the MangaArr project, based on the recent modularization effort.
+This document provides guidelines and best practices for refactoring code in the Readloom project, based on the recent modularization effort.
 
 ## Why Refactor?
 
@@ -16,7 +16,7 @@ Refactoring is the process of restructuring existing code without changing its e
 
 ### Package-Based Modularization
 
-The primary pattern used in MangaArr is package-based modularization:
+The primary pattern used in Readloom is package-based modularization:
 
 1. **Identify a large module** that needs refactoring
 2. **Create a package** with the same name as the module
@@ -152,4 +152,4 @@ Here's an example of refactoring a metadata provider:
 
 ## Conclusion
 
-Refactoring is an ongoing process that improves code quality over time. By following these guidelines, you can contribute to making MangaArr's codebase more maintainable, extensible, and easier to understand.
+Refactoring is an ongoing process that improves code quality over time. By following these guidelines, you can contribute to making Readloom's codebase more maintainable, extensible, and easier to understand.

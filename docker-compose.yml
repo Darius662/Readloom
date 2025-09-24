@@ -1,9 +1,9 @@
 version: '3'
 
 services:
-  mangarr:
+  readloom:
     build: .
-    container_name: mangarr
+    container_name: readloom
     restart: "no"
     ports:
       - "7227:7227"

@@ -32,7 +32,7 @@ def _is_running_in_docker() -> bool:
         pass
     
     # Check for environment variable that we set in our Dockerfile
-    if environ.get('MANGARR_DOCKER') == '1':
+    if environ.get('READLOOM_DOCKER') == '1':
         return True
     
     return False
@@ -45,7 +45,7 @@ def main(
     port: Union[int, None] = None,
     url_base: Union[str, None] = None
 ) -> NoReturn:
-    """The main function of MangaArr.
+    """The main function of Readloom.
     
     Args:
         db_folder: The folder for the database
@@ -55,10 +55,10 @@ def main(
         port: The port to bind to
         url_base: The URL base
     """
-    print(f"Starting MangaArr on {host or '0.0.0.0'}:{port or 7227}...")
+    print(f"Starting Readloom on {host or '0.0.0.0'}:{port or 7227}...")
     
     setup_logging(log_folder, log_file)
-    LOGGER.info('Starting up MangaArr')
+    LOGGER.info('Starting up Readloom')
     
     if not check_min_python_version(*Constants.MIN_PYTHON_VERSION):
         print(f"Error: Python version {Constants.MIN_PYTHON_VERSION[0]}.{Constants.MIN_PYTHON_VERSION[1]} or higher is required")
@@ -103,36 +103,36 @@ def main(
         task_handler.handle_intervals()
     
     try:
-        print(f"\nMangaArr is now running!")
+        print(f"\nReadloom is now running!")
         print(f"Open your browser and navigate to http://{host or '0.0.0.0'}:{port or 7227}/ to view the application")
         
         # Run the server directly (no subprocess)
         SERVER.run(settings.host, settings.port)
     except KeyboardInterrupt:
-        print("\nShutting down MangaArr...")
+        print("\nShutting down Readloom...")
     finally:
         task_handler.stop_handle()
-        print("MangaArr has been shut down")
+        print("Readloom has been shut down")
 
 if __name__ == "__main__":
     parser = ArgumentParser(
-        description="MangaArr is a manga, manwa, and comics collection manager with a focus on release tracking and calendar functionality.")
+        description="Readloom is a manga, manwa, and comics collection manager with a focus on release tracking and calendar functionality.")
     
     fs = parser.add_argument_group(title="Folders and files")
     fs.add_argument(
         '-d', '--DatabaseFolder',
         type=str,
-        help="The folder in which the database will be stored or in which a database is for MangaArr to use"
+        help="The folder in which the database will be stored or in which a database is for Readloom to use"
     )
     fs.add_argument(
         '-l', '--LogFolder',
         type=str,
-        help="The folder in which the logs from MangaArr will be stored"
+        help="The folder in which the logs from Readloom will be stored"
     )
     fs.add_argument(
         '-f', '--LogFile',
         type=str,
-        help="The filename of the file in which the logs from MangaArr will be stored"
+        help="The filename of the file in which the logs from Readloom will be stored"
     )
     
     hs = parser.add_argument_group(title="Hosting settings")

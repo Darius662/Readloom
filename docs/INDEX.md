@@ -1,6 +1,6 @@
-# MangaArr Documentation Index
+# Readloom Documentation Index
 
-This document provides an overview of all available documentation for MangaArr.
+This document provides an overview of all available documentation for Readloom.
 
 ## Getting Started
 
@@ -31,7 +31,7 @@ This document provides an overview of all available documentation for MangaArr.
 
 ## Development
 
-- [Contributing Guide](CONTRIBUTING.md) - Guidelines for contributing to MangaArr
+- [Contributing Guide](CONTRIBUTING.md) - Guidelines for contributing to Readloom
 - [Code of Conduct](CODE_OF_CONDUCT.md) - Community guidelines
 - [Refactoring Guide](REFACTORING_GUIDE.md) - Guidelines for code refactoring
 

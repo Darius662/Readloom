@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Calendar package for MangaArr.
+Calendar package for Readloom.
 """
 
 from .calendar import update_calendar, get_calendar_events

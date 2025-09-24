@@ -54,7 +54,7 @@ def create_series_folder(series_title, content_type="MANGA", series_id=1):
                 f.write(f"ID: {series_id}\n")
                 f.write(f"Type: {content_type}\n")
                 f.write(f"Created: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
-                f.write("\nThis folder is managed by MangARR. Place your e-book files here.\n")
+                f.write("\nThis folder is managed by Readlook. Place your e-book files here.\n")
             print(f"Created README file: {readme_path}")
         except Exception as e:
             print(f"Error creating README file: {e}")

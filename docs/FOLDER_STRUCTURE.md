@@ -1,12 +1,12 @@
-# MangaArr Folder Structure
+# Readloom Folder Structure
 
-This document describes how MangaArr manages folder structures for manga and e-book files.
+This document describes how Readloom manages folder structures for manga and e-book files.
 
 ## Overview
 
-MangaArr automatically creates and manages folders for your manga and e-book files. When you add a series to your collection or import it from a metadata provider, MangaArr creates a folder structure in the appropriate root folder based on your collection configuration.
+Readloom automatically creates and manages folders for your manga and e-book files. When you add a series to your collection or import it from a metadata provider, Readloom creates a folder structure in the appropriate root folder based on your collection configuration.
 
-In version 0.0.7, MangaArr introduces a collection-based organization system that allows you to link collections to multiple root folders.
+In version 0.0.7, Readloom introduces a collection-based organization system that allows you to link collections to multiple root folders.
 
 ## Root Folder Configuration
 
@@ -49,13 +49,31 @@ Each series folder contains:
 - A README.txt file with series information
 - E-book files for each volume (if available)
 
+### Custom Paths for Series
+
+As of version 0.0.9, you can set a custom path for each series. This allows you to use your existing folder structure without having to move files to the Readloom-managed folders.
+
+When a custom path is set for a series:
+1. Readloom will use that path directly for e-book files instead of creating a folder in the root folder
+2. Files will not be copied from the custom path to the default folder
+3. The custom path will be displayed in the series detail page
+
+To set a custom path for a series:
+1. Go to the series detail page
+2. Click on "Edit Series"
+3. Enter the custom path in the "Custom Path" field
+4. Click "Validate" to verify the path exists
+5. Click "Save Series"
+
+This feature is particularly useful if you already have an organized collection of e-books and don't want to duplicate files.
+
 ### Collection-Root Folder Relationship
 
-A collection can be linked to multiple root folders, and a root folder can be linked to multiple collections. When you add a series to a collection, MangaArr will create the series folder in one of the root folders linked to that collection.
+A collection can be linked to multiple root folders, and a root folder can be linked to multiple collections. When you add a series to a collection, Readloom will create the series folder in one of the root folders linked to that collection, unless a custom path is specified for the series.
 
 ## Folder Naming
 
-MangaArr preserves spaces and most special characters in folder names for better readability. Only characters that are invalid in file names are replaced:
+Readloom preserves spaces and most special characters in folder names for better readability. Only characters that are invalid in file names are replaced:
 
 - `?` is replaced with `_` (question mark)
 - `*` is replaced with `_` (asterisk)
@@ -79,7 +97,7 @@ ID: 42
 Type: MANGA
 Created: 2025-09-22 12:34:56
 
-This folder is managed by MangARR. Place your e-book files here.
+This folder is managed by Readloom. Place your e-book files here.
 ```
 
 This file helps users identify the purpose of the folder and provides basic metadata about the series.
@@ -90,11 +108,11 @@ Folders are automatically created when:
 
 1. You add a new series manually to a collection
 2. You import a series from a metadata provider into a collection
-3. You run the `create_missing_folders.py` script
+3. You run the `fix and test/create_missing_folders.py` script
 
 ### Folder Selection Logic
 
-When creating a folder for a series, MangaArr follows this logic:
+When creating a folder for a series, Readloom follows this logic:
 
 1. If a specific collection is specified, it looks for root folders linked to that collection
 2. If no collection is specified or the collection has no root folders, it uses the default collection's root folders
@@ -105,8 +123,8 @@ When creating a folder for a series, MangaArr follows this logic:
 
 You can manually create folders for existing series using the following scripts:
 
-- `create_missing_folders.py`: Creates folders for all series in the database
-- `create_series_folder.py`: Creates a folder for a specific series
+- `fix and test/create_missing_folders.py`: Creates folders for all series in the database
+- `fix and test/create_series_folder.py`: Creates a folder for a specific series
 
 ## Troubleshooting
 
@@ -117,7 +135,7 @@ If you encounter issues with folder creation:
 3. Check that the root folder exists and is writable
 4. Verify that the series exists in the database and is added to a collection
 5. Check the logs for any error messages
-6. Run the `create_missing_folders.py` script to recreate any missing folders
+6. Run the `fix and test/create_missing_folders.py` script to recreate any missing folders
 
 ## Technical Implementation
 

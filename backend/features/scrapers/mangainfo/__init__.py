@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-MangaInfo provider package for MangaArr.
+MangaInfo provider package for Readloom.
 """
 
 from .provider import MangaInfoProvider

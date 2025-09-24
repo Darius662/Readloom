@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Notifications module for MangaArr - compatibility shim.
+Notifications module for Readloom - compatibility shim.
 
 This module re-exports all public functions from the notifications package.
 The implementation has been moved to backend.features.notifications.

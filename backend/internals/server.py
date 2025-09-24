@@ -12,7 +12,7 @@ from backend.base.logging import LOGGER
 
 
 class Server:
-    """Server class for MangaArr."""
+    """Server class for Readloom."""
     
     def __init__(self):
         """Initialize the server."""
@@ -102,8 +102,8 @@ def handle_start_type(start_type: StartType) -> None:
     SERVER.start_type = None
     
     if start_type == StartType.STARTUP:
-        LOGGER.info("Starting up MangaArr")
+        LOGGER.info("Starting up Readloom")
     elif start_type == StartType.RESTART:
-        LOGGER.info("Restarting MangaArr")
+        LOGGER.info("Restarting Readloom")
     elif start_type == StartType.UPDATE:
-        LOGGER.info("Updating MangaArr")
+        LOGGER.info("Updating Readloom")

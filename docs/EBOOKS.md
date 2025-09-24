@@ -1,10 +1,10 @@
-# E-book Management in MangARR
+# E-book Management in Readloom
 
-This document describes the e-book management functionality in MangARR, including folder structure, file scanning, and collection integration.
+This document describes the e-book management functionality in Readloom, including folder structure, file scanning, and collection integration.
 
 ## Overview
 
-MangARR supports managing e-book files for your manga/comic collection. It organizes files by series name, automatically detects volume numbers from filenames, and integrates with your collection tracking.
+Readloom supports managing e-book files for your manga/comic collection. It organizes files by series name, automatically detects volume numbers from filenames, and integrates with your collection tracking.
 
 In version 0.0.7, the e-book scanning functionality has been significantly improved with better detection of files in existing folders and automatic scanning when importing series.
 
@@ -28,9 +28,26 @@ Each series folder contains:
 - A README.txt file with series information (including series ID, type, and creation date)
 - E-book files for each volume
 
+### Custom Paths
+
+As of version 0.0.9, you can set a custom path for each series. This allows you to use your existing folder structure without having to move files to the Readloom-managed folders. To set a custom path:
+
+1. Go to the series detail page
+2. Click on "Edit Series"
+3. Enter the custom path in the "Custom Path" field
+4. Click "Validate" to verify the path exists
+5. Click "Save Series"
+
+When a custom path is set, Readloom will:
+- Use that path directly for e-book files instead of the default folder
+- Not copy files from the custom path to the default folder
+- Display the custom path in the series detail page
+
+This is particularly useful if you already have an organized collection of e-books and don't want to duplicate files.
+
 ### Folder Naming
 
-MangARR preserves spaces and most special characters in folder names for better readability. Only characters that are invalid in file names are replaced:
+Readloom preserves spaces and most special characters in folder names for better readability. Only characters that are invalid in file names are replaced:
 
 - `?` is replaced with `_` (question mark)
 - `*` is replaced with `_` (asterisk)
@@ -46,7 +63,7 @@ This ensures that folder names remain as close as possible to the original serie
 
 ## Content Types
 
-MangARR tracks the following content types in its database:
+Readloom tracks the following content types in its database:
 
 - MANGA: Japanese comics
 - MANHWA: Korean comics
@@ -60,7 +77,7 @@ While content types are stored in the database and used for filtering and organi
 
 ## Supported File Formats
 
-MangARR supports the following e-book formats:
+Readloom supports the following e-book formats:
 
 - PDF (.pdf)
 - EPUB (.epub)
@@ -71,7 +88,7 @@ MangARR supports the following e-book formats:
 
 ## File Naming Conventions
 
-MangARR automatically extracts volume numbers from filenames using various patterns:
+Readloom automatically extracts volume numbers from filenames using various patterns:
 
 - `Volume_1.pdf`, `Volume 1.pdf`
 - `Vol_1.epub`, `Vol 1.epub`
@@ -100,11 +117,11 @@ There are two ways to add e-book files to your collection:
 
 ## Automatic Scanning
 
-MangARR provides several ways to scan for e-book files:
+Readloom provides several ways to scan for e-book files:
 
 ### Periodic Scanning
 
-MangARR periodically scans for new e-book files in the background. The scan interval can be configured in the settings.
+Readloom periodically scans for new e-book files in the background. The scan interval can be configured in the settings.
 
 ### Manual Scanning
 
@@ -114,7 +131,7 @@ You can manually trigger a scan from:
 
 ### Import-time Scanning
 
-When you import a series from a metadata provider, MangARR automatically:
+When you import a series from a metadata provider, Readloom automatically:
 1. Checks if a folder for the series already exists in any of your root folders
 2. If found, automatically scans the folder for e-book files
 3. Adds any found e-books to your collection
@@ -213,7 +230,7 @@ If you're having issues with the e-book functionality:
 1. Make sure your collections are properly set up with root folders
 2. Check that your series folders are named correctly
 3. Verify that the folder paths exist and are accessible
-4. Run the `create_missing_folders.py` script to create any missing folders
+4. Run the `fix and test/create_missing_folders.py` script to create any missing folders
 
 ### Collection Integration Issues
 
@@ -229,11 +246,11 @@ If you're having issues with the e-book functionality:
 
 ## Scripts
 
-MangARR includes several helper scripts for managing e-book folders:
+Readloom includes several helper scripts for managing e-book folders:
 
-- `create_content_type_dirs.py`: Creates the content type directories
-- `create_missing_folders.py`: Creates folders for all series in the database
-- `create_series_folder.py`: Creates a folder for a specific series
+- `fix and test/create_content_type_dirs.py`: Creates the content type directories
+- `fix and test/create_missing_folders.py`: Creates folders for all series in the database
+- `fix and test/create_series_folder.py`: Creates a folder for a specific series
 
 ## Configuration
 

@@ -1,12 +1,12 @@
-# MangaArr v0.0.7 Upgrade Notes
+# Readloom v0.0.7 Upgrade Notes
 
-This document provides important information about upgrading to MangaArr v0.0.7, which introduces significant changes to the application's organization system and e-book scanning functionality.
+This document provides important information about upgrading to Readloom v0.0.7, which introduces significant changes to the application's organization system and e-book scanning functionality.
 
 ## Major Changes
 
 ### Collection-Based Organization System
 
-MangaArr now uses a collection-based system to organize your manga/comics. This is a significant change from previous versions:
+Readloom now uses a collection-based system to organize your manga/comics. This is a significant change from previous versions:
 
 - **Collections**: Logical groups of series (e.g., "Shonen Manga", "Currently Reading")
 - **Root Folders**: Physical locations on your file system where files are stored
@@ -14,7 +14,7 @@ MangaArr now uses a collection-based system to organize your manga/comics. This 
 
 ### Setup Wizard
 
-When you first launch MangaArr v0.0.7, you'll be guided through a setup wizard to:
+When you first launch Readloom v0.0.7, you'll be guided through a setup wizard to:
 1. Create your first collection
 2. Set up your first root folder
 3. Link them together
@@ -32,7 +32,7 @@ The e-book scanning functionality has been significantly improved:
 
 ### Automatic Migration
 
-When you upgrade to v0.0.7, MangaArr will automatically:
+When you upgrade to v0.0.7, Readloom will automatically:
 1. Create the necessary database tables for collections
 2. Create a default collection
 3. Migrate your existing root folders from settings to the database
@@ -67,7 +67,7 @@ Root folders are now managed through the UI:
 ### Automatic E-book Detection
 
 When importing a series:
-- If the folder already exists, MangaArr will automatically scan it for e-books
+- If the folder already exists, Readloom will automatically scan it for e-books
 - Any found e-books will be added to your collection
 - The API response includes information about the folder and found e-books
 

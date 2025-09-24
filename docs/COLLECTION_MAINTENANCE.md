@@ -1,10 +1,10 @@
 # Collection Maintenance
 
-This document provides information about maintaining and troubleshooting the collections system in MangaArr.
+This document provides information about maintaining and troubleshooting the collections system in Readloom.
 
 ## Overview
 
-MangaArr's collections system allows you to organize your manga/comics into logical groups. However, in some cases, you might encounter issues such as duplicate collections or problems with the delete functionality. This document explains how to use the maintenance scripts to fix these issues.
+Readloom's collections system allows you to organize your manga/comics into logical groups. However, in some cases, you might encounter issues such as duplicate collections or problems with the delete functionality. This document explains how to use the maintenance scripts to fix these issues.
 
 ## Maintenance Scripts
 
@@ -22,7 +22,7 @@ The `fix_collections.py` script is designed to clean up and fix issues with coll
 To run the script:
 
 ```bash
-python fix_collections.py
+python "fix and test/fix_collections.py"
 ```
 
 The script will:
@@ -42,7 +42,7 @@ The `cleanup_collections.py` script is a simpler version that focuses specifical
 To run the script:
 
 ```bash
-python cleanup_collections.py
+python "fix and test/cleanup_collections.py"
 ```
 
 ## Common Issues and Solutions

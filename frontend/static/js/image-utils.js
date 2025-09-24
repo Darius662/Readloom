@@ -1,5 +1,5 @@
 /**
- * Image utility functions for MangaARR
+ * Image utility functions for Readloom
  */
 
 /**

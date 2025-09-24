@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Collection module for MangaArr - compatibility shim.
+Collection module for Readloom - compatibility shim.
 
 This module re-exports all public functions from the collection package.
 The implementation has been moved to backend.features.collection.

@@ -3,6 +3,7 @@
 
 import os
 import sqlite3
+import time
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple, Union
 
@@ -41,8 +42,11 @@ def set_db_location(db_folder: Optional[str] = None) -> None:
     LOGGER.info(f"Database path set to: {DB_PATH}")
 
 
-def get_db_connection() -> sqlite3.Connection:
-    """Get a connection to the database.
+def get_db_connection(timeout: int = 30) -> sqlite3.Connection:
+    """Get a connection to the database with improved timeout handling.
+
+    Args:
+        timeout (int, optional): Connection timeout in seconds. Defaults to 30.
 
     Returns:
         sqlite3.Connection: A connection to the database.
@@ -59,7 +63,18 @@ def get_db_connection() -> sqlite3.Connection:
         set_db_location()
     
     try:
-        DB_CONN = sqlite3.connect(DB_PATH, check_same_thread=False)
+        # Set a longer timeout to help with locked database issues
+        DB_CONN = sqlite3.connect(DB_PATH, timeout=timeout, check_same_thread=False)
+        
+        # Enable WAL mode for better concurrency
+        DB_CONN.execute('PRAGMA journal_mode = WAL')
+        
+        # Set busy timeout to wait instead of immediately failing
+        DB_CONN.execute(f'PRAGMA busy_timeout = {timeout * 1000}')
+        
+        # Enable foreign keys
+        DB_CONN.execute('PRAGMA foreign_keys = ON')
+        
         DB_CONN.row_factory = sqlite3.Row
         return DB_CONN
     except Exception as e:
@@ -76,34 +91,49 @@ def close_db_connection() -> None:
         DB_CONN = None
 
 
-def execute_query(query: str, params: Tuple = (), commit: bool = False) -> List[Dict[str, Any]]:
-    """Execute a SQL query.
+def execute_query(query: str, params: Tuple = (), commit: bool = False, max_retries: int = 5, retry_delay: float = 0.5) -> List[Dict[str, Any]]:
+    """Execute a SQL query with retry logic for handling database locks.
 
     Args:
         query (str): The SQL query to execute.
         params (Tuple, optional): The parameters for the query. Defaults to ().
         commit (bool, optional): Whether to commit the transaction. Defaults to False.
+        max_retries (int, optional): Maximum number of retries if database is locked. Defaults to 5.
+        retry_delay (float, optional): Delay between retries in seconds. Defaults to 0.5.
 
     Returns:
         List[Dict[str, Any]]: The results of the query.
 
     Raises:
-        DatabaseError: If the query could not be executed.
+        DatabaseError: If the query could not be executed after all retries.
     """
     conn = get_db_connection()
-    try:
-        cursor = conn.cursor()
-        cursor.execute(query, params)
-        
-        if commit:
-            conn.commit()
-        
-        if query.strip().upper().startswith("SELECT"):
-            return [dict(row) for row in cursor.fetchall()]
-        return []
-    except Exception as e:
-        LOGGER.error(f"Database query error: {e}")
-        raise DatabaseError(f"Database query error: {e}")
+    retries = 0
+    
+    while retries <= max_retries:
+        try:
+            cursor = conn.cursor()
+            cursor.execute(query, params)
+            
+            if commit:
+                conn.commit()
+            
+            if query.strip().upper().startswith("SELECT"):
+                return [dict(row) for row in cursor.fetchall()]
+            return []
+        except sqlite3.OperationalError as e:
+            if "database is locked" in str(e) and retries < max_retries:
+                retries += 1
+                LOGGER.warning(f"Database locked, retrying ({retries}/{max_retries}) in {retry_delay}s: {e}")
+                time.sleep(retry_delay)
+                # Increase delay with each retry
+                retry_delay *= 1.5
+            else:
+                LOGGER.error(f"Database query error after {retries} retries: {e}")
+                raise DatabaseError(f"Database query error: {e}")
+        except Exception as e:
+            LOGGER.error(f"Database query error: {e}")
+            raise DatabaseError(f"Database query error: {e}")
 
 
 def setup_db() -> None:
@@ -123,6 +153,7 @@ def setup_db() -> None:
         content_type TEXT DEFAULT 'MANGA',
         metadata_source TEXT,
         metadata_id TEXT,
+        custom_path TEXT,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
@@ -137,8 +168,15 @@ def setup_db() -> None:
         if 'content_type' not in column_names:
             LOGGER.info("Adding content_type column to series table")
             execute_query("ALTER TABLE series ADD COLUMN content_type TEXT DEFAULT 'MANGA'", commit=True)
+            
+        # Add custom_path column to series table if it doesn't exist
+        if 'custom_path' not in column_names:
+            LOGGER.info("Adding custom_path column to series table")
+            execute_query("ALTER TABLE series ADD COLUMN custom_path TEXT", commit=True)
     except Exception as e:
-        LOGGER.error(f"Error checking/adding content_type column: {e}")
+        LOGGER.error(f"Error checking/adding columns to series table: {e}")
+        import traceback
+        LOGGER.error(traceback.format_exc())
     
     # Create volumes table
     execute_query("""

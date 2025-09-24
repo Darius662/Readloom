@@ -1,6 +1,6 @@
-# Contributing to MangaArr
+# Contributing to Readloom
 
-Thank you for your interest in contributing to MangaArr! We welcome contributions from everyone, regardless of experience level.
+Thank you for your interest in contributing to Readloom! We welcome contributions from everyone, regardless of experience level.
 
 ## Table of Contents
 
@@ -23,12 +23,12 @@ By participating in this project, you agree to abide by our [Code of Conduct](CO
 1. **Fork the repository** on GitHub.
 2. **Clone your fork** locally:
    ```bash
-   git clone https://github.com/YOUR-USERNAME/MangARR.git
-   cd MangARR
+   git clone https://github.com/YOUR-USERNAME/Readloom.git
+   cd Readloom
    ```
 3. **Set up the upstream remote**:
    ```bash
-   git remote add upstream https://github.com/ORIGINAL-OWNER/MangARR.git
+   git remote add upstream https://github.com/ORIGINAL-OWNER/Readloom.git
    ```
 4. **Create a branch** for your work:
    ```bash
@@ -133,8 +133,8 @@ By participating in this project, you agree to abide by our [Code of Conduct](CO
 
 ## Community
 
-- Join our [Discord server](https://discord.gg/mangarr) for discussions.
-- Check the [GitHub Issues](https://github.com/ORIGINAL-OWNER/MangARR/issues) for tasks to work on.
+- Join our [Discord server](https://discord.gg/readloom) for discussions.
+- Check the [GitHub Issues](https://github.com/ORIGINAL-OWNER/Readloom/issues) for tasks to work on.
 - Help answer questions in issues and discussions.
 
-Thank you for contributing to MangaArr!
+Thank you for contributing to Readloom!

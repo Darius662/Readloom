@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Metadata providers for MangaArr.
+Metadata providers for Readloom.
 This module contains the base classes and implementations for various metadata providers.
 """
 

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Setup Wizard - MangaArr{% endblock %}
+{% block title %}Setup Wizard - Readloom{% endblock %}
 
 {% block content %}
 <div class="container-fluid">
@@ -8,12 +8,12 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h1 class="mb-0">MangaArr Setup Wizard</h1>
+                    <h1 class="mb-0">Readloom Setup Wizard</h1>
                 </div>
                 <div class="card-body">
                     <div class="alert alert-info">
-                        <p><strong>Welcome to MangaArr!</strong></p>
-                        <p>Before you can start using MangaArr, you need to set up at least one collection and one root folder.</p>
+                        <p><strong>Welcome to Readloom!</strong></p>
+                        <p>Before you can start using Readloom, you need to set up at least one collection and one root folder.</p>
                         <p>This wizard will guide you through the initial setup process.</p>
                     </div>
 
@@ -53,7 +53,7 @@
                     <!-- Step 2: Create Root Folder -->
                     <div class="setup-step" id="step2" style="display: none;">
                         <h3>Step 2: Add a Root Folder</h3>
-                        <p>Root folders are where MangaArr will store and organize your manga/comic files.</p>
+                        <p>Root folders are where Readloom will store and organize your manga/comic files.</p>
                         
                         <form id="setupRootFolderForm" class="mt-4">
                             <div class="mb-3">
@@ -128,7 +128,7 @@
                         <div class="text-center">
                             <i class="fas fa-check-circle text-success" style="font-size: 64px;"></i>
                             <h3 class="mt-3">Setup Complete!</h3>
-                            <p>Your MangaArr instance is now ready to use.</p>
+                            <p>Your Readloom instance is now ready to use.</p>
                             <a href="{{ url_for('ui.index') }}" class="btn btn-primary mt-3">Go to Dashboard</a>
                         </div>
                     </div>

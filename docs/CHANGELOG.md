@@ -1,12 +1,24 @@
 # Changelog
 
-All notable changes to MangaArr will be documented in this file.
+All notable changes to Readloom will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.0.8] - 2025-09-24
 ### Added
+- Folder validation functionality across the application:
+  - Added validation to check if folders exist and are writable
+  - Added ability to create folders directly from the UI
+  - Implemented in Root Folders tab, Collection Manager, and Setup Wizard
+  - Reusable JavaScript component for consistent behavior
+- New API endpoints for folder validation and creation
+- Backend utilities for folder validation with proper error handling
+- Implemented custom path feature for series:
+  - Added ability to set a custom folder path for each series
+  - Files are used directly from custom path without copying
+  - Custom path validation with folder creation option
+  - Integrated into the Edit Series form
 - Implemented robust database migration system:
   - Added framework for tracking and applying migrations
   - Created migration scripts for schema changes
@@ -19,6 +31,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Consistent validation across all parts of the application
 
 ### Changed
+- Completely redesigned collections management approach:
+  - Removed automatic creation of "Default Collection"
+  - Now users create their own collections from scratch
+  - Any collection can be marked as default by the user
+  - Improved setup wizard to guide users through collection creation
+- Improved project organization and structure:
+  - Moved utility and debug scripts to 'fix and test' folder
+  - Cleaned up root directory for better maintainability
+  - Updated documentation to reflect new script locations
 - Improved API organization and structure:
   - Added dedicated API endpoints for folder operations
   - Better separation of concerns between API modules
@@ -26,6 +47,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - More consistent API naming conventions
 
 ### Fixed
+- Fixed collections management issues:
+  - Resolved issue with duplicate Default Collections being created on restart
+  - Added database constraint to prevent multiple default collections
+  - Added proper migration system to handle database schema updates
+  - Improved collection initialization logic
 - Fixed API request issues:
   - Added proper Content-Type header to AJAX requests
   - Fixed 415 Unsupported Media Type errors when importing manga
@@ -34,30 +60,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Corrected static folder paths in Flask application
   - Ensured consistent static URL paths across blueprints
   - Fixed 404 errors for JavaScript files
-
-## [0.0.8] - 2025-09-24
-### Added
-- Folder validation functionality across the application:
-  - Added validation to check if folders exist and are writable
-  - Added ability to create folders directly from the UI
-  - Implemented in Root Folders tab, Collection Manager, and Setup Wizard
-  - Reusable JavaScript component for consistent behavior
-- New API endpoints for folder validation and creation
-- Backend utilities for folder validation with proper error handling
-
-### Changed
-- Completely redesigned collections management approach:
-  - Removed automatic creation of "Default Collection"
-  - Now users create their own collections from scratch
-  - Any collection can be marked as default by the user
-  - Improved setup wizard to guide users through collection creation
-
-### Fixed
-- Fixed collections management issues:
-  - Resolved issue with duplicate Default Collections being created on restart
-  - Added database constraint to prevent multiple default collections
-  - Added proper migration system to handle database schema updates
-  - Improved collection initialization logic
 
 
 ## [0.0.7] - 2025-09-23
