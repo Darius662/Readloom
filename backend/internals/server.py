@@ -40,6 +40,8 @@ class Server:
         from frontend.api_metadata_fixed import metadata_api_bp
         from frontend.api_ebooks import ebooks_api_bp
         from frontend.api_collections import collections_api
+        from frontend.api_folders import folders_api
+        from frontend.api_rootfolders import rootfolders_api_bp
         from frontend.ui import ui_bp
         from frontend.image_proxy import image_proxy_bp
         
@@ -47,6 +49,8 @@ class Server:
         self.app.register_blueprint(metadata_api_bp, url_prefix='/api/metadata')
         self.app.register_blueprint(ebooks_api_bp)
         self.app.register_blueprint(collections_api)
+        self.app.register_blueprint(folders_api)
+        self.app.register_blueprint(rootfolders_api_bp)
         self.app.register_blueprint(ui_bp)
         self.app.register_blueprint(image_proxy_bp)
         

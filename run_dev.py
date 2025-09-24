@@ -86,7 +86,7 @@ def run_app():
         LOGGER.info("Settings initialized")
         
         # Create Flask app
-        app = Flask(__name__, static_folder='static', static_url_path='/static')
+        app = Flask(__name__, static_folder='frontend/static', static_url_path='/static')
         app.config["SECRET_KEY"] = os.urandom(24)
         app.config["JSON_SORT_KEYS"] = False
         
@@ -106,6 +106,7 @@ def run_app():
         from frontend.api_rootfolders import rootfolders_api_bp
         from frontend.api_collections import collections_api
         from frontend.api_collection import collection_api
+        from frontend.api_folders import folders_api
         from frontend.ui import ui_bp
         from frontend.image_proxy import image_proxy_bp
         
@@ -115,6 +116,7 @@ def run_app():
         app.register_blueprint(rootfolders_api_bp)
         app.register_blueprint(collections_api)
         app.register_blueprint(collection_api)
+        app.register_blueprint(folders_api)
         app.register_blueprint(ui_bp)
         app.register_blueprint(image_proxy_bp)
         

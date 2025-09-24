@@ -63,8 +63,17 @@
                             </div>
                             <div class="mb-3">
                                 <label for="rootFolderPath" class="form-label">Root Folder Path</label>
-                                <input type="text" class="form-control" id="rootFolderPath" required>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="rootFolderPath" required>
+                                    <button class="btn btn-outline-secondary" type="button" id="wizardValidateFolderBtn">Validate</button>
+                                </div>
                                 <div class="form-text">Enter the full path to the folder where your manga/comics will be stored (e.g., C:\Manga or /home/user/manga)</div>
+                                <div id="wizardFolderValidationStatus" class="mt-2"></div>
+                            </div>
+                            <div class="mb-3">
+                                <button type="button" class="btn btn-outline-primary" id="wizardCreateFolderBtn" style="display: none;" disabled>
+                                    <i class="fas fa-folder-plus"></i> Create Folder
+                                </button>
                             </div>
                             <div class="mb-3">
                                 <label for="rootFolderContentType" class="form-label">Primary Content Type</label>
@@ -131,8 +140,12 @@
 {% endblock %}
 
 {% block scripts %}
+<script src="{{ url_for('static', filename='js/folder-validation.js') }}"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // Set up folder validation for the root folder path
+    setupFolderValidation('rootFolderPath', 'wizardFolderValidationStatus', 'wizardValidateFolderBtn', 'wizardCreateFolderBtn');
+    
     // Variables to store the created collection and root folder IDs
     let collectionId = null;
     let rootFolderId = null;

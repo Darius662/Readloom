@@ -63,10 +63,15 @@
                         <label for="folder-path" class="form-label">Path</label>
                         <div class="input-group">
                             <input type="text" class="form-control" id="folder-path" placeholder="C:\Manga" required>
-                            <button class="btn btn-outline-secondary" type="button" id="check-path-btn">Check</button>
+                            <button class="btn btn-outline-secondary" type="button" id="validate-folder-btn">Validate</button>
                         </div>
                         <div class="form-text">The full path to the folder where e-books will be stored</div>
-                        <div id="path-status" class="mt-2"></div>
+                        <div id="folder-validation-status" class="mt-2"></div>
+                    </div>
+                    <div class="mb-3">
+                        <button type="button" class="btn btn-outline-primary" id="create-folder-btn" style="display: none;" disabled>
+                            <i class="fas fa-folder-plus"></i> Create Folder
+                        </button>
                     </div>
                 </form>
             </div>
@@ -105,21 +110,14 @@
 {% endblock %}
 
 {% block scripts %}
+<script src="/static/js/folder-validation.js"></script>
 <script>
     $(document).ready(function() {
         // Load root folders
         loadRootFolders();
         
-        // Check path button
-        $('#check-path-btn').click(function() {
-            const path = $('#folder-path').val().trim();
-            if (!path) {
-                $('#path-status').html('<div class="alert alert-warning">Please enter a path</div>');
-                return;
-            }
-            
-            checkPath(path);
-        });
+        // Set up folder validation
+        setupFolderValidation('folder-path', 'folder-validation-status', 'validate-folder-btn', 'create-folder-btn');
         
         // Save root folder button
         $('#save-root-folder-btn').click(function() {
@@ -193,33 +191,7 @@
         });
     }
     
-    function checkPath(path) {
-        $('#path-status').html('<div class="spinner-border spinner-border-sm" role="status"><span class="visually-hidden">Loading...</span></div> Checking path...');
-        
-        $.ajax({
-            url: '/api/rootfolders/check',
-            method: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify({ path: path }),
-            success: function(data) {
-                if (data.exists && data.is_dir) {
-                    if (data.is_writable) {
-                        $('#path-status').html('<div class="alert alert-success">Path exists and is writable</div>');
-                    } else {
-                        $('#path-status').html('<div class="alert alert-warning">Path exists but is not writable</div>');
-                    }
-                } else if (data.exists) {
-                    $('#path-status').html('<div class="alert alert-danger">Path exists but is not a directory</div>');
-                } else {
-                    $('#path-status').html('<div class="alert alert-info">Path does not exist, it will be created</div>');
-                }
-            },
-            error: function(error) {
-                console.error('Error checking path:', error);
-                $('#path-status').html('<div class="alert alert-danger">Error checking path</div>');
-            }
-        });
-    }
+    // The checkPath function is replaced by the folder-validation.js functionality
     
     function addRootFolder(name, path) {
         // Disable button and show loading

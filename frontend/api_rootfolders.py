@@ -8,6 +8,7 @@ from flask import Blueprint, jsonify, request
 from backend.base.logging import LOGGER
 from backend.internals.settings import Settings
 from backend.base.custom_exceptions import InvalidSettingValue
+from backend.base.folder_validation import validate_folder, create_folder_if_not_exists
 
 # Create root folders API blueprint
 rootfolders_api_bp = Blueprint('rootfolders_api', __name__, url_prefix='/api/rootfolders')
@@ -47,19 +48,18 @@ def add_root_folder():
         path = data["path"]
         name = data["name"]
         
-        # Validate path exists
-        folder_path = Path(path)
-        if not folder_path.exists():
-            # Try to create the directory
-            try:
-                folder_path.mkdir(parents=True, exist_ok=True)
-                LOGGER.info(f"Created root folder directory: {path}")
-            except Exception as e:
-                LOGGER.error(f"Error creating root folder directory: {e}")
-                return jsonify({"error": f"Path does not exist and could not be created: {path}"}), 400
+        # Validate path exists and is writable
+        validation = validate_folder(path)
         
-        if not folder_path.is_dir():
-            return jsonify({"error": "Path is not a directory"}), 400
+        if not validation["exists"]:
+            # Try to create the directory
+            creation_result = create_folder_if_not_exists(path)
+            if not creation_result["valid"]:
+                LOGGER.error(f"Error creating root folder directory: {creation_result['message']}")
+                return jsonify({"error": f"Path does not exist and could not be created: {path}"}), 400
+            LOGGER.info(f"Created root folder directory: {path}")
+        elif not validation["valid"]:
+            return jsonify({"error": validation["message"]}), 400
         
         # Get current settings
         settings = Settings()
@@ -145,13 +145,14 @@ def check_path():
             return jsonify({"error": "Path is required"}), 400
         
         path = data["path"]
-        folder_path = Path(path)
+        validation_result = validate_folder(path)
         
         result = {
             "path": path,
-            "exists": folder_path.exists(),
-            "is_dir": folder_path.is_dir() if folder_path.exists() else False,
-            "is_writable": os.access(path, os.W_OK) if folder_path.exists() else False
+            "exists": validation_result["exists"],
+            "is_dir": validation_result["exists"] and validation_result["valid"],
+            "is_writable": validation_result["writable"],
+            "message": validation_result["message"]
         }
         
         return jsonify(result)

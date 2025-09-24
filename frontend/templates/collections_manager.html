@@ -201,8 +201,17 @@
                 <form id="addRootFolderForm">
                     <div class="mb-3">
                         <label for="rootFolderPath" class="form-label">Path</label>
-                        <input type="text" class="form-control" id="rootFolderPath" required>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="rootFolderPath" required>
+                            <button class="btn btn-outline-secondary" type="button" id="validateFolderBtn">Validate</button>
+                        </div>
                         <small class="form-text text-muted">Enter the full path to the folder containing your manga/comics</small>
+                        <div id="folderValidationStatus" class="mt-2"></div>
+                    </div>
+                    <div class="mb-3">
+                        <button type="button" class="btn btn-outline-primary" id="createFolderBtn" style="display: none;" disabled>
+                            <i class="fas fa-folder-plus"></i> Create Folder
+                        </button>
                     </div>
                     <div class="mb-3">
                         <label for="rootFolderName" class="form-label">Name</label>
@@ -239,8 +248,17 @@
                     <input type="hidden" id="editRootFolderId">
                     <div class="mb-3">
                         <label for="editRootFolderPath" class="form-label">Path</label>
-                        <input type="text" class="form-control" id="editRootFolderPath" required>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="editRootFolderPath" required>
+                            <button class="btn btn-outline-secondary" type="button" id="editValidateFolderBtn">Validate</button>
+                        </div>
                         <small class="form-text text-muted">Enter the full path to the folder containing your manga/comics</small>
+                        <div id="editFolderValidationStatus" class="mt-2"></div>
+                    </div>
+                    <div class="mb-3">
+                        <button type="button" class="btn btn-outline-primary" id="editCreateFolderBtn" style="display: none;" disabled>
+                            <i class="fas fa-folder-plus"></i> Create Folder
+                        </button>
                     </div>
                     <div class="mb-3">
                         <label for="editRootFolderName" class="form-label">Name</label>
@@ -266,5 +284,15 @@
 {% endblock %}
 
 {% block scripts %}
+<script src="{{ url_for('static', filename='js/folder-validation.js') }}"></script>
 <script src="{{ url_for('static', filename='js/collections_manager.js') }}"></script>
+<script>
+    $(document).ready(function() {
+        // Set up folder validation for the Add Root Folder modal
+        setupFolderValidation('rootFolderPath', 'folderValidationStatus', 'validateFolderBtn', 'createFolderBtn');
+        
+        // Set up folder validation for the Edit Root Folder modal
+        setupFolderValidation('editRootFolderPath', 'editFolderValidationStatus', 'editValidateFolderBtn', 'editCreateFolderBtn');
+    });
+</script>
 {% endblock %}

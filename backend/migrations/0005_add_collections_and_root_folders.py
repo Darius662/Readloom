@@ -20,15 +20,16 @@ def migrate():
     setup_collections_tables()
     LOGGER.info("Collections tables created")
     
-    # Check if default collection exists
-    default_collections = execute_query("SELECT id FROM collections WHERE is_default = 1")
-    if not default_collections:
-        # Create default collection
-        collection_id = create_collection("Default Collection", "Default collection created by the system", True)
-        LOGGER.info(f"Created default collection with ID {collection_id}")
+    # Check if any collections exist
+    collections = execute_query("SELECT id FROM collections")
+    if not collections:
+        LOGGER.info("No collections found - user will need to create collections through the UI")
+        # No longer automatically creating a default collection
+        return
     else:
-        collection_id = default_collections[0]["id"]
-        LOGGER.info(f"Default collection already exists with ID {collection_id}")
+        # Use the first collection for root folder associations
+        collection_id = collections[0]["id"]
+        LOGGER.info(f"Using existing collection with ID {collection_id} for migration")
     
     # Migrate existing root folders from settings
     settings = Settings().get_settings()

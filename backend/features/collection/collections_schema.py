@@ -20,7 +20,8 @@ def setup_collections_tables():
             description TEXT,
             is_default INTEGER DEFAULT 0,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            CONSTRAINT unique_default CHECK (is_default = 0 OR is_default = 1)
         )
         """, commit=True)
         
@@ -64,11 +65,9 @@ def setup_collections_tables():
         )
         """, commit=True)
         
-        # Insert default collection if it doesn't exist
-        execute_query("""
-        INSERT OR IGNORE INTO collections (name, description, is_default) 
-        VALUES ('Default Collection', 'Default collection created by the system', 1)
-        """, commit=True)
+        # No longer automatically creating a default collection
+        # Users will create their own collections through the UI
+        LOGGER.info("Collections tables ready for user-created collections")
         
         LOGGER.info("Collections tables set up successfully")
     except Exception as e:

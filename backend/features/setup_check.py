@@ -21,7 +21,7 @@ def is_setup_complete() -> bool:
         try:
             collections = execute_query("SELECT COUNT(*) as count FROM collections")
             if not collections or collections[0]['count'] == 0:
-                LOGGER.warning("No collections found, setup is not complete")
+                LOGGER.warning("No collections found, user needs to create at least one collection")
                 return False
         except Exception as e:
             LOGGER.error(f"Error checking collections: {e}")
