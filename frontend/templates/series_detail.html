@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}MangaArr - Series Detail{% endblock %}
+{% block title %}Readloom - Series Detail{% endblock %}
 
 {% block page_title %}Series Detail{% endblock %}
 
@@ -38,12 +38,15 @@
                                 <th>#</th>
                                 <th>Title</th>
                                 <th>Release Date</th>
+                                <th>Format</th>
+                                <th>Digital Format</th>
+                                <th>File</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody id="volumes-list">
                             <tr>
-                                <td colspan="4" class="text-center">No volumes found</td>
+                                <td colspan="7" class="text-center">No volumes found</td>
                             </tr>
                         </tbody>
                     </table>
@@ -204,6 +207,83 @@
     </div>
 </div>
 
+<!-- Edit Series Modal -->
+<div class="modal fade" id="seriesModal" tabindex="-1" aria-labelledby="seriesModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="seriesModalLabel">Edit Series</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="series-form">
+                    <div class="mb-3">
+                        <label for="series-title" class="form-label">Title *</label>
+                        <input type="text" class="form-control" id="series-title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="series-author" class="form-label">Author</label>
+                        <input type="text" class="form-control" id="series-author">
+                    </div>
+                    <div class="mb-3">
+                        <label for="series-publisher" class="form-label">Publisher</label>
+                        <input type="text" class="form-control" id="series-publisher">
+                    </div>
+                    <div class="mb-3">
+                        <label for="series-content-type" class="form-label">Content Type</label>
+                        <select class="form-select" id="series-content-type">
+                            <!-- Content types will be populated dynamically -->
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="series-status" class="form-label">Status</label>
+                        <select class="form-select" id="series-status">
+                            <option value="ONGOING">Ongoing</option>
+                            <option value="COMPLETED">Completed</option>
+                            <option value="HIATUS">Hiatus</option>
+                            <option value="CANCELLED">Cancelled</option>
+                            <option value="UNKNOWN">Unknown</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="series-description" class="form-label">Description</label>
+                        <textarea class="form-control" id="series-description" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="series-cover-url" class="form-label">Cover URL</label>
+                        <input type="url" class="form-control" id="series-cover-url">
+                    </div>
+                    <div class="mb-3">
+                        <label for="series-custom-path" class="form-label">Custom Path</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="series-custom-path" placeholder="/path/to/manga/folder or C:\Path\to\manga\folder">
+                            <button class="btn btn-outline-secondary" type="button" id="validate-series-custom-path-btn">Validate</button>
+                        </div>
+                        <div class="form-text">If your e-books are in a different location than the default, specify the full path here.</div>
+                        <div id="series-custom-path-validation-status" class="mt-2"></div>
+                        <div class="mt-2">
+                            <button type="button" class="btn btn-outline-primary btn-sm" id="create-series-custom-path-btn" style="display: none;" disabled>
+                                <i class="fas fa-folder-plus"></i> Create Folder
+                            </button>
+                        </div>
+                        <div class="form-check mt-3">
+                            <input class="form-check-input" type="checkbox" id="import-from-custom-path">
+                            <label class="form-check-label" for="import-from-custom-path">
+                                Import files from custom folder
+                            </label>
+                            <div class="form-text">When saving, scan this folder for e-books and import them automatically.</div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="save-series-btn">Save Series</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Delete Confirmation Modal -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -224,7 +304,98 @@
 </div>
 {% endblock %}
 
+{% block styles %}
+<style>
+    /* E-book components styling */
+    .ebook-file-container {
+        width: 100%;
+    }
+    
+    .ebook-file-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 5px;
+        border-radius: 4px;
+        background-color: rgba(13, 110, 253, 0.1);
+    }
+    
+    .ebook-file-info {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 150px;
+    }
+    
+    .digital-format-selector, .format-selector {
+        min-width: 100px;
+    }
+    
+    /* Edit button styling */
+    #edit-series-btn {
+        width: 38px;
+        height: 38px;
+        padding: 6px;
+        margin: 10px;
+        z-index: 100;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+    
+    #edit-series-btn i {
+        font-size: 16px;
+    }
+    
+    /* Toast styling */
+    .toast-container {
+        z-index: 9999;
+    }
+    
+    /* Modal styling fixes */
+    .modal {
+        overflow-y: auto !important;
+        z-index: 1050 !important;
+    }
+    
+    .modal-backdrop {
+        z-index: 1040 !important;
+    }
+    
+    .modal-dialog {
+        margin: 1.75rem auto;
+        max-width: 600px;
+        width: auto;
+        z-index: 1055 !important;
+    }
+    
+    .modal-content {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        pointer-events: auto;
+        background-color: var(--bs-modal-bg, #fff);
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        border-radius: 0.3rem;
+        outline: 0;
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    }
+    
+    /* Ensure modal elements are clickable */
+    .modal-header,
+    .modal-body,
+    .modal-footer,
+    .modal-content button,
+    .modal-content input,
+    .modal-content .input-group {
+        pointer-events: auto !important;
+        position: relative;
+        z-index: 1060 !important;
+    }
+</style>
+{% endblock %}
+
 {% block scripts %}
+<script src="{{ url_for('ui.static', filename='js/ebook-manager.js') }}"></script>
+<script src="{{ url_for('static', filename='js/folder-validation.js') }}"></script>
 <script>
     $(document).ready(function() {
         const seriesId = "{{ series_id }}";
@@ -259,29 +430,143 @@
             const series = seriesData;
             
             const html = `
-                <div class="col-md-3">
-                    <img src="${processImageUrl(series.cover_url)}" class="img-fluid rounded" alt="${series.title}">
-                </div>
-                <div class="col-md-9">
-                    <h2>${series.title}</h2>
-                    <p class="text-muted">${series.author ? `Author: ${series.author}` : ''} ${series.publisher ? `| Publisher: ${series.publisher}` : ''}</p>
-                    <p>${series.description || 'No description available'}</p>
-                    <div class="mb-3">
-                        <span class="badge bg-secondary">${series.status || 'Unknown status'}</span>
+                <div class="position-relative">
+                    <div class="position-absolute top-0 end-0">
+                        <button class="btn btn-sm btn-outline-primary rounded-circle" id="edit-series-btn" title="Edit Series">
+                            <i class="fas fa-edit"></i>
+                        </button>
                     </div>
-                    <button class="btn btn-primary" id="edit-series-btn">
-                        <i class="fas fa-edit"></i> Edit Series
-                    </button>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <img src="${processImageUrl(series.cover_url)}" class="img-fluid rounded" alt="${series.title}">
+                        </div>
+                        <div class="col-md-9">
+                            <h2>${series.title}</h2>
+                            <p class="text-muted">${series.author ? `Author: ${series.author}` : ''} ${series.publisher ? `| Publisher: ${series.publisher}` : ''}</p>
+                            <p>${series.description || 'No description available'}</p>
+                            <div class="mb-3">
+                                <span class="badge bg-secondary">${series.status || 'Unknown status'}</span>
+                                <span class="badge bg-info">${series.content_type || 'MANGA'}</span>
+                            </div>
+                            <div class="mb-3">
+                                <small class="text-muted">Folder Path: <span id="series-folder-path">Loading...</span></small>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             `;
             
             $('#series-details').html(html);
             
+            // Fetch folder path
+            fetchSeriesFolderPath(series.id, series.title, series.content_type || 'MANGA');
+            
             // Set up edit button
             $('#edit-series-btn').click(function() {
-                // Implement edit functionality
-                alert('Edit series functionality will be implemented here');
+                // Load content types
+                loadContentTypes().then(() => {
+                    // Populate form with series data
+                    $('#series-title').val(series.title);
+                    $('#series-author').val(series.author || '');
+                    $('#series-publisher').val(series.publisher || '');
+                    $('#series-status').val(series.status || 'UNKNOWN');
+                    $('#series-description').val(series.description || '');
+                    $('#series-cover-url').val(series.cover_url || '');
+                    $('#series-custom-path').val(series.custom_path || '');
+                    
+                    // Set content type if available, default to MANGA
+                    const contentType = series.content_type || 'MANGA';
+                    $('#series-content-type').val(contentType);
+                    
+                    // Validate the custom path if it exists
+                    if (series.custom_path) {
+                        // Use the folder validation function
+                        validateFolder(series.custom_path, function(result) {
+                            if (result.success && result.exists) {
+                                // Show validation success message
+                                showValidationMessage(document.getElementById('series-custom-path-validation-status'), result.message, 'success');
+                                $('#series-custom-path').addClass('is-valid').removeClass('is-invalid');
+                                
+                                // Show import checkbox if path is valid and exists
+                                $('#import-from-custom-path').closest('.form-check').show();
+                            } else {
+                                // Show validation error message
+                                showValidationMessage(document.getElementById('series-custom-path-validation-status'), result.message, 'danger');
+                                $('#series-custom-path').addClass('is-invalid').removeClass('is-valid');
+                                
+                                // Hide import checkbox if path is invalid or doesn't exist
+                                $('#import-from-custom-path').prop('checked', false).closest('.form-check').hide();
+                                
+                                // Show create button if folder doesn't exist
+                                if (!result.exists) {
+                                    $('#create-series-custom-path-btn').prop('disabled', false).show();
+                                }
+                            }
+                        });
+                    } else {
+                        // Hide import checkbox if no custom path
+                        $('#import-from-custom-path').prop('checked', false).closest('.form-check').hide();
+                    }
+                    
+                    // Show the modal
+                    const seriesModal = new bootstrap.Modal(document.getElementById('seriesModal'));
+                    seriesModal.show();
+                });
             });
+            
+            // Function to fetch series folder path
+            function fetchSeriesFolderPath(seriesId, seriesTitle, contentType) {
+                // Create a temporary object to create the path
+                const data = {
+                    action: 'get_folder_path',
+                    series_id: seriesId,
+                    title: seriesTitle,
+                    content_type: contentType
+                };
+                
+                fetch('/api/series/folder-path', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        console.error('Error fetching folder path:', data.error);
+                        $('#series-folder-path').text('Error fetching path');
+                        $('#folder-path-info').text('Error fetching path');
+                    } else {
+                        const folderPath = data.folder_path;
+                        $('#series-folder-path').text(folderPath);
+                        $('#folder-path-info').text(folderPath);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    $('#series-folder-path').text('Error fetching path');
+                    $('#folder-path-info').text('Error fetching path');
+                });
+            }
+            
+            // Function to load content types
+            function loadContentTypes() {
+                return fetch('/api/ebooks/content-types')
+                    .then(response => response.json())
+                    .then(data => {
+                        const contentTypeSelect = $('#series-content-type');
+                        contentTypeSelect.empty();
+                        
+                        // Add content type options
+                        data.content_types.forEach(contentType => {
+                            contentTypeSelect.append(`<option value="${contentType.id}">${contentType.name}</option>`);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error loading content types:', error);
+                    });
+            }
         }
         
         // Display volumes
@@ -289,48 +574,195 @@
             if (volumesData.length > 0) {
                 let html = '';
                 
-                volumesData.forEach(volume => {
-                    html += `
-                        <tr>
-                            <td>${volume.volume_number}</td>
-                            <td>${volume.title || '-'}</td>
-                            <td>${volume.release_date || '-'}</td>
-                            <td>
-                                <div class="btn-group btn-group-sm">
-                                    <button class="btn btn-outline-primary edit-volume" data-id="${volume.id}">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button class="btn btn-outline-danger delete-volume" data-id="${volume.id}" data-number="${volume.volume_number}">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    `;
-                });
-                
-                $('#volumes-list').html(html);
-                $('#volumes-container').show();
-                
-                // Set up edit buttons
-                $('.edit-volume').click(function() {
-                    const volumeId = $(this).data('id');
-                    editVolume(volumeId);
-                });
-                
-                // Set up delete buttons
-                $('.delete-volume').click(function() {
-                    const volumeId = $(this).data('id');
-                    const volumeNumber = $(this).data('number');
-                    
-                    $('#delete-message').text(`Are you sure you want to delete Volume ${volumeNumber}?`);
-                    $('#confirm-delete-btn').data('type', 'volume').data('id', volumeId);
-                    
-                    const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
-                    deleteModal.show();
-                });
+                // Fetch collection items for this series
+                fetch(`/api/collection?series_id=${seriesId}&item_type=VOLUME`)
+                    .then(response => response.json())
+                    .then(collectionData => {
+                        const collectionItems = collectionData.items || [];
+                        
+                        // Fetch e-book files for this series
+                        fetch(`/api/ebooks/series/${seriesId}`)
+                            .then(response => response.json())
+                            .then(ebookData => {
+                                const ebookFiles = ebookData.files || [];
+                                
+                                volumesData.forEach(volume => {
+                                    // Find collection item for this volume
+                                    const collectionItem = collectionItems.find(item => item.volume_id === volume.id);
+                                    
+                                    // Find e-book file for this volume
+                                    const ebookFile = ebookFiles.find(file => file.volume_id === volume.id);
+                                    
+                                    // Default values if no collection item exists
+                                    let format = 'NONE';
+                                    let digitalFormat = 'NONE';
+                                    let hasFile = 0;
+                                    
+                                    if (collectionItem) {
+                                        format = collectionItem.format || 'NONE';
+                                        digitalFormat = collectionItem.digital_format || 'NONE';
+                                        hasFile = collectionItem.has_file || 0;
+                                    }
+                                    
+                                    // Format select options
+                                    const formatOptions = [
+                                        { value: 'PHYSICAL', label: 'Physical' },
+                                        { value: 'DIGITAL', label: 'Digital' },
+                                        { value: 'BOTH', label: 'Both' },
+                                        { value: 'NONE', label: 'None' }
+                                    ];
+                                    
+                                    let formatSelect = `<select class="form-select form-select-sm format-selector" data-volume-id="${volume.id}" data-series-id="${seriesId}">`;
+                                    formatOptions.forEach(option => {
+                                        formatSelect += `<option value="${option.value}"${format === option.value ? ' selected' : ''}>${option.label}</option>`;
+                                    });
+                                    formatSelect += '</select>';
+                                    
+                                    // Digital format select options
+                                    const digitalFormatOptions = [
+                                        { value: 'PDF', label: 'PDF' },
+                                        { value: 'EPUB', label: 'EPUB' },
+                                        { value: 'CBZ', label: 'CBZ' },
+                                        { value: 'CBR', label: 'CBR' },
+                                        { value: 'MOBI', label: 'MOBI' },
+                                        { value: 'AZW', label: 'AZW' },
+                                        { value: 'NONE', label: 'None' }
+                                    ];
+                                    
+                                    let digitalFormatSelect = `<select class="form-select form-select-sm digital-format-selector" data-volume-id="${volume.id}" data-series-id="${seriesId}"${format !== 'DIGITAL' && format !== 'BOTH' ? ' style="display: none;"' : ''}>`;
+                                    digitalFormatOptions.forEach(option => {
+                                        digitalFormatSelect += `<option value="${option.value}"${digitalFormat === option.value ? ' selected' : ''}>${option.label}</option>`;
+                                    });
+                                    digitalFormatSelect += '</select>';
+                                    
+                                    // File upload/display component
+                                    let fileComponent = '';
+                                    
+                                    if (ebookFile) {
+                                        fileComponent = `
+                                            <div class="ebook-file-container" data-volume-id="${volume.id}">
+                                                <div class="ebook-file-item" data-file-id="${ebookFile.id}">
+                                                    <span class="ebook-file-info">${ebookFile.original_name || ebookFile.file_name}</span>
+                                                    <div class="btn-group btn-group-sm ms-2">
+                                                        <a href="/api/ebooks/${ebookFile.id}" class="btn btn-sm btn-outline-primary" target="_blank">
+                                                            <i class="fas fa-download"></i>
+                                                        </a>
+                                                        <button class="btn btn-sm btn-outline-danger delete-ebook" data-file-id="${ebookFile.id}" data-volume-id="${volume.id}">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        `;
+                                    } else {
+                                        fileComponent = `
+                                            <div class="ebook-file-container" data-volume-id="${volume.id}">
+                                                <div class="input-group input-group-sm">
+                                                    <input type="file" class="form-control ebook-upload" data-volume-id="${volume.id}" data-series-id="${seriesId}" style="display: none;">
+                                                    <button class="btn btn-sm btn-outline-primary ebook-upload-button" data-volume-id="${volume.id}"${format !== 'DIGITAL' && format !== 'BOTH' ? ' style="display: none;"' : ''}>
+                                                        <i class="fas fa-upload"></i> Upload File
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        `;
+                                    }
+                                    
+                                    html += `
+                                        <tr>
+                                            <td>${volume.volume_number}</td>
+                                            <td>${volume.title || '-'}</td>
+                                            <td>${volume.release_date || '-'}</td>
+                                            <td>${formatSelect}</td>
+                                            <td>${digitalFormatSelect}</td>
+                                            <td>${fileComponent}</td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm">
+                                                    <button class="btn btn-outline-primary edit-volume" data-id="${volume.id}">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button class="btn btn-outline-danger delete-volume" data-id="${volume.id}" data-number="${volume.volume_number}">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    `;
+                                });
+                                
+                                $('#volumes-list').html(html);
+                                $('#volumes-container').show();
+                                
+                                // Set up edit buttons
+                                $('.edit-volume').click(function() {
+                                    const volumeId = $(this).data('id');
+                                    editVolume(volumeId);
+                                });
+                                
+                                // Set up delete buttons
+                                $('.delete-volume').click(function() {
+                                    const volumeId = $(this).data('id');
+                                    const volumeNumber = $(this).data('number');
+                                    
+                                    $('#delete-message').text(`Are you sure you want to delete Volume ${volumeNumber}?`);
+                                    $('#confirm-delete-btn').data('type', 'volume').data('id', volumeId);
+                                    
+                                    const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+                                    deleteModal.show();
+                                });
+                                
+                                // Initialize format selectors
+                                $('.format-selector').change(function() {
+                                    const volumeId = $(this).data('volume-id');
+                                    const format = $(this).val();
+                                    
+                                    if (format === 'DIGITAL' || format === 'BOTH') {
+                                        $(`.digital-format-selector[data-volume-id="${volumeId}"]`).show();
+                                        $(`.ebook-upload-button[data-volume-id="${volumeId}"]`).show();
+                                    } else {
+                                        $(`.digital-format-selector[data-volume-id="${volumeId}"]`).hide();
+                                        $(`.ebook-upload-button[data-volume-id="${volumeId}"]`).hide();
+                                    }
+                                });
+                                
+                                // Initialize digital format selectors
+                                $('.digital-format-selector').change(function() {
+                                    const volumeId = $(this).data('volume-id');
+                                    const digitalFormat = $(this).val();
+                                    
+                                    fetch(`/api/collection/volume/${volumeId}/digital-format`, {
+                                        method: 'PUT',
+                                        headers: {
+                                            'Content-Type': 'application/json'
+                                        },
+                                        body: JSON.stringify({
+                                            digital_format: digitalFormat
+                                        })
+                                    });
+                                });
+                                
+                                // Initialize file upload buttons
+                                $('.ebook-upload-button').click(function() {
+                                    const volumeId = $(this).data('volume-id');
+                                    $(`.ebook-upload[data-volume-id="${volumeId}"]`).click();
+                                });
+                                
+                                // Initialize the ebook manager
+                                if (window.ebookManager) {
+                                    window.ebookManager.initFormatSelectors();
+                                    window.ebookManager.initFileUploads();
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error fetching e-book files:', error);
+                                $('#volumes-list').html('<tr><td colspan="7" class="text-center">Error loading volumes</td></tr>');
+                            });
+                    })
+                    .catch(error => {
+                        console.error('Error fetching collection items:', error);
+                        $('#volumes-list').html('<tr><td colspan="7" class="text-center">Error loading volumes</td></tr>');
+                    });
             } else {
-                $('#volumes-list').html('<tr><td colspan="4" class="text-center">No volumes found</td></tr>');
+                $('#volumes-list').html('<tr><td colspan="7" class="text-center">No volumes found</td></tr>');
                 $('#volumes-container').show();
             }
         }
@@ -673,8 +1105,304 @@
             });
         });
         
+        // Save series
+        $('#save-series-btn').click(function() {
+            const seriesTitle = $('#series-title').val();
+            
+            if (!seriesTitle) {
+                alert('Series title is required');
+                return;
+            }
+            
+            const seriesData = {
+                title: seriesTitle,
+                author: $('#series-author').val(),
+                publisher: $('#series-publisher').val(),
+                status: $('#series-status').val(),
+                description: $('#series-description').val(),
+                cover_url: $('#series-cover-url').val(),
+                content_type: $('#series-content-type').val(),
+                custom_path: $('#series-custom-path').val()
+            };
+            
+            // Disable button and show loading
+            const button = $(this);
+            const originalText = button.text();
+            button.prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Saving...');
+            
+            // Update series
+            fetch(`/api/series/${seriesId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(seriesData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    console.error('Error updating series:', data.error);
+                    alert('Failed to update series: ' + data.error);
+                    button.prop('disabled', false).text(originalText);
+                } else {
+                    // Check if we need to import files from custom path
+                    const importFromCustomPath = $('#import-from-custom-path').is(':checked');
+                    const customPath = $('#series-custom-path').val().trim();
+                    
+                    if (importFromCustomPath && customPath) {
+                        // Show scanning message
+                        button.html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Scanning for files...');
+                        
+                        // Prepare request data for scanning
+                        const requestData = {
+                            series_id: seriesId,
+                            custom_path: customPath
+                        };
+                        
+                        // Scan for e-books in the custom path
+                        fetch('/api/ebooks/scan', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(requestData)
+                        })
+                        .then(response => response.json())
+                        .then(scanData => {
+                            // Hide modal
+                            const modal = bootstrap.Modal.getInstance(document.getElementById('seriesModal'));
+                            modal.hide();
+                            
+                            // Reload series data
+                            loadSeriesData();
+                            
+                            // Show success message with scan results
+                            if (scanData.error) {
+                                showToast('Series updated but file scan failed: ' + scanData.error, 'warning');
+                            } else {
+                                const stats = scanData.stats || {};
+                                const added = stats.added || 0;
+                                showToast(`Series updated and ${added} files imported successfully`, 'success');
+                            }
+                            
+                            // Reset button
+                            button.prop('disabled', false).text(originalText);
+                        })
+                        .catch(error => {
+                            console.error('Error scanning for files:', error);
+                            
+                            // Hide modal
+                            const modal = bootstrap.Modal.getInstance(document.getElementById('seriesModal'));
+                            modal.hide();
+                            
+                            // Reload series data
+                            loadSeriesData();
+                            
+                            // Show mixed message
+                            showToast('Series updated but file scan failed', 'warning');
+                            
+                            // Reset button
+                            button.prop('disabled', false).text(originalText);
+                        });
+                    } else {
+                        // Hide modal
+                        const modal = bootstrap.Modal.getInstance(document.getElementById('seriesModal'));
+                        modal.hide();
+                        
+                        // Reload series data
+                        loadSeriesData();
+                        
+                        // Show success message
+                        showToast('Series updated successfully', 'success');
+                        
+                        // Reset button
+                        button.prop('disabled', false).text(originalText);
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error updating series:', error);
+                alert('Failed to update series');
+            })
+            .finally(() => {
+                // Reset button
+                button.prop('disabled', false).text(originalText);
+            });
+        });
+        
+        // Add scan button to the page
+        $('#series-details').after(`
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">E-book Management</h5>
+                            <button class="btn btn-sm btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#ebookManagementCollapse" aria-expanded="false" aria-controls="ebookManagementCollapse">
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                        </div>
+                        <div class="collapse" id="ebookManagementCollapse">
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <h6>Folder Location</h6>
+                                    <p class="text-muted">Place your e-book files in this folder: <span id="folder-path-info" class="font-monospace">Loading...</span></p>
+                                    <p class="small">Supported file formats: PDF, EPUB, CBZ, CBR, MOBI, AZW</p>
+                                    <p class="small">Naming examples: "Volume 1.pdf", "Vol 2.epub", "v3.cbz", "4.pdf"</p>
+                                    
+                                    <div class="mt-3">
+                                        <p class="small">To set a custom path for this series, use the <strong>Edit Series</strong> button above.</p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <p>Scan your data directory for e-books and automatically add them to the database.</p>
+                                <button class="btn btn-primary" id="scan-ebooks-btn">
+                                    <i class="fas fa-search"></i> Scan for E-books
+                                </button>
+                                <div id="scan-results" class="mt-3" style="display: none;"></div>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-muted small">Quick Actions</span>
+                                <button class="btn btn-sm btn-primary" id="quick-scan-ebooks-btn">
+                                    <i class="fas fa-search"></i> Scan for E-books
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `);
+        
+        // Set up toggle button icon change
+        $('#ebookManagementCollapse').on('show.bs.collapse', function () {
+            $(this).closest('.card').find('.card-header button i').removeClass('fa-chevron-down').addClass('fa-chevron-up');
+        });
+        
+        $('#ebookManagementCollapse').on('hide.bs.collapse', function () {
+            $(this).closest('.card').find('.card-header button i').removeClass('fa-chevron-up').addClass('fa-chevron-down');
+        });
+        
+        // Set up scan button
+        function scanEbooks(button) {
+            // Store original button text and state
+            const originalText = button.text();
+            const originalHtml = button.html();
+            
+            // Disable button and show loading
+            button.prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Scanning...');
+            
+            // Prepare request data
+            const requestData = {
+                series_id: seriesId
+            };
+            
+            // Scan for e-books for this specific series
+            fetch('/api/ebooks/scan', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(requestData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    console.error('Error scanning for e-books:', data.error);
+                    $('#scan-results').html(`<div class="alert alert-danger">Error: ${data.error}</div>`).show();
+                    // Show the details panel if using quick scan
+                    if (button.attr('id') === 'quick-scan-ebooks-btn') {
+                        $('#ebookManagementCollapse').collapse('show');
+                    }
+                } else {
+                    // Get stats from response, ensure all values are defined
+                    const stats = data.stats || {};
+                    const scanned = stats.scanned || 0;
+                    const added = stats.added || 0;
+                    const skipped = stats.skipped || 0;
+                    
+                    // Show results
+                    $('#scan-results').html(`
+                        <div class="alert alert-success">
+                            <strong>Scan completed!</strong><br>
+                            Files scanned: ${scanned}<br>
+                            Files added: ${added}<br>
+                            Files skipped: ${skipped}
+                        </div>
+                    `).show();
+                    
+                    // Show the details panel if using quick scan and files were added
+                    if (button.attr('id') === 'quick-scan-ebooks-btn' && added > 0) {
+                        $('#ebookManagementCollapse').collapse('show');
+                    }
+                    
+                    // If files were added, reload volumes data
+                    if (added > 0) {
+                        loadSeriesData();
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                $('#scan-results').html(`<div class="alert alert-danger">Error: ${error.message || 'Unknown error'}</div>`).show();
+                // Show the details panel if using quick scan
+                if (button.attr('id') === 'quick-scan-ebooks-btn') {
+                    $('#ebookManagementCollapse').collapse('show');
+                }
+            })
+            .finally(() => {
+                // Reset button
+                button.prop('disabled', false).html(originalHtml);
+            });
+        }
+        
+        // Set up main scan button
+        $('#scan-ebooks-btn').click(function() {
+            scanEbooks($(this));
+        });
+        
+        // Set up quick scan button
+        $('#quick-scan-ebooks-btn').click(function() {
+            scanEbooks($(this));
+        });
+        
         // Initial load
         loadSeriesData();
+        
+        // Set up folder validation for the custom path
+        setupFolderValidation('custom-path', 'custom-path-validation-status', 'validate-custom-path-btn', 'create-custom-path-btn');
+        
+        // Set up folder validation for the series custom path in the Edit Series modal
+        setupFolderValidation('series-custom-path', 'series-custom-path-validation-status', 'validate-series-custom-path-btn', 'create-series-custom-path-btn');
+        
+        // Add custom handler for series custom path validation
+        $('#validate-series-custom-path-btn').click(function() {
+            const customPath = $('#series-custom-path').val().trim();
+            if (customPath) {
+                validateFolder(customPath, function(result) {
+                    if (result.success && result.exists) {
+                        // Show import checkbox if path is valid and exists
+                        $('#import-from-custom-path').closest('.form-check').show();
+                    } else {
+                        // Hide import checkbox if path is invalid or doesn't exist
+                        $('#import-from-custom-path').prop('checked', false).closest('.form-check').hide();
+                    }
+                });
+            } else {
+                // Hide import checkbox if no path is entered
+                $('#import-from-custom-path').prop('checked', false).closest('.form-check').hide();
+            }
+        });
+        
+        // Initially hide the import checkbox
+        $('#import-from-custom-path').closest('.form-check').hide();
+        
+        // Hide import checkbox when custom path changes
+        $('#series-custom-path').on('input', function() {
+            $('#import-from-custom-path').prop('checked', false).closest('.form-check').hide();
+        });
+        
+        // No custom path modal code needed as we've moved the functionality to the Edit Series modal
     });
 </script>
 {% endblock %}

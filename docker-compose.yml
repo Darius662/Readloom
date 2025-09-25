@@ -1,18 +1,23 @@
-version: '3'
-
 services:
-  mangarr:
+  readloom:
     build: .
-    container_name: mangarr
-    restart: unless-stopped
+    container_name: readloom #Container name
+    restart: "unless-stopped" #Restart unless stopped
     ports:
-      - "7227:7227"
+      - "7227:7227" #Port
     volumes:
-      - ./data:/config
+      - ./data:/data # Data folder contains the Logs and DB
+      #- path/to/your/ebooks:/ebooks #Path to your e-books
     environment:
-      - TZ=UTC
+      - TZ=UTC # Europe/Berlin
+      - PYTHONUNBUFFERED=1 #Unbuffered output
     command:
-      - "-o"
-      - "0.0.0.0"
-      - "-p"
-      - "7227"
+      - "-o" #Bind to all interfaces
+      - "0.0.0.0" #Bind to all interfaces
+      - "-p" #Port
+      - "7227" #Port
+    logging:
+      driver: "json-file" #JSON logging driver
+      options:
+        max-size: "10m" #Max log size
+        max-file: "3" #Max log files

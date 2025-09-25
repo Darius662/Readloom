@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}MangaArr - Homarr Integration{% endblock %}
+{% block title %}Readloom - Homarr Integration{% endblock %}
 
 {% block page_title %}Homarr Integration{% endblock %}
 
@@ -146,7 +146,7 @@
                     <!-- Setup Instructions Tab -->
                     <div class="tab-pane fade show active" id="setup" role="tabpanel" aria-labelledby="setup-tab">
                         <div class="alert alert-info" role="alert">
-                            <i class="fas fa-info-circle me-2"></i> Follow these steps to integrate MangaArr with your Homarr dashboard.
+                            <i class="fas fa-info-circle me-2"></i> Follow these steps to integrate Readloom with your Homarr dashboard.
                         </div>
                         
                         <div id="setup-instructions">
@@ -178,7 +178,7 @@
                     <!-- Preview Tab -->
                     <div class="tab-pane fade" id="preview" role="tabpanel" aria-labelledby="preview-tab">
                         <div class="alert alert-info" role="alert">
-                            <i class="fas fa-info-circle me-2"></i> This is a preview of how MangaArr will appear in your Homarr dashboard.
+                            <i class="fas fa-info-circle me-2"></i> This is a preview of how Readloom will appear in your Homarr dashboard.
                         </div>
                         
                         <div class="homarr-preview">
@@ -191,7 +191,7 @@
                                         <div class="homarr-card-icon">
                                             <i class="fas fa-book"></i>
                                         </div>
-                                        <h5 class="homarr-card-title">MangaArr</h5>
+                                        <h5 class="homarr-card-title">Readloom</h5>
                                     </div>
                                     <div class="homarr-card-content">
                                         <div class="progress mb-2">
@@ -237,11 +237,11 @@
                     // Create setup instructions
                     const title = document.createElement('h3');
                     title.className = 'mb-4';
-                    title.textContent = data.title || 'MangaArr Homarr Integration';
+                    title.textContent = data.title || 'Readloom Homarr Integration';
                     
                     const description = document.createElement('p');
                     description.className = 'mb-4';
-                    description.textContent = data.description || 'Follow these steps to integrate MangaArr with your Homarr dashboard.';
+                    description.textContent = data.description || 'Follow these steps to integrate Readloom with your Homarr dashboard.';
                     
                     instructionsContainer.appendChild(title);
                     instructionsContainer.appendChild(description);

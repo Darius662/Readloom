@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}MangaArr - Settings{% endblock %}
+{% block title %}Readloom - Settings{% endblock %}
 
 {% block page_title %}Settings{% endblock %}
 
@@ -13,11 +13,18 @@
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active" id="general-tab" data-bs-toggle="tab" data-bs-target="#general" type="button" role="tab" aria-controls="general" aria-selected="true">General</button>
                     </li>
+                    <!-- Root Folders tab hidden but functionality still accessible through Collections Manager -->
+                    <!-- <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="root-folders-tab" data-bs-toggle="tab" data-bs-target="#root-folders" type="button" role="tab" aria-controls="root-folders" aria-selected="false">Root Folders</button>
+                    </li> -->
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="calendar-tab" data-bs-toggle="tab" data-bs-target="#calendar" type="button" role="tab" aria-controls="calendar" aria-selected="false">Calendar</button>
                     </li>
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="logging-tab" data-bs-toggle="tab" data-bs-target="#logging" type="button" role="tab" aria-controls="logging" aria-selected="false">Logging</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="integrations-tab" data-bs-toggle="tab" data-bs-target="#integrations" type="button" role="tab" aria-controls="integrations" aria-selected="false">Integrations</button>
                     </li>
                 </ul>
             </div>
@@ -45,7 +52,7 @@
                                 <label for="url-base" class="col-sm-3 col-form-label">URL Base</label>
                                 <div class="col-sm-9">
                                     <input type="text" class="form-control" id="url-base" name="url_base">
-                                    <div class="form-text">The base URL for the application (e.g., /mangarr)</div>
+                                    <div class="form-text">The base URL for the application (e.g., /readloom)</div>
                                 </div>
                             </div>
                             <div class="mb-3 row">
@@ -72,6 +79,37 @@
                                 <button type="button" class="btn btn-primary" id="save-general-settings">Save Settings</button>
                             </div>
                         </form>
+                    </div>
+                    
+                    <!-- Root Folders Settings -->
+                    <div class="tab-pane fade" id="root-folders" role="tabpanel" aria-labelledby="root-folders-tab">
+                        <h5 class="card-title">Root Folders</h5>
+                        <p class="text-muted mb-4">
+                            Root folders are where Readloom will store e-book files. Series folders will be created directly inside these root folders.
+                            You must set up at least one root folder before you can add series or scan for e-books.
+                        </p>
+                        
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle"></i> For detailed root folder management, please visit the <a href="{{ url_for('ui.root_folders') }}" class="alert-link">Root Folders</a> page.
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h6>Current Root Folders:</h6>
+                            <div id="root-folders-list" class="list-group">
+                                <div class="text-center py-3">
+                                    <div class="spinner-border spinner-border-sm" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                    <span class="ms-2">Loading root folders...</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid gap-2 d-md-flex">
+                            <a href="{{ url_for('ui.root_folders') }}" class="btn btn-primary">
+                                <i class="fas fa-folder-plus"></i> Manage Root Folders
+                            </a>
+                        </div>
                     </div>
                     
                     <!-- Calendar Settings -->
@@ -143,6 +181,69 @@
                             </div>
                         </form>
                     </div>
+                    
+                    <!-- Integrations Settings -->
+                    <div class="tab-pane fade" id="integrations" role="tabpanel" aria-labelledby="integrations-tab">
+                        <h5 class="card-title">Integrations</h5>
+                        <p class="text-muted mb-4">Configure integrations with external services and metadata providers.</p>
+                        
+                        <!-- Home Assistant Integration -->
+                        <div class="card mb-3">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h6 class="mb-0">Home Assistant</h6>
+                                <span class="badge bg-success">Available</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="d-flex mb-3">
+                                    <img src="https://brands.home-assistant.io/homeassistant/logo.png" alt="Home Assistant Logo" style="width: 40px; height: 40px; margin-right: 15px;">
+                                    <div>
+                                        <p class="mb-0">Integrate Readloom with your Home Assistant instance</p>
+                                    </div>
+                                </div>
+                                <a href="{{ url_for('ui.home_assistant') }}" class="btn btn-sm btn-primary">
+                                    <i class="fas fa-cog me-1"></i> Configure
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <!-- Homarr Integration -->
+                        <div class="card mb-3">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h6 class="mb-0">Homarr</h6>
+                                <span class="badge bg-success">Available</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="d-flex mb-3">
+                                    <img src="https://avatars.githubusercontent.com/u/107269758" alt="Homarr Logo" style="width: 40px; height: 40px; margin-right: 15px;">
+                                    <div>
+                                        <p class="mb-0">Integrate Readloom with your Homarr dashboard</p>
+                                    </div>
+                                </div>
+                                <a href="{{ url_for('ui.homarr') }}" class="btn btn-sm btn-primary">
+                                    <i class="fas fa-cog me-1"></i> Configure
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <!-- Metadata Providers Integration -->
+                        <div class="card mb-3">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h6 class="mb-0">Metadata Providers</h6>
+                                <span class="badge bg-success">Available</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="d-flex mb-3">
+                                    <i class="fas fa-search fa-2x text-primary" style="width: 40px; height: 40px; margin-right: 15px; display: flex; align-items: center; justify-content: center;"></i>
+                                    <div>
+                                        <p class="mb-0">Configure metadata providers for manga search and import</p>
+                                    </div>
+                                </div>
+                                <a href="{{ url_for('ui.provider_config') }}" class="btn btn-sm btn-primary">
+                                    <i class="fas fa-cog me-1"></i> Configure
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -158,7 +259,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p>Some settings require a restart to take effect. Would you like to restart MangaArr now?</p>
+                <p>Some settings require a restart to take effect. Would you like to restart Readloom now?</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Later</button>
@@ -192,12 +293,38 @@
                 $('#log-level').val(data.log_level);
                 $('#log-rotation').val(data.log_rotation);
                 $('#log-size').val(data.log_size);
+                
+                // Load root folders
+                loadRootFolders(data.root_folders);
             },
             error: function(error) {
                 console.error('Error loading settings:', error);
                 alert('Failed to load settings');
             }
         });
+        
+        // Load root folders
+        function loadRootFolders(rootFolders) {
+            const rootFoldersList = $('#root-folders-list');
+            rootFoldersList.empty();
+            
+            if (!rootFolders || rootFolders.length === 0) {
+                rootFoldersList.html(
+                    '<div class="list-group-item list-group-item-warning">No root folders configured</div>'
+                );
+                return;
+            }
+            
+            rootFolders.forEach(function(folder, index) {
+                const item = $('<div class="list-group-item"></div>');
+                const nameElement = $('<h6 class="mb-1"></h6>').text(folder.name);
+                const pathElement = $('<p class="mb-1 text-muted"></p>').text(folder.path);
+                
+                item.append(nameElement);
+                item.append(pathElement);
+                rootFoldersList.append(item);
+            });
+        }
         
         // Save general settings
         $('#save-general-settings').click(function() {

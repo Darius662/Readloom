@@ -1,9 +1,180 @@
 # Changelog
 
-All notable changes to MangaArr will be documented in this file.
+All notable changes to Readloom will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [0.0.9] - 2025-09-25
+### Changed
+- Improved UI organization and navigation:
+  - Moved Root Folders management into Collections Manager for unified experience
+  - Relocated Integrations into Settings page as a new tab
+  - Streamlined sidebar navigation by removing redundant tabs
+  - Enhanced Settings page with better tab organization
+  - Made E-book Management section collapsible with quick actions
+  - Repositioned Edit Series button to top-right corner as icon-only button
+- Added comprehensive UI documentation:
+  - Created new UI_STRUCTURE.md documentation file
+  - Updated codebase structure documentation to include frontend
+  - Added detailed descriptions of UI components and patterns
+- Modified default metadata provider settings:
+  - Only AniList provider enabled by default
+  - Disabled MyAnimeList, MangaDex, MangaFire, Jikan, and MangaAPI by default
+  - Improved initial performance by reducing API calls
+- Enhanced Series Detail page:
+  - Moved Custom Path import functionality to Edit Series modal
+  - Made E-book Management section collapsible to reduce visual clutter
+  - Added quick action for scanning e-books without expanding details
+  - Improved overall page layout and information hierarchy
+
+### Fixed
+- Critical issues in Readloom_direct.py:
+  - Added metadata service initialization to ensure database tables are created
+  - Added setup check to ensure the application is properly initialized
+  - Fixed Flask app creation with correct static folder path configuration
+  - Properly registered all required blueprints
+  - Fixed missing OS imports
+  - Ensured proper static file serving for JavaScript and CSS files
+  - Fixed Setup Wizard functionality when running in direct mode
+- Docker container issues:
+  - Added missing iproute2 package for the ip command
+  - Added net-tools package for netstat command
+  - Removed deprecated version attribute from docker-compose.yml
+  - Added comprehensive Docker documentation
+
+## [0.0.8] - 2025-09-24
+### Added
+- Folder validation functionality across the application:
+  - Added validation to check if folders exist and are writable
+  - Added ability to create folders directly from the UI
+  - Implemented in Root Folders tab, Collection Manager, and Setup Wizard
+  - Reusable JavaScript component for consistent behavior
+- New API endpoints for folder validation and creation
+- Backend utilities for folder validation with proper error handling
+- Implemented custom path feature for series:
+  - Added ability to set a custom folder path for each series
+  - Files are used directly from custom path without copying
+  - Custom path validation with folder creation option
+  - Integrated into the Edit Series form
+- Implemented robust database migration system:
+  - Added framework for tracking and applying migrations
+  - Created migration scripts for schema changes
+  - Automatic migration application during startup
+  - Improved database versioning and upgrade path
+- Enhanced folder validation system:
+  - Added centralized folder validation utilities
+  - Improved error handling for file system operations
+  - Added ability to create folders with proper permissions
+  - Consistent validation across all parts of the application
+
+### Changed
+- Completely redesigned collections management approach:
+  - Removed automatic creation of "Default Collection"
+  - Now users create their own collections from scratch
+  - Any collection can be marked as default by the user
+  - Improved setup wizard to guide users through collection creation
+- Improved project organization and structure:
+  - Moved utility and debug scripts to 'fix and test' folder
+  - Cleaned up root directory for better maintainability
+  - Updated documentation to reflect new script locations
+- Improved API organization and structure:
+  - Added dedicated API endpoints for folder operations
+  - Better separation of concerns between API modules
+  - Enhanced error handling and response formatting
+  - More consistent API naming conventions
+
+### Fixed
+- Fixed collections management issues:
+  - Resolved issue with duplicate Default Collections being created on restart
+  - Added database constraint to prevent multiple default collections
+  - Added proper migration system to handle database schema updates
+  - Improved collection initialization logic
+- Fixed API request issues:
+  - Added proper Content-Type header to AJAX requests
+  - Fixed 415 Unsupported Media Type errors when importing manga
+  - Ensured consistent JSON data handling across all API endpoints
+- Fixed static file serving configuration:
+  - Corrected static folder paths in Flask application
+  - Ensured consistent static URL paths across blueprints
+  - Fixed 404 errors for JavaScript files
+
+
+## [0.0.7] - 2025-09-23
+
+### Fixed
+- Fixed collections management issues:
+  - Improved error handling in collections management
+  - Added cleanup script to fix collection database issues
+  - Enhanced collection-root folder relationship management
+  - Fixed delete functionality for collections and root folders
+- UI improvements:
+  - Renamed "Collection" tab to "Library" for clarity
+  - Added Collections Manager for managing multiple collections
+  - Improved UI feedback when performing collection operations
+  - Enhanced error handling and debugging in JavaScript functions
+
+## [0.0.6] - 2025-09-22
+
+### Fixed
+- Fixed folder structure creation issues:
+  - Corrected LOGGER import in the `import_manga_to_collection` function
+  - Fixed LOGGER import in the `api_import_manga` function
+  - Ensured proper folder name sanitization while preserving spaces
+  - Fixed README file creation in series folders
+  - Improved error handling during folder creation
+- Enhanced folder name sanitization:
+  - Only replaces characters that are invalid in file names
+  - Preserves spaces and most special characters for better readability
+  - Properly handles question marks and other problematic characters
+- Fixed metadata provider search issues with special characters
+
+### Added
+- Collection-based organization system:
+  - Added collections to organize manga/comics into groups
+  - Collections can be linked to multiple root folders
+  - Series can belong to multiple collections
+  - Setup wizard for first-time users to create collections and root folders
+  - Required setup check on application startup
+- Improved e-book scanning:
+  - Automatic scanning of existing folders when importing series
+  - Better detection of CBZ files in existing folders
+  - Enhanced logging for troubleshooting scanning issues
+
+### Changed
+- Application now requires at least one collection and one root folder before use
+- Updated API endpoints to enforce setup requirements
+- Import process now includes information about existing folders and e-books
+
+## [0.0.5] - 2025-09-21
+
+### Added
+- Comprehensive e-book management system
+  - Organized folder structure by content type and series name
+  - Automatic volume number detection from filenames
+  - Support for multiple e-book formats (PDF, EPUB, CBZ, CBR, MOBI, AZW)
+  - Periodic scanning for new files
+  - Manual scan button in the UI
+  - Collection integration with digital format tracking
+  - Detailed documentation for e-book management
+- Enhanced file organization
+  - Content type categorization (MANGA, MANHWA, MANHUA, COMICS, NOVEL, BOOK, OTHER)
+  - Human-readable folder names based on series titles
+  - Automatic folder creation when adding new series
+  - README files in each series folder with metadata
+- Database schema updates
+  - Added `content_type` field to series table
+  - Created `ebook_files` table for tracking e-book files
+  - Extended `collection_items` table with digital format tracking
+  - Added foreign key constraints for e-book files
+- Utility scripts for e-book management
+  - `create_content_type_dirs.py` - Create content type directories
+  - `create_missing_folders.py` - Create folders for all series
+  - `create_series_folder.py` - Create folder for a specific series
+  - `test_folder_scan.py` - Test e-book scanning functionality
+- Periodic task system for background operations
+  - Configurable scan interval for e-book files
+  - Automatic collection updates when new files are found
 
 ## [0.0.4] - 2025-09-20
 

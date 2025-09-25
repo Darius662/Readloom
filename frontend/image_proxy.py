@@ -45,7 +45,7 @@ def proxy_image():
         
         # Set up headers for the request
         headers = {
-            'User-Agent': 'MangaArr/1.0.0 Image Proxy',
+            'User-Agent': 'Readloom/1.0.0 Image Proxy',
             'Accept': 'image/*',
             'Referer': 'https://mangadex.org/'  # Some sites check the referer
         }

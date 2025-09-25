@@ -406,6 +406,8 @@
             $.ajax({
                 url: `/api/metadata/import/${provider}/${mangaId}`,
                 method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({}),
                 success: function(data) {
                     // Reset button
                     $btn.prop('disabled', false).html(originalText);

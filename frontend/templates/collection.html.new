@@ -1,0 +1,408 @@
+{% extends 'base.html' %}
+
+{% block title %}Readloom - Collection{% endblock %}
+
+{% block page_title %}My Collection{% endblock %}
+
+{% block styles %}
+<style>
+    .collection-stats {
+        background-color: rgba(13, 110, 253, 0.1);
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+    
+    .stat-card {
+        text-align: center;
+        padding: 15px 10px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        transition: transform 0.2s;
+    }
+    
+    .stat-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .stat-card .stat-value {
+        font-size: 2rem;
+        font-weight: bold;
+    }
+    
+    .stat-card .stat-label {
+        font-size: 0.9rem;
+        color: #6c757d;
+    }
+    
+    .collection-filters {
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+    
+    .collection-table th {
+        position: sticky;
+        top: 0;
+        background-color: #212529;
+        z-index: 1;
+    }
+    
+    .collection-actions {
+        white-space: nowrap;
+    }
+    
+    .series-cover {
+        width: 50px;
+        height: 70px;
+        object-fit: cover;
+        border-radius: 4px;
+    }
+    
+    .badge-owned {
+        background-color: #198754;
+    }
+    
+    .badge-wanted {
+        background-color: #0d6efd;
+    }
+    
+    .badge-ordered {
+        background-color: #fd7e14;
+    }
+    
+    .badge-loaned {
+        background-color: #6f42c1;
+    }
+    
+    .badge-read {
+        background-color: #198754;
+    }
+    
+    .badge-reading {
+        background-color: #0dcaf0;
+    }
+    
+    .badge-unread {
+        background-color: #6c757d;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <!-- Collection Stats -->
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Collection Statistics</h5>
+                <button id="refresh-stats" class="btn btn-sm btn-primary">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+            </div>
+            <div class="card-body collection-stats">
+                <div class="row">
+                    <div class="col-md-3 col-sm-6">
+                        <div class="stat-card bg-primary bg-opacity-10">
+                            <div class="stat-value" id="total-series">0</div>
+                            <div class="stat-label">Series</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="stat-card bg-success bg-opacity-10">
+                            <div class="stat-value" id="owned-volumes">0</div>
+                            <div class="stat-label">Owned Volumes</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="stat-card bg-info bg-opacity-10">
+                            <div class="stat-value" id="read-volumes">0</div>
+                            <div class="stat-label">Read Volumes</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <div class="stat-card bg-warning bg-opacity-10">
+                            <div class="stat-value" id="total-value">$0.00</div>
+                            <div class="stat-label">Collection Value</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <!-- Collection Filters -->
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Collection Items</h5>
+                <div>
+                    <button id="add-to-collection" class="btn btn-sm btn-success me-2">
+                        <i class="fas fa-plus"></i> Add Item
+                    </button>
+                    <div class="btn-group">
+                        <button id="import-collection" class="btn btn-sm btn-outline-secondary">
+                            <i class="fas fa-file-import"></i> Import
+                        </button>
+                        <button id="export-collection" class="btn btn-sm btn-outline-secondary">
+                            <i class="fas fa-file-export"></i> Export
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="collection-filters mb-3">
+                    <div class="row">
+                        <div class="col-md-3 mb-2">
+                            <label for="filter-type" class="form-label">Type</label>
+                            <select id="filter-type" class="form-select form-select-sm">
+                                <option value="">All Types</option>
+                                <option value="SERIES">Series</option>
+                                <option value="VOLUME">Volumes</option>
+                                <option value="CHAPTER">Chapters</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <label for="filter-ownership" class="form-label">Ownership</label>
+                            <select id="filter-ownership" class="form-select form-select-sm">
+                                <option value="">All</option>
+                                <option value="OWNED">Owned</option>
+                                <option value="WANTED">Wanted</option>
+                                <option value="ORDERED">Ordered</option>
+                                <option value="LOANED">Loaned</option>
+                                <option value="NONE">None</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <label for="filter-read" class="form-label">Read Status</label>
+                            <select id="filter-read" class="form-select form-select-sm">
+                                <option value="">All</option>
+                                <option value="READ">Read</option>
+                                <option value="READING">Reading</option>
+                                <option value="UNREAD">Unread</option>
+                                <option value="NONE">None</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <label for="filter-format" class="form-label">Format</label>
+                            <select id="filter-format" class="form-select form-select-sm">
+                                <option value="">All</option>
+                                <option value="PHYSICAL">Physical</option>
+                                <option value="DIGITAL">Digital</option>
+                                <option value="BOTH">Both</option>
+                                <option value="NONE">None</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="table-responsive">
+                    <table class="table table-hover collection-table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Title</th>
+                                <th>Type</th>
+                                <th>Ownership</th>
+                                <th>Read Status</th>
+                                <th>Format</th>
+                                <th>Purchase Date</th>
+                                <th>Price</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="collection-items">
+                            <!-- Collection items will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div id="no-items-message" class="text-center py-5 d-none">
+                    <i class="fas fa-book fa-3x mb-3 text-muted"></i>
+                    <h5>Your collection is empty</h5>
+                    <p class="text-muted">Start adding manga and comics to your collection</p>
+                    <button id="add-first-item" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Add First Item
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add/Edit Item Modal -->
+<div class="modal fade" id="itemModal" tabindex="-1" aria-labelledby="itemModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="itemModalLabel">Add to Collection</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="item-form">
+                    <input type="hidden" id="item-id">
+                    
+                    <div class="mb-3">
+                        <label for="series-select" class="form-label">Series</label>
+                        <select id="series-select" class="form-select" required>
+                            <option value="">Select a series</option>
+                            <!-- Will be populated dynamically -->
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="item-type" class="form-label">Item Type</label>
+                        <select id="item-type" class="form-select" required>
+                            <option value="">Select type</option>
+                            <option value="SERIES">Series</option>
+                            <option value="VOLUME">Volume</option>
+                            <option value="CHAPTER">Chapter</option>
+                        </select>
+                    </div>
+                    
+                    <div id="volume-select-container" class="mb-3 d-none">
+                        <label for="volume-select" class="form-label">Volume</label>
+                        <select id="volume-select" class="form-select">
+                            <option value="">Select a volume</option>
+                            <!-- Will be populated dynamically -->
+                        </select>
+                    </div>
+                    
+                    <div id="chapter-select-container" class="mb-3 d-none">
+                        <label for="chapter-select" class="form-label">Chapter</label>
+                        <select id="chapter-select" class="form-select">
+                            <option value="">Select a chapter</option>
+                            <!-- Will be populated dynamically -->
+                        </select>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="ownership-status" class="form-label">Ownership Status</label>
+                            <select id="ownership-status" class="form-select">
+                                <option value="OWNED">Owned</option>
+                                <option value="WANTED">Wanted</option>
+                                <option value="ORDERED">Ordered</option>
+                                <option value="LOANED">Loaned</option>
+                                <option value="NONE">None</option>
+                            </select>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="read-status" class="form-label">Read Status</label>
+                            <select id="read-status" class="form-select">
+                                <option value="READ">Read</option>
+                                <option value="READING">Reading</option>
+                                <option value="UNREAD">Unread</option>
+                                <option value="NONE">None</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="format" class="form-label">Format</label>
+                            <select id="format" class="form-select">
+                                <option value="PHYSICAL">Physical</option>
+                                <option value="DIGITAL">Digital</option>
+                                <option value="BOTH">Both</option>
+                                <option value="NONE">None</option>
+                            </select>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="condition" class="form-label">Condition</label>
+                            <select id="condition" class="form-select">
+                                <option value="NEW">New</option>
+                                <option value="LIKE_NEW">Like New</option>
+                                <option value="VERY_GOOD">Very Good</option>
+                                <option value="GOOD">Good</option>
+                                <option value="FAIR">Fair</option>
+                                <option value="POOR">Poor</option>
+                                <option value="NONE">N/A</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="purchase-date" class="form-label">Purchase Date</label>
+                            <input type="date" id="purchase-date" class="form-control">
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="purchase-price" class="form-label">Purchase Price</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" id="purchase-price" class="form-control" step="0.01" min="0">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="purchase-location" class="form-label">Purchase Location</label>
+                        <input type="text" id="purchase-location" class="form-control">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="notes" class="form-label">Notes</label>
+                        <textarea id="notes" class="form-control" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="custom-tags" class="form-label">Custom Tags</label>
+                        <input type="text" id="custom-tags" class="form-control" placeholder="Separate tags with commas">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" id="save-item" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Import/Export Modal -->
+<div class="modal fade" id="importExportModal" tabindex="-1" aria-labelledby="importExportModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="importExportModalLabel">Import/Export Collection</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="import-container">
+                    <p>Upload a JSON file containing your collection data.</p>
+                    <div class="mb-3">
+                        <input class="form-control" type="file" id="import-file" accept=".json">
+                    </div>
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i> The file should be a JSON array of collection items.
+                    </div>
+                </div>
+                
+                <div id="export-container" class="d-none">
+                    <p>Download your collection data as a JSON file.</p>
+                    <div class="d-grid">
+                        <a id="export-download" href="#" class="btn btn-primary">
+                            <i class="fas fa-download"></i> Download Collection Data
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" id="import-button" class="btn btn-primary">Import</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/collection.js') }}"></script>
+{% endblock %}

@@ -15,7 +15,7 @@ HTML_TEMPLATE = """
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MangaArr - Coming Soon</title>
+    <title>Readloom - Coming Soon</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -70,7 +70,7 @@ HTML_TEMPLATE = """
 <body>
     <div class="container">
         <div class="logo">📚</div>
-        <h1>MangaArr</h1>
+        <h1>Readloom</h1>
         <p>Manga, Manwa, and Comics Collection Manager</p>
         <p><strong>Coming Soon!</strong></p>
         
@@ -85,7 +85,7 @@ HTML_TEMPLATE = """
         </div>
         
         <div class="footer">
-            <p>MangaArr v0.0.1 | &copy; 2025 MangaArr Contributors</p>
+            <p>Readloom v0.0.1 | &copy; 2025 Readloom Contributors</p>
         </div>
     </div>
 </body>
@@ -97,7 +97,7 @@ def index():
     return render_template_string(HTML_TEMPLATE)
 
 def main():
-    parser = argparse.ArgumentParser(description="MangaArr Simple App")
+    parser = argparse.ArgumentParser(description="Readloom Simple App")
     parser.add_argument('-d', '--DatabaseFolder', type=str, help="Database folder path")
     parser.add_argument('-l', '--LogFolder', type=str, help="Log folder path")
     parser.add_argument('-o', '--Host', type=str, default='127.0.0.1', help="Host to bind to")
@@ -115,7 +115,7 @@ def main():
         db_dir = Path(args.DatabaseFolder)
         db_dir.mkdir(exist_ok=True)
     
-    print(f"Starting MangaArr Simple App on {args.Host}:{args.Port}")
+    print(f"Starting Readloom Simple App on {args.Host}:{args.Port}")
     app.run(host=args.Host, port=args.Port, debug=False)
 
 if __name__ == "__main__":

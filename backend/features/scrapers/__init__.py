@@ -2,6 +2,6 @@
 # -*- coding: utf-8 -*-
 
 """
-Scrapers module for MangaArr.
+Scrapers module for Readloom.
 Contains web scrapers for fallback data retrieval from various sources.
 """

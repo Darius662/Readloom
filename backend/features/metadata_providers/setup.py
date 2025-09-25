@@ -11,11 +11,13 @@ import json
 from backend.base.logging import LOGGER
 from backend.internals.db import execute_query
 from .base import metadata_provider_manager
+# Import providers from their respective packages
 from .myanimelist import MyAnimeListProvider
 from .manga_api import MangaAPIProvider
 from .mangadex import MangaDexProvider
 from .jikan import JikanProvider
 from .anilist import AniListProvider
+from .mangafire import MangaFireProvider
 
 
 def load_provider_settings() -> Dict[str, Any]:
@@ -42,9 +44,12 @@ def load_provider_settings() -> Dict[str, Any]:
             
             # Insert default settings
             default_providers = {
-                "MyAnimeList": {"enabled": 1, "settings": {"client_id": ""}},
-                "MangaAPI": {"enabled": 1, "settings": {"api_url": "https://manga-api.fly.dev"}},
-                "AniList": {"enabled": 1, "settings": {}}
+                "MyAnimeList": {"enabled": 0, "settings": {"client_id": ""}},
+                "MangaAPI": {"enabled": 0, "settings": {"api_url": "https://manga-api.fly.dev"}},
+                "AniList": {"enabled": 1, "settings": {}},
+                "MangaDex": {"enabled": 0, "settings": {}},
+                "MangaFire": {"enabled": 0, "settings": {}},
+                "Jikan": {"enabled": 0, "settings": {}}
             }
             
             for name, config in default_providers.items():
@@ -115,20 +120,25 @@ def initialize_providers() -> None:
         )
         metadata_provider_manager.register_provider(manga_api_provider)
         
-        # Initialize MangaDex provider (new)
-        mangadex_config = settings.get("MangaDex", {"enabled": True, "settings": {}})
-        mangadex_provider = MangaDexProvider(enabled=True)  # Enable by default
+        # Initialize MangaDex provider
+        mangadex_config = settings.get("MangaDex", {"enabled": False, "settings": {}})
+        mangadex_provider = MangaDexProvider(enabled=mangadex_config["enabled"])
         metadata_provider_manager.register_provider(mangadex_provider)
         
-        # Initialize Jikan provider for MyAnimeList (new)
-        jikan_config = settings.get("Jikan", {"enabled": True, "settings": {}})
-        jikan_provider = JikanProvider(enabled=True)  # Enable by default
+        # Initialize Jikan provider for MyAnimeList
+        jikan_config = settings.get("Jikan", {"enabled": False, "settings": {}})
+        jikan_provider = JikanProvider(enabled=jikan_config["enabled"])
         metadata_provider_manager.register_provider(jikan_provider)
         
         # Initialize AniList provider
         anilist_config = settings.get("AniList", {"enabled": True, "settings": {}})
         anilist_provider = AniListProvider(enabled=anilist_config["enabled"])
         metadata_provider_manager.register_provider(anilist_provider)
+        
+        # Initialize MangaFire provider
+        mangafire_config = settings.get("MangaFire", {"enabled": False, "settings": {}})
+        mangafire_provider = MangaFireProvider(enabled=mangafire_config["enabled"])
+        metadata_provider_manager.register_provider(mangafire_provider)
         
         LOGGER.info(f"Initialized {len(metadata_provider_manager.get_all_providers())} metadata providers")
     except Exception as e:

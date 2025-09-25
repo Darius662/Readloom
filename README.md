@@ -1,8 +1,8 @@
-# MangaArr
+# Readloom
 
-MangaArr is a manga, manwa, and comics collection manager with a focus on release tracking and calendar functionality. It follows the design principles of the *arr suite of applications but with a specialized focus on manga and comics.
+Readloom is a manga, manwa, and comics collection manager with a focus on release tracking and calendar functionality. It follows the design principles of the *arr suite of applications but with a specialized focus on manga and comics.
 
-![MangaArr Dashboard](frontend/static/img/screenshot.png)
+![Readloom Dashboard](frontend/static/img/screenshot.png)
 
 ## Features
 
@@ -15,8 +15,20 @@ MangaArr is a manga, manwa, and comics collection manager with a focus on releas
   - Add releases to collection directly from calendar
   - Efficient series-specific calendar updates (v0.0.5+)
   - Performance-optimized for large collections
-- **Comprehensive Collection Tracking**: Track your manga/comic collection
+- **E-book Management System** (v0.0.5+): Organize and track your digital manga/comics
+  - Organized folder structure by series name with human-readable folder names (v0.0.6+)
+  - Automatic volume number detection from filenames
+  - Support for multiple e-book formats (PDF, EPUB, CBZ, CBR, MOBI, AZW)
+  - Periodic scanning for new files
+  - Manual scan button in the UI
+  - Collection integration with digital format tracking
+  - Automatic README files with series information
+- **Comprehensive Collection System** (v0.0.7+): Organize and track your manga/comic collection
+  - Flexible collection-based organization system
+  - Link collections to multiple root folders
+  - Add series to multiple collections
   - Track ownership status, read status, and purchase details
+  - Track both physical and digital formats
   - Collection statistics and visualizations
   - Import/export functionality
 - **External Source Integration**: Connect to popular manga sources
@@ -44,18 +56,119 @@ MangaArr is a manga, manwa, and comics collection manager with a focus on releas
 
 ### Docker (Recommended)
 
-The easiest way to run MangaArr is using Docker:
+The easiest way to run Readloom is using Docker:
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/MangaArr.git
-cd MangaArr
+git clone https://github.com/yourusername/Readloom.git
+cd Readloom
 
 # Start with Docker Compose
-docker-compose up -d
+docker compose up -d
 ```
 
-MangaArr will be available at http://localhost:7227
+Readloom will be available at http://localhost:7227
+
+#### Docker Compose Configuration
+
+The default `docker-compose.yml` file includes the following configuration:
+
+```yaml
+services:
+  readloom:
+    build: .
+    container_name: readloom
+    restart: unless-stopped
+    ports:
+      - "7227:7227"
+    volumes:
+      - ./data:/config
+    environment:
+      - TZ=UTC
+      - PYTHONUNBUFFERED=1
+    command:
+      - "-o"
+      - "0.0.0.0"
+      - "-p"
+      - "7227"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+```
+
+#### Docker Volumes
+
+The Docker container uses the following volume:
+
+- `./data:/config`: Stores all Readloom data, including the database, logs, and e-books
+
+#### Docker Environment Variables
+
+- `TZ`: Set your timezone (default: UTC)
+- `PYTHONUNBUFFERED`: Ensures Python output is unbuffered for better logging
+
+#### Docker Healthcheck
+
+The Docker container includes a healthcheck that verifies the application is running properly. The healthcheck uses curl to check if the application is responding on port 7227.
+
+#### Container Behavior
+
+The Docker container is designed to keep running even if the Readloom application exits. This allows you to inspect logs and troubleshoot any issues that might cause the application to exit unexpectedly.
+
+If you need to restart the application without restarting the container, you can use:
+
+```bash
+docker exec -it readloom python Readloom.py -d /config/data -l /config/logs -o 0.0.0.0 -p 7227
+```
+
+To view logs:
+
+```bash
+docker logs readloom
+```
+
+To access the container shell:
+
+```bash
+docker exec -it readloom /bin/bash
+```
+
+#### Troubleshooting
+
+If you can't access Readloom at http://localhost:7227 or http://127.0.0.1:7227, try the following:
+
+1. **Check if the container is running**:
+   ```bash
+   docker ps | grep readloom
+   ```
+
+2. **Check container logs**:
+   ```bash
+   docker logs readloom
+   ```
+
+3. **Run the debug script**:
+   ```bash
+   docker exec -it readloom /usr/local/bin/docker-debug.sh
+   ```
+
+4. **Check if the port is correctly mapped**:
+   ```bash
+   docker port readloom
+   ```
+
+5. **Try accessing with your Docker host IP**:
+   If you're using Docker Desktop, try using the Docker host IP instead of localhost.
+   
+6. **Restart the application inside the container**:
+   ```bash
+   docker exec -it readloom python Readloom.py -d /config/data -l /config/logs -o 0.0.0.0 -p 7227
+   ```
+
+7. **Check firewall settings**:
+   Make sure your firewall allows connections to port 7227.
 
 ### Manual Installation
 
@@ -68,8 +181,8 @@ MangaArr will be available at http://localhost:7227
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/MangaArr.git
-   cd MangaArr
+   git clone https://github.com/yourusername/Readloom.git
+   cd Readloom
    ```
 
 2. Install dependencies:
@@ -77,12 +190,12 @@ MangaArr will be available at http://localhost:7227
    pip install -r requirements.txt
    ```
 
-3. Run MangaArr:
+3. Run Readloom:
    ```bash
-   python MangaArr.py
+   python Readloom.py
    ```
 
-MangaArr will be available at http://localhost:7227
+Readloom will be available at http://localhost:7227
 
 ## Documentation
 
@@ -90,14 +203,20 @@ Comprehensive documentation is available in the `docs/` directory:
 
 - [Installation Guide](docs/INSTALLATION.md) - Detailed setup instructions
 - [API Documentation](docs/API.md) - Complete API reference
+- [Collections](docs/COLLECTIONS.md) - Collection-based organization system
+- [E-book Management](docs/EBOOKS.md) - E-book organization and scanning
+- [Folder Structure](docs/FOLDER_STRUCTURE.md) - Series folder organization and naming
 - [Performance Tips](docs/PERFORMANCE_TIPS.md) - Optimize for large collections
 - [AniList Provider](docs/ANILIST_PROVIDER.md) - AniList integration details
 - [Database Schema](docs/DATABASE.md) - Database structure information
 - [Changelog](docs/CHANGELOG.md) - Version history and changes
+- [Codebase Structure](docs/CODEBASE_STRUCTURE.md) - Overview of the modular architecture
+- [Refactoring Guide](docs/REFACTORING_GUIDE.md) - Guidelines for code refactoring
+- [Metadata Providers](docs/METADATA_PROVIDERS.md) - Details on metadata provider implementation
 
 ## Configuration
 
-MangaArr stores its configuration in a SQLite database. You can modify settings through the web interface at http://localhost:7227/settings.
+Readloom stores its configuration in a SQLite database. You can modify settings through the web interface at http://localhost:7227/settings.
 
 ### Calendar Settings
 
@@ -110,6 +229,15 @@ MangaArr stores its configuration in a SQLite database. You can modify settings 
   - When enabled, only confirmed releases appear in the calendar (Sonarr/Radarr-like behavior).
   - When disabled, all predicted releases appear in the calendar.
 
+### E-book Settings
+
+- `ebook_storage`: Path to the e-book storage directory (default: "ebooks")
+  - This can be a relative path within the data directory or an absolute path
+  - E-books are organized by content type and series name within this directory
+- `task_interval_minutes`: How often to scan for new e-book files (default: 60)
+  - The system will automatically scan for new files at this interval
+  - You can also manually trigger a scan from the series detail page
+
 ### Command Line Arguments
 
 - `-d, --DatabaseFolder`: The folder to store the database in
@@ -117,37 +245,49 @@ MangaArr stores its configuration in a SQLite database. You can modify settings 
 - `-f, --LogFile`: The log file name
 - `-o, --Host`: The host to bind to (default: 0.0.0.0)
 - `-p, --Port`: The port to bind to (default: 7227)
-- `-u, --UrlBase`: The URL base (e.g., /mangarr)
+- `-u, --UrlBase`: The URL base (e.g., /readloom)
 
 ## Integrations
 
 ### Home Assistant
 
-MangaArr can integrate with Home Assistant to display your manga/comic collection and upcoming releases on your dashboard.
+Readloom can integrate with Home Assistant to display your manga/comic collection and upcoming releases on your dashboard.
 
-See the [Integrations](http://localhost:7227/integrations) page in the MangaArr web interface for setup instructions.
+See the [Integrations](http://localhost:7227/integrations) page in the Readloom web interface for setup instructions.
 
 ### Homarr
 
-MangaArr can integrate with Homarr to display your manga/comic collection status on your dashboard.
+Readloom can integrate with Homarr to display your manga/comic collection status on your dashboard.
 
-See the [Integrations](http://localhost:7227/integrations) page in the MangaArr web interface for setup instructions.
+See the [Integrations](http://localhost:7227/integrations) page in the Readloom web interface for setup instructions.
 
 ## Development
 
 ### Project Structure
 
-- `MangaArr.py`: Main application entry point
+- `Readloom.py`: Main application entry point
 - `backend/`: Backend code
   - `base/`: Base definitions and helpers
   - `features/`: Feature implementations
-    - `calendar.py`: Calendar management with performance optimizations
-    - `scrapers/`: Web scraping services for manga data
-    - `metadata_providers/`: External API integrations
+    - `calendar/`: Calendar management package
+    - `collection/`: Collection tracking package
+    - `home_assistant/`: Home Assistant integration package
+    - `metadata_providers/`: Metadata provider packages
+      - `anilist/`: AniList provider implementation
+      - `jikan/`: Jikan (MyAnimeList) provider implementation
+      - `mangadex/`: MangaDex provider implementation
+      - `mangafire/`: MangaFire provider implementation
+      - `myanimelist/`: MyAnimeList direct provider implementation
+    - `metadata_service/`: Metadata service package
+    - `notifications/`: Notification system package
+    - `scrapers/`: Web scraping services
+      - `mangainfo/`: Multi-source manga information provider
   - `internals/`: Internal components (database, server, settings)
 - `frontend/`: Frontend code
   - `api.py`: API endpoints
-  - `api_metadata.py`: Metadata provider endpoints
+  - `api_metadata_fixed.py`: Metadata provider endpoints
+  - `api_downloader.py`: Downloader API endpoints
+  - `image_proxy.py`: Image proxy functionality
   - `ui.py`: UI routes
   - `templates/`: HTML templates
   - `static/`: Static files (CSS, JS, images)
@@ -170,4 +310,4 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-MangaArr is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+Readloom is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.

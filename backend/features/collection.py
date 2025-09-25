@@ -22,6 +22,9 @@ def setup_collection_tables():
             ownership_status TEXT NOT NULL CHECK(ownership_status IN ('OWNED', 'WANTED', 'ORDERED', 'LOANED', 'NONE')),
             read_status TEXT NOT NULL CHECK(read_status IN ('READ', 'READING', 'UNREAD', 'NONE')),
             format TEXT CHECK(format IN ('PHYSICAL', 'DIGITAL', 'BOTH', 'NONE')),
+            digital_format TEXT CHECK(digital_format IN ('PDF', 'EPUB', 'CBZ', 'CBR', 'MOBI', 'AZW', 'NONE')),
+            has_file INTEGER DEFAULT 0,
+            ebook_file_id INTEGER,
             condition TEXT CHECK(condition IN ('NEW', 'LIKE_NEW', 'VERY_GOOD', 'GOOD', 'FAIR', 'POOR', 'NONE')),
             purchase_date TEXT,
             purchase_price REAL,
@@ -32,7 +35,8 @@ def setup_collection_tables():
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (series_id) REFERENCES series(id) ON DELETE CASCADE,
             FOREIGN KEY (volume_id) REFERENCES volumes(id) ON DELETE CASCADE,
-            FOREIGN KEY (chapter_id) REFERENCES chapters(id) ON DELETE CASCADE
+            FOREIGN KEY (chapter_id) REFERENCES chapters(id) ON DELETE CASCADE,
+            FOREIGN KEY (ebook_file_id) REFERENCES ebook_files(id) ON DELETE SET NULL
         )
         """, commit=True)
         
@@ -74,6 +78,9 @@ def add_to_collection(
     ownership_status: str = 'OWNED',
     read_status: str = 'UNREAD',
     format: str = 'PHYSICAL',
+    digital_format: str = 'NONE',
+    has_file: int = 0,
+    ebook_file_id: Optional[int] = None,
     condition: str = 'NONE',
     purchase_date: Optional[str] = None,
     purchase_price: Optional[float] = None,
@@ -125,6 +132,9 @@ def add_to_collection(
                 ownership_status = ?,
                 read_status = ?,
                 format = ?,
+                digital_format = ?,
+                has_file = ?,
+                ebook_file_id = ?,
                 condition = ?,
                 purchase_date = ?,
                 purchase_price = ?,
@@ -138,6 +148,9 @@ def add_to_collection(
                 ownership_status,
                 read_status,
                 format,
+                digital_format,
+                has_file,
+                ebook_file_id,
                 condition,
                 purchase_date,
                 purchase_price,
@@ -153,10 +166,10 @@ def add_to_collection(
             insert_query = """
             INSERT INTO collection_items (
                 series_id, volume_id, chapter_id, item_type,
-                ownership_status, read_status, format, condition,
-                purchase_date, purchase_price, purchase_location,
+                ownership_status, read_status, format, digital_format, has_file, ebook_file_id,
+                condition, purchase_date, purchase_price, purchase_location,
                 notes, custom_tags
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """
             item_id = execute_query(insert_query, (
                 series_id,
@@ -166,6 +179,9 @@ def add_to_collection(
                 ownership_status,
                 read_status,
                 format,
+                digital_format,
+                has_file,
+                ebook_file_id,
                 condition,
                 purchase_date,
                 purchase_price,
@@ -218,6 +234,9 @@ def update_collection_item(
     ownership_status: Optional[str] = None,
     read_status: Optional[str] = None,
     format: Optional[str] = None,
+    digital_format: Optional[str] = None,
+    has_file: Optional[int] = None,
+    ebook_file_id: Optional[int] = None,
     condition: Optional[str] = None,
     purchase_date: Optional[str] = None,
     purchase_price: Optional[float] = None,
@@ -264,6 +283,18 @@ def update_collection_item(
         if format is not None:
             update_fields.append("format = ?")
             params.append(format)
+        
+        if digital_format is not None:
+            update_fields.append("digital_format = ?")
+            params.append(digital_format)
+            
+        if has_file is not None:
+            update_fields.append("has_file = ?")
+            params.append(has_file)
+            
+        if ebook_file_id is not None:
+            update_fields.append("ebook_file_id = ?")
+            params.append(ebook_file_id)
         
         if condition is not None:
             update_fields.append("condition = ?")

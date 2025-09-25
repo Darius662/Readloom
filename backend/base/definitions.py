@@ -22,13 +22,15 @@ class Constants:
     DEFAULT_LOG_LEVEL: str = "INFO"
     DEFAULT_LOG_ROTATION: int = 5
     DEFAULT_LOG_SIZE: int = 10
-    DEFAULT_DB_NAME: str = "mangarr.db"
-    DEFAULT_LOG_NAME: str = "mangarr.log"
+    DEFAULT_DB_NAME: str = "readloom.db"
+    DEFAULT_LOG_NAME: str = "readloom.log"
     DEFAULT_CONFIG_NAME: str = "config"
     DEFAULT_METADATA_CACHE_DAYS: int = 7
     DEFAULT_CALENDAR_RANGE_DAYS: int = 14
     DEFAULT_CALENDAR_REFRESH_HOURS: int = 12
     DEFAULT_TASK_INTERVAL_MINUTES: int = 60
+    DEFAULT_EBOOK_STORAGE: str = "ebooks"
+    DEFAULT_ROOT_FOLDERS: List[Dict[str, str]] = []  # Empty list by default
 
 
 class Settings(NamedTuple):
@@ -43,6 +45,8 @@ class Settings(NamedTuple):
     calendar_range_days: int
     calendar_refresh_hours: int
     task_interval_minutes: int
+    ebook_storage: str
+    root_folders: List[Dict[str, str]]  # List of root folders with path and name
 
 
 class MangaFormat(Enum):
@@ -82,3 +86,14 @@ class MetadataSource(Enum):
     COMICVINE = auto()
     MANUAL = auto()
     UNKNOWN = auto()
+
+
+class ContentType(Enum):
+    """Type of content."""
+    MANGA = auto()    # Japanese comics
+    MANHWA = auto()   # Korean comics
+    MANHUA = auto()   # Chinese comics
+    COMICS = auto()   # Western comics
+    NOVEL = auto()    # Light novels or text-based stories
+    BOOK = auto()     # Regular books
+    OTHER = auto()    # Other types of content

@@ -27,6 +27,7 @@ env/
 ENV/
 .env
 .venv
+readloom_venv/
 
 # IDE
 .idea/
@@ -35,7 +36,7 @@ ENV/
 *.swo
 .DS_Store
 
-# MangaArr specific
+# Readloom specific
 data/
 logs/
 *.db
