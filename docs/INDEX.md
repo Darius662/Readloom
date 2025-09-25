@@ -5,6 +5,7 @@ This document provides an overview of all available documentation for Readloom.
 ## Getting Started
 
 - [Installation Guide](INSTALLATION.md) - Detailed setup instructions
+- [Docker Guide](DOCKER.md) - Running Readloom with Docker
 - [Upgrade Notes](../UPGRADE_NOTES.md) - Important information for upgrading to v0.0.7
 - [Changelog](CHANGELOG.md) - Version history and changes
 
@@ -56,6 +57,10 @@ This document provides an overview of all available documentation for Readloom.
   - Corrected static file serving in direct execution mode
   - Fixed Setup Wizard functionality in direct mode
   - Added proper blueprint registration
+- **Docker Improvements**:
+  - Fixed container startup issues by adding required packages
+  - Updated docker-compose.yml to use modern format
+  - Added comprehensive Docker documentation
 
 ### v0.0.8
 

@@ -37,6 +37,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Fixed missing OS imports
   - Ensured proper static file serving for JavaScript and CSS files
   - Fixed Setup Wizard functionality when running in direct mode
+- Docker container issues:
+  - Added missing iproute2 package for the ip command
+  - Added net-tools package for netstat command
+  - Removed deprecated version attribute from docker-compose.yml
+  - Added comprehensive Docker documentation
 
 ## [0.0.8] - 2025-09-24
 ### Added

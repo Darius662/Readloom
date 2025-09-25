@@ -74,8 +74,6 @@ Readloom will be available at http://localhost:7227
 The default `docker-compose.yml` file includes the following configuration:
 
 ```yaml
-version: '3'
-
 services:
   readloom:
     build: .
