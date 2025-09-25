@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.0.9] - 2025-09-25
 ### Changed
+- Generalized application terminology:
+  - Updated UI references from "manga" to "e-book" throughout the application
+  - Added support for more book-related metadata providers (Google Books, Open Library, ISBNdb, WorldCat)
+  - Enabled Google Books by default as the recommended provider for books due to its more accurate metadata
+  - Made the application more suitable for all types of e-books, not just manga/comics
 - Improved UI organization and navigation:
   - Moved Root Folders management into Collections Manager for unified experience
   - Relocated Integrations into Settings page as a new tab

@@ -29,6 +29,7 @@ This document provides an overview of all available documentation for Readloom.
 ## Integrations
 
 - [AniList Provider](ANILIST_PROVIDER.md) - AniList integration details
+- [Book Providers](BOOK_PROVIDERS.md) - Google Books, Open Library, and ISBNdb integration details
 - [Metadata Providers](METADATA_PROVIDERS.md) - Details on metadata provider implementation
 - [Image Proxy](IMAGE_PROXY.md) - Image proxy functionality
 
@@ -49,9 +50,12 @@ This document provides an overview of all available documentation for Readloom.
   - Streamlined Series Detail page with improved layout
   - Icon-only Edit button in top-right corner
   - Custom Path import functionality moved to Edit Series modal
-- **Metadata Provider Optimization**:
-  - Only AniList enabled by default for better performance
+- **Metadata Provider Enhancements**:
+  - Added new book providers: Google Books, Open Library, ISBNdb, and WorldCat
+  - AniList (for manga) and Google Books (for books) enabled by default
+  - Google Books selected as the recommended book provider for its accurate metadata
   - Other providers can be enabled as needed
+  - Updated UI to clearly show which providers need configuration
 - **Critical Fixes**:
   - Fixed Readloom_direct.py to properly initialize services
   - Corrected static file serving in direct execution mode
@@ -70,7 +74,7 @@ This document provides an overview of all available documentation for Readloom.
 
 ### v0.0.7
 
-- **Collection System**: Organize manga/comics into collections linked to root folders
+- **Collection System**: Organize e-books into collections linked to root folders
 - **Collections Manager**: Create and manage multiple collections and their relationships
 - **Library Tab**: Renamed from "Collection" tab for clarity
 - **Collection Maintenance Tools**: Scripts to fix collection database issues
@@ -86,7 +90,7 @@ This document provides an overview of all available documentation for Readloom.
 
 ### v0.0.5
 
-- **E-book Management System**: Organize and track digital manga/comics
+- **E-book Management System**: Organize and track digital books and comics
 - **Advanced Volume Detection**: Better volume number extraction from filenames
 - **Multiple E-book Format Support**: PDF, EPUB, CBZ, CBR, MOBI, AZW
 

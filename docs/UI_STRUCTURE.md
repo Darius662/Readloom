@@ -8,10 +8,10 @@ Readloom's UI is organized with a sidebar navigation that provides access to all
 
 - **Dashboard**: Overview of your library and recent activity
 - **Calendar**: View upcoming releases in a calendar format
-- **Series**: Browse all manga/comics series in your library
-- **Library**: View your collection of manga/comics
+- **Series**: Browse all e-book series in your library
+- **Library**: View your collection of e-books
 - **Collections Manager**: Manage collections and root folders
-- **Search**: Search for new manga/comics to add to your library
+- **Search**: Search for new e-books to add to your library
 - **Notifications**: View system notifications
 - **Settings**: Configure application settings and integrations
 - **About**: Information about Readloom
@@ -44,7 +44,7 @@ The Integrations tab consolidates what was previously a separate page, providing
 
 ### Series Detail
 
-The Series Detail page provides comprehensive information about a manga/comic series:
+The Series Detail page provides comprehensive information about an e-book series:
 
 - **Header Section**: 
   - Series title, author, publisher information
