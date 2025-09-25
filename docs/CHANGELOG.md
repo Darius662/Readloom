@@ -5,6 +5,39 @@ All notable changes to Readloom will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.9] - 2025-09-25
+### Changed
+- Improved UI organization and navigation:
+  - Moved Root Folders management into Collections Manager for unified experience
+  - Relocated Integrations into Settings page as a new tab
+  - Streamlined sidebar navigation by removing redundant tabs
+  - Enhanced Settings page with better tab organization
+  - Made E-book Management section collapsible with quick actions
+  - Repositioned Edit Series button to top-right corner as icon-only button
+- Added comprehensive UI documentation:
+  - Created new UI_STRUCTURE.md documentation file
+  - Updated codebase structure documentation to include frontend
+  - Added detailed descriptions of UI components and patterns
+- Modified default metadata provider settings:
+  - Only AniList provider enabled by default
+  - Disabled MyAnimeList, MangaDex, MangaFire, Jikan, and MangaAPI by default
+  - Improved initial performance by reducing API calls
+- Enhanced Series Detail page:
+  - Moved Custom Path import functionality to Edit Series modal
+  - Made E-book Management section collapsible to reduce visual clutter
+  - Added quick action for scanning e-books without expanding details
+  - Improved overall page layout and information hierarchy
+
+### Fixed
+- Critical issues in Readloom_direct.py:
+  - Added metadata service initialization to ensure database tables are created
+  - Added setup check to ensure the application is properly initialized
+  - Fixed Flask app creation with correct static folder path configuration
+  - Properly registered all required blueprints
+  - Fixed missing OS imports
+  - Ensured proper static file serving for JavaScript and CSS files
+  - Fixed Setup Wizard functionality when running in direct mode
+
 ## [0.0.8] - 2025-09-24
 ### Added
 - Folder validation functionality across the application:

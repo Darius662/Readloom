@@ -29,7 +29,7 @@ class Server:
         if self.app is not None:
             return self.app
         
-        self.app = Flask(__name__)
+        self.app = Flask(__name__, static_folder='frontend/static', static_url_path='/static')
         
         # Configure the application
         self.app.config["SECRET_KEY"] = os.urandom(24)

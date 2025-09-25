@@ -110,7 +110,7 @@
 {% endblock %}
 
 {% block scripts %}
-<script src="/static/js/folder-validation.js"></script>
+<script src="{{ url_for('ui.static', filename='js/folder-validation.js') }}"></script>
 <script>
     $(document).ready(function() {
         // Load root folders
