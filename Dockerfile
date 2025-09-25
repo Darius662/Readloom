@@ -15,8 +15,8 @@ WORKDIR /app
 # Copy requirements first for better caching
 COPY requirements.txt .
 
-# Install dependencies, curl and netcat for healthcheck and debugging
-RUN apt-get update && apt-get install -y curl netcat-openbsd && \
+# Install dependencies, curl, netcat, iproute2 for ip command, and net-tools for netstat
+RUN apt-get update && apt-get install -y curl netcat-openbsd iproute2 net-tools && \
     pip install --no-cache-dir -r requirements.txt && \
     rm -rf /var/lib/apt/lists/*
 
