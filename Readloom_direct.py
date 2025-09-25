@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 from argparse import ArgumentParser
-from os import environ, name, path
+from os import environ, name, path, urandom
+import os
 from typing import NoReturn, Union
 
 from backend.base.definitions import Constants, StartType
@@ -66,7 +67,33 @@ def main(
     
     set_db_location(db_folder)
     
-    SERVER.create_app()
+    # Create Flask app with correct static folder path
+    from flask import Flask
+    app = Flask(__name__, static_folder='frontend/static', static_url_path='/static')
+    app.config["SECRET_KEY"] = os.urandom(24)
+    app.config["JSON_SORT_KEYS"] = False
+    
+    # Set the app on the server
+    SERVER.app = app
+    
+    # Register blueprints
+    from frontend.api import api_bp
+    from frontend.api_metadata_fixed import metadata_api_bp
+    from frontend.api_ebooks import ebooks_api_bp
+    from frontend.api_collections import collections_api
+    from frontend.api_folders import folders_api
+    from frontend.api_rootfolders import rootfolders_api_bp
+    from frontend.ui import ui_bp
+    from frontend.image_proxy import image_proxy_bp
+    
+    app.register_blueprint(api_bp)
+    app.register_blueprint(metadata_api_bp, url_prefix='/api/metadata')
+    app.register_blueprint(ebooks_api_bp)
+    app.register_blueprint(collections_api)
+    app.register_blueprint(folders_api)
+    app.register_blueprint(rootfolders_api_bp)
+    app.register_blueprint(ui_bp)
+    app.register_blueprint(image_proxy_bp)
     
     with SERVER.app.app_context():
         setup_db()
@@ -98,6 +125,14 @@ def main(
         s.restart_on_hosting_changes = True
         settings = s.get_settings()
         SERVER.set_url_base(settings.url_base)
+        
+        # Initialize metadata service
+        from backend.features.metadata_service import init_metadata_service
+        init_metadata_service()
+        
+        # Run setup check
+        from backend.features.setup_check import check_setup_on_startup
+        check_setup_on_startup()
         
         task_handler = TaskHandler()
         task_handler.handle_intervals()

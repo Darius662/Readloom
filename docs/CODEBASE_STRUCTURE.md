@@ -9,6 +9,31 @@ Readloom's backend has been refactored to follow a modular package-based structu
 ## Directory Structure
 
 ```
+frontend/
+├── static/                  # Static assets
+│   ├── css/                 # CSS stylesheets
+│   ├── img/                 # Images and icons
+│   └── js/                  # JavaScript files
+│       ├── collections_manager.js  # Collections and root folders management
+│       ├── ebook-manager.js        # E-book management functionality
+│       ├── folder-validation.js    # Folder validation utilities
+│       ├── image-utils.js          # Image handling utilities
+│       └── main.js                 # Core UI functionality
+│
+├── templates/               # HTML templates
+│   ├── base.html            # Base template with navigation
+│   ├── collections_manager.html  # Collections and root folders management
+│   ├── dashboard.html       # Main dashboard
+│   ├── settings.html        # Settings page with tabs
+│   ├── setup_wizard.html    # Setup wizard for new users
+│   └── ...                  # Other page templates
+│
+├── api.py                   # API endpoints
+├── api_collections.py       # Collections API
+├── api_folders.py           # Folders API
+├── middleware.py            # Request middleware
+└── ui.py                    # UI routes
+
 backend/
 ├── base/                     # Base utilities and common functionality
 │   ├── custom_exceptions.py  # Custom exception classes

@@ -13,14 +13,18 @@
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active" id="general-tab" data-bs-toggle="tab" data-bs-target="#general" type="button" role="tab" aria-controls="general" aria-selected="true">General</button>
                     </li>
-                    <li class="nav-item" role="presentation">
+                    <!-- Root Folders tab hidden but functionality still accessible through Collections Manager -->
+                    <!-- <li class="nav-item" role="presentation">
                         <button class="nav-link" id="root-folders-tab" data-bs-toggle="tab" data-bs-target="#root-folders" type="button" role="tab" aria-controls="root-folders" aria-selected="false">Root Folders</button>
-                    </li>
+                    </li> -->
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="calendar-tab" data-bs-toggle="tab" data-bs-target="#calendar" type="button" role="tab" aria-controls="calendar" aria-selected="false">Calendar</button>
                     </li>
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="logging-tab" data-bs-toggle="tab" data-bs-target="#logging" type="button" role="tab" aria-controls="logging" aria-selected="false">Logging</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="integrations-tab" data-bs-toggle="tab" data-bs-target="#integrations" type="button" role="tab" aria-controls="integrations" aria-selected="false">Integrations</button>
                     </li>
                 </ul>
             </div>
@@ -176,6 +180,69 @@
                                 <button type="button" class="btn btn-primary" id="save-logging-settings">Save Settings</button>
                             </div>
                         </form>
+                    </div>
+                    
+                    <!-- Integrations Settings -->
+                    <div class="tab-pane fade" id="integrations" role="tabpanel" aria-labelledby="integrations-tab">
+                        <h5 class="card-title">Integrations</h5>
+                        <p class="text-muted mb-4">Configure integrations with external services and metadata providers.</p>
+                        
+                        <!-- Home Assistant Integration -->
+                        <div class="card mb-3">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h6 class="mb-0">Home Assistant</h6>
+                                <span class="badge bg-success">Available</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="d-flex mb-3">
+                                    <img src="https://brands.home-assistant.io/homeassistant/logo.png" alt="Home Assistant Logo" style="width: 40px; height: 40px; margin-right: 15px;">
+                                    <div>
+                                        <p class="mb-0">Integrate Readloom with your Home Assistant instance</p>
+                                    </div>
+                                </div>
+                                <a href="{{ url_for('ui.home_assistant') }}" class="btn btn-sm btn-primary">
+                                    <i class="fas fa-cog me-1"></i> Configure
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <!-- Homarr Integration -->
+                        <div class="card mb-3">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h6 class="mb-0">Homarr</h6>
+                                <span class="badge bg-success">Available</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="d-flex mb-3">
+                                    <img src="https://avatars.githubusercontent.com/u/107269758" alt="Homarr Logo" style="width: 40px; height: 40px; margin-right: 15px;">
+                                    <div>
+                                        <p class="mb-0">Integrate Readloom with your Homarr dashboard</p>
+                                    </div>
+                                </div>
+                                <a href="{{ url_for('ui.homarr') }}" class="btn btn-sm btn-primary">
+                                    <i class="fas fa-cog me-1"></i> Configure
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <!-- Metadata Providers Integration -->
+                        <div class="card mb-3">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h6 class="mb-0">Metadata Providers</h6>
+                                <span class="badge bg-success">Available</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="d-flex mb-3">
+                                    <i class="fas fa-search fa-2x text-primary" style="width: 40px; height: 40px; margin-right: 15px; display: flex; align-items: center; justify-content: center;"></i>
+                                    <div>
+                                        <p class="mb-0">Configure metadata providers for manga search and import</p>
+                                    </div>
+                                </div>
+                                <a href="{{ url_for('ui.provider_config') }}" class="btn btn-sm btn-primary">
+                                    <i class="fas fa-cog me-1"></i> Configure
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

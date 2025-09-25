@@ -5,11 +5,13 @@ This document describes the behavior and implementation details of Readloom's me
 ## Overview
 
 Readloom supports multiple metadata providers for fetching manga information, including:
-- AniList (primary recommended provider)
-- MyAnimeList (via Jikan API)
-- MangaDex
-- MangaFire
-- Manga-API
+- AniList (primary recommended provider, enabled by default)
+- MyAnimeList (via Jikan API, disabled by default)
+- MangaDex (disabled by default)
+- MangaFire (disabled by default)
+- Manga-API (disabled by default)
+
+Only AniList is enabled by default to improve initial performance and reduce unnecessary API calls. Other providers can be enabled in the Settings > Integrations > Metadata Providers section.
 
 ## Provider Behavior
 
@@ -93,10 +95,12 @@ The calendar system has been enhanced to handle release dates from all providers
 ## Best Practices
 
 1. **Provider Selection**:
-   - Use AniList as the primary provider (most comprehensive data)
-   - Use MangaDex for additional chapter information
-   - Use MangaFire for accurate volume information
-   - Use MyAnimeList for supplementary metadata
+   - Use AniList as the primary provider (most comprehensive data, enabled by default)
+   - Only enable additional providers as needed:
+     - MangaDex for additional chapter information
+     - MangaFire for accurate volume information
+     - MyAnimeList for supplementary metadata
+   - Keep unused providers disabled to improve performance
 
 2. **Release Date Management**:
    - Always include release dates when available

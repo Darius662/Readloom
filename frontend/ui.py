@@ -131,6 +131,10 @@ def settings():
 @collections_required
 def root_folders():
     """Render the root folders page.
+    
+    Note: This route is still needed even though the tab is hidden in the UI.
+    The functionality has been integrated into the Collections Manager page,
+    but this route is kept for backward compatibility and direct access.
 
     Returns:
         Response: The rendered root folders page.

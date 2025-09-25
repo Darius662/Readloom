@@ -266,6 +266,13 @@
                                 <i class="fas fa-folder-plus"></i> Create Folder
                             </button>
                         </div>
+                        <div class="form-check mt-3">
+                            <input class="form-check-input" type="checkbox" id="import-from-custom-path">
+                            <label class="form-check-label" for="import-from-custom-path">
+                                Import files from custom folder
+                            </label>
+                            <div class="form-text">When saving, scan this folder for e-books and import them automatically.</div>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -322,6 +329,20 @@
     
     .digital-format-selector, .format-selector {
         min-width: 100px;
+    }
+    
+    /* Edit button styling */
+    #edit-series-btn {
+        width: 38px;
+        height: 38px;
+        padding: 6px;
+        margin: 10px;
+        z-index: 100;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+    
+    #edit-series-btn i {
+        font-size: 16px;
     }
     
     /* Toast styling */
@@ -409,23 +430,29 @@
             const series = seriesData;
             
             const html = `
-                <div class="col-md-3">
-                    <img src="${processImageUrl(series.cover_url)}" class="img-fluid rounded" alt="${series.title}">
-                </div>
-                <div class="col-md-9">
-                    <h2>${series.title}</h2>
-                    <p class="text-muted">${series.author ? `Author: ${series.author}` : ''} ${series.publisher ? `| Publisher: ${series.publisher}` : ''}</p>
-                    <p>${series.description || 'No description available'}</p>
-                    <div class="mb-3">
-                        <span class="badge bg-secondary">${series.status || 'Unknown status'}</span>
-                        <span class="badge bg-info">${series.content_type || 'MANGA'}</span>
+                <div class="position-relative">
+                    <div class="position-absolute top-0 end-0">
+                        <button class="btn btn-sm btn-outline-primary rounded-circle" id="edit-series-btn" title="Edit Series">
+                            <i class="fas fa-edit"></i>
+                        </button>
                     </div>
-                    <div class="mb-3">
-                        <small class="text-muted">Folder Path: <span id="series-folder-path">Loading...</span></small>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <img src="${processImageUrl(series.cover_url)}" class="img-fluid rounded" alt="${series.title}">
+                        </div>
+                        <div class="col-md-9">
+                            <h2>${series.title}</h2>
+                            <p class="text-muted">${series.author ? `Author: ${series.author}` : ''} ${series.publisher ? `| Publisher: ${series.publisher}` : ''}</p>
+                            <p>${series.description || 'No description available'}</p>
+                            <div class="mb-3">
+                                <span class="badge bg-secondary">${series.status || 'Unknown status'}</span>
+                                <span class="badge bg-info">${series.content_type || 'MANGA'}</span>
+                            </div>
+                            <div class="mb-3">
+                                <small class="text-muted">Folder Path: <span id="series-folder-path">Loading...</span></small>
+                            </div>
+                        </div>
                     </div>
-                    <button class="btn btn-primary" id="edit-series-btn">
-                        <i class="fas fa-edit"></i> Edit Series
-                    </button>
                 </div>
             `;
             
@@ -453,7 +480,32 @@
                     
                     // Validate the custom path if it exists
                     if (series.custom_path) {
-                        validatePath($('#series-custom-path').val(), 'series-custom-path-validation-status', 'save-series-btn', 'create-series-custom-path-btn');
+                        // Use the folder validation function
+                        validateFolder(series.custom_path, function(result) {
+                            if (result.success && result.exists) {
+                                // Show validation success message
+                                showValidationMessage(document.getElementById('series-custom-path-validation-status'), result.message, 'success');
+                                $('#series-custom-path').addClass('is-valid').removeClass('is-invalid');
+                                
+                                // Show import checkbox if path is valid and exists
+                                $('#import-from-custom-path').closest('.form-check').show();
+                            } else {
+                                // Show validation error message
+                                showValidationMessage(document.getElementById('series-custom-path-validation-status'), result.message, 'danger');
+                                $('#series-custom-path').addClass('is-invalid').removeClass('is-valid');
+                                
+                                // Hide import checkbox if path is invalid or doesn't exist
+                                $('#import-from-custom-path').prop('checked', false).closest('.form-check').hide();
+                                
+                                // Show create button if folder doesn't exist
+                                if (!result.exists) {
+                                    $('#create-series-custom-path-btn').prop('disabled', false).show();
+                                }
+                            }
+                        });
+                    } else {
+                        // Hide import checkbox if no custom path
+                        $('#import-from-custom-path').prop('checked', false).closest('.form-check').hide();
                     }
                     
                     // Show the modal
@@ -1091,16 +1143,81 @@
                 if (data.error) {
                     console.error('Error updating series:', data.error);
                     alert('Failed to update series: ' + data.error);
+                    button.prop('disabled', false).text(originalText);
                 } else {
-                    // Hide modal
-                    const modal = bootstrap.Modal.getInstance(document.getElementById('seriesModal'));
-                    modal.hide();
+                    // Check if we need to import files from custom path
+                    const importFromCustomPath = $('#import-from-custom-path').is(':checked');
+                    const customPath = $('#series-custom-path').val().trim();
                     
-                    // Reload series data
-                    loadSeriesData();
-                    
-                    // Show success message
-                    showToast('Series updated successfully', 'success');
+                    if (importFromCustomPath && customPath) {
+                        // Show scanning message
+                        button.html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Scanning for files...');
+                        
+                        // Prepare request data for scanning
+                        const requestData = {
+                            series_id: seriesId,
+                            custom_path: customPath
+                        };
+                        
+                        // Scan for e-books in the custom path
+                        fetch('/api/ebooks/scan', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(requestData)
+                        })
+                        .then(response => response.json())
+                        .then(scanData => {
+                            // Hide modal
+                            const modal = bootstrap.Modal.getInstance(document.getElementById('seriesModal'));
+                            modal.hide();
+                            
+                            // Reload series data
+                            loadSeriesData();
+                            
+                            // Show success message with scan results
+                            if (scanData.error) {
+                                showToast('Series updated but file scan failed: ' + scanData.error, 'warning');
+                            } else {
+                                const stats = scanData.stats || {};
+                                const added = stats.added || 0;
+                                showToast(`Series updated and ${added} files imported successfully`, 'success');
+                            }
+                            
+                            // Reset button
+                            button.prop('disabled', false).text(originalText);
+                        })
+                        .catch(error => {
+                            console.error('Error scanning for files:', error);
+                            
+                            // Hide modal
+                            const modal = bootstrap.Modal.getInstance(document.getElementById('seriesModal'));
+                            modal.hide();
+                            
+                            // Reload series data
+                            loadSeriesData();
+                            
+                            // Show mixed message
+                            showToast('Series updated but file scan failed', 'warning');
+                            
+                            // Reset button
+                            button.prop('disabled', false).text(originalText);
+                        });
+                    } else {
+                        // Hide modal
+                        const modal = bootstrap.Modal.getInstance(document.getElementById('seriesModal'));
+                        modal.hide();
+                        
+                        // Reload series data
+                        loadSeriesData();
+                        
+                        // Show success message
+                        showToast('Series updated successfully', 'success');
+                        
+                        // Reset button
+                        button.prop('disabled', false).text(originalText);
+                    }
                 }
             })
             .catch(error => {
@@ -1120,63 +1237,65 @@
                     <div class="card">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h5 class="mb-0">E-book Management</h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="mb-3">
-                                <h6>Folder Location</h6>
-                                <p class="text-muted">Place your e-book files in this folder: <span id="folder-path-info" class="font-monospace">Loading...</span></p>
-                                <p class="small">Supported file formats: PDF, EPUB, CBZ, CBR, MOBI, AZW</p>
-                                <p class="small">Naming examples: "Volume 1.pdf", "Vol 2.epub", "v3.cbz", "4.pdf"</p>
-                                
-                                <div class="mt-3">
-                                    <p class="small">To set a custom path for this series, use the <strong>Edit Series</strong> button above.</p>
-                                </div>
-                            </div>
-                            <hr>
-                            <p>Scan your data directory for e-books and automatically add them to the database.</p>
-                            <div class="mb-3">
-                                <label for="custom-path" class="form-label">Custom Path (Optional)</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" id="custom-path" placeholder="/path/to/manga/folder or C:\Path\to\manga\folder">
-                                    <button class="btn btn-outline-secondary" type="button" id="validate-custom-path-btn">Validate</button>
-                                </div>
-                                <div class="form-text">If your e-books are in a different location than the default, specify the full path here.</div>
-                                <div id="custom-path-validation-status" class="mt-2"></div>
-                                <div class="mt-2">
-                                    <button type="button" class="btn btn-outline-primary" id="create-custom-path-btn" style="display: none;" disabled>
-                                        <i class="fas fa-folder-plus"></i> Create Folder
-                                    </button>
-                                </div>
-                            </div>
-                            <button class="btn btn-primary" id="scan-ebooks-btn">
-                                <i class="fas fa-search"></i> Scan for E-books
+                            <button class="btn btn-sm btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#ebookManagementCollapse" aria-expanded="false" aria-controls="ebookManagementCollapse">
+                                <i class="fas fa-chevron-down"></i>
                             </button>
-                            <div id="scan-results" class="mt-3" style="display: none;"></div>
+                        </div>
+                        <div class="collapse" id="ebookManagementCollapse">
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <h6>Folder Location</h6>
+                                    <p class="text-muted">Place your e-book files in this folder: <span id="folder-path-info" class="font-monospace">Loading...</span></p>
+                                    <p class="small">Supported file formats: PDF, EPUB, CBZ, CBR, MOBI, AZW</p>
+                                    <p class="small">Naming examples: "Volume 1.pdf", "Vol 2.epub", "v3.cbz", "4.pdf"</p>
+                                    
+                                    <div class="mt-3">
+                                        <p class="small">To set a custom path for this series, use the <strong>Edit Series</strong> button above.</p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <p>Scan your data directory for e-books and automatically add them to the database.</p>
+                                <button class="btn btn-primary" id="scan-ebooks-btn">
+                                    <i class="fas fa-search"></i> Scan for E-books
+                                </button>
+                                <div id="scan-results" class="mt-3" style="display: none;"></div>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-muted small">Quick Actions</span>
+                                <button class="btn btn-sm btn-primary" id="quick-scan-ebooks-btn">
+                                    <i class="fas fa-search"></i> Scan for E-books
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         `);
         
+        // Set up toggle button icon change
+        $('#ebookManagementCollapse').on('show.bs.collapse', function () {
+            $(this).closest('.card').find('.card-header button i').removeClass('fa-chevron-down').addClass('fa-chevron-up');
+        });
+        
+        $('#ebookManagementCollapse').on('hide.bs.collapse', function () {
+            $(this).closest('.card').find('.card-header button i').removeClass('fa-chevron-up').addClass('fa-chevron-down');
+        });
+        
         // Set up scan button
-        $('#scan-ebooks-btn').click(function() {
-            // Disable button and show loading
-            const button = $(this);
+        function scanEbooks(button) {
+            // Store original button text and state
             const originalText = button.text();
-            button.prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Scanning...');
+            const originalHtml = button.html();
             
-            // Get custom path if provided
-            const customPath = $('#custom-path').val().trim();
+            // Disable button and show loading
+            button.prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Scanning...');
             
             // Prepare request data
             const requestData = {
                 series_id: seriesId
             };
-            
-            // Add custom path if provided
-            if (customPath) {
-                requestData.custom_path = customPath;
-            }
             
             // Scan for e-books for this specific series
             fetch('/api/ebooks/scan', {
@@ -1191,38 +1310,60 @@
                 if (data.error) {
                     console.error('Error scanning for e-books:', data.error);
                     $('#scan-results').html(`<div class="alert alert-danger">Error: ${data.error}</div>`).show();
+                    // Show the details panel if using quick scan
+                    if (button.attr('id') === 'quick-scan-ebooks-btn') {
+                        $('#ebookManagementCollapse').collapse('show');
+                    }
                 } else {
                     // Get stats from response, ensure all values are defined
                     const stats = data.stats || {};
                     const scanned = stats.scanned || 0;
                     const added = stats.added || 0;
                     const skipped = stats.skipped || 0;
-                    const errors = stats.errors || 0;
                     
-                    console.log('Scan stats:', stats);
-                    
+                    // Show results
                     $('#scan-results').html(`
                         <div class="alert alert-success">
-                            <h5>Scan Complete</h5>
-                            <p>Scanned: ${scanned} files</p>
-                            <p>Added: ${added} files</p>
-                            <p>Skipped: ${skipped} files</p>
-                            <p>Errors: ${errors} files</p>
+                            <strong>Scan completed!</strong><br>
+                            Files scanned: ${scanned}<br>
+                            Files added: ${added}<br>
+                            Files skipped: ${skipped}
                         </div>
                     `).show();
                     
-                    // Reload series data to show any new files
-                    loadSeriesData();
+                    // Show the details panel if using quick scan and files were added
+                    if (button.attr('id') === 'quick-scan-ebooks-btn' && added > 0) {
+                        $('#ebookManagementCollapse').collapse('show');
+                    }
+                    
+                    // If files were added, reload volumes data
+                    if (added > 0) {
+                        loadSeriesData();
+                    }
                 }
             })
             .catch(error => {
-                console.error('Error scanning for e-books:', error);
-                $('#scan-results').html(`<div class="alert alert-danger">Error scanning for e-books</div>`).show();
+                console.error('Error:', error);
+                $('#scan-results').html(`<div class="alert alert-danger">Error: ${error.message || 'Unknown error'}</div>`).show();
+                // Show the details panel if using quick scan
+                if (button.attr('id') === 'quick-scan-ebooks-btn') {
+                    $('#ebookManagementCollapse').collapse('show');
+                }
             })
             .finally(() => {
                 // Reset button
-                button.prop('disabled', false).text(originalText);
+                button.prop('disabled', false).html(originalHtml);
             });
+        }
+        
+        // Set up main scan button
+        $('#scan-ebooks-btn').click(function() {
+            scanEbooks($(this));
+        });
+        
+        // Set up quick scan button
+        $('#quick-scan-ebooks-btn').click(function() {
+            scanEbooks($(this));
         });
         
         // Initial load
@@ -1233,6 +1374,33 @@
         
         // Set up folder validation for the series custom path in the Edit Series modal
         setupFolderValidation('series-custom-path', 'series-custom-path-validation-status', 'validate-series-custom-path-btn', 'create-series-custom-path-btn');
+        
+        // Add custom handler for series custom path validation
+        $('#validate-series-custom-path-btn').click(function() {
+            const customPath = $('#series-custom-path').val().trim();
+            if (customPath) {
+                validateFolder(customPath, function(result) {
+                    if (result.success && result.exists) {
+                        // Show import checkbox if path is valid and exists
+                        $('#import-from-custom-path').closest('.form-check').show();
+                    } else {
+                        // Hide import checkbox if path is invalid or doesn't exist
+                        $('#import-from-custom-path').prop('checked', false).closest('.form-check').hide();
+                    }
+                });
+            } else {
+                // Hide import checkbox if no path is entered
+                $('#import-from-custom-path').prop('checked', false).closest('.form-check').hide();
+            }
+        });
+        
+        // Initially hide the import checkbox
+        $('#import-from-custom-path').closest('.form-check').hide();
+        
+        // Hide import checkbox when custom path changes
+        $('#series-custom-path').on('input', function() {
+            $('#import-from-custom-path').prop('checked', false).closest('.form-check').hide();
+        });
         
         // No custom path modal code needed as we've moved the functionality to the Edit Series modal
     });
