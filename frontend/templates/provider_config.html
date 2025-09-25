@@ -12,7 +12,7 @@
                 </div>
                 <div class="card-body">
                     <p class="text-muted mb-4">
-                        Configure external metadata providers to enable manga search and import functionality.
+                        Configure external metadata providers to enable e-book search and import functionality.
                         Each provider may require specific API keys or settings to work properly.
                     </p>
 
@@ -125,15 +125,23 @@
             '<span class="badge bg-success">Enabled</span>' : 
             '<span class="badge bg-danger">Disabled</span>';
         
-        let configStatus = '<span class="badge bg-warning">Needs Configuration</span>';
+        let configStatus = '<span class="badge bg-success">Ready to Use</span>';
         
-        // Check if provider is configured
+        // Check if provider needs configuration
         if (provider.enabled) {
-            if (name === 'MyAnimeList' && provider.settings.client_id) {
-                configStatus = '<span class="badge bg-success">Configured</span>';
-            } else if (name === 'MangaAPI' && provider.settings.api_url) {
-                configStatus = '<span class="badge bg-success">Configured</span>';
+            // Providers that require API keys or configuration
+            if (name === 'MyAnimeList' && !provider.settings.client_id) {
+                configStatus = '<span class="badge bg-warning">Needs Configuration</span>';
+            } else if (name === 'MangaAPI' && !provider.settings.api_url) {
+                configStatus = '<span class="badge bg-warning">Needs Configuration</span>';
+            } else if (name === 'GoogleBooks' && !provider.settings.api_key) {
+                configStatus = '<span class="badge bg-warning">Needs Configuration</span>';
+            } else if (name === 'ISBNdb' && !provider.settings.api_key) {
+                configStatus = '<span class="badge bg-warning">Needs Configuration</span>';
+            } else if (name === 'WorldCat' && !provider.settings.api_key) {
+                configStatus = '<span class="badge bg-warning">Needs Configuration</span>';
             }
+            // OpenLibrary doesn't need configuration
         }
         
         return $(`
@@ -168,11 +176,27 @@
     function getProviderDescription(name) {
         switch (name) {
             case 'MyAnimeList':
-                return 'MyAnimeList (MAL) is a popular anime and manga database that requires a Client ID for API access.';
+                return 'MyAnimeList (MAL) is a popular anime and e-book database that requires a Client ID for API access.';
             case 'MangaAPI':
-                return 'Manga-API is a general-purpose manga API that provides access to various manga sources.';
+                return 'Manga-API is a general-purpose e-book API that provides access to various comic and manga sources.';
+            case 'AniList':
+                return 'AniList is a next-generation anime and e-book database with a modern API. No configuration required.';
+            case 'MangaDex':
+                return 'MangaDex is a scanlation database and reader for e-books. No configuration required.';
+            case 'MangaFire':
+                return 'MangaFire is an e-book aggregator with a large collection. No configuration required.';
+            case 'Jikan':
+                return 'Jikan is an unofficial MyAnimeList API that provides access to MAL data. No configuration required.';
+            case 'GoogleBooks':
+                return 'Google Books API provides access to millions of books with accurate metadata. (Recommended for books)';
+            case 'OpenLibrary':
+                return 'Open Library is a free, open database of books. No API key or configuration required.';
+            case 'ISBNdb':
+                return 'ISBNdb is a comprehensive database of books identified by ISBN. Requires an API key for access.';
+            case 'WorldCat':
+                return 'WorldCat is a global catalog of library collections with millions of books. Requires an API key for access.';
             default:
-                return 'External manga provider for searching and importing manga.';
+                return 'External provider for searching and importing e-books.';
         }
     }
     
@@ -224,6 +248,60 @@
                                        placeholder="Enter the Manga-API URL">
                             </div>
                         `);
+                    } else if (providerName === 'GoogleBooks') {
+                        $('#settingsFields').append(`
+                            <div class="mb-3">
+                                <label for="apiKey" class="form-label">API Key</label>
+                                <input type="text" class="form-control" id="apiKey" name="apiKey" 
+                                       value="${provider.settings.api_key || ''}" 
+                                       placeholder="Enter your Google Books API Key">
+                                <div class="form-text">
+                                    You can get an API key from the 
+                                    <a href="https://console.cloud.google.com/apis/credentials" target="_blank">Google Cloud Console</a>.
+                                    While optional, an API key allows higher rate limits.
+                                </div>
+                            </div>
+                        `);
+                    } else if (providerName === 'ISBNdb') {
+                        $('#settingsFields').append(`
+                            <div class="mb-3">
+                                <label for="apiKey" class="form-label">API Key</label>
+                                <input type="text" class="form-control" id="apiKey" name="apiKey" 
+                                       value="${provider.settings.api_key || ''}" 
+                                       placeholder="Enter your ISBNdb API Key">
+                                <div class="form-text">
+                                    An API key is required to use ISBNdb. You can get one by signing up at 
+                                    <a href="https://isbndb.com/pricing" target="_blank">ISBNdb.com</a>
+                                </div>
+                            </div>
+                        `);
+                    } else if (providerName === 'WorldCat') {
+                        $('#settingsFields').append(`
+                            <div class="mb-3">
+                                <label for="apiKey" class="form-label">API Key</label>
+                                <input type="text" class="form-control" id="apiKey" name="apiKey" 
+                                       value="${provider.settings.api_key || ''}" 
+                                       placeholder="Enter your WorldCat API Key">
+                                <div class="form-text">
+                                    An API key is required to use WorldCat. You can get one by signing up at 
+                                    <a href="https://www.oclc.org/developer/develop/web-services.en.html" target="_blank">OCLC Developer Network</a>
+                                </div>
+                            </div>
+                        `);
+                    } else if (providerName === 'OpenLibrary') {
+                        $('#settingsFields').append(`
+                            <div class="alert alert-info mb-3">
+                                <i class="fas fa-info-circle me-2"></i>
+                                OpenLibrary doesn't require any configuration. It's ready to use!
+                            </div>
+                        `);
+                    } else if (providerName === 'AniList' || providerName === 'MangaDex' || providerName === 'Jikan' || providerName === 'MangaFire') {
+                        $('#settingsFields').append(`
+                            <div class="alert alert-info mb-3">
+                                <i class="fas fa-info-circle me-2"></i>
+                                This provider doesn't require any configuration. It's ready to use!
+                            </div>
+                        `);
                     }
                     
                     // Show the modal
@@ -248,6 +326,12 @@
             settings.client_id = $('#clientId').val();
         } else if (providerName === 'MangaAPI') {
             settings.api_url = $('#apiUrl').val();
+        } else if (providerName === 'GoogleBooks') {
+            settings.api_key = $('#apiKey').val();
+        } else if (providerName === 'ISBNdb') {
+            settings.api_key = $('#apiKey').val();
+        } else if (providerName === 'WorldCat') {
+            settings.api_key = $('#apiKey').val();
         }
         
         // Save settings

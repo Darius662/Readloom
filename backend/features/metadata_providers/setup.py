@@ -18,6 +18,11 @@ from .mangadex import MangaDexProvider
 from .jikan import JikanProvider
 from .anilist import AniListProvider
 from .mangafire import MangaFireProvider
+# Import new providers
+from .googlebooks import GoogleBooksProvider
+from .openlibrary import OpenLibraryProvider
+from .isbndb import ISBNdbProvider
+from .worldcat import WorldCatProvider
 
 
 def load_provider_settings() -> Dict[str, Any]:
@@ -49,7 +54,11 @@ def load_provider_settings() -> Dict[str, Any]:
                 "AniList": {"enabled": 1, "settings": {}},
                 "MangaDex": {"enabled": 0, "settings": {}},
                 "MangaFire": {"enabled": 0, "settings": {}},
-                "Jikan": {"enabled": 0, "settings": {}}
+                "Jikan": {"enabled": 0, "settings": {}},
+                "GoogleBooks": {"enabled": 1, "settings": {"api_key": ""}},
+                "OpenLibrary": {"enabled": 0, "settings": {}},
+                "ISBNdb": {"enabled": 0, "settings": {"api_key": ""}},
+                "WorldCat": {"enabled": 0, "settings": {"api_key": ""}}
             }
             
             for name, config in default_providers.items():
@@ -140,6 +149,35 @@ def initialize_providers() -> None:
         mangafire_provider = MangaFireProvider(enabled=mangafire_config["enabled"])
         metadata_provider_manager.register_provider(mangafire_provider)
         
+        # Initialize Google Books provider
+        googlebooks_config = settings.get("GoogleBooks", {"enabled": False, "settings": {"api_key": ""}})
+        googlebooks_provider = GoogleBooksProvider(
+            enabled=googlebooks_config["enabled"],
+            api_key=googlebooks_config["settings"].get("api_key", "")
+        )
+        metadata_provider_manager.register_provider(googlebooks_provider)
+        
+        # Initialize Open Library provider
+        openlibrary_config = settings.get("OpenLibrary", {"enabled": False, "settings": {}})
+        openlibrary_provider = OpenLibraryProvider(enabled=openlibrary_config["enabled"])
+        metadata_provider_manager.register_provider(openlibrary_provider)
+        
+        # Initialize ISBNdb provider
+        isbndb_config = settings.get("ISBNdb", {"enabled": False, "settings": {"api_key": ""}})
+        isbndb_provider = ISBNdbProvider(
+            enabled=isbndb_config["enabled"],
+            api_key=isbndb_config["settings"].get("api_key", "")
+        )
+        metadata_provider_manager.register_provider(isbndb_provider)
+        
+        # Initialize WorldCat provider
+        worldcat_config = settings.get("WorldCat", {"enabled": False, "settings": {"api_key": ""}})
+        worldcat_provider = WorldCatProvider(
+            enabled=worldcat_config["enabled"],
+            api_key=worldcat_config["settings"].get("api_key", "")
+        )
+        metadata_provider_manager.register_provider(worldcat_provider)
+        
         LOGGER.info(f"Initialized {len(metadata_provider_manager.get_all_providers())} metadata providers")
     except Exception as e:
         LOGGER.error(f"Error initializing metadata providers: {e}")
@@ -161,6 +199,12 @@ def get_provider_settings() -> Dict[str, Any]:
             provider_settings["client_id"] = getattr(provider, "client_id", "")
         elif provider.name == "MangaAPI":
             provider_settings["api_url"] = getattr(provider, "api_url", "https://manga-api.fly.dev")
+        elif provider.name == "GoogleBooks":
+            provider_settings["api_key"] = getattr(provider, "api_key", "")
+        elif provider.name == "ISBNdb":
+            provider_settings["api_key"] = getattr(provider, "api_key", "")
+        elif provider.name == "WorldCat":
+            provider_settings["api_key"] = getattr(provider, "api_key", "")
         
         settings[provider.name] = {
             "enabled": provider.enabled,
@@ -195,6 +239,13 @@ def update_provider_settings(name: str, enabled: bool, settings: Dict[str, Any])
             provider.headers["X-MAL-CLIENT-ID"] = settings["client_id"]
         elif name == "MangaAPI" and "api_url" in settings:
             provider.api_url = settings["api_url"]
+        elif name == "GoogleBooks" and "api_key" in settings:
+            provider.api_key = settings["api_key"]
+        elif name == "ISBNdb" and "api_key" in settings:
+            provider.api_key = settings["api_key"]
+            provider.headers["Authorization"] = settings["api_key"]
+        elif name == "WorldCat" and "api_key" in settings:
+            provider.api_key = settings["api_key"]
         
         # Save to database
         return save_provider_settings(name, enabled, settings)

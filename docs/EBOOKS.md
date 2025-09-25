@@ -4,7 +4,7 @@ This document describes the e-book management functionality in Readloom, includi
 
 ## Overview
 
-Readloom supports managing e-book files for your manga/comic collection. It organizes files by series name, automatically detects volume numbers from filenames, and integrates with your collection tracking.
+Readloom supports managing e-book files for your collection. It organizes files by series name, automatically detects volume numbers from filenames, and integrates with your collection tracking.
 
 In version 0.0.7, the e-book scanning functionality has been significantly improved with better detection of files in existing folders and automatic scanning when importing series.
 
@@ -71,6 +71,7 @@ Readloom tracks the following content types in its database:
 - COMICS: Western comics
 - NOVEL: Light novels or text-based stories
 - BOOK: Regular books
+- EBOOK: Digital books
 - OTHER: Other types of content
 
 While content types are stored in the database and used for filtering and organization in the UI, they no longer correspond to separate directories in the file system.

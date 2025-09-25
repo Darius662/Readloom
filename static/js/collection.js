@@ -209,10 +209,323 @@ function removeCollectionItem(itemId) {
     }
 }
 
+// Load series list for the modal
+function loadSeriesList() {
+    const seriesSelect = document.getElementById('series-select');
+    
+    // Clear existing options except the first one
+    while (seriesSelect.options.length > 1) {
+        seriesSelect.remove(1);
+    }
+    
+    // Show loading state
+    const loadingOption = document.createElement('option');
+    loadingOption.text = 'Loading series...';
+    loadingOption.disabled = true;
+    seriesSelect.add(loadingOption);
+    
+    // Fetch series list
+    fetch('/api/series')
+        .then(response => response.json())
+        .then(data => {
+            // Remove loading option
+            seriesSelect.remove(seriesSelect.options.length - 1);
+            
+            if (data.series && data.series.length > 0) {
+                // Add series options
+                data.series.forEach(series => {
+                    const option = document.createElement('option');
+                    option.value = series.id;
+                    option.text = series.title;
+                    seriesSelect.add(option);
+                });
+            } else {
+                const noSeriesOption = document.createElement('option');
+                noSeriesOption.text = 'No series available';
+                noSeriesOption.disabled = true;
+                seriesSelect.add(noSeriesOption);
+            }
+        })
+        .catch(error => {
+            console.error('Error loading series list:', error);
+            seriesSelect.remove(seriesSelect.options.length - 1);
+            
+            const errorOption = document.createElement('option');
+            errorOption.text = 'Error loading series';
+            errorOption.disabled = true;
+            seriesSelect.add(errorOption);
+        });
+}
+
+// Load volumes for selected series
+function loadVolumes(seriesId) {
+    const volumeSelect = document.getElementById('volume-select');
+    const volumeContainer = document.getElementById('volume-select-container');
+    
+    // Clear existing options except the first one
+    while (volumeSelect.options.length > 1) {
+        volumeSelect.remove(1);
+    }
+    
+    if (!seriesId) {
+        volumeContainer.classList.add('d-none');
+        return;
+    }
+    
+    // Show loading state
+    volumeContainer.classList.remove('d-none');
+    const loadingOption = document.createElement('option');
+    loadingOption.text = 'Loading volumes...';
+    loadingOption.disabled = true;
+    volumeSelect.add(loadingOption);
+    
+    // Fetch volumes for this series
+    fetch(`/api/series/${seriesId}`)
+        .then(response => response.json())
+        .then(data => {
+            // Remove loading option
+            volumeSelect.remove(volumeSelect.options.length - 1);
+            
+            if (data.volumes && data.volumes.length > 0) {
+                // Add volume options
+                data.volumes.forEach(volume => {
+                    const option = document.createElement('option');
+                    option.value = volume.id;
+                    option.text = `Volume ${volume.volume_number}: ${volume.title || 'Untitled'}`;
+                    volumeSelect.add(option);
+                });
+            } else {
+                const noVolumesOption = document.createElement('option');
+                noVolumesOption.text = 'No volumes available';
+                noVolumesOption.disabled = true;
+                volumeSelect.add(noVolumesOption);
+            }
+        })
+        .catch(error => {
+            console.error('Error loading volumes:', error);
+            volumeSelect.remove(volumeSelect.options.length - 1);
+            
+            const errorOption = document.createElement('option');
+            errorOption.text = 'Error loading volumes';
+            errorOption.disabled = true;
+            volumeSelect.add(errorOption);
+        });
+}
+
+// Load chapters for selected series/volume
+function loadChapters(seriesId, volumeId) {
+    const chapterSelect = document.getElementById('chapter-select');
+    const chapterContainer = document.getElementById('chapter-select-container');
+    
+    // Clear existing options except the first one
+    while (chapterSelect.options.length > 1) {
+        chapterSelect.remove(1);
+    }
+    
+    if (!seriesId || document.getElementById('item-type').value !== 'CHAPTER') {
+        chapterContainer.classList.add('d-none');
+        return;
+    }
+    
+    // Show loading state
+    chapterContainer.classList.remove('d-none');
+    const loadingOption = document.createElement('option');
+    loadingOption.text = 'Loading chapters...';
+    loadingOption.disabled = true;
+    chapterSelect.add(loadingOption);
+    
+    // Fetch chapters for this series
+    fetch(`/api/series/${seriesId}`)
+        .then(response => response.json())
+        .then(data => {
+            // Remove loading option
+            chapterSelect.remove(chapterSelect.options.length - 1);
+            
+            if (data.chapters && data.chapters.length > 0) {
+                let chapters = data.chapters;
+                
+                // Filter by volume if specified
+                if (volumeId) {
+                    chapters = chapters.filter(chapter => chapter.volume_id === parseInt(volumeId));
+                }
+                
+                if (chapters.length > 0) {
+                    // Add chapter options
+                    chapters.forEach(chapter => {
+                        const option = document.createElement('option');
+                        option.value = chapter.id;
+                        option.text = `Chapter ${chapter.chapter_number}: ${chapter.title || 'Untitled'}`;
+                        chapterSelect.add(option);
+                    });
+                } else {
+                    const noChaptersOption = document.createElement('option');
+                    noChaptersOption.text = 'No chapters available';
+                    noChaptersOption.disabled = true;
+                    chapterSelect.add(noChaptersOption);
+                }
+            } else {
+                const noChaptersOption = document.createElement('option');
+                noChaptersOption.text = 'No chapters available';
+                noChaptersOption.disabled = true;
+                chapterSelect.add(noChaptersOption);
+            }
+        })
+        .catch(error => {
+            console.error('Error loading chapters:', error);
+            chapterSelect.remove(chapterSelect.options.length - 1);
+            
+            const errorOption = document.createElement('option');
+            errorOption.text = 'Error loading chapters';
+            errorOption.disabled = true;
+            chapterSelect.add(errorOption);
+        });
+}
+
+// Reset the form to default values
+function resetItemForm() {
+    document.getElementById('item-form').reset();
+    document.getElementById('item-id').value = '';
+    document.getElementById('series-select').selectedIndex = 0;
+    document.getElementById('item-type').selectedIndex = 0;
+    document.getElementById('volume-select-container').classList.add('d-none');
+    document.getElementById('chapter-select-container').classList.add('d-none');
+    document.getElementById('ownership-status').value = 'OWNED';
+    document.getElementById('read-status').value = 'UNREAD';
+    document.getElementById('format').value = 'PHYSICAL';
+    document.getElementById('condition').value = 'NEW';
+    
+    // Set purchase date to today
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('purchase-date').value = today;
+}
+
 // Add item to collection
 function addItemToCollection() {
-    // Implement add functionality
-    alert('Add functionality not implemented yet');
+    // Reset form and load series list
+    resetItemForm();
+    loadSeriesList();
+    
+    // Set modal title
+    document.getElementById('itemModalLabel').textContent = 'Add to Library';
+    
+    // Show modal
+    const modal = new bootstrap.Modal(document.getElementById('itemModal'));
+    modal.show();
+}
+
+// Save item to collection
+function saveItemToCollection() {
+    // Get form values
+    const seriesId = document.getElementById('series-select').value;
+    const itemType = document.getElementById('item-type').value;
+    const volumeId = document.getElementById('volume-select').value;
+    const chapterId = document.getElementById('chapter-select').value;
+    const ownershipStatus = document.getElementById('ownership-status').value;
+    const readStatus = document.getElementById('read-status').value;
+    const format = document.getElementById('format').value;
+    const condition = document.getElementById('condition').value;
+    const purchaseDate = document.getElementById('purchase-date').value;
+    const purchasePrice = document.getElementById('purchase-price').value;
+    const purchaseLocation = document.getElementById('purchase-location').value;
+    const notes = document.getElementById('notes').value;
+    const customTags = document.getElementById('custom-tags').value;
+    
+    // Validate required fields
+    if (!seriesId) {
+        alert('Please select a series');
+        return;
+    }
+    
+    if (!itemType) {
+        alert('Please select an item type');
+        return;
+    }
+    
+    if (itemType === 'VOLUME' && !volumeId) {
+        alert('Please select a volume');
+        return;
+    }
+    
+    if (itemType === 'CHAPTER' && !chapterId) {
+        alert('Please select a chapter');
+        return;
+    }
+    
+    // Prepare data
+    const itemData = {
+        series_id: parseInt(seriesId),
+        type: itemType,
+        ownership_status: ownershipStatus,
+        read_status: readStatus,
+        format: format,
+        condition: condition,
+        notes: notes,
+        custom_tags: customTags ? customTags.split(',').map(tag => tag.trim()) : []
+    };
+    
+    // Add optional fields
+    if (purchaseDate) {
+        itemData.purchase_date = purchaseDate;
+    }
+    
+    if (purchasePrice) {
+        itemData.price = parseFloat(purchasePrice);
+    }
+    
+    if (purchaseLocation) {
+        itemData.purchase_location = purchaseLocation;
+    }
+    
+    // Add volume or chapter ID if applicable
+    if (itemType === 'VOLUME' && volumeId) {
+        itemData.volume_id = parseInt(volumeId);
+    } else if (itemType === 'CHAPTER' && chapterId) {
+        itemData.chapter_id = parseInt(chapterId);
+    }
+    
+    // Disable save button and show loading state
+    const saveButton = document.getElementById('save-item');
+    const originalText = saveButton.textContent;
+    saveButton.disabled = true;
+    saveButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Saving...';
+    
+    // Send request to API
+    fetch('/api/collection/items', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(itemData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Reset button
+        saveButton.disabled = false;
+        saveButton.textContent = originalText;
+        
+        if (data.success) {
+            // Close modal
+            bootstrap.Modal.getInstance(document.getElementById('itemModal')).hide();
+            
+            // Reload collection data
+            loadCollectionItems();
+            loadCollectionStats();
+            
+            // Show success message
+            alert('Item added to collection successfully');
+        } else {
+            console.error('Failed to add item to collection:', data.error);
+            alert(`Failed to add item to collection: ${data.error || 'Unknown error'}`);
+        }
+    })
+    .catch(error => {
+        // Reset button
+        saveButton.disabled = false;
+        saveButton.textContent = originalText;
+        
+        console.error('Error adding item to collection:', error);
+        alert('Error adding item to collection');
+    });
 }
 
 // Initialize the page
@@ -231,6 +544,42 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('filter-ownership').addEventListener('change', loadCollectionItems);
     document.getElementById('filter-read').addEventListener('change', loadCollectionItems);
     document.getElementById('filter-format').addEventListener('change', loadCollectionItems);
+    
+    // Form field change events
+    document.getElementById('series-select').addEventListener('change', function() {
+        const seriesId = this.value;
+        loadVolumes(seriesId);
+        loadChapters(seriesId);
+    });
+    
+    document.getElementById('item-type').addEventListener('change', function() {
+        const seriesId = document.getElementById('series-select').value;
+        const itemType = this.value;
+        
+        if (itemType === 'VOLUME') {
+            loadVolumes(seriesId);
+            document.getElementById('chapter-select-container').classList.add('d-none');
+        } else if (itemType === 'CHAPTER') {
+            loadVolumes(seriesId);
+            loadChapters(seriesId, document.getElementById('volume-select').value);
+        } else {
+            document.getElementById('volume-select-container').classList.add('d-none');
+            document.getElementById('chapter-select-container').classList.add('d-none');
+        }
+    });
+    
+    document.getElementById('volume-select').addEventListener('change', function() {
+        const seriesId = document.getElementById('series-select').value;
+        const volumeId = this.value;
+        const itemType = document.getElementById('item-type').value;
+        
+        if (itemType === 'CHAPTER') {
+            loadChapters(seriesId, volumeId);
+        }
+    });
+    
+    // Save button click
+    document.getElementById('save-item').addEventListener('click', saveItemToCollection);
     
     // Import/Export buttons
     document.getElementById('import-collection').addEventListener('click', function() {
