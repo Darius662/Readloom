@@ -6,6 +6,7 @@ This document provides an overview of all available documentation for Readloom.
 
 - [Installation Guide](INSTALLATION.md) - Detailed setup instructions
 - [Docker Guide](DOCKER.md) - Running Readloom with Docker
+- [Docker Hub Guide](DOCKER_HUB.md) - Publishing Readloom to Docker Hub
 - [Upgrade Notes](../UPGRADE_NOTES.md) - Important information for upgrading to v0.0.7
 - [Changelog](CHANGELOG.md) - Version history and changes
 
@@ -65,6 +66,8 @@ This document provides an overview of all available documentation for Readloom.
   - Fixed container startup issues by adding required packages
   - Updated docker-compose.yml to use modern format
   - Added comprehensive Docker documentation
+  - Added Docker Hub publishing guide and templates
+  - Created optimized .dockerignore file for smaller image sizes
 
 ### v0.0.8
 

@@ -5,11 +5,28 @@ All notable changes to Readloom will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.0] - 2025-09-27
+
+### Added
+- Enhanced Docker support:
+  - Added comprehensive Docker Hub publishing documentation
+  - Created optimized .dockerignore file for smaller image sizes
+  - Added Docker Hub README template for repository description
+  - Updated Docker documentation with Docker Hub usage instructions
+
 ## [0.0.9] - 2025-09-25
+
+### Added
+- Generalized application terminology:
+  - Added support for more book-related metadata providers (Google Books, Open Library, ISBNdb, WorldCat)
+- Added comprehensive UI documentation:
+  - Created new UI_STRUCTURE.md documentation file
+  - Updated codebase structure documentation to include frontend
+  - Added detailed descriptions of UI components and patterns
+
 ### Changed
 - Generalized application terminology:
   - Updated UI references from "manga" to "e-book" throughout the application
-  - Added support for more book-related metadata providers (Google Books, Open Library, ISBNdb, WorldCat)
   - Enabled Google Books by default as the recommended provider for books due to its more accurate metadata
   - Made the application more suitable for all types of e-books, not just manga/comics
 - Improved UI organization and navigation:
@@ -19,10 +36,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Enhanced Settings page with better tab organization
   - Made E-book Management section collapsible with quick actions
   - Repositioned Edit Series button to top-right corner as icon-only button
-- Added comprehensive UI documentation:
-  - Created new UI_STRUCTURE.md documentation file
-  - Updated codebase structure documentation to include frontend
-  - Added detailed descriptions of UI components and patterns
 - Modified default metadata provider settings:
   - Only AniList provider enabled by default
   - Disabled MyAnimeList, MangaDex, MangaFire, Jikan, and MangaAPI by default
@@ -32,6 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Made E-book Management section collapsible to reduce visual clutter
   - Added quick action for scanning e-books without expanding details
   - Improved overall page layout and information hierarchy
+
 
 ### Fixed
 - Critical issues in Readloom_direct.py:

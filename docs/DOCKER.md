@@ -2,7 +2,39 @@
 
 This document provides detailed information about running Readloom using Docker.
 
-## Quick Start
+## Using the Official Docker Hub Image
+
+Readloom is available as a Docker image on Docker Hub. To use it:
+
+```bash
+# Pull and run the image
+docker pull yourusername/readloom:latest
+docker run -d \
+  --name readloom \
+  -p 7227:7227 \
+  -v ./data:/config \
+  yourusername/readloom:latest
+```
+
+Or with Docker Compose:
+
+```yaml
+services:
+  readloom:
+    image: yourusername/readloom:latest
+    container_name: readloom
+    restart: unless-stopped
+    ports:
+      - "7227:7227"
+    volumes:
+      - ./data:/config
+    environment:
+      - TZ=UTC
+```
+
+For more information about publishing to Docker Hub, see [DOCKER_HUB.md](DOCKER_HUB.md).
+
+## Quick Start (Building Locally)
 
 To run Readloom using Docker:
 
