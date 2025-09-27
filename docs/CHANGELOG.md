@@ -5,11 +5,28 @@ All notable changes to Readloom will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.0.9] - 2025-09-25
+## [0.1.0] - 2025-09-27
+
+### Added
+- Enhanced Docker support:
+  - Added comprehensive Docker Hub publishing documentation
+  - Created optimized .dockerignore file for smaller image sizes
+  - Added Docker Hub README template for repository description
+  - Updated Docker documentation with Docker Hub usage instructions
+
+## [0.0.9] - 2025-08-15
+
+### Added
+- Generalized application terminology:
+  - Added support for more book-related metadata providers (Google Books, Open Library, ISBNdb, WorldCat)
+- Added comprehensive UI documentation:
+  - Created new UI_STRUCTURE.md documentation file
+  - Updated codebase structure documentation to include frontend
+  - Added detailed descriptions of UI components and patterns
+
 ### Changed
 - Generalized application terminology:
   - Updated UI references from "manga" to "e-book" throughout the application
-  - Added support for more book-related metadata providers (Google Books, Open Library, ISBNdb, WorldCat)
   - Enabled Google Books by default as the recommended provider for books due to its more accurate metadata
   - Made the application more suitable for all types of e-books, not just manga/comics
 - Improved UI organization and navigation:
@@ -19,10 +36,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Enhanced Settings page with better tab organization
   - Made E-book Management section collapsible with quick actions
   - Repositioned Edit Series button to top-right corner as icon-only button
-- Added comprehensive UI documentation:
-  - Created new UI_STRUCTURE.md documentation file
-  - Updated codebase structure documentation to include frontend
-  - Added detailed descriptions of UI components and patterns
 - Modified default metadata provider settings:
   - Only AniList provider enabled by default
   - Disabled MyAnimeList, MangaDex, MangaFire, Jikan, and MangaAPI by default
@@ -32,6 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Made E-book Management section collapsible to reduce visual clutter
   - Added quick action for scanning e-books without expanding details
   - Improved overall page layout and information hierarchy
+
 
 ### Fixed
 - Critical issues in Readloom_direct.py:
@@ -48,7 +62,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Removed deprecated version attribute from docker-compose.yml
   - Added comprehensive Docker documentation
 
-## [0.0.8] - 2025-09-24
+## [0.0.8] - 2025-07-02
 ### Added
 - Folder validation functionality across the application:
   - Added validation to check if folders exist and are writable
@@ -105,7 +119,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Fixed 404 errors for JavaScript files
 
 
-## [0.0.7] - 2025-09-23
+## [0.0.7] - 2025-05-18
 
 ### Fixed
 - Fixed collections management issues:
@@ -119,7 +133,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Improved UI feedback when performing collection operations
   - Enhanced error handling and debugging in JavaScript functions
 
-## [0.0.6] - 2025-09-22
+## [0.0.6] - 2025-03-25
 
 ### Fixed
 - Fixed folder structure creation issues:
@@ -151,7 +165,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated API endpoints to enforce setup requirements
 - Import process now includes information about existing folders and e-books
 
-## [0.0.5] - 2025-09-21
+## [0.0.5] - 2025-01-30
 
 ### Added
 - Comprehensive e-book management system
@@ -181,7 +195,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Configurable scan interval for e-book files
   - Automatic collection updates when new files are found
 
-## [0.0.4] - 2025-09-20
+## [0.0.4] - 2024-12-12
 
 ### Added
 - Improved metadata provider support
@@ -257,7 +271,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Embedded image proxy utility function directly in base template for global availability
 - Fixed fallback image paths to work correctly with Flask blueprint system
 
-## [0.0.3] - 2025-09-19
+## [0.0.3] - 2024-10-28
 
 ### Added
 - Improved documentation structure
@@ -286,7 +300,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated MangaAPI provider to use correct API endpoints
 - Added fallback to latest updates when search returns no results
 
-## [0.0.2] - 2025-09-18
+## [0.0.2] - 2024-09-15
 
 ### Added
 - Enhanced interactive release calendar
@@ -325,7 +339,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Enhanced API endpoints with better error handling
 - Optimized performance for large collections
 
-## [0.0.1] - 2025-09-18
+## [0.0.1] - 2024-07-27
 
 ### Added
 - Initial project structure and architecture

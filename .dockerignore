@@ -1,0 +1,67 @@
+# Git
+.git
+.gitignore
+.github
+
+# Development files
+*.pyc
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environment
+venv/
+ENV/
+env/
+.env
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Test files
+tests/
+test/
+pytest_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Documentation
+docs/*.md
+!docs/README.md
+
+# Data directories that should be mounted as volumes
+data/
+logs/
+config/
+
+# Docker files (no need to copy these into the image)
+docker-compose*.yml
+docker-compose*.yaml
+Dockerfile.*
+
+# Other
+*.log
+*.sqlite3-journal
+.dockerignore
+README-dockerhub.md
