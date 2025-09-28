@@ -7,7 +7,7 @@ services:
       - "7227:7227" #Port
     volumes:
       - ./data:/data # Data folder contains the Logs and DB
-      #- path/to/your/ebooks:/ebooks #Path to your e-books
+      - ./ebooks:/ebooks #Path to your e-books
     environment:
       - TZ=UTC # Europe/Berlin
       - PYTHONUNBUFFERED=1 #Unbuffered output
