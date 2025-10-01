@@ -55,6 +55,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Removed invalid parameter from `add_to_collection()` call
   - Removed invalid parameter from `update_collection_item()` call
   - Volume format changes (Physical ↔ Digital) now work correctly
+- **Migration System**:
+  - Fixed migration 0004 to use `migrate()` instead of `run_migration()`
+  - Docker containers now start correctly without migration errors
 
 ### Changed
 - AniList provider now calls scraper in `get_manga_details()` for accurate volume counts
