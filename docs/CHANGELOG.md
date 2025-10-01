@@ -8,6 +8,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.1.1] - 2025-10-01
 
 ### Added
+- Helper scripts for volume management:
+  - `add_manga_to_database.py` - Interactive tool to add manga to static database
+  - `refresh_series_volumes.py` - Update existing series with correct volume counts
+  - `test_volume_fix.py` - Test volume detection accuracy
+  - `test_problematic_titles.py` - Test specific problematic titles
+  - `debug_specific_titles.py` - Debug volume detection for any title
+- Comprehensive documentation:
+  - `VOLUME_FIX_FINAL_SUMMARY.md` - Complete overview of the fix
+  - `ADDING_MANGA_TO_DATABASE.md` - Guide for adding manga to static database
+  - `VOLUME_FIX_SUMMARY.md` - Initial fix documentation
+  - `VOLUME_FIX_UPDATE.md` - Alias support documentation
 - **Smart Caching System** - Implemented comprehensive volume detection caching:
   - Database cache table (`manga_volume_cache`) for persistent storage
   - Dynamic static database (auto-populating JSON file)
@@ -44,19 +55,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Removed invalid parameter from `add_to_collection()` call
   - Removed invalid parameter from `update_collection_item()` call
   - Volume format changes (Physical ↔ Digital) now work correctly
-
-### Added
-- Helper scripts for volume management:
-  - `add_manga_to_database.py` - Interactive tool to add manga to static database
-  - `refresh_series_volumes.py` - Update existing series with correct volume counts
-  - `test_volume_fix.py` - Test volume detection accuracy
-  - `test_problematic_titles.py` - Test specific problematic titles
-  - `debug_specific_titles.py` - Debug volume detection for any title
-- Comprehensive documentation:
-  - `VOLUME_FIX_FINAL_SUMMARY.md` - Complete overview of the fix
-  - `ADDING_MANGA_TO_DATABASE.md` - Guide for adding manga to static database
-  - `VOLUME_FIX_SUMMARY.md` - Initial fix documentation
-  - `VOLUME_FIX_UPDATE.md` - Alias support documentation
 
 ### Changed
 - AniList provider now calls scraper in `get_manga_details()` for accurate volume counts
