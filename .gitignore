@@ -36,13 +36,13 @@ readloom_venv/
 *.swo
 .DS_Store
 
-# Readloom specific
-data/
-logs/
-*.db
-*.log
-*.sqlite3
-*.sqlite
+# # Readloom specific
+# data/
+# logs/
+# *.db
+# *.log
+# *.sqlite3
+# *.sqlite
 
 # Flask
 instance/

@@ -5,6 +5,39 @@ All notable changes to Readloom will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Fixed
+- **Critical: Volume Detection Bug** - Fixed incorrect volume counts for most manga series:
+  - Fixed scraper not being called during volume creation in `get_manga_details()`
+  - Resolved duplicate `"volumes"` key conflict in AniList provider
+  - Added support for Japanese titles and alternative names (aliases)
+  - Enhanced static database with 27+ popular manga entries
+  - Added aliases for manga with Japanese titles (e.g., "Shingeki no Kyojin" for "Attack on Titan")
+  - Improved matching logic to check both main titles and aliases
+  - Volume counts now accurate for popular manga (One Punch Man: 29 volumes, Attack on Titan: 34 volumes, etc.)
+  - See `VOLUME_FIX_FINAL_SUMMARY.md` for complete details
+
+### Added
+- Helper scripts for volume management:
+  - `add_manga_to_database.py` - Interactive tool to add manga to static database
+  - `refresh_series_volumes.py` - Update existing series with correct volume counts
+  - `test_volume_fix.py` - Test volume detection accuracy
+  - `test_problematic_titles.py` - Test specific problematic titles
+  - `debug_specific_titles.py` - Debug volume detection for any title
+- Comprehensive documentation:
+  - `VOLUME_FIX_FINAL_SUMMARY.md` - Complete overview of the fix
+  - `ADDING_MANGA_TO_DATABASE.md` - Guide for adding manga to static database
+  - `VOLUME_FIX_SUMMARY.md` - Initial fix documentation
+  - `VOLUME_FIX_UPDATE.md` - Alias support documentation
+
+### Changed
+- AniList provider now calls scraper in `get_manga_details()` for accurate volume counts
+- Renamed duplicate `"volumes"` key to `"volume_count"` (integer) and `"volumes"` (list)
+- Updated `get_chapter_list()` to use `volume_count` from manga details
+- Expanded static database from 25 to 27 manga entries with aliases
+- Enhanced scraper matching logic to support alternative titles
+
 ## [0.1.0] - 2025-09-27
 
 ### Added

@@ -1,0 +1,1932 @@
+2025-10-01 20:16:05,421 - Readloom - INFO - Logging to data\logs\readloom.log
+2025-10-01 20:16:05,421 - Readloom - INFO - Starting Readloom in development mode
+2025-10-01 20:16:05,422 - Readloom - INFO - Settings table created or verified
+2025-10-01 20:16:05,422 - Readloom - INFO - Settings initialized
+2025-10-01 20:16:05,565 - Readloom - INFO - Registered metadata provider: MyAnimeList
+2025-10-01 20:16:05,565 - Readloom - INFO - Registered metadata provider: MangaAPI
+2025-10-01 20:16:05,565 - Readloom - INFO - Registered metadata provider: MangaDex
+2025-10-01 20:16:05,565 - Readloom - INFO - Registered metadata provider: MyAnimeList
+2025-10-01 20:16:05,566 - Readloom - INFO - Registered metadata provider: AniList
+2025-10-01 20:16:05,566 - Readloom - INFO - Registered metadata provider: MangaFire
+2025-10-01 20:16:05,566 - Readloom - INFO - Registered metadata provider: GoogleBooks
+2025-10-01 20:16:05,567 - Readloom - INFO - Registered metadata provider: OpenLibrary
+2025-10-01 20:16:05,567 - Readloom - INFO - Registered metadata provider: ISBNdb
+2025-10-01 20:16:05,567 - Readloom - INFO - Registered metadata provider: WorldCat
+2025-10-01 20:16:05,567 - Readloom - INFO - Initialized 9 metadata providers
+2025-10-01 20:16:05,568 - Readloom - INFO - Metadata service initialized
+2025-10-01 20:16:05,569 - Readloom - INFO - Settings table created or verified
+2025-10-01 20:16:05,570 - Readloom - INFO - Starting periodic task manager
+2025-10-01 20:16:05,570 - Readloom - INFO - Periodic task manager running with scan interval: 60 minutes
+2025-10-01 20:16:05,570 - Readloom - INFO - Periodic task manager started
+2025-10-01 20:16:05,570 - Readloom - INFO - Running periodic e-book scan
+2025-10-01 20:16:05,571 - Readloom - INFO - Starting e-book scan with specific_series_id=None, custom_path=None
+2025-10-01 20:16:05,571 - Readloom - INFO - Settings table created or verified
+2025-10-01 20:16:05,571 - Readloom - WARNING - No root folders configured, using default ebook storage
+2025-10-01 20:16:05,572 - Readloom - INFO - Ensuring directory exists: c:\Users\dariu\Documents\GitHub\Readloom\data
+2025-10-01 20:16:05,572 - Readloom - INFO - Directory created or already exists: c:\Users\dariu\Documents\GitHub\Readloom\data
+2025-10-01 20:16:05,572 - Readloom - INFO - Settings table created or verified
+2025-10-01 20:16:05,573 - Readloom - INFO - Ensuring directory exists: c:\Users\dariu\Documents\GitHub\Readloom\data\ebooks
+2025-10-01 20:16:05,574 - Readloom - INFO - Directory created or already exists: c:\Users\dariu\Documents\GitHub\Readloom\data\ebooks
+2025-10-01 20:16:05,574 - Readloom - INFO - Scan completed with stats: {'scanned': 0, 'added': 0, 'skipped': 0, 'errors': 0, 'series_processed': 0}
+2025-10-01 20:16:05,574 - Readloom - INFO - Final stats after cleanup: {'scanned': 0, 'added': 0, 'skipped': 0, 'errors': 0, 'series_processed': 0}
+2025-10-01 20:16:05,575 - Readloom - INFO - Periodic scan complete: {'scanned': 0, 'added': 0, 'skipped': 0, 'errors': 0, 'series_processed': 0}
+2025-10-01 20:16:05,578 - Readloom - INFO - Registered metadata provider: MyAnimeList
+2025-10-01 20:16:05,578 - Readloom - INFO - Registered metadata provider: MangaAPI
+2025-10-01 20:16:05,578 - Readloom - INFO - Registered metadata provider: MangaDex
+2025-10-01 20:16:05,578 - Readloom - INFO - Registered metadata provider: MyAnimeList
+2025-10-01 20:16:05,578 - Readloom - INFO - Registered metadata provider: AniList
+2025-10-01 20:16:05,579 - Readloom - INFO - Registered metadata provider: MangaFire
+2025-10-01 20:16:05,579 - Readloom - INFO - Registered metadata provider: GoogleBooks
+2025-10-01 20:16:05,579 - Readloom - INFO - Registered metadata provider: OpenLibrary
+2025-10-01 20:16:05,579 - Readloom - INFO - Registered metadata provider: ISBNdb
+2025-10-01 20:16:05,579 - Readloom - INFO - Registered metadata provider: WorldCat
+2025-10-01 20:16:05,580 - Readloom - INFO - Initialized 9 metadata providers
+2025-10-01 20:16:05,581 - Readloom - INFO - Metadata service initialized
+2025-10-01 20:16:05,620 - Readloom - INFO - Application initialized successfully
+2025-10-01 20:16:05,974 - Readloom - INFO - Logging to data\logs\readloom.log
+2025-10-01 20:16:05,974 - Readloom - INFO - Starting Readloom in development mode
+2025-10-01 20:16:05,974 - Readloom - INFO - Settings table created or verified
+2025-10-01 20:16:05,974 - Readloom - INFO - Settings initialized
+2025-10-01 20:16:06,119 - Readloom - INFO - Registered metadata provider: MyAnimeList
+2025-10-01 20:16:06,120 - Readloom - INFO - Registered metadata provider: MangaAPI
+2025-10-01 20:16:06,120 - Readloom - INFO - Registered metadata provider: MangaDex
+2025-10-01 20:16:06,120 - Readloom - INFO - Registered metadata provider: MyAnimeList
+2025-10-01 20:16:06,121 - Readloom - INFO - Registered metadata provider: AniList
+2025-10-01 20:16:06,121 - Readloom - INFO - Registered metadata provider: MangaFire
+2025-10-01 20:16:06,121 - Readloom - INFO - Registered metadata provider: GoogleBooks
+2025-10-01 20:16:06,121 - Readloom - INFO - Registered metadata provider: OpenLibrary
+2025-10-01 20:16:06,121 - Readloom - INFO - Registered metadata provider: ISBNdb
+2025-10-01 20:16:06,122 - Readloom - INFO - Registered metadata provider: WorldCat
+2025-10-01 20:16:06,122 - Readloom - INFO - Initialized 9 metadata providers
+2025-10-01 20:16:06,124 - Readloom - INFO - Metadata service initialized
+2025-10-01 20:16:06,125 - Readloom - INFO - Settings table created or verified
+2025-10-01 20:16:06,125 - Readloom - INFO - Starting periodic task manager
+2025-10-01 20:16:06,126 - Readloom - INFO - Periodic task manager running with scan interval: 60 minutes
+2025-10-01 20:16:06,126 - Readloom - INFO - Periodic task manager started
+2025-10-01 20:16:06,126 - Readloom - INFO - Running periodic e-book scan
+2025-10-01 20:16:06,127 - Readloom - INFO - Starting e-book scan with specific_series_id=None, custom_path=None
+2025-10-01 20:16:06,127 - Readloom - INFO - Settings table created or verified
+2025-10-01 20:16:06,127 - Readloom - WARNING - No root folders configured, using default ebook storage
+2025-10-01 20:16:06,128 - Readloom - INFO - Ensuring directory exists: c:\Users\dariu\Documents\GitHub\Readloom\data
+2025-10-01 20:16:06,128 - Readloom - INFO - Directory created or already exists: c:\Users\dariu\Documents\GitHub\Readloom\data
+2025-10-01 20:16:06,128 - Readloom - INFO - Settings table created or verified
+2025-10-01 20:16:06,129 - Readloom - INFO - Ensuring directory exists: c:\Users\dariu\Documents\GitHub\Readloom\data\ebooks
+2025-10-01 20:16:06,130 - Readloom - INFO - Directory created or already exists: c:\Users\dariu\Documents\GitHub\Readloom\data\ebooks
+2025-10-01 20:16:06,130 - Readloom - INFO - Scan completed with stats: {'scanned': 0, 'added': 0, 'skipped': 0, 'errors': 0, 'series_processed': 0}
+2025-10-01 20:16:06,131 - Readloom - INFO - Final stats after cleanup: {'scanned': 0, 'added': 0, 'skipped': 0, 'errors': 0, 'series_processed': 0}
+2025-10-01 20:16:06,131 - Readloom - INFO - Periodic scan complete: {'scanned': 0, 'added': 0, 'skipped': 0, 'errors': 0, 'series_processed': 0}
+2025-10-01 20:16:06,134 - Readloom - INFO - Registered metadata provider: MyAnimeList
+2025-10-01 20:16:06,134 - Readloom - INFO - Registered metadata provider: MangaAPI
+2025-10-01 20:16:06,134 - Readloom - INFO - Registered metadata provider: MangaDex
+2025-10-01 20:16:06,134 - Readloom - INFO - Registered metadata provider: MyAnimeList
+2025-10-01 20:16:06,135 - Readloom - INFO - Registered metadata provider: AniList
+2025-10-01 20:16:06,135 - Readloom - INFO - Registered metadata provider: MangaFire
+2025-10-01 20:16:06,135 - Readloom - INFO - Registered metadata provider: GoogleBooks
+2025-10-01 20:16:06,135 - Readloom - INFO - Registered metadata provider: OpenLibrary
+2025-10-01 20:16:06,136 - Readloom - INFO - Registered metadata provider: ISBNdb
+2025-10-01 20:16:06,136 - Readloom - INFO - Registered metadata provider: WorldCat
+2025-10-01 20:16:06,136 - Readloom - INFO - Initialized 9 metadata providers
+2025-10-01 20:16:06,138 - Readloom - INFO - Metadata service initialized
+2025-10-01 20:16:06,180 - Readloom - INFO - Application initialized successfully
+2025-10-01 20:16:11,905 - Readloom - INFO - Settings table created or verified
+2025-10-01 20:16:13,874 - Readloom - INFO - Created collection 'My Collection' with ID 1
+2025-10-01 20:16:22,692 - Readloom - INFO - Settings table created or verified
+2025-10-01 20:16:22,693 - Readloom - INFO - Updated setting root_folders to [{'id': 1, 'path': 'C:\\Users\\dariu\\Documents\\Manga', 'name': 'Manga Library', 'content_type': 'MANGA'}]
+2025-10-01 20:16:22,694 - Readloom - INFO - Created root folder 'Manga Library' at 'C:\Users\dariu\Documents\Manga' with ID 1
+2025-10-01 20:16:23,560 - Readloom - INFO - Added root folder 1 to collection 1
+2025-10-01 20:16:24,628 - Readloom - INFO - Settings table created or verified
+2025-10-01 20:16:24,637 - Readloom - INFO - Settings table created or verified
+2025-10-01 20:16:25,407 - Readloom - INFO - Settings table created or verified
+2025-10-01 20:16:25,408 - Readloom - INFO - Settings table created or verified
+2025-10-01 20:16:25,416 - Readloom - INFO - Settings table created or verified
+2025-10-01 20:16:34,064 - Readloom - ERROR - Error parsing AniList search results: 'NoneType' object has no attribute 'replace'
+2025-10-01 20:16:35,469 - Readloom - INFO - Getting accurate volume count from scrapers for: Kagurabachi
+2025-10-01 20:16:35,471 - Readloom - INFO - Searching MangaPark: https://mangapark.net/search?q=Kagurabachi
+2025-10-01 20:16:35,475 - Readloom - INFO - Searching MangaFire (method 1): https://mangafire.to/search?q=Kagurabachi
+2025-10-01 20:16:35,478 - Readloom - ERROR - Error getting MangaPark data: HTTPSConnectionPool(host='mangapark.net', port=443): Max retries exceeded with url: /search?q=Kagurabachi (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x000002EC9B811450>: Failed to resolve 'mangapark.net' ([Errno 11004] getaddrinfo failed)"))
+2025-10-01 20:16:35,478 - Readloom - ERROR - Error getting MangaDex data: HTTPSConnectionPool(host='api.mangadex.org', port=443): Max retries exceeded with url: /manga?title=Kagurabachi&limit=1 (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x000002EC9B813750>: Failed to resolve 'api.mangadex.org' ([Errno 11004] getaddrinfo failed)"))
+2025-10-01 20:16:36,022 - Readloom - INFO - Trying alternative MangaFire search (method 2): https://mangafire.to/manga/kagurabachi
+2025-10-01 20:16:36,674 - Readloom - WARNING - Alternative MangaFire search failed: 404
+2025-10-01 20:16:36,674 - Readloom - WARNING - All MangaFire search methods failed
+2025-10-01 20:16:36,675 - Readloom - INFO - Best data for Kagurabachi: 112 chapters, 11 volumes
+2025-10-01 20:16:36,675 - Readloom - INFO - Using scraped volume count: 11 volumes
+2025-10-01 20:16:38,034 - Readloom - INFO - Settings table created or verified
+2025-10-01 20:16:38,267 - Readloom - INFO - Getting accurate volume count from scrapers for: Kagurabachi
+2025-10-01 20:16:38,267 - Readloom - INFO - Using cached data for Kagurabachi: (112, 11)
+2025-10-01 20:16:38,268 - Readloom - INFO - Using scraped volume count: 11 volumes
+2025-10-01 20:16:38,268 - Readloom - INFO - Getting accurate chapter count for: Kagurabachi
+2025-10-01 20:16:38,269 - Readloom - INFO - Using cached data for Kagurabachi: (112, 11)
+2025-10-01 20:16:38,269 - Readloom - INFO - Using scraped chapter count for Kagurabachi: 112 chapters
+2025-10-01 20:16:38,269 - Readloom - INFO - Final data for Kagurabachi: 112 chapters, 11 volumes
+2025-10-01 20:16:38,271 - Readloom - INFO - Importing 11 volumes from AniList
+2025-10-01 20:16:38,277 - Readloom - INFO - Importing chapter: 1 with date 2024-10-01
+2025-10-01 20:16:38,277 - Readloom - INFO - Importing chapter: 2 with date 2024-10-05
+2025-10-01 20:16:38,278 - Readloom - INFO - Importing chapter: 3 with date 2024-10-09
+2025-10-01 20:16:38,278 - Readloom - INFO - Importing chapter: 4 with date 2024-10-12
+2025-10-01 20:16:38,278 - Readloom - INFO - Importing chapter: 5 with date 2024-10-16
+2025-10-01 20:16:38,279 - Readloom - INFO - Importing chapter: 6 with date 2024-10-19
+2025-10-01 20:16:38,279 - Readloom - INFO - Importing chapter: 7 with date 2024-10-23
+2025-10-01 20:16:38,279 - Readloom - INFO - Importing chapter: 8 with date 2024-10-27
+2025-10-01 20:16:38,280 - Readloom - INFO - Importing chapter: 9 with date 2024-10-30
+2025-10-01 20:16:38,280 - Readloom - INFO - Importing chapter: 10 with date 2024-11-03
+2025-10-01 20:16:38,280 - Readloom - INFO - Importing chapter: 11 with date 2024-11-06
+2025-10-01 20:16:38,281 - Readloom - INFO - Importing chapter: 12 with date 2024-11-10
+2025-10-01 20:16:38,281 - Readloom - INFO - Importing chapter: 13 with date 2024-11-14
+2025-10-01 20:16:38,281 - Readloom - INFO - Importing chapter: 14 with date 2024-11-17
+2025-10-01 20:16:38,281 - Readloom - INFO - Importing chapter: 15 with date 2024-11-21
+2025-10-01 20:16:38,282 - Readloom - INFO - Importing chapter: 16 with date 2024-11-25
+2025-10-01 20:16:38,282 - Readloom - INFO - Importing chapter: 17 with date 2024-11-28
+2025-10-01 20:16:38,282 - Readloom - INFO - Importing chapter: 18 with date 2024-12-02
+2025-10-01 20:16:38,282 - Readloom - INFO - Importing chapter: 19 with date 2024-12-05
+2025-10-01 20:16:38,283 - Readloom - INFO - Importing chapter: 20 with date 2024-12-09
+2025-10-01 20:16:38,283 - Readloom - INFO - Importing chapter: 21 with date 2024-12-13
+2025-10-01 20:16:38,283 - Readloom - INFO - Importing chapter: 22 with date 2024-12-16
+2025-10-01 20:16:38,283 - Readloom - INFO - Importing chapter: 23 with date 2024-12-20
+2025-10-01 20:16:38,284 - Readloom - INFO - Importing chapter: 24 with date 2024-12-23
+2025-10-01 20:16:38,284 - Readloom - INFO - Importing chapter: 25 with date 2024-12-27
+2025-10-01 20:16:38,284 - Readloom - INFO - Importing chapter: 26 with date 2024-12-31
+2025-10-01 20:16:38,284 - Readloom - INFO - Importing chapter: 27 with date 2025-01-03
+2025-10-01 20:16:38,285 - Readloom - INFO - Importing chapter: 28 with date 2025-01-07
+2025-10-01 20:16:38,285 - Readloom - INFO - Importing chapter: 29 with date 2025-01-11
+2025-10-01 20:16:38,285 - Readloom - INFO - Importing chapter: 30 with date 2025-01-14
+2025-10-01 20:16:38,285 - Readloom - INFO - Importing chapter: 31 with date 2025-01-18
+2025-10-01 20:16:38,286 - Readloom - INFO - Importing chapter: 32 with date 2025-01-21
+2025-10-01 20:16:38,286 - Readloom - INFO - Importing chapter: 33 with date 2025-01-25
+2025-10-01 20:16:38,286 - Readloom - INFO - Importing chapter: 34 with date 2025-01-29
+2025-10-01 20:16:38,286 - Readloom - INFO - Importing chapter: 35 with date 2025-02-01
+2025-10-01 20:16:38,287 - Readloom - INFO - Importing chapter: 36 with date 2025-02-05
+2025-10-01 20:16:38,287 - Readloom - INFO - Importing chapter: 37 with date 2025-02-08
+2025-10-01 20:16:38,287 - Readloom - INFO - Importing chapter: 38 with date 2025-02-12
+2025-10-01 20:16:38,288 - Readloom - INFO - Importing chapter: 39 with date 2025-02-16
+2025-10-01 20:16:38,288 - Readloom - INFO - Importing chapter: 40 with date 2025-02-19
+2025-10-01 20:16:38,288 - Readloom - INFO - Importing chapter: 41 with date 2025-02-23
+2025-10-01 20:16:38,288 - Readloom - INFO - Importing chapter: 42 with date 2025-02-27
+2025-10-01 20:16:38,289 - Readloom - INFO - Importing chapter: 43 with date 2025-03-02
+2025-10-01 20:16:38,289 - Readloom - INFO - Importing chapter: 44 with date 2025-03-06
+2025-10-01 20:16:38,289 - Readloom - INFO - Importing chapter: 45 with date 2025-03-09
+2025-10-01 20:16:38,289 - Readloom - INFO - Importing chapter: 46 with date 2025-03-13
+2025-10-01 20:16:38,289 - Readloom - INFO - Importing chapter: 47 with date 2025-03-17
+2025-10-01 20:16:38,290 - Readloom - INFO - Importing chapter: 48 with date 2025-03-20
+2025-10-01 20:16:38,290 - Readloom - INFO - Importing chapter: 49 with date 2025-03-24
+2025-10-01 20:16:38,290 - Readloom - INFO - Importing chapter: 50 with date 2025-03-27
+2025-10-01 20:16:38,290 - Readloom - INFO - Importing chapter: 51 with date 2025-03-31
+2025-10-01 20:16:38,291 - Readloom - INFO - Importing chapter: 52 with date 2025-04-04
+2025-10-01 20:16:38,291 - Readloom - INFO - Importing chapter: 53 with date 2025-04-07
+2025-10-01 20:16:38,291 - Readloom - INFO - Importing chapter: 54 with date 2025-04-11
+2025-10-01 20:16:38,291 - Readloom - INFO - Importing chapter: 55 with date 2025-04-14
+2025-10-01 20:16:38,292 - Readloom - INFO - Importing chapter: 56 with date 2025-04-18
+2025-10-01 20:16:38,292 - Readloom - INFO - Importing chapter: 57 with date 2025-04-22
+2025-10-01 20:16:38,292 - Readloom - INFO - Importing chapter: 58 with date 2025-04-25
+2025-10-01 20:16:38,292 - Readloom - INFO - Importing chapter: 59 with date 2025-04-29
+2025-10-01 20:16:38,293 - Readloom - INFO - Importing chapter: 60 with date 2025-05-03
+2025-10-01 20:16:38,293 - Readloom - INFO - Importing chapter: 61 with date 2025-05-06
+2025-10-01 20:16:38,293 - Readloom - INFO - Importing chapter: 62 with date 2025-05-10
+2025-10-01 20:16:38,293 - Readloom - INFO - Importing chapter: 63 with date 2025-05-13
+2025-10-01 20:16:38,294 - Readloom - INFO - Importing chapter: 64 with date 2025-05-17
+2025-10-01 20:16:38,294 - Readloom - INFO - Importing chapter: 65 with date 2025-05-21
+2025-10-01 20:16:38,294 - Readloom - INFO - Importing chapter: 66 with date 2025-05-24
+2025-10-01 20:16:38,294 - Readloom - INFO - Importing chapter: 67 with date 2025-05-28
+2025-10-01 20:16:38,294 - Readloom - INFO - Importing chapter: 68 with date 2025-05-31
+2025-10-01 20:16:38,295 - Readloom - INFO - Importing chapter: 69 with date 2025-06-04
+2025-10-01 20:16:38,295 - Readloom - INFO - Importing chapter: 70 with date 2025-06-08
+2025-10-01 20:16:38,295 - Readloom - INFO - Importing chapter: 71 with date 2025-06-11
+2025-10-01 20:16:38,295 - Readloom - INFO - Importing chapter: 72 with date 2025-06-15
+2025-10-01 20:16:38,295 - Readloom - INFO - Importing chapter: 73 with date 2025-06-19
+2025-10-01 20:16:38,296 - Readloom - INFO - Importing chapter: 74 with date 2025-06-22
+2025-10-01 20:16:38,296 - Readloom - INFO - Importing chapter: 75 with date 2025-06-26
+2025-10-01 20:16:38,296 - Readloom - INFO - Importing chapter: 76 with date 2025-06-29
+2025-10-01 20:16:38,296 - Readloom - INFO - Importing chapter: 77 with date 2025-07-03
+2025-10-01 20:16:38,297 - Readloom - INFO - Importing chapter: 78 with date 2025-07-07
+2025-10-01 20:16:38,297 - Readloom - INFO - Importing chapter: 79 with date 2025-07-10
+2025-10-01 20:16:38,297 - Readloom - INFO - Importing chapter: 80 with date 2025-07-14
+2025-10-01 20:16:38,297 - Readloom - INFO - Importing chapter: 81 with date 2025-07-17
+2025-10-01 20:16:38,297 - Readloom - INFO - Importing chapter: 82 with date 2025-07-21
+2025-10-01 20:16:38,298 - Readloom - INFO - Importing chapter: 83 with date 2025-07-25
+2025-10-01 20:16:38,298 - Readloom - INFO - Importing chapter: 84 with date 2025-07-28
+2025-10-01 20:16:38,298 - Readloom - INFO - Importing chapter: 85 with date 2025-08-01
+2025-10-01 20:16:38,298 - Readloom - INFO - Importing chapter: 86 with date 2025-08-05
+2025-10-01 20:16:38,299 - Readloom - INFO - Importing chapter: 87 with date 2025-08-08
+2025-10-01 20:16:38,299 - Readloom - INFO - Importing chapter: 88 with date 2025-08-12
+2025-10-01 20:16:38,299 - Readloom - INFO - Importing chapter: 89 with date 2025-08-15
+2025-10-01 20:16:38,299 - Readloom - INFO - Importing chapter: 90 with date 2025-08-19
+2025-10-01 20:16:38,299 - Readloom - INFO - Importing chapter: 91 with date 2025-08-23
+2025-10-01 20:16:38,300 - Readloom - INFO - Importing chapter: 92 with date 2025-08-26
+2025-10-01 20:16:38,300 - Readloom - INFO - Importing chapter: 93 with date 2025-08-30
+2025-10-01 20:16:38,300 - Readloom - INFO - Importing chapter: 94 with date 2025-09-02
+2025-10-01 20:16:38,300 - Readloom - INFO - Importing chapter: 95 with date 2025-09-06
+2025-10-01 20:16:38,301 - Readloom - INFO - Importing chapter: 96 with date 2025-09-10
+2025-10-01 20:16:38,301 - Readloom - INFO - Importing chapter: 97 with date 2025-09-13
+2025-10-01 20:16:38,301 - Readloom - INFO - Importing chapter: 98 with date 2025-09-17
+2025-10-01 20:16:38,302 - Readloom - INFO - Importing chapter: 99 with date 2025-09-21
+2025-10-01 20:16:38,302 - Readloom - INFO - Importing chapter: 100 with date 2025-09-24
+2025-10-01 20:16:38,302 - Readloom - INFO - Importing chapter: 101 with date 2025-09-28
+2025-10-01 20:16:38,302 - Readloom - INFO - Importing chapter: 102 with date 2025-10-20
+2025-10-01 20:16:38,303 - Readloom - INFO - Importing chapter: 103 with date 2025-11-03
+2025-10-01 20:16:38,303 - Readloom - INFO - Importing chapter: 104 with date 2025-11-17
+2025-10-01 20:16:38,303 - Readloom - INFO - Importing chapter: 105 with date 2025-12-01
+2025-10-01 20:16:38,304 - Readloom - INFO - Importing chapter: 106 with date 2025-12-15
+2025-10-01 20:16:38,304 - Readloom - INFO - Importing chapter: 107 with date 2025-12-29
+2025-10-01 20:16:38,304 - Readloom - INFO - Importing chapter: 108 with date 2026-01-12
+2025-10-01 20:16:38,304 - Readloom - INFO - Importing chapter: 109 with date 2026-01-26
+2025-10-01 20:16:38,305 - Readloom - INFO - Importing chapter: 110 with date 2026-02-09
+2025-10-01 20:16:38,305 - Readloom - INFO - Importing chapter: 111 with date 2026-02-23
+2025-10-01 20:16:38,305 - Readloom - INFO - Importing chapter: 112 with date 2026-03-09
+2025-10-01 20:16:38,305 - Readloom - INFO - Creating folder structure for imported series: Kagurabachi (ID: 1)
+2025-10-01 20:16:38,305 - Readloom - INFO - Original name: 'Kagurabachi', Safe name: 'Kagurabachi'
+2025-10-01 20:16:38,306 - Readloom - INFO - Settings table created or verified
+2025-10-01 20:16:38,307 - Readloom - INFO - Checking if folder already exists: C:\Users\dariu\Documents\Manga\Kagurabachi
+2025-10-01 20:16:38,307 - Readloom - INFO - Found existing folder: C:\Users\dariu\Documents\Manga\Kagurabachi
+2025-10-01 20:16:38,307 - Readloom - INFO - Using existing folder: C:\Users\dariu\Documents\Manga\Kagurabachi
+2025-10-01 20:16:38,309 - Readloom - INFO - Series added to collection with ID: []
+2025-10-01 20:16:38,309 - Readloom - INFO - Scanning existing folder for e-books: C:\Users\dariu\Documents\Manga\Kagurabachi
+2025-10-01 20:16:38,310 - Readloom - INFO - Starting e-book scan with specific_series_id=1, custom_path=None
+2025-10-01 20:16:38,310 - Readloom - INFO - Settings table created or verified
+2025-10-01 20:16:38,310 - Readloom - INFO - Using 1 root folders for scanning
+2025-10-01 20:16:38,311 - Readloom - INFO - Original name: 'Kagurabachi', Safe name: 'Kagurabachi'
+2025-10-01 20:16:38,311 - Readloom - INFO - Scanning for series: Kagurabachi (ID: 1)
+2025-10-01 20:16:38,311 - Readloom - INFO - Safe folder name: Kagurabachi
+2025-10-01 20:16:38,311 - Readloom - INFO - Checking root path: C:\Users\dariu\Documents\Manga
+2025-10-01 20:16:38,311 - Readloom - INFO - Looking for series directory: C:\Users\dariu\Documents\Manga\Kagurabachi
+2025-10-01 20:16:38,312 - Readloom - INFO - Found series directory: C:\Users\dariu\Documents\Manga\Kagurabachi
+2025-10-01 20:16:38,312 - Readloom - INFO - Processing directory: C:\Users\dariu\Documents\Manga\Kagurabachi for series ID: 1
+2025-10-01 20:16:38,312 - Readloom - INFO - Processing series: Kagurabachi (ID: 1)
+2025-10-01 20:16:38,312 - Readloom - INFO - Scanning directory C:\Users\dariu\Documents\Manga\Kagurabachi for e-book files
+2025-10-01 20:16:38,313 - Readloom - INFO - Have read permission for directory: C:\Users\dariu\Documents\Manga\Kagurabachi
+2025-10-01 20:16:38,313 - Readloom - INFO - Found 1 total files/directories
+2025-10-01 20:16:38,314 - Readloom - INFO - File extension: .txt for file C:\Users\dariu\Documents\Manga\Kagurabachi\README.txt
+2025-10-01 20:16:38,314 - Readloom - INFO - Skipping unsupported file type: C:\Users\dariu\Documents\Manga\Kagurabachi\README.txt
+2025-10-01 20:16:38,314 - Readloom - INFO - Scan completed with stats: {'scanned': 0, 'added': 0, 'skipped': 1, 'errors': 0, 'series_processed': 1}
+2025-10-01 20:16:38,314 - Readloom - INFO - Final stats after cleanup: {'scanned': 0, 'added': 0, 'skipped': 1, 'errors': 0, 'series_processed': 1}
+2025-10-01 20:16:38,315 - Readloom - INFO - Scan results: {'scanned': 0, 'added': 0, 'skipped': 1, 'errors': 0, 'series_processed': 1}
+2025-10-01 20:16:38,315 - Readloom - INFO - Imported manga from AniList, updating calendar...
+2025-10-01 20:16:38,315 - Readloom - INFO - Settings table created or verified
+2025-10-01 20:16:38,315 - Readloom - INFO - Updating calendar for all 1 series
+2025-10-01 20:16:38,323 - Readloom - INFO - Processing chapter: 1 - 1 - Chapter 1 - Date: 2024-10-01
+2025-10-01 20:16:38,323 - Readloom - INFO - Adding calendar event: Chapter 1 - Kagurabachi on 2024-10-01
+2025-10-01 20:16:38,324 - Readloom - INFO - Processing chapter: 2 - 2 - Chapter 2 - Date: 2024-10-05
+2025-10-01 20:16:38,325 - Readloom - INFO - Adding calendar event: Chapter 2 - Kagurabachi on 2024-10-05
+2025-10-01 20:16:38,325 - Readloom - INFO - Processing chapter: 3 - 3 - Chapter 3 - Date: 2024-10-09
+2025-10-01 20:16:38,326 - Readloom - INFO - Adding calendar event: Chapter 3 - Kagurabachi on 2024-10-09
+2025-10-01 20:16:38,326 - Readloom - INFO - Processing chapter: 4 - 4 - Chapter 4 - Date: 2024-10-12
+2025-10-01 20:16:38,327 - Readloom - INFO - Adding calendar event: Chapter 4 - Kagurabachi on 2024-10-12
+2025-10-01 20:16:38,327 - Readloom - INFO - Processing chapter: 5 - 5 - Chapter 5 - Date: 2024-10-16
+2025-10-01 20:16:38,328 - Readloom - INFO - Adding calendar event: Chapter 5 - Kagurabachi on 2024-10-16
+2025-10-01 20:16:38,328 - Readloom - INFO - Processing chapter: 6 - 6 - Chapter 6 - Date: 2024-10-19
+2025-10-01 20:16:38,328 - Readloom - INFO - Adding calendar event: Chapter 6 - Kagurabachi on 2024-10-19
+2025-10-01 20:16:38,329 - Readloom - INFO - Processing chapter: 7 - 7 - Chapter 7 - Date: 2024-10-23
+2025-10-01 20:16:38,329 - Readloom - INFO - Adding calendar event: Chapter 7 - Kagurabachi on 2024-10-23
+2025-10-01 20:16:38,330 - Readloom - INFO - Processing chapter: 8 - 8 - Chapter 8 - Date: 2024-10-27
+2025-10-01 20:16:38,331 - Readloom - INFO - Adding calendar event: Chapter 8 - Kagurabachi on 2024-10-27
+2025-10-01 20:16:38,331 - Readloom - INFO - Processing chapter: 9 - 9 - Chapter 9 - Date: 2024-10-30
+2025-10-01 20:16:38,332 - Readloom - INFO - Adding calendar event: Chapter 9 - Kagurabachi on 2024-10-30
+2025-10-01 20:16:38,332 - Readloom - INFO - Processing chapter: 10 - 10 - Chapter 10 - Date: 2024-11-03
+2025-10-01 20:16:38,333 - Readloom - INFO - Adding calendar event: Chapter 10 - Kagurabachi on 2024-11-03
+2025-10-01 20:16:38,334 - Readloom - INFO - Processing chapter: 11 - 11 - Chapter 11 - Date: 2024-11-06
+2025-10-01 20:16:38,334 - Readloom - INFO - Adding calendar event: Chapter 11 - Kagurabachi on 2024-11-06
+2025-10-01 20:16:38,335 - Readloom - INFO - Processing chapter: 12 - 12 - Chapter 12 - Date: 2024-11-10
+2025-10-01 20:16:38,335 - Readloom - INFO - Adding calendar event: Chapter 12 - Kagurabachi on 2024-11-10
+2025-10-01 20:16:38,336 - Readloom - INFO - Processing chapter: 13 - 13 - Chapter 13 - Date: 2024-11-14
+2025-10-01 20:16:38,336 - Readloom - INFO - Adding calendar event: Chapter 13 - Kagurabachi on 2024-11-14
+2025-10-01 20:16:38,337 - Readloom - INFO - Processing chapter: 14 - 14 - Chapter 14 - Date: 2024-11-17
+2025-10-01 20:16:38,337 - Readloom - INFO - Adding calendar event: Chapter 14 - Kagurabachi on 2024-11-17
+2025-10-01 20:16:38,338 - Readloom - INFO - Processing chapter: 15 - 15 - Chapter 15 - Date: 2024-11-21
+2025-10-01 20:16:38,338 - Readloom - INFO - Adding calendar event: Chapter 15 - Kagurabachi on 2024-11-21
+2025-10-01 20:16:38,339 - Readloom - INFO - Processing chapter: 16 - 16 - Chapter 16 - Date: 2024-11-25
+2025-10-01 20:16:38,340 - Readloom - INFO - Adding calendar event: Chapter 16 - Kagurabachi on 2024-11-25
+2025-10-01 20:16:38,340 - Readloom - INFO - Processing chapter: 17 - 17 - Chapter 17 - Date: 2024-11-28
+2025-10-01 20:16:38,341 - Readloom - INFO - Adding calendar event: Chapter 17 - Kagurabachi on 2024-11-28
+2025-10-01 20:16:38,341 - Readloom - INFO - Processing chapter: 18 - 18 - Chapter 18 - Date: 2024-12-02
+2025-10-01 20:16:38,342 - Readloom - INFO - Adding calendar event: Chapter 18 - Kagurabachi on 2024-12-02
+2025-10-01 20:16:38,342 - Readloom - INFO - Processing chapter: 19 - 19 - Chapter 19 - Date: 2024-12-05
+2025-10-01 20:16:38,343 - Readloom - INFO - Adding calendar event: Chapter 19 - Kagurabachi on 2024-12-05
+2025-10-01 20:16:38,343 - Readloom - INFO - Processing chapter: 20 - 20 - Chapter 20 - Date: 2024-12-09
+2025-10-01 20:16:38,344 - Readloom - INFO - Adding calendar event: Chapter 20 - Kagurabachi on 2024-12-09
+2025-10-01 20:16:38,344 - Readloom - INFO - Processing chapter: 21 - 21 - Chapter 21 - Date: 2024-12-13
+2025-10-01 20:16:38,345 - Readloom - INFO - Adding calendar event: Chapter 21 - Kagurabachi on 2024-12-13
+2025-10-01 20:16:38,345 - Readloom - INFO - Processing chapter: 22 - 22 - Chapter 22 - Date: 2024-12-16
+2025-10-01 20:16:38,346 - Readloom - INFO - Adding calendar event: Chapter 22 - Kagurabachi on 2024-12-16
+2025-10-01 20:16:38,346 - Readloom - INFO - Processing chapter: 23 - 23 - Chapter 23 - Date: 2024-12-20
+2025-10-01 20:16:38,347 - Readloom - INFO - Adding calendar event: Chapter 23 - Kagurabachi on 2024-12-20
+2025-10-01 20:16:38,347 - Readloom - INFO - Processing chapter: 24 - 24 - Chapter 24 - Date: 2024-12-23
+2025-10-01 20:16:38,348 - Readloom - INFO - Adding calendar event: Chapter 24 - Kagurabachi on 2024-12-23
+2025-10-01 20:16:38,349 - Readloom - INFO - Processing chapter: 25 - 25 - Chapter 25 - Date: 2024-12-27
+2025-10-01 20:16:38,349 - Readloom - INFO - Adding calendar event: Chapter 25 - Kagurabachi on 2024-12-27
+2025-10-01 20:16:38,350 - Readloom - INFO - Processing chapter: 26 - 26 - Chapter 26 - Date: 2024-12-31
+2025-10-01 20:16:38,350 - Readloom - INFO - Adding calendar event: Chapter 26 - Kagurabachi on 2024-12-31
+2025-10-01 20:16:38,351 - Readloom - INFO - Processing chapter: 27 - 27 - Chapter 27 - Date: 2025-01-03
+2025-10-01 20:16:38,352 - Readloom - INFO - Adding calendar event: Chapter 27 - Kagurabachi on 2025-01-03
+2025-10-01 20:16:38,353 - Readloom - INFO - Processing chapter: 28 - 28 - Chapter 28 - Date: 2025-01-07
+2025-10-01 20:16:38,353 - Readloom - INFO - Adding calendar event: Chapter 28 - Kagurabachi on 2025-01-07
+2025-10-01 20:16:38,354 - Readloom - INFO - Processing chapter: 29 - 29 - Chapter 29 - Date: 2025-01-11
+2025-10-01 20:16:38,354 - Readloom - INFO - Adding calendar event: Chapter 29 - Kagurabachi on 2025-01-11
+2025-10-01 20:16:38,355 - Readloom - INFO - Processing chapter: 30 - 30 - Chapter 30 - Date: 2025-01-14
+2025-10-01 20:16:38,355 - Readloom - INFO - Adding calendar event: Chapter 30 - Kagurabachi on 2025-01-14
+2025-10-01 20:16:38,356 - Readloom - INFO - Processing chapter: 31 - 31 - Chapter 31 - Date: 2025-01-18
+2025-10-01 20:16:38,356 - Readloom - INFO - Adding calendar event: Chapter 31 - Kagurabachi on 2025-01-18
+2025-10-01 20:16:38,357 - Readloom - INFO - Processing chapter: 32 - 32 - Chapter 32 - Date: 2025-01-21
+2025-10-01 20:16:38,357 - Readloom - INFO - Adding calendar event: Chapter 32 - Kagurabachi on 2025-01-21
+2025-10-01 20:16:38,358 - Readloom - INFO - Processing chapter: 33 - 33 - Chapter 33 - Date: 2025-01-25
+2025-10-01 20:16:38,359 - Readloom - INFO - Adding calendar event: Chapter 33 - Kagurabachi on 2025-01-25
+2025-10-01 20:16:38,359 - Readloom - INFO - Processing chapter: 34 - 34 - Chapter 34 - Date: 2025-01-29
+2025-10-01 20:16:38,360 - Readloom - INFO - Adding calendar event: Chapter 34 - Kagurabachi on 2025-01-29
+2025-10-01 20:16:38,360 - Readloom - INFO - Processing chapter: 35 - 35 - Chapter 35 - Date: 2025-02-01
+2025-10-01 20:16:38,361 - Readloom - INFO - Adding calendar event: Chapter 35 - Kagurabachi on 2025-02-01
+2025-10-01 20:16:38,361 - Readloom - INFO - Processing chapter: 36 - 36 - Chapter 36 - Date: 2025-02-05
+2025-10-01 20:16:38,362 - Readloom - INFO - Adding calendar event: Chapter 36 - Kagurabachi on 2025-02-05
+2025-10-01 20:16:38,362 - Readloom - INFO - Processing chapter: 37 - 37 - Chapter 37 - Date: 2025-02-08
+2025-10-01 20:16:38,363 - Readloom - INFO - Adding calendar event: Chapter 37 - Kagurabachi on 2025-02-08
+2025-10-01 20:16:38,363 - Readloom - INFO - Processing chapter: 38 - 38 - Chapter 38 - Date: 2025-02-12
+2025-10-01 20:16:38,364 - Readloom - INFO - Adding calendar event: Chapter 38 - Kagurabachi on 2025-02-12
+2025-10-01 20:16:38,365 - Readloom - INFO - Processing chapter: 39 - 39 - Chapter 39 - Date: 2025-02-16
+2025-10-01 20:16:38,365 - Readloom - INFO - Adding calendar event: Chapter 39 - Kagurabachi on 2025-02-16
+2025-10-01 20:16:38,366 - Readloom - INFO - Processing chapter: 40 - 40 - Chapter 40 - Date: 2025-02-19
+2025-10-01 20:16:38,366 - Readloom - INFO - Adding calendar event: Chapter 40 - Kagurabachi on 2025-02-19
+2025-10-01 20:16:38,367 - Readloom - INFO - Processing chapter: 41 - 41 - Chapter 41 - Date: 2025-02-23
+2025-10-01 20:16:38,367 - Readloom - INFO - Adding calendar event: Chapter 41 - Kagurabachi on 2025-02-23
+2025-10-01 20:16:38,368 - Readloom - INFO - Processing chapter: 42 - 42 - Chapter 42 - Date: 2025-02-27
+2025-10-01 20:16:38,369 - Readloom - INFO - Adding calendar event: Chapter 42 - Kagurabachi on 2025-02-27
+2025-10-01 20:16:38,370 - Readloom - INFO - Processing chapter: 43 - 43 - Chapter 43 - Date: 2025-03-02
+2025-10-01 20:16:38,370 - Readloom - INFO - Adding calendar event: Chapter 43 - Kagurabachi on 2025-03-02
+2025-10-01 20:16:38,371 - Readloom - INFO - Processing chapter: 44 - 44 - Chapter 44 - Date: 2025-03-06
+2025-10-01 20:16:38,372 - Readloom - INFO - Adding calendar event: Chapter 44 - Kagurabachi on 2025-03-06
+2025-10-01 20:16:38,372 - Readloom - INFO - Processing chapter: 45 - 45 - Chapter 45 - Date: 2025-03-09
+2025-10-01 20:16:38,373 - Readloom - INFO - Adding calendar event: Chapter 45 - Kagurabachi on 2025-03-09
+2025-10-01 20:16:38,373 - Readloom - INFO - Processing chapter: 46 - 46 - Chapter 46 - Date: 2025-03-13
+2025-10-01 20:16:38,374 - Readloom - INFO - Adding calendar event: Chapter 46 - Kagurabachi on 2025-03-13
+2025-10-01 20:16:38,375 - Readloom - INFO - Processing chapter: 47 - 47 - Chapter 47 - Date: 2025-03-17
+2025-10-01 20:16:38,375 - Readloom - INFO - Adding calendar event: Chapter 47 - Kagurabachi on 2025-03-17
+2025-10-01 20:16:38,376 - Readloom - INFO - Processing chapter: 48 - 48 - Chapter 48 - Date: 2025-03-20
+2025-10-01 20:16:38,376 - Readloom - INFO - Adding calendar event: Chapter 48 - Kagurabachi on 2025-03-20
+2025-10-01 20:16:38,377 - Readloom - INFO - Processing chapter: 49 - 49 - Chapter 49 - Date: 2025-03-24
+2025-10-01 20:16:38,377 - Readloom - INFO - Adding calendar event: Chapter 49 - Kagurabachi on 2025-03-24
+2025-10-01 20:16:38,378 - Readloom - INFO - Processing chapter: 50 - 50 - Chapter 50 - Date: 2025-03-27
+2025-10-01 20:16:38,378 - Readloom - INFO - Adding calendar event: Chapter 50 - Kagurabachi on 2025-03-27
+2025-10-01 20:16:38,379 - Readloom - INFO - Processing chapter: 51 - 51 - Chapter 51 - Date: 2025-03-31
+2025-10-01 20:16:38,379 - Readloom - INFO - Adding calendar event: Chapter 51 - Kagurabachi on 2025-03-31
+2025-10-01 20:16:38,380 - Readloom - INFO - Processing chapter: 52 - 52 - Chapter 52 - Date: 2025-04-04
+2025-10-01 20:16:38,380 - Readloom - INFO - Adding calendar event: Chapter 52 - Kagurabachi on 2025-04-04
+2025-10-01 20:16:38,381 - Readloom - INFO - Processing chapter: 53 - 53 - Chapter 53 - Date: 2025-04-07
+2025-10-01 20:16:38,381 - Readloom - INFO - Adding calendar event: Chapter 53 - Kagurabachi on 2025-04-07
+2025-10-01 20:16:38,382 - Readloom - INFO - Processing chapter: 54 - 54 - Chapter 54 - Date: 2025-04-11
+2025-10-01 20:16:38,382 - Readloom - INFO - Adding calendar event: Chapter 54 - Kagurabachi on 2025-04-11
+2025-10-01 20:16:38,383 - Readloom - INFO - Processing chapter: 55 - 55 - Chapter 55 - Date: 2025-04-14
+2025-10-01 20:16:38,384 - Readloom - INFO - Adding calendar event: Chapter 55 - Kagurabachi on 2025-04-14
+2025-10-01 20:16:38,385 - Readloom - INFO - Processing chapter: 56 - 56 - Chapter 56 - Date: 2025-04-18
+2025-10-01 20:16:38,385 - Readloom - INFO - Adding calendar event: Chapter 56 - Kagurabachi on 2025-04-18
+2025-10-01 20:16:38,386 - Readloom - INFO - Processing chapter: 57 - 57 - Chapter 57 - Date: 2025-04-22
+2025-10-01 20:16:38,386 - Readloom - INFO - Adding calendar event: Chapter 57 - Kagurabachi on 2025-04-22
+2025-10-01 20:16:38,387 - Readloom - INFO - Processing chapter: 58 - 58 - Chapter 58 - Date: 2025-04-25
+2025-10-01 20:16:38,388 - Readloom - INFO - Adding calendar event: Chapter 58 - Kagurabachi on 2025-04-25
+2025-10-01 20:16:38,388 - Readloom - INFO - Processing chapter: 59 - 59 - Chapter 59 - Date: 2025-04-29
+2025-10-01 20:16:38,389 - Readloom - INFO - Adding calendar event: Chapter 59 - Kagurabachi on 2025-04-29
+2025-10-01 20:16:38,390 - Readloom - INFO - Processing chapter: 60 - 60 - Chapter 60 - Date: 2025-05-03
+2025-10-01 20:16:38,390 - Readloom - INFO - Adding calendar event: Chapter 60 - Kagurabachi on 2025-05-03
+2025-10-01 20:16:38,391 - Readloom - INFO - Processing chapter: 61 - 61 - Chapter 61 - Date: 2025-05-06
+2025-10-01 20:16:38,391 - Readloom - INFO - Adding calendar event: Chapter 61 - Kagurabachi on 2025-05-06
+2025-10-01 20:16:38,392 - Readloom - INFO - Processing chapter: 62 - 62 - Chapter 62 - Date: 2025-05-10
+2025-10-01 20:16:38,392 - Readloom - INFO - Adding calendar event: Chapter 62 - Kagurabachi on 2025-05-10
+2025-10-01 20:16:38,393 - Readloom - INFO - Processing chapter: 63 - 63 - Chapter 63 - Date: 2025-05-13
+2025-10-01 20:16:38,393 - Readloom - INFO - Adding calendar event: Chapter 63 - Kagurabachi on 2025-05-13
+2025-10-01 20:16:38,394 - Readloom - INFO - Processing chapter: 64 - 64 - Chapter 64 - Date: 2025-05-17
+2025-10-01 20:16:38,394 - Readloom - INFO - Adding calendar event: Chapter 64 - Kagurabachi on 2025-05-17
+2025-10-01 20:16:38,395 - Readloom - INFO - Processing chapter: 65 - 65 - Chapter 65 - Date: 2025-05-21
+2025-10-01 20:16:38,396 - Readloom - INFO - Adding calendar event: Chapter 65 - Kagurabachi on 2025-05-21
+2025-10-01 20:16:38,396 - Readloom - INFO - Processing chapter: 66 - 66 - Chapter 66 - Date: 2025-05-24
+2025-10-01 20:16:38,397 - Readloom - INFO - Adding calendar event: Chapter 66 - Kagurabachi on 2025-05-24
+2025-10-01 20:16:38,397 - Readloom - INFO - Processing chapter: 67 - 67 - Chapter 67 - Date: 2025-05-28
+2025-10-01 20:16:38,398 - Readloom - INFO - Adding calendar event: Chapter 67 - Kagurabachi on 2025-05-28
+2025-10-01 20:16:38,398 - Readloom - INFO - Processing chapter: 68 - 68 - Chapter 68 - Date: 2025-05-31
+2025-10-01 20:16:38,399 - Readloom - INFO - Adding calendar event: Chapter 68 - Kagurabachi on 2025-05-31
+2025-10-01 20:16:38,400 - Readloom - INFO - Processing chapter: 69 - 69 - Chapter 69 - Date: 2025-06-04
+2025-10-01 20:16:38,400 - Readloom - INFO - Adding calendar event: Chapter 69 - Kagurabachi on 2025-06-04
+2025-10-01 20:16:38,401 - Readloom - INFO - Processing chapter: 70 - 70 - Chapter 70 - Date: 2025-06-08
+2025-10-01 20:16:38,401 - Readloom - INFO - Adding calendar event: Chapter 70 - Kagurabachi on 2025-06-08
+2025-10-01 20:16:38,402 - Readloom - INFO - Processing chapter: 71 - 71 - Chapter 71 - Date: 2025-06-11
+2025-10-01 20:16:38,402 - Readloom - INFO - Adding calendar event: Chapter 71 - Kagurabachi on 2025-06-11
+2025-10-01 20:16:38,403 - Readloom - INFO - Processing chapter: 72 - 72 - Chapter 72 - Date: 2025-06-15
+2025-10-01 20:16:38,404 - Readloom - INFO - Adding calendar event: Chapter 72 - Kagurabachi on 2025-06-15
+2025-10-01 20:16:38,405 - Readloom - INFO - Processing chapter: 73 - 73 - Chapter 73 - Date: 2025-06-19
+2025-10-01 20:16:38,405 - Readloom - INFO - Adding calendar event: Chapter 73 - Kagurabachi on 2025-06-19
+2025-10-01 20:16:38,406 - Readloom - INFO - Processing chapter: 74 - 74 - Chapter 74 - Date: 2025-06-22
+2025-10-01 20:16:38,406 - Readloom - INFO - Adding calendar event: Chapter 74 - Kagurabachi on 2025-06-22
+2025-10-01 20:16:38,407 - Readloom - INFO - Processing chapter: 75 - 75 - Chapter 75 - Date: 2025-06-26
+2025-10-01 20:16:38,407 - Readloom - INFO - Adding calendar event: Chapter 75 - Kagurabachi on 2025-06-26
+2025-10-01 20:16:38,408 - Readloom - INFO - Processing chapter: 76 - 76 - Chapter 76 - Date: 2025-06-29
+2025-10-01 20:16:38,408 - Readloom - INFO - Adding calendar event: Chapter 76 - Kagurabachi on 2025-06-29
+2025-10-01 20:16:38,409 - Readloom - INFO - Processing chapter: 77 - 77 - Chapter 77 - Date: 2025-07-03
+2025-10-01 20:16:38,409 - Readloom - INFO - Adding calendar event: Chapter 77 - Kagurabachi on 2025-07-03
+2025-10-01 20:16:38,410 - Readloom - INFO - Processing chapter: 78 - 78 - Chapter 78 - Date: 2025-07-07
+2025-10-01 20:16:38,410 - Readloom - INFO - Adding calendar event: Chapter 78 - Kagurabachi on 2025-07-07
+2025-10-01 20:16:38,411 - Readloom - INFO - Processing chapter: 79 - 79 - Chapter 79 - Date: 2025-07-10
+2025-10-01 20:16:38,411 - Readloom - INFO - Adding calendar event: Chapter 79 - Kagurabachi on 2025-07-10
+2025-10-01 20:16:38,412 - Readloom - INFO - Processing chapter: 80 - 80 - Chapter 80 - Date: 2025-07-14
+2025-10-01 20:16:38,413 - Readloom - INFO - Adding calendar event: Chapter 80 - Kagurabachi on 2025-07-14
+2025-10-01 20:16:38,413 - Readloom - INFO - Processing chapter: 81 - 81 - Chapter 81 - Date: 2025-07-17
+2025-10-01 20:16:38,414 - Readloom - INFO - Adding calendar event: Chapter 81 - Kagurabachi on 2025-07-17
+2025-10-01 20:16:38,414 - Readloom - INFO - Processing chapter: 82 - 82 - Chapter 82 - Date: 2025-07-21
+2025-10-01 20:16:38,415 - Readloom - INFO - Adding calendar event: Chapter 82 - Kagurabachi on 2025-07-21
+2025-10-01 20:16:38,415 - Readloom - INFO - Processing chapter: 83 - 83 - Chapter 83 - Date: 2025-07-25
+2025-10-01 20:16:38,416 - Readloom - INFO - Adding calendar event: Chapter 83 - Kagurabachi on 2025-07-25
+2025-10-01 20:16:38,417 - Readloom - INFO - Processing chapter: 84 - 84 - Chapter 84 - Date: 2025-07-28
+2025-10-01 20:16:38,417 - Readloom - INFO - Adding calendar event: Chapter 84 - Kagurabachi on 2025-07-28
+2025-10-01 20:16:38,418 - Readloom - INFO - Processing chapter: 85 - 85 - Chapter 85 - Date: 2025-08-01
+2025-10-01 20:16:38,418 - Readloom - INFO - Adding calendar event: Chapter 85 - Kagurabachi on 2025-08-01
+2025-10-01 20:16:38,419 - Readloom - INFO - Processing chapter: 86 - 86 - Chapter 86 - Date: 2025-08-05
+2025-10-01 20:16:38,419 - Readloom - INFO - Adding calendar event: Chapter 86 - Kagurabachi on 2025-08-05
+2025-10-01 20:16:38,420 - Readloom - INFO - Processing chapter: 87 - 87 - Chapter 87 - Date: 2025-08-08
+2025-10-01 20:16:38,421 - Readloom - INFO - Adding calendar event: Chapter 87 - Kagurabachi on 2025-08-08
+2025-10-01 20:16:38,422 - Readloom - INFO - Processing chapter: 88 - 88 - Chapter 88 - Date: 2025-08-12
+2025-10-01 20:16:38,422 - Readloom - INFO - Adding calendar event: Chapter 88 - Kagurabachi on 2025-08-12
+2025-10-01 20:16:38,423 - Readloom - INFO - Processing chapter: 89 - 89 - Chapter 89 - Date: 2025-08-15
+2025-10-01 20:16:38,423 - Readloom - INFO - Adding calendar event: Chapter 89 - Kagurabachi on 2025-08-15
+2025-10-01 20:16:38,424 - Readloom - INFO - Processing chapter: 90 - 90 - Chapter 90 - Date: 2025-08-19
+2025-10-01 20:16:38,424 - Readloom - INFO - Adding calendar event: Chapter 90 - Kagurabachi on 2025-08-19
+2025-10-01 20:16:38,425 - Readloom - INFO - Processing chapter: 91 - 91 - Chapter 91 - Date: 2025-08-23
+2025-10-01 20:16:38,425 - Readloom - INFO - Adding calendar event: Chapter 91 - Kagurabachi on 2025-08-23
+2025-10-01 20:16:38,426 - Readloom - INFO - Processing chapter: 92 - 92 - Chapter 92 - Date: 2025-08-26
+2025-10-01 20:16:38,426 - Readloom - INFO - Adding calendar event: Chapter 92 - Kagurabachi on 2025-08-26
+2025-10-01 20:16:38,427 - Readloom - INFO - Processing chapter: 93 - 93 - Chapter 93 - Date: 2025-08-30
+2025-10-01 20:16:38,427 - Readloom - INFO - Adding calendar event: Chapter 93 - Kagurabachi on 2025-08-30
+2025-10-01 20:16:38,428 - Readloom - INFO - Processing chapter: 94 - 94 - Chapter 94 - Date: 2025-09-02
+2025-10-01 20:16:38,429 - Readloom - INFO - Adding calendar event: Chapter 94 - Kagurabachi on 2025-09-02
+2025-10-01 20:16:38,430 - Readloom - INFO - Processing chapter: 95 - 95 - Chapter 95 - Date: 2025-09-06
+2025-10-01 20:16:38,430 - Readloom - INFO - Adding calendar event: Chapter 95 - Kagurabachi on 2025-09-06
+2025-10-01 20:16:38,431 - Readloom - INFO - Processing chapter: 96 - 96 - Chapter 96 - Date: 2025-09-10
+2025-10-01 20:16:38,431 - Readloom - INFO - Adding calendar event: Chapter 96 - Kagurabachi on 2025-09-10
+2025-10-01 20:16:38,432 - Readloom - INFO - Processing chapter: 97 - 97 - Chapter 97 - Date: 2025-09-13
+2025-10-01 20:16:38,432 - Readloom - INFO - Adding calendar event: Chapter 97 - Kagurabachi on 2025-09-13
+2025-10-01 20:16:38,433 - Readloom - INFO - Processing chapter: 98 - 98 - Chapter 98 - Date: 2025-09-17
+2025-10-01 20:16:38,433 - Readloom - INFO - Adding calendar event: Chapter 98 - Kagurabachi on 2025-09-17
+2025-10-01 20:16:38,434 - Readloom - INFO - Processing chapter: 99 - 99 - Chapter 99 - Date: 2025-09-21
+2025-10-01 20:16:38,435 - Readloom - INFO - Adding calendar event: Chapter 99 - Kagurabachi on 2025-09-21
+2025-10-01 20:16:38,436 - Readloom - INFO - Processing chapter: 100 - 100 - Chapter 100 - Date: 2025-09-24
+2025-10-01 20:16:38,436 - Readloom - INFO - Adding calendar event: Chapter 100 - Kagurabachi on 2025-09-24
+2025-10-01 20:16:38,437 - Readloom - INFO - Processing chapter: 101 - 101 - Chapter 101 - Date: 2025-09-28
+2025-10-01 20:16:38,437 - Readloom - INFO - Adding calendar event: Chapter 101 - Kagurabachi on 2025-09-28
+2025-10-01 20:16:38,438 - Readloom - INFO - Processing chapter: 102 - 102 - Chapter 102 - Date: 2025-10-20
+2025-10-01 20:16:38,438 - Readloom - INFO - Adding calendar event: Chapter 102 - Kagurabachi on 2025-10-20
+2025-10-01 20:16:38,439 - Readloom - INFO - Processing chapter: 103 - 103 - Chapter 103 - Date: 2025-11-03
+2025-10-01 20:16:38,439 - Readloom - INFO - Adding calendar event: Chapter 103 - Kagurabachi on 2025-11-03
+2025-10-01 20:16:38,440 - Readloom - INFO - Processing chapter: 104 - 104 - Chapter 104 - Date: 2025-11-17
+2025-10-01 20:16:38,441 - Readloom - INFO - Adding calendar event: Chapter 104 - Kagurabachi on 2025-11-17
+2025-10-01 20:16:38,442 - Readloom - INFO - Processing chapter: 105 - 105 - Chapter 105 - Date: 2025-12-01
+2025-10-01 20:16:38,442 - Readloom - INFO - Adding calendar event: Chapter 105 - Kagurabachi on 2025-12-01
+2025-10-01 20:16:38,443 - Readloom - INFO - Processing chapter: 106 - 106 - Chapter 106 - Date: 2025-12-15
+2025-10-01 20:16:38,443 - Readloom - INFO - Adding calendar event: Chapter 106 - Kagurabachi on 2025-12-15
+2025-10-01 20:16:38,444 - Readloom - INFO - Processing chapter: 107 - 107 - Chapter 107 - Date: 2025-12-29
+2025-10-01 20:16:38,444 - Readloom - INFO - Adding calendar event: Chapter 107 - Kagurabachi on 2025-12-29
+2025-10-01 20:16:38,445 - Readloom - INFO - Processing chapter: 108 - 108 - Chapter 108 - Date: 2026-01-12
+2025-10-01 20:16:38,445 - Readloom - INFO - Adding calendar event: Chapter 108 - Kagurabachi on 2026-01-12
+2025-10-01 20:16:38,446 - Readloom - INFO - Processing chapter: 109 - 109 - Chapter 109 - Date: 2026-01-26
+2025-10-01 20:16:38,446 - Readloom - INFO - Adding calendar event: Chapter 109 - Kagurabachi on 2026-01-26
+2025-10-01 20:16:38,447 - Readloom - INFO - Processing chapter: 110 - 110 - Chapter 110 - Date: 2026-02-09
+2025-10-01 20:16:38,447 - Readloom - INFO - Adding calendar event: Chapter 110 - Kagurabachi on 2026-02-09
+2025-10-01 20:16:38,448 - Readloom - INFO - Processing chapter: 111 - 111 - Chapter 111 - Date: 2026-02-23
+2025-10-01 20:16:38,449 - Readloom - INFO - Adding calendar event: Chapter 111 - Kagurabachi on 2026-02-23
+2025-10-01 20:16:38,449 - Readloom - INFO - Processing chapter: 112 - 112 - Chapter 112 - Date: 2026-03-09
+2025-10-01 20:16:38,450 - Readloom - INFO - Adding calendar event: Chapter 112 - Kagurabachi on 2026-03-09
+2025-10-01 20:16:38,451 - Readloom - INFO - Special processing for AniList series: Kagurabachi
+2025-10-01 20:16:38,452 - Readloom - INFO - Calendar updated successfully
+2025-10-01 20:16:38,452 - Readloom - INFO - Calendar updated successfully after importing from AniList
+2025-10-01 20:16:38,452 - Readloom - INFO - Original name: 'Kagurabachi', Safe name: 'Kagurabachi'
+2025-10-01 20:16:38,453 - Readloom - INFO - Settings table created or verified
+2025-10-01 20:16:48,947 - Readloom - INFO - Getting accurate volume count from scrapers for: Shingeki no Kyojin
+2025-10-01 20:16:48,948 - Readloom - INFO - Using static data for Shingeki no Kyojin: 139 chapters, 34 volumes (matched alias: shingeki no kyojin)
+2025-10-01 20:16:48,948 - Readloom - INFO - Using scraped volume count: 34 volumes
+2025-10-01 20:16:52,565 - Readloom - INFO - Settings table created or verified
+2025-10-01 20:16:52,781 - Readloom - INFO - Getting accurate volume count from scrapers for: Shingeki no Kyojin
+2025-10-01 20:16:52,781 - Readloom - INFO - Using cached data for Shingeki no Kyojin: (139, 34)
+2025-10-01 20:16:52,782 - Readloom - INFO - Using scraped volume count: 34 volumes
+2025-10-01 20:16:52,782 - Readloom - INFO - Final data for Shingeki no Kyojin: 141 chapters, 34 volumes
+2025-10-01 20:16:52,783 - Readloom - INFO - Importing 34 volumes from AniList
+2025-10-01 20:16:52,799 - Readloom - INFO - Importing chapter: 1 with date 2024-10-01
+2025-10-01 20:16:52,800 - Readloom - INFO - Importing chapter: 2 with date 2024-10-04
+2025-10-01 20:16:52,800 - Readloom - INFO - Importing chapter: 3 with date 2024-10-07
+2025-10-01 20:16:52,800 - Readloom - INFO - Importing chapter: 4 with date 2024-10-10
+2025-10-01 20:16:52,800 - Readloom - INFO - Importing chapter: 5 with date 2024-10-13
+2025-10-01 20:16:52,801 - Readloom - INFO - Importing chapter: 6 with date 2024-10-16
+2025-10-01 20:16:52,801 - Readloom - INFO - Importing chapter: 7 with date 2024-10-19
+2025-10-01 20:16:52,801 - Readloom - INFO - Importing chapter: 8 with date 2024-10-21
+2025-10-01 20:16:52,801 - Readloom - INFO - Importing chapter: 9 with date 2024-10-24
+2025-10-01 20:16:52,802 - Readloom - INFO - Importing chapter: 10 with date 2024-10-27
+2025-10-01 20:16:52,802 - Readloom - INFO - Importing chapter: 11 with date 2024-10-30
+2025-10-01 20:16:52,802 - Readloom - INFO - Importing chapter: 12 with date 2024-11-02
+2025-10-01 20:16:52,802 - Readloom - INFO - Importing chapter: 13 with date 2024-11-05
+2025-10-01 20:16:52,802 - Readloom - INFO - Importing chapter: 14 with date 2024-11-08
+2025-10-01 20:16:52,802 - Readloom - INFO - Importing chapter: 15 with date 2024-11-11
+2025-10-01 20:16:52,802 - Readloom - INFO - Importing chapter: 16 with date 2024-11-13
+2025-10-01 20:16:52,803 - Readloom - INFO - Importing chapter: 17 with date 2024-11-16
+2025-10-01 20:16:52,803 - Readloom - INFO - Importing chapter: 18 with date 2024-11-19
+2025-10-01 20:16:52,803 - Readloom - INFO - Importing chapter: 19 with date 2024-11-22
+2025-10-01 20:16:52,803 - Readloom - INFO - Importing chapter: 20 with date 2024-11-25
+2025-10-01 20:16:52,803 - Readloom - INFO - Importing chapter: 21 with date 2024-11-28
+2025-10-01 20:16:52,803 - Readloom - INFO - Importing chapter: 22 with date 2024-12-01
+2025-10-01 20:16:52,803 - Readloom - INFO - Importing chapter: 23 with date 2024-12-04
+2025-10-01 20:16:52,804 - Readloom - INFO - Importing chapter: 24 with date 2024-12-06
+2025-10-01 20:16:52,804 - Readloom - INFO - Importing chapter: 25 with date 2024-12-09
+2025-10-01 20:16:52,804 - Readloom - INFO - Importing chapter: 26 with date 2024-12-12
+2025-10-01 20:16:52,804 - Readloom - INFO - Importing chapter: 27 with date 2024-12-15
+2025-10-01 20:16:52,804 - Readloom - INFO - Importing chapter: 28 with date 2024-12-18
+2025-10-01 20:16:52,804 - Readloom - INFO - Importing chapter: 29 with date 2024-12-21
+2025-10-01 20:16:52,804 - Readloom - INFO - Importing chapter: 30 with date 2024-12-24
+2025-10-01 20:16:52,805 - Readloom - INFO - Importing chapter: 31 with date 2024-12-27
+2025-10-01 20:16:52,805 - Readloom - INFO - Importing chapter: 32 with date 2024-12-29
+2025-10-01 20:16:52,805 - Readloom - INFO - Importing chapter: 33 with date 2025-01-01
+2025-10-01 20:16:52,805 - Readloom - INFO - Importing chapter: 34 with date 2025-01-04
+2025-10-01 20:16:52,805 - Readloom - INFO - Importing chapter: 35 with date 2025-01-07
+2025-10-01 20:16:52,805 - Readloom - INFO - Importing chapter: 36 with date 2025-01-10
+2025-10-01 20:16:52,805 - Readloom - INFO - Importing chapter: 37 with date 2025-01-13
+2025-10-01 20:16:52,805 - Readloom - INFO - Importing chapter: 38 with date 2025-01-16
+2025-10-01 20:16:52,806 - Readloom - INFO - Importing chapter: 39 with date 2025-01-19
+2025-10-01 20:16:52,806 - Readloom - INFO - Importing chapter: 40 with date 2025-01-21
+2025-10-01 20:16:52,806 - Readloom - INFO - Importing chapter: 41 with date 2025-01-24
+2025-10-01 20:16:52,806 - Readloom - INFO - Importing chapter: 42 with date 2025-01-27
+2025-10-01 20:16:52,806 - Readloom - INFO - Importing chapter: 43 with date 2025-01-30
+2025-10-01 20:16:52,806 - Readloom - INFO - Importing chapter: 44 with date 2025-02-02
+2025-10-01 20:16:52,806 - Readloom - INFO - Importing chapter: 45 with date 2025-02-05
+2025-10-01 20:16:52,806 - Readloom - INFO - Importing chapter: 46 with date 2025-02-08
+2025-10-01 20:16:52,806 - Readloom - INFO - Importing chapter: 47 with date 2025-02-11
+2025-10-01 20:16:52,807 - Readloom - INFO - Importing chapter: 48 with date 2025-02-13
+2025-10-01 20:16:52,807 - Readloom - INFO - Importing chapter: 49 with date 2025-02-16
+2025-10-01 20:16:52,807 - Readloom - INFO - Importing chapter: 50 with date 2025-02-19
+2025-10-01 20:16:52,807 - Readloom - INFO - Importing chapter: 51 with date 2025-02-22
+2025-10-01 20:16:52,807 - Readloom - INFO - Importing chapter: 52 with date 2025-02-25
+2025-10-01 20:16:52,807 - Readloom - INFO - Importing chapter: 53 with date 2025-02-28
+2025-10-01 20:16:52,807 - Readloom - INFO - Importing chapter: 54 with date 2025-03-03
+2025-10-01 20:16:52,807 - Readloom - INFO - Importing chapter: 55 with date 2025-03-06
+2025-10-01 20:16:52,807 - Readloom - INFO - Importing chapter: 56 with date 2025-03-08
+2025-10-01 20:16:52,808 - Readloom - INFO - Importing chapter: 57 with date 2025-03-11
+2025-10-01 20:16:52,808 - Readloom - INFO - Importing chapter: 58 with date 2025-03-14
+2025-10-01 20:16:52,808 - Readloom - INFO - Importing chapter: 59 with date 2025-03-17
+2025-10-01 20:16:52,808 - Readloom - INFO - Importing chapter: 60 with date 2025-03-20
+2025-10-01 20:16:52,808 - Readloom - INFO - Importing chapter: 61 with date 2025-03-23
+2025-10-01 20:16:52,808 - Readloom - INFO - Importing chapter: 62 with date 2025-03-26
+2025-10-01 20:16:52,808 - Readloom - INFO - Importing chapter: 63 with date 2025-03-29
+2025-10-01 20:16:52,808 - Readloom - INFO - Importing chapter: 64 with date 2025-03-31
+2025-10-01 20:16:52,809 - Readloom - INFO - Importing chapter: 65 with date 2025-04-03
+2025-10-01 20:16:52,809 - Readloom - INFO - Importing chapter: 66 with date 2025-04-06
+2025-10-01 20:16:52,809 - Readloom - INFO - Importing chapter: 67 with date 2025-04-09
+2025-10-01 20:16:52,809 - Readloom - INFO - Importing chapter: 68 with date 2025-04-12
+2025-10-01 20:16:52,809 - Readloom - INFO - Importing chapter: 69 with date 2025-04-15
+2025-10-01 20:16:52,809 - Readloom - INFO - Importing chapter: 70 with date 2025-04-18
+2025-10-01 20:16:52,809 - Readloom - INFO - Importing chapter: 71 with date 2025-04-21
+2025-10-01 20:16:52,809 - Readloom - INFO - Importing chapter: 72 with date 2025-04-23
+2025-10-01 20:16:52,810 - Readloom - INFO - Importing chapter: 73 with date 2025-04-26
+2025-10-01 20:16:52,810 - Readloom - INFO - Importing chapter: 74 with date 2025-04-29
+2025-10-01 20:16:52,810 - Readloom - INFO - Importing chapter: 75 with date 2025-05-02
+2025-10-01 20:16:52,810 - Readloom - INFO - Importing chapter: 76 with date 2025-05-05
+2025-10-01 20:16:52,810 - Readloom - INFO - Importing chapter: 77 with date 2025-05-08
+2025-10-01 20:16:52,810 - Readloom - INFO - Importing chapter: 78 with date 2025-05-11
+2025-10-01 20:16:52,811 - Readloom - INFO - Importing chapter: 79 with date 2025-05-14
+2025-10-01 20:16:52,811 - Readloom - INFO - Importing chapter: 80 with date 2025-05-16
+2025-10-01 20:16:52,811 - Readloom - INFO - Importing chapter: 81 with date 2025-05-19
+2025-10-01 20:16:52,811 - Readloom - INFO - Importing chapter: 82 with date 2025-05-22
+2025-10-01 20:16:52,811 - Readloom - INFO - Importing chapter: 83 with date 2025-05-25
+2025-10-01 20:16:52,811 - Readloom - INFO - Importing chapter: 84 with date 2025-05-28
+2025-10-01 20:16:52,811 - Readloom - INFO - Importing chapter: 85 with date 2025-05-31
+2025-10-01 20:16:52,811 - Readloom - INFO - Importing chapter: 86 with date 2025-06-03
+2025-10-01 20:16:52,812 - Readloom - INFO - Importing chapter: 87 with date 2025-06-06
+2025-10-01 20:16:52,812 - Readloom - INFO - Importing chapter: 88 with date 2025-06-08
+2025-10-01 20:16:52,812 - Readloom - INFO - Importing chapter: 89 with date 2025-06-11
+2025-10-01 20:16:52,812 - Readloom - INFO - Importing chapter: 90 with date 2025-06-14
+2025-10-01 20:16:52,812 - Readloom - INFO - Importing chapter: 91 with date 2025-06-17
+2025-10-01 20:16:52,812 - Readloom - INFO - Importing chapter: 92 with date 2025-06-20
+2025-10-01 20:16:52,812 - Readloom - INFO - Importing chapter: 93 with date 2025-06-23
+2025-10-01 20:16:52,812 - Readloom - INFO - Importing chapter: 94 with date 2025-06-26
+2025-10-01 20:16:52,812 - Readloom - INFO - Importing chapter: 95 with date 2025-06-29
+2025-10-01 20:16:52,813 - Readloom - INFO - Importing chapter: 96 with date 2025-07-01
+2025-10-01 20:16:52,813 - Readloom - INFO - Importing chapter: 97 with date 2025-07-04
+2025-10-01 20:16:52,813 - Readloom - INFO - Importing chapter: 98 with date 2025-07-07
+2025-10-01 20:16:52,813 - Readloom - INFO - Importing chapter: 99 with date 2025-07-10
+2025-10-01 20:16:52,813 - Readloom - INFO - Importing chapter: 100 with date 2025-07-13
+2025-10-01 20:16:52,813 - Readloom - INFO - Importing chapter: 101 with date 2025-07-16
+2025-10-01 20:16:52,813 - Readloom - INFO - Importing chapter: 102 with date 2025-07-19
+2025-10-01 20:16:52,813 - Readloom - INFO - Importing chapter: 103 with date 2025-07-21
+2025-10-01 20:16:52,813 - Readloom - INFO - Importing chapter: 104 with date 2025-07-24
+2025-10-01 20:16:52,814 - Readloom - INFO - Importing chapter: 105 with date 2025-07-27
+2025-10-01 20:16:52,814 - Readloom - INFO - Importing chapter: 106 with date 2025-07-30
+2025-10-01 20:16:52,814 - Readloom - INFO - Importing chapter: 107 with date 2025-08-02
+2025-10-01 20:16:52,814 - Readloom - INFO - Importing chapter: 108 with date 2025-08-05
+2025-10-01 20:16:52,814 - Readloom - INFO - Importing chapter: 109 with date 2025-08-08
+2025-10-01 20:16:52,814 - Readloom - INFO - Importing chapter: 110 with date 2025-08-11
+2025-10-01 20:16:52,814 - Readloom - INFO - Importing chapter: 111 with date 2025-08-13
+2025-10-01 20:16:52,815 - Readloom - INFO - Importing chapter: 112 with date 2025-08-16
+2025-10-01 20:16:52,815 - Readloom - INFO - Importing chapter: 113 with date 2025-08-19
+2025-10-01 20:16:52,815 - Readloom - INFO - Importing chapter: 114 with date 2025-08-22
+2025-10-01 20:16:52,815 - Readloom - INFO - Importing chapter: 115 with date 2025-08-25
+2025-10-01 20:16:52,815 - Readloom - INFO - Importing chapter: 116 with date 2025-08-28
+2025-10-01 20:16:52,815 - Readloom - INFO - Importing chapter: 117 with date 2025-08-31
+2025-10-01 20:16:52,815 - Readloom - INFO - Importing chapter: 118 with date 2025-09-03
+2025-10-01 20:16:52,816 - Readloom - INFO - Importing chapter: 119 with date 2025-09-05
+2025-10-01 20:16:52,816 - Readloom - INFO - Importing chapter: 120 with date 2025-09-08
+2025-10-01 20:16:52,816 - Readloom - INFO - Importing chapter: 121 with date 2025-09-11
+2025-10-01 20:16:52,816 - Readloom - INFO - Importing chapter: 122 with date 2025-09-14
+2025-10-01 20:16:52,816 - Readloom - INFO - Importing chapter: 123 with date 2025-09-17
+2025-10-01 20:16:52,816 - Readloom - INFO - Importing chapter: 124 with date 2025-09-20
+2025-10-01 20:16:52,817 - Readloom - INFO - Importing chapter: 125 with date 2025-09-23
+2025-10-01 20:16:52,817 - Readloom - INFO - Importing chapter: 126 with date 2025-09-26
+2025-10-01 20:16:52,817 - Readloom - INFO - Importing chapter: 127 with date 2025-09-28
+2025-10-01 20:16:52,817 - Readloom - INFO - Importing chapter: 128 with date 2025-10-20
+2025-10-01 20:16:52,817 - Readloom - INFO - Importing chapter: 129 with date 2025-11-03
+2025-10-01 20:16:52,818 - Readloom - INFO - Importing chapter: 130 with date 2025-11-17
+2025-10-01 20:16:52,818 - Readloom - INFO - Importing chapter: 131 with date 2025-12-01
+2025-10-01 20:16:52,818 - Readloom - INFO - Importing chapter: 132 with date 2025-12-15
+2025-10-01 20:16:52,818 - Readloom - INFO - Importing chapter: 133 with date 2025-12-29
+2025-10-01 20:16:52,818 - Readloom - INFO - Importing chapter: 134 with date 2026-01-12
+2025-10-01 20:16:52,819 - Readloom - INFO - Importing chapter: 135 with date 2026-01-26
+2025-10-01 20:16:52,819 - Readloom - INFO - Importing chapter: 136 with date 2026-02-09
+2025-10-01 20:16:52,819 - Readloom - INFO - Importing chapter: 137 with date 2026-02-23
+2025-10-01 20:16:52,819 - Readloom - INFO - Importing chapter: 138 with date 2026-03-09
+2025-10-01 20:16:52,819 - Readloom - INFO - Importing chapter: 139 with date 2026-03-23
+2025-10-01 20:16:52,819 - Readloom - INFO - Importing chapter: 140 with date 2026-04-06
+2025-10-01 20:16:52,820 - Readloom - INFO - Importing chapter: 141 with date 2026-04-20
+2025-10-01 20:16:52,820 - Readloom - INFO - Creating folder structure for imported series: Shingeki no Kyojin (ID: 2)
+2025-10-01 20:16:52,820 - Readloom - INFO - Original name: 'Shingeki no Kyojin', Safe name: 'Shingeki no Kyojin'
+2025-10-01 20:16:52,821 - Readloom - INFO - Settings table created or verified
+2025-10-01 20:16:52,821 - Readloom - INFO - Checking if folder already exists: C:\Users\dariu\Documents\Manga\Shingeki no Kyojin
+2025-10-01 20:16:52,821 - Readloom - INFO - Found existing folder: C:\Users\dariu\Documents\Manga\Shingeki no Kyojin
+2025-10-01 20:16:52,821 - Readloom - INFO - Using existing folder: C:\Users\dariu\Documents\Manga\Shingeki no Kyojin
+2025-10-01 20:16:52,823 - Readloom - INFO - Series added to collection with ID: []
+2025-10-01 20:16:52,823 - Readloom - INFO - Scanning existing folder for e-books: C:\Users\dariu\Documents\Manga\Shingeki no Kyojin
+2025-10-01 20:16:52,823 - Readloom - INFO - Starting e-book scan with specific_series_id=2, custom_path=None
+2025-10-01 20:16:52,823 - Readloom - INFO - Settings table created or verified
+2025-10-01 20:16:52,824 - Readloom - INFO - Using 1 root folders for scanning
+2025-10-01 20:16:52,824 - Readloom - INFO - Original name: 'Shingeki no Kyojin', Safe name: 'Shingeki no Kyojin'
+2025-10-01 20:16:52,824 - Readloom - INFO - Scanning for series: Shingeki no Kyojin (ID: 2)
+2025-10-01 20:16:52,824 - Readloom - INFO - Safe folder name: Shingeki no Kyojin
+2025-10-01 20:16:52,824 - Readloom - INFO - Checking root path: C:\Users\dariu\Documents\Manga
+2025-10-01 20:16:52,824 - Readloom - INFO - Looking for series directory: C:\Users\dariu\Documents\Manga\Shingeki no Kyojin
+2025-10-01 20:16:52,824 - Readloom - INFO - Found series directory: C:\Users\dariu\Documents\Manga\Shingeki no Kyojin
+2025-10-01 20:16:52,824 - Readloom - INFO - Processing directory: C:\Users\dariu\Documents\Manga\Shingeki no Kyojin for series ID: 2
+2025-10-01 20:16:52,825 - Readloom - INFO - Processing series: Shingeki no Kyojin (ID: 2)
+2025-10-01 20:16:52,825 - Readloom - INFO - Scanning directory C:\Users\dariu\Documents\Manga\Shingeki no Kyojin for e-book files
+2025-10-01 20:16:52,825 - Readloom - INFO - Have read permission for directory: C:\Users\dariu\Documents\Manga\Shingeki no Kyojin
+2025-10-01 20:16:52,825 - Readloom - INFO - Found 1 total files/directories
+2025-10-01 20:16:52,826 - Readloom - INFO - File extension: .txt for file C:\Users\dariu\Documents\Manga\Shingeki no Kyojin\README.txt
+2025-10-01 20:16:52,826 - Readloom - INFO - Skipping unsupported file type: C:\Users\dariu\Documents\Manga\Shingeki no Kyojin\README.txt
+2025-10-01 20:16:52,826 - Readloom - INFO - Scan completed with stats: {'scanned': 0, 'added': 0, 'skipped': 1, 'errors': 0, 'series_processed': 1}
+2025-10-01 20:16:52,826 - Readloom - INFO - Final stats after cleanup: {'scanned': 0, 'added': 0, 'skipped': 1, 'errors': 0, 'series_processed': 1}
+2025-10-01 20:16:52,826 - Readloom - INFO - Scan results: {'scanned': 0, 'added': 0, 'skipped': 1, 'errors': 0, 'series_processed': 1}
+2025-10-01 20:16:52,826 - Readloom - INFO - Imported manga from AniList, updating calendar...
+2025-10-01 20:16:52,827 - Readloom - INFO - Settings table created or verified
+2025-10-01 20:16:52,827 - Readloom - INFO - Updating calendar for all 2 series
+2025-10-01 20:16:52,827 - Readloom - INFO - Processing chapter: 1 - 1 - Chapter 1 - Date: 2024-10-01
+2025-10-01 20:16:52,828 - Readloom - INFO - Processing chapter: 2 - 2 - Chapter 2 - Date: 2024-10-05
+2025-10-01 20:16:52,828 - Readloom - INFO - Processing chapter: 3 - 3 - Chapter 3 - Date: 2024-10-09
+2025-10-01 20:16:52,828 - Readloom - INFO - Processing chapter: 4 - 4 - Chapter 4 - Date: 2024-10-12
+2025-10-01 20:16:52,828 - Readloom - INFO - Processing chapter: 5 - 5 - Chapter 5 - Date: 2024-10-16
+2025-10-01 20:16:52,828 - Readloom - INFO - Processing chapter: 6 - 6 - Chapter 6 - Date: 2024-10-19
+2025-10-01 20:16:52,828 - Readloom - INFO - Processing chapter: 7 - 7 - Chapter 7 - Date: 2024-10-23
+2025-10-01 20:16:52,828 - Readloom - INFO - Processing chapter: 8 - 8 - Chapter 8 - Date: 2024-10-27
+2025-10-01 20:16:52,828 - Readloom - INFO - Processing chapter: 9 - 9 - Chapter 9 - Date: 2024-10-30
+2025-10-01 20:16:52,828 - Readloom - INFO - Processing chapter: 10 - 10 - Chapter 10 - Date: 2024-11-03
+2025-10-01 20:16:52,829 - Readloom - INFO - Processing chapter: 11 - 11 - Chapter 11 - Date: 2024-11-06
+2025-10-01 20:16:52,829 - Readloom - INFO - Processing chapter: 12 - 12 - Chapter 12 - Date: 2024-11-10
+2025-10-01 20:16:52,829 - Readloom - INFO - Processing chapter: 13 - 13 - Chapter 13 - Date: 2024-11-14
+2025-10-01 20:16:52,829 - Readloom - INFO - Processing chapter: 14 - 14 - Chapter 14 - Date: 2024-11-17
+2025-10-01 20:16:52,829 - Readloom - INFO - Processing chapter: 15 - 15 - Chapter 15 - Date: 2024-11-21
+2025-10-01 20:16:52,829 - Readloom - INFO - Processing chapter: 16 - 16 - Chapter 16 - Date: 2024-11-25
+2025-10-01 20:16:52,829 - Readloom - INFO - Processing chapter: 17 - 17 - Chapter 17 - Date: 2024-11-28
+2025-10-01 20:16:52,830 - Readloom - INFO - Processing chapter: 18 - 18 - Chapter 18 - Date: 2024-12-02
+2025-10-01 20:16:52,830 - Readloom - INFO - Processing chapter: 19 - 19 - Chapter 19 - Date: 2024-12-05
+2025-10-01 20:16:52,830 - Readloom - INFO - Processing chapter: 20 - 20 - Chapter 20 - Date: 2024-12-09
+2025-10-01 20:16:52,830 - Readloom - INFO - Processing chapter: 21 - 21 - Chapter 21 - Date: 2024-12-13
+2025-10-01 20:16:52,830 - Readloom - INFO - Processing chapter: 22 - 22 - Chapter 22 - Date: 2024-12-16
+2025-10-01 20:16:52,831 - Readloom - INFO - Processing chapter: 23 - 23 - Chapter 23 - Date: 2024-12-20
+2025-10-01 20:16:52,831 - Readloom - INFO - Processing chapter: 24 - 24 - Chapter 24 - Date: 2024-12-23
+2025-10-01 20:16:52,831 - Readloom - INFO - Processing chapter: 25 - 25 - Chapter 25 - Date: 2024-12-27
+2025-10-01 20:16:52,831 - Readloom - INFO - Processing chapter: 26 - 26 - Chapter 26 - Date: 2024-12-31
+2025-10-01 20:16:52,831 - Readloom - INFO - Processing chapter: 27 - 27 - Chapter 27 - Date: 2025-01-03
+2025-10-01 20:16:52,831 - Readloom - INFO - Processing chapter: 28 - 28 - Chapter 28 - Date: 2025-01-07
+2025-10-01 20:16:52,831 - Readloom - INFO - Processing chapter: 29 - 29 - Chapter 29 - Date: 2025-01-11
+2025-10-01 20:16:52,832 - Readloom - INFO - Processing chapter: 30 - 30 - Chapter 30 - Date: 2025-01-14
+2025-10-01 20:16:52,832 - Readloom - INFO - Processing chapter: 31 - 31 - Chapter 31 - Date: 2025-01-18
+2025-10-01 20:16:52,832 - Readloom - INFO - Processing chapter: 32 - 32 - Chapter 32 - Date: 2025-01-21
+2025-10-01 20:16:52,832 - Readloom - INFO - Processing chapter: 33 - 33 - Chapter 33 - Date: 2025-01-25
+2025-10-01 20:16:52,832 - Readloom - INFO - Processing chapter: 34 - 34 - Chapter 34 - Date: 2025-01-29
+2025-10-01 20:16:52,832 - Readloom - INFO - Processing chapter: 35 - 35 - Chapter 35 - Date: 2025-02-01
+2025-10-01 20:16:52,832 - Readloom - INFO - Processing chapter: 36 - 36 - Chapter 36 - Date: 2025-02-05
+2025-10-01 20:16:52,833 - Readloom - INFO - Processing chapter: 37 - 37 - Chapter 37 - Date: 2025-02-08
+2025-10-01 20:16:52,833 - Readloom - INFO - Processing chapter: 38 - 38 - Chapter 38 - Date: 2025-02-12
+2025-10-01 20:16:52,833 - Readloom - INFO - Processing chapter: 39 - 39 - Chapter 39 - Date: 2025-02-16
+2025-10-01 20:16:52,833 - Readloom - INFO - Processing chapter: 40 - 40 - Chapter 40 - Date: 2025-02-19
+2025-10-01 20:16:52,833 - Readloom - INFO - Processing chapter: 41 - 41 - Chapter 41 - Date: 2025-02-23
+2025-10-01 20:16:52,833 - Readloom - INFO - Processing chapter: 42 - 42 - Chapter 42 - Date: 2025-02-27
+2025-10-01 20:16:52,834 - Readloom - INFO - Processing chapter: 43 - 43 - Chapter 43 - Date: 2025-03-02
+2025-10-01 20:16:52,834 - Readloom - INFO - Processing chapter: 44 - 44 - Chapter 44 - Date: 2025-03-06
+2025-10-01 20:16:52,834 - Readloom - INFO - Processing chapter: 45 - 45 - Chapter 45 - Date: 2025-03-09
+2025-10-01 20:16:52,834 - Readloom - INFO - Processing chapter: 46 - 46 - Chapter 46 - Date: 2025-03-13
+2025-10-01 20:16:52,835 - Readloom - INFO - Processing chapter: 47 - 47 - Chapter 47 - Date: 2025-03-17
+2025-10-01 20:16:52,835 - Readloom - INFO - Processing chapter: 48 - 48 - Chapter 48 - Date: 2025-03-20
+2025-10-01 20:16:52,835 - Readloom - INFO - Processing chapter: 49 - 49 - Chapter 49 - Date: 2025-03-24
+2025-10-01 20:16:52,835 - Readloom - INFO - Processing chapter: 50 - 50 - Chapter 50 - Date: 2025-03-27
+2025-10-01 20:16:52,835 - Readloom - INFO - Processing chapter: 51 - 51 - Chapter 51 - Date: 2025-03-31
+2025-10-01 20:16:52,836 - Readloom - INFO - Processing chapter: 52 - 52 - Chapter 52 - Date: 2025-04-04
+2025-10-01 20:16:52,836 - Readloom - INFO - Processing chapter: 53 - 53 - Chapter 53 - Date: 2025-04-07
+2025-10-01 20:16:52,836 - Readloom - INFO - Processing chapter: 54 - 54 - Chapter 54 - Date: 2025-04-11
+2025-10-01 20:16:52,836 - Readloom - INFO - Processing chapter: 55 - 55 - Chapter 55 - Date: 2025-04-14
+2025-10-01 20:16:52,836 - Readloom - INFO - Processing chapter: 56 - 56 - Chapter 56 - Date: 2025-04-18
+2025-10-01 20:16:52,837 - Readloom - INFO - Processing chapter: 57 - 57 - Chapter 57 - Date: 2025-04-22
+2025-10-01 20:16:52,837 - Readloom - INFO - Processing chapter: 58 - 58 - Chapter 58 - Date: 2025-04-25
+2025-10-01 20:16:52,837 - Readloom - INFO - Processing chapter: 59 - 59 - Chapter 59 - Date: 2025-04-29
+2025-10-01 20:16:52,837 - Readloom - INFO - Processing chapter: 60 - 60 - Chapter 60 - Date: 2025-05-03
+2025-10-01 20:16:52,837 - Readloom - INFO - Processing chapter: 61 - 61 - Chapter 61 - Date: 2025-05-06
+2025-10-01 20:16:52,837 - Readloom - INFO - Processing chapter: 62 - 62 - Chapter 62 - Date: 2025-05-10
+2025-10-01 20:16:52,837 - Readloom - INFO - Processing chapter: 63 - 63 - Chapter 63 - Date: 2025-05-13
+2025-10-01 20:16:52,838 - Readloom - INFO - Processing chapter: 64 - 64 - Chapter 64 - Date: 2025-05-17
+2025-10-01 20:16:52,838 - Readloom - INFO - Processing chapter: 65 - 65 - Chapter 65 - Date: 2025-05-21
+2025-10-01 20:16:52,838 - Readloom - INFO - Processing chapter: 66 - 66 - Chapter 66 - Date: 2025-05-24
+2025-10-01 20:16:52,838 - Readloom - INFO - Processing chapter: 67 - 67 - Chapter 67 - Date: 2025-05-28
+2025-10-01 20:16:52,838 - Readloom - INFO - Processing chapter: 68 - 68 - Chapter 68 - Date: 2025-05-31
+2025-10-01 20:16:52,838 - Readloom - INFO - Processing chapter: 69 - 69 - Chapter 69 - Date: 2025-06-04
+2025-10-01 20:16:52,838 - Readloom - INFO - Processing chapter: 70 - 70 - Chapter 70 - Date: 2025-06-08
+2025-10-01 20:16:52,838 - Readloom - INFO - Processing chapter: 71 - 71 - Chapter 71 - Date: 2025-06-11
+2025-10-01 20:16:52,839 - Readloom - INFO - Processing chapter: 72 - 72 - Chapter 72 - Date: 2025-06-15
+2025-10-01 20:16:52,839 - Readloom - INFO - Processing chapter: 73 - 73 - Chapter 73 - Date: 2025-06-19
+2025-10-01 20:16:52,839 - Readloom - INFO - Processing chapter: 74 - 74 - Chapter 74 - Date: 2025-06-22
+2025-10-01 20:16:52,839 - Readloom - INFO - Processing chapter: 75 - 75 - Chapter 75 - Date: 2025-06-26
+2025-10-01 20:16:52,839 - Readloom - INFO - Processing chapter: 76 - 76 - Chapter 76 - Date: 2025-06-29
+2025-10-01 20:16:52,839 - Readloom - INFO - Processing chapter: 77 - 77 - Chapter 77 - Date: 2025-07-03
+2025-10-01 20:16:52,839 - Readloom - INFO - Processing chapter: 78 - 78 - Chapter 78 - Date: 2025-07-07
+2025-10-01 20:16:52,840 - Readloom - INFO - Processing chapter: 79 - 79 - Chapter 79 - Date: 2025-07-10
+2025-10-01 20:16:52,840 - Readloom - INFO - Processing chapter: 80 - 80 - Chapter 80 - Date: 2025-07-14
+2025-10-01 20:16:52,840 - Readloom - INFO - Processing chapter: 81 - 81 - Chapter 81 - Date: 2025-07-17
+2025-10-01 20:16:52,840 - Readloom - INFO - Processing chapter: 82 - 82 - Chapter 82 - Date: 2025-07-21
+2025-10-01 20:16:52,840 - Readloom - INFO - Processing chapter: 83 - 83 - Chapter 83 - Date: 2025-07-25
+2025-10-01 20:16:52,840 - Readloom - INFO - Processing chapter: 84 - 84 - Chapter 84 - Date: 2025-07-28
+2025-10-01 20:16:52,841 - Readloom - INFO - Processing chapter: 85 - 85 - Chapter 85 - Date: 2025-08-01
+2025-10-01 20:16:52,841 - Readloom - INFO - Processing chapter: 86 - 86 - Chapter 86 - Date: 2025-08-05
+2025-10-01 20:16:52,841 - Readloom - INFO - Processing chapter: 87 - 87 - Chapter 87 - Date: 2025-08-08
+2025-10-01 20:16:52,841 - Readloom - INFO - Processing chapter: 88 - 88 - Chapter 88 - Date: 2025-08-12
+2025-10-01 20:16:52,841 - Readloom - INFO - Processing chapter: 89 - 89 - Chapter 89 - Date: 2025-08-15
+2025-10-01 20:16:52,841 - Readloom - INFO - Processing chapter: 90 - 90 - Chapter 90 - Date: 2025-08-19
+2025-10-01 20:16:52,841 - Readloom - INFO - Processing chapter: 91 - 91 - Chapter 91 - Date: 2025-08-23
+2025-10-01 20:16:52,841 - Readloom - INFO - Processing chapter: 92 - 92 - Chapter 92 - Date: 2025-08-26
+2025-10-01 20:16:52,842 - Readloom - INFO - Processing chapter: 93 - 93 - Chapter 93 - Date: 2025-08-30
+2025-10-01 20:16:52,842 - Readloom - INFO - Processing chapter: 94 - 94 - Chapter 94 - Date: 2025-09-02
+2025-10-01 20:16:52,842 - Readloom - INFO - Processing chapter: 95 - 95 - Chapter 95 - Date: 2025-09-06
+2025-10-01 20:16:52,842 - Readloom - INFO - Processing chapter: 96 - 96 - Chapter 96 - Date: 2025-09-10
+2025-10-01 20:16:52,842 - Readloom - INFO - Processing chapter: 97 - 97 - Chapter 97 - Date: 2025-09-13
+2025-10-01 20:16:52,842 - Readloom - INFO - Processing chapter: 98 - 98 - Chapter 98 - Date: 2025-09-17
+2025-10-01 20:16:52,842 - Readloom - INFO - Processing chapter: 99 - 99 - Chapter 99 - Date: 2025-09-21
+2025-10-01 20:16:52,842 - Readloom - INFO - Processing chapter: 100 - 100 - Chapter 100 - Date: 2025-09-24
+2025-10-01 20:16:52,843 - Readloom - INFO - Processing chapter: 101 - 101 - Chapter 101 - Date: 2025-09-28
+2025-10-01 20:16:52,843 - Readloom - INFO - Processing chapter: 102 - 102 - Chapter 102 - Date: 2025-10-20
+2025-10-01 20:16:52,843 - Readloom - INFO - Processing chapter: 103 - 103 - Chapter 103 - Date: 2025-11-03
+2025-10-01 20:16:52,843 - Readloom - INFO - Processing chapter: 104 - 104 - Chapter 104 - Date: 2025-11-17
+2025-10-01 20:16:52,843 - Readloom - INFO - Processing chapter: 105 - 105 - Chapter 105 - Date: 2025-12-01
+2025-10-01 20:16:52,843 - Readloom - INFO - Processing chapter: 106 - 106 - Chapter 106 - Date: 2025-12-15
+2025-10-01 20:16:52,843 - Readloom - INFO - Processing chapter: 107 - 107 - Chapter 107 - Date: 2025-12-29
+2025-10-01 20:16:52,844 - Readloom - INFO - Processing chapter: 108 - 108 - Chapter 108 - Date: 2026-01-12
+2025-10-01 20:16:52,844 - Readloom - INFO - Processing chapter: 109 - 109 - Chapter 109 - Date: 2026-01-26
+2025-10-01 20:16:52,844 - Readloom - INFO - Processing chapter: 110 - 110 - Chapter 110 - Date: 2026-02-09
+2025-10-01 20:16:52,844 - Readloom - INFO - Processing chapter: 111 - 111 - Chapter 111 - Date: 2026-02-23
+2025-10-01 20:16:52,844 - Readloom - INFO - Processing chapter: 112 - 112 - Chapter 112 - Date: 2026-03-09
+2025-10-01 20:16:52,862 - Readloom - INFO - Processing chapter: 113 - 1 - Chapter 1 - Date: 2024-10-01
+2025-10-01 20:16:52,862 - Readloom - INFO - Adding calendar event: Chapter 1 - Shingeki no Kyojin on 2024-10-01
+2025-10-01 20:16:52,863 - Readloom - INFO - Processing chapter: 114 - 2 - Chapter 2 - Date: 2024-10-04
+2025-10-01 20:16:52,863 - Readloom - INFO - Adding calendar event: Chapter 2 - Shingeki no Kyojin on 2024-10-04
+2025-10-01 20:16:52,864 - Readloom - INFO - Processing chapter: 115 - 3 - Chapter 3 - Date: 2024-10-07
+2025-10-01 20:16:52,864 - Readloom - INFO - Adding calendar event: Chapter 3 - Shingeki no Kyojin on 2024-10-07
+2025-10-01 20:16:52,865 - Readloom - INFO - Processing chapter: 116 - 4 - Chapter 4 - Date: 2024-10-10
+2025-10-01 20:16:52,865 - Readloom - INFO - Adding calendar event: Chapter 4 - Shingeki no Kyojin on 2024-10-10
+2025-10-01 20:16:52,866 - Readloom - INFO - Processing chapter: 117 - 5 - Chapter 5 - Date: 2024-10-13
+2025-10-01 20:16:52,866 - Readloom - INFO - Adding calendar event: Chapter 5 - Shingeki no Kyojin on 2024-10-13
+2025-10-01 20:16:52,867 - Readloom - INFO - Processing chapter: 118 - 6 - Chapter 6 - Date: 2024-10-16
+2025-10-01 20:16:52,867 - Readloom - INFO - Adding calendar event: Chapter 6 - Shingeki no Kyojin on 2024-10-16
+2025-10-01 20:16:52,868 - Readloom - INFO - Processing chapter: 119 - 7 - Chapter 7 - Date: 2024-10-19
+2025-10-01 20:16:52,868 - Readloom - INFO - Adding calendar event: Chapter 7 - Shingeki no Kyojin on 2024-10-19
+2025-10-01 20:16:52,869 - Readloom - INFO - Processing chapter: 120 - 8 - Chapter 8 - Date: 2024-10-21
+2025-10-01 20:16:52,869 - Readloom - INFO - Adding calendar event: Chapter 8 - Shingeki no Kyojin on 2024-10-21
+2025-10-01 20:16:52,870 - Readloom - INFO - Processing chapter: 121 - 9 - Chapter 9 - Date: 2024-10-24
+2025-10-01 20:16:52,870 - Readloom - INFO - Adding calendar event: Chapter 9 - Shingeki no Kyojin on 2024-10-24
+2025-10-01 20:16:52,871 - Readloom - INFO - Processing chapter: 122 - 10 - Chapter 10 - Date: 2024-10-27
+2025-10-01 20:16:52,871 - Readloom - INFO - Adding calendar event: Chapter 10 - Shingeki no Kyojin on 2024-10-27
+2025-10-01 20:16:52,871 - Readloom - INFO - Processing chapter: 123 - 11 - Chapter 11 - Date: 2024-10-30
+2025-10-01 20:16:52,872 - Readloom - INFO - Adding calendar event: Chapter 11 - Shingeki no Kyojin on 2024-10-30
+2025-10-01 20:16:52,872 - Readloom - INFO - Processing chapter: 124 - 12 - Chapter 12 - Date: 2024-11-02
+2025-10-01 20:16:52,872 - Readloom - INFO - Adding calendar event: Chapter 12 - Shingeki no Kyojin on 2024-11-02
+2025-10-01 20:16:52,873 - Readloom - INFO - Processing chapter: 125 - 13 - Chapter 13 - Date: 2024-11-05
+2025-10-01 20:16:52,873 - Readloom - INFO - Adding calendar event: Chapter 13 - Shingeki no Kyojin on 2024-11-05
+2025-10-01 20:16:52,874 - Readloom - INFO - Processing chapter: 126 - 14 - Chapter 14 - Date: 2024-11-08
+2025-10-01 20:16:52,874 - Readloom - INFO - Adding calendar event: Chapter 14 - Shingeki no Kyojin on 2024-11-08
+2025-10-01 20:16:52,875 - Readloom - INFO - Processing chapter: 127 - 15 - Chapter 15 - Date: 2024-11-11
+2025-10-01 20:16:52,875 - Readloom - INFO - Adding calendar event: Chapter 15 - Shingeki no Kyojin on 2024-11-11
+2025-10-01 20:16:52,876 - Readloom - INFO - Processing chapter: 128 - 16 - Chapter 16 - Date: 2024-11-13
+2025-10-01 20:16:52,876 - Readloom - INFO - Adding calendar event: Chapter 16 - Shingeki no Kyojin on 2024-11-13
+2025-10-01 20:16:52,877 - Readloom - INFO - Processing chapter: 129 - 17 - Chapter 17 - Date: 2024-11-16
+2025-10-01 20:16:52,877 - Readloom - INFO - Adding calendar event: Chapter 17 - Shingeki no Kyojin on 2024-11-16
+2025-10-01 20:16:52,877 - Readloom - INFO - Processing chapter: 130 - 18 - Chapter 18 - Date: 2024-11-19
+2025-10-01 20:16:52,877 - Readloom - INFO - Adding calendar event: Chapter 18 - Shingeki no Kyojin on 2024-11-19
+2025-10-01 20:16:52,878 - Readloom - INFO - Processing chapter: 131 - 19 - Chapter 19 - Date: 2024-11-22
+2025-10-01 20:16:52,878 - Readloom - INFO - Adding calendar event: Chapter 19 - Shingeki no Kyojin on 2024-11-22
+2025-10-01 20:16:52,879 - Readloom - INFO - Processing chapter: 132 - 20 - Chapter 20 - Date: 2024-11-25
+2025-10-01 20:16:52,879 - Readloom - INFO - Adding calendar event: Chapter 20 - Shingeki no Kyojin on 2024-11-25
+2025-10-01 20:16:52,880 - Readloom - INFO - Processing chapter: 133 - 21 - Chapter 21 - Date: 2024-11-28
+2025-10-01 20:16:52,880 - Readloom - INFO - Adding calendar event: Chapter 21 - Shingeki no Kyojin on 2024-11-28
+2025-10-01 20:16:52,881 - Readloom - INFO - Processing chapter: 134 - 22 - Chapter 22 - Date: 2024-12-01
+2025-10-01 20:16:52,881 - Readloom - INFO - Adding calendar event: Chapter 22 - Shingeki no Kyojin on 2024-12-01
+2025-10-01 20:16:52,882 - Readloom - INFO - Processing chapter: 135 - 23 - Chapter 23 - Date: 2024-12-04
+2025-10-01 20:16:52,882 - Readloom - INFO - Adding calendar event: Chapter 23 - Shingeki no Kyojin on 2024-12-04
+2025-10-01 20:16:52,882 - Readloom - INFO - Processing chapter: 136 - 24 - Chapter 24 - Date: 2024-12-06
+2025-10-01 20:16:52,883 - Readloom - INFO - Adding calendar event: Chapter 24 - Shingeki no Kyojin on 2024-12-06
+2025-10-01 20:16:52,883 - Readloom - INFO - Processing chapter: 137 - 25 - Chapter 25 - Date: 2024-12-09
+2025-10-01 20:16:52,884 - Readloom - INFO - Adding calendar event: Chapter 25 - Shingeki no Kyojin on 2024-12-09
+2025-10-01 20:16:52,885 - Readloom - INFO - Processing chapter: 138 - 26 - Chapter 26 - Date: 2024-12-12
+2025-10-01 20:16:52,885 - Readloom - INFO - Adding calendar event: Chapter 26 - Shingeki no Kyojin on 2024-12-12
+2025-10-01 20:16:52,886 - Readloom - INFO - Processing chapter: 139 - 27 - Chapter 27 - Date: 2024-12-15
+2025-10-01 20:16:52,886 - Readloom - INFO - Adding calendar event: Chapter 27 - Shingeki no Kyojin on 2024-12-15
+2025-10-01 20:16:52,887 - Readloom - INFO - Processing chapter: 140 - 28 - Chapter 28 - Date: 2024-12-18
+2025-10-01 20:16:52,887 - Readloom - INFO - Adding calendar event: Chapter 28 - Shingeki no Kyojin on 2024-12-18
+2025-10-01 20:16:52,888 - Readloom - INFO - Processing chapter: 141 - 29 - Chapter 29 - Date: 2024-12-21
+2025-10-01 20:16:52,888 - Readloom - INFO - Adding calendar event: Chapter 29 - Shingeki no Kyojin on 2024-12-21
+2025-10-01 20:16:52,888 - Readloom - INFO - Processing chapter: 142 - 30 - Chapter 30 - Date: 2024-12-24
+2025-10-01 20:16:52,889 - Readloom - INFO - Adding calendar event: Chapter 30 - Shingeki no Kyojin on 2024-12-24
+2025-10-01 20:16:52,889 - Readloom - INFO - Processing chapter: 143 - 31 - Chapter 31 - Date: 2024-12-27
+2025-10-01 20:16:52,889 - Readloom - INFO - Adding calendar event: Chapter 31 - Shingeki no Kyojin on 2024-12-27
+2025-10-01 20:16:52,890 - Readloom - INFO - Processing chapter: 144 - 32 - Chapter 32 - Date: 2024-12-29
+2025-10-01 20:16:52,890 - Readloom - INFO - Adding calendar event: Chapter 32 - Shingeki no Kyojin on 2024-12-29
+2025-10-01 20:16:52,891 - Readloom - INFO - Processing chapter: 145 - 33 - Chapter 33 - Date: 2025-01-01
+2025-10-01 20:16:52,891 - Readloom - INFO - Adding calendar event: Chapter 33 - Shingeki no Kyojin on 2025-01-01
+2025-10-01 20:16:52,892 - Readloom - INFO - Processing chapter: 146 - 34 - Chapter 34 - Date: 2025-01-04
+2025-10-01 20:16:52,892 - Readloom - INFO - Adding calendar event: Chapter 34 - Shingeki no Kyojin on 2025-01-04
+2025-10-01 20:16:52,893 - Readloom - INFO - Processing chapter: 147 - 35 - Chapter 35 - Date: 2025-01-07
+2025-10-01 20:16:52,893 - Readloom - INFO - Adding calendar event: Chapter 35 - Shingeki no Kyojin on 2025-01-07
+2025-10-01 20:16:52,894 - Readloom - INFO - Processing chapter: 148 - 36 - Chapter 36 - Date: 2025-01-10
+2025-10-01 20:16:52,894 - Readloom - INFO - Adding calendar event: Chapter 36 - Shingeki no Kyojin on 2025-01-10
+2025-10-01 20:16:52,894 - Readloom - INFO - Processing chapter: 149 - 37 - Chapter 37 - Date: 2025-01-13
+2025-10-01 20:16:52,895 - Readloom - INFO - Adding calendar event: Chapter 37 - Shingeki no Kyojin on 2025-01-13
+2025-10-01 20:16:52,895 - Readloom - INFO - Processing chapter: 150 - 38 - Chapter 38 - Date: 2025-01-16
+2025-10-01 20:16:52,895 - Readloom - INFO - Adding calendar event: Chapter 38 - Shingeki no Kyojin on 2025-01-16
+2025-10-01 20:16:52,896 - Readloom - INFO - Processing chapter: 151 - 39 - Chapter 39 - Date: 2025-01-19
+2025-10-01 20:16:52,896 - Readloom - INFO - Adding calendar event: Chapter 39 - Shingeki no Kyojin on 2025-01-19
+2025-10-01 20:16:52,897 - Readloom - INFO - Processing chapter: 152 - 40 - Chapter 40 - Date: 2025-01-21
+2025-10-01 20:16:52,897 - Readloom - INFO - Adding calendar event: Chapter 40 - Shingeki no Kyojin on 2025-01-21
+2025-10-01 20:16:52,898 - Readloom - INFO - Processing chapter: 153 - 41 - Chapter 41 - Date: 2025-01-24
+2025-10-01 20:16:52,898 - Readloom - INFO - Adding calendar event: Chapter 41 - Shingeki no Kyojin on 2025-01-24
+2025-10-01 20:16:52,899 - Readloom - INFO - Processing chapter: 154 - 42 - Chapter 42 - Date: 2025-01-27
+2025-10-01 20:16:52,899 - Readloom - INFO - Adding calendar event: Chapter 42 - Shingeki no Kyojin on 2025-01-27
+2025-10-01 20:16:52,900 - Readloom - INFO - Processing chapter: 155 - 43 - Chapter 43 - Date: 2025-01-30
+2025-10-01 20:16:52,900 - Readloom - INFO - Adding calendar event: Chapter 43 - Shingeki no Kyojin on 2025-01-30
+2025-10-01 20:16:52,901 - Readloom - INFO - Processing chapter: 156 - 44 - Chapter 44 - Date: 2025-02-02
+2025-10-01 20:16:52,901 - Readloom - INFO - Adding calendar event: Chapter 44 - Shingeki no Kyojin on 2025-02-02
+2025-10-01 20:16:52,902 - Readloom - INFO - Processing chapter: 157 - 45 - Chapter 45 - Date: 2025-02-05
+2025-10-01 20:16:52,902 - Readloom - INFO - Adding calendar event: Chapter 45 - Shingeki no Kyojin on 2025-02-05
+2025-10-01 20:16:52,903 - Readloom - INFO - Processing chapter: 158 - 46 - Chapter 46 - Date: 2025-02-08
+2025-10-01 20:16:52,903 - Readloom - INFO - Adding calendar event: Chapter 46 - Shingeki no Kyojin on 2025-02-08
+2025-10-01 20:16:52,904 - Readloom - INFO - Processing chapter: 159 - 47 - Chapter 47 - Date: 2025-02-11
+2025-10-01 20:16:52,904 - Readloom - INFO - Adding calendar event: Chapter 47 - Shingeki no Kyojin on 2025-02-11
+2025-10-01 20:16:52,905 - Readloom - INFO - Processing chapter: 160 - 48 - Chapter 48 - Date: 2025-02-13
+2025-10-01 20:16:52,905 - Readloom - INFO - Adding calendar event: Chapter 48 - Shingeki no Kyojin on 2025-02-13
+2025-10-01 20:16:52,906 - Readloom - INFO - Processing chapter: 161 - 49 - Chapter 49 - Date: 2025-02-16
+2025-10-01 20:16:52,906 - Readloom - INFO - Adding calendar event: Chapter 49 - Shingeki no Kyojin on 2025-02-16
+2025-10-01 20:16:52,907 - Readloom - INFO - Processing chapter: 162 - 50 - Chapter 50 - Date: 2025-02-19
+2025-10-01 20:16:52,907 - Readloom - INFO - Adding calendar event: Chapter 50 - Shingeki no Kyojin on 2025-02-19
+2025-10-01 20:16:52,907 - Readloom - INFO - Processing chapter: 163 - 51 - Chapter 51 - Date: 2025-02-22
+2025-10-01 20:16:52,908 - Readloom - INFO - Adding calendar event: Chapter 51 - Shingeki no Kyojin on 2025-02-22
+2025-10-01 20:16:52,908 - Readloom - INFO - Processing chapter: 164 - 52 - Chapter 52 - Date: 2025-02-25
+2025-10-01 20:16:52,908 - Readloom - INFO - Adding calendar event: Chapter 52 - Shingeki no Kyojin on 2025-02-25
+2025-10-01 20:16:52,909 - Readloom - INFO - Processing chapter: 165 - 53 - Chapter 53 - Date: 2025-02-28
+2025-10-01 20:16:52,909 - Readloom - INFO - Adding calendar event: Chapter 53 - Shingeki no Kyojin on 2025-02-28
+2025-10-01 20:16:52,910 - Readloom - INFO - Processing chapter: 166 - 54 - Chapter 54 - Date: 2025-03-03
+2025-10-01 20:16:52,910 - Readloom - INFO - Adding calendar event: Chapter 54 - Shingeki no Kyojin on 2025-03-03
+2025-10-01 20:16:52,911 - Readloom - INFO - Processing chapter: 167 - 55 - Chapter 55 - Date: 2025-03-06
+2025-10-01 20:16:52,911 - Readloom - INFO - Adding calendar event: Chapter 55 - Shingeki no Kyojin on 2025-03-06
+2025-10-01 20:16:52,912 - Readloom - INFO - Processing chapter: 168 - 56 - Chapter 56 - Date: 2025-03-08
+2025-10-01 20:16:52,912 - Readloom - INFO - Adding calendar event: Chapter 56 - Shingeki no Kyojin on 2025-03-08
+2025-10-01 20:16:52,913 - Readloom - INFO - Processing chapter: 169 - 57 - Chapter 57 - Date: 2025-03-11
+2025-10-01 20:16:52,914 - Readloom - INFO - Adding calendar event: Chapter 57 - Shingeki no Kyojin on 2025-03-11
+2025-10-01 20:16:52,914 - Readloom - INFO - Processing chapter: 170 - 58 - Chapter 58 - Date: 2025-03-14
+2025-10-01 20:16:52,915 - Readloom - INFO - Adding calendar event: Chapter 58 - Shingeki no Kyojin on 2025-03-14
+2025-10-01 20:16:52,915 - Readloom - INFO - Processing chapter: 171 - 59 - Chapter 59 - Date: 2025-03-17
+2025-10-01 20:16:52,916 - Readloom - INFO - Adding calendar event: Chapter 59 - Shingeki no Kyojin on 2025-03-17
+2025-10-01 20:16:52,916 - Readloom - INFO - Processing chapter: 172 - 60 - Chapter 60 - Date: 2025-03-20
+2025-10-01 20:16:52,917 - Readloom - INFO - Adding calendar event: Chapter 60 - Shingeki no Kyojin on 2025-03-20
+2025-10-01 20:16:52,918 - Readloom - INFO - Processing chapter: 173 - 61 - Chapter 61 - Date: 2025-03-23
+2025-10-01 20:16:52,918 - Readloom - INFO - Adding calendar event: Chapter 61 - Shingeki no Kyojin on 2025-03-23
+2025-10-01 20:16:52,919 - Readloom - INFO - Processing chapter: 174 - 62 - Chapter 62 - Date: 2025-03-26
+2025-10-01 20:16:52,919 - Readloom - INFO - Adding calendar event: Chapter 62 - Shingeki no Kyojin on 2025-03-26
+2025-10-01 20:16:52,920 - Readloom - INFO - Processing chapter: 175 - 63 - Chapter 63 - Date: 2025-03-29
+2025-10-01 20:16:52,920 - Readloom - INFO - Adding calendar event: Chapter 63 - Shingeki no Kyojin on 2025-03-29
+2025-10-01 20:16:52,921 - Readloom - INFO - Processing chapter: 176 - 64 - Chapter 64 - Date: 2025-03-31
+2025-10-01 20:16:52,921 - Readloom - INFO - Adding calendar event: Chapter 64 - Shingeki no Kyojin on 2025-03-31
+2025-10-01 20:16:52,921 - Readloom - INFO - Processing chapter: 177 - 65 - Chapter 65 - Date: 2025-04-03
+2025-10-01 20:16:52,922 - Readloom - INFO - Adding calendar event: Chapter 65 - Shingeki no Kyojin on 2025-04-03
+2025-10-01 20:16:52,922 - Readloom - INFO - Processing chapter: 178 - 66 - Chapter 66 - Date: 2025-04-06
+2025-10-01 20:16:52,922 - Readloom - INFO - Adding calendar event: Chapter 66 - Shingeki no Kyojin on 2025-04-06
+2025-10-01 20:16:52,923 - Readloom - INFO - Processing chapter: 179 - 67 - Chapter 67 - Date: 2025-04-09
+2025-10-01 20:16:52,923 - Readloom - INFO - Adding calendar event: Chapter 67 - Shingeki no Kyojin on 2025-04-09
+2025-10-01 20:16:52,924 - Readloom - INFO - Processing chapter: 180 - 68 - Chapter 68 - Date: 2025-04-12
+2025-10-01 20:16:52,924 - Readloom - INFO - Adding calendar event: Chapter 68 - Shingeki no Kyojin on 2025-04-12
+2025-10-01 20:16:52,925 - Readloom - INFO - Processing chapter: 181 - 69 - Chapter 69 - Date: 2025-04-15
+2025-10-01 20:16:52,925 - Readloom - INFO - Adding calendar event: Chapter 69 - Shingeki no Kyojin on 2025-04-15
+2025-10-01 20:16:52,926 - Readloom - INFO - Processing chapter: 182 - 70 - Chapter 70 - Date: 2025-04-18
+2025-10-01 20:16:52,926 - Readloom - INFO - Adding calendar event: Chapter 70 - Shingeki no Kyojin on 2025-04-18
+2025-10-01 20:16:52,926 - Readloom - INFO - Processing chapter: 183 - 71 - Chapter 71 - Date: 2025-04-21
+2025-10-01 20:16:52,927 - Readloom - INFO - Adding calendar event: Chapter 71 - Shingeki no Kyojin on 2025-04-21
+2025-10-01 20:16:52,927 - Readloom - INFO - Processing chapter: 184 - 72 - Chapter 72 - Date: 2025-04-23
+2025-10-01 20:16:52,927 - Readloom - INFO - Adding calendar event: Chapter 72 - Shingeki no Kyojin on 2025-04-23
+2025-10-01 20:16:52,928 - Readloom - INFO - Processing chapter: 185 - 73 - Chapter 73 - Date: 2025-04-26
+2025-10-01 20:16:52,928 - Readloom - INFO - Adding calendar event: Chapter 73 - Shingeki no Kyojin on 2025-04-26
+2025-10-01 20:16:52,929 - Readloom - INFO - Processing chapter: 186 - 74 - Chapter 74 - Date: 2025-04-29
+2025-10-01 20:16:52,929 - Readloom - INFO - Adding calendar event: Chapter 74 - Shingeki no Kyojin on 2025-04-29
+2025-10-01 20:16:52,930 - Readloom - INFO - Processing chapter: 187 - 75 - Chapter 75 - Date: 2025-05-02
+2025-10-01 20:16:52,930 - Readloom - INFO - Adding calendar event: Chapter 75 - Shingeki no Kyojin on 2025-05-02
+2025-10-01 20:16:52,931 - Readloom - INFO - Processing chapter: 188 - 76 - Chapter 76 - Date: 2025-05-05
+2025-10-01 20:16:52,931 - Readloom - INFO - Adding calendar event: Chapter 76 - Shingeki no Kyojin on 2025-05-05
+2025-10-01 20:16:52,932 - Readloom - INFO - Processing chapter: 189 - 77 - Chapter 77 - Date: 2025-05-08
+2025-10-01 20:16:52,932 - Readloom - INFO - Adding calendar event: Chapter 77 - Shingeki no Kyojin on 2025-05-08
+2025-10-01 20:16:52,933 - Readloom - INFO - Processing chapter: 190 - 78 - Chapter 78 - Date: 2025-05-11
+2025-10-01 20:16:52,933 - Readloom - INFO - Adding calendar event: Chapter 78 - Shingeki no Kyojin on 2025-05-11
+2025-10-01 20:16:52,934 - Readloom - INFO - Processing chapter: 191 - 79 - Chapter 79 - Date: 2025-05-14
+2025-10-01 20:16:52,934 - Readloom - INFO - Adding calendar event: Chapter 79 - Shingeki no Kyojin on 2025-05-14
+2025-10-01 20:16:52,935 - Readloom - INFO - Processing chapter: 192 - 80 - Chapter 80 - Date: 2025-05-16
+2025-10-01 20:16:52,935 - Readloom - INFO - Adding calendar event: Chapter 80 - Shingeki no Kyojin on 2025-05-16
+2025-10-01 20:16:52,936 - Readloom - INFO - Processing chapter: 193 - 81 - Chapter 81 - Date: 2025-05-19
+2025-10-01 20:16:52,936 - Readloom - INFO - Adding calendar event: Chapter 81 - Shingeki no Kyojin on 2025-05-19
+2025-10-01 20:16:52,937 - Readloom - INFO - Processing chapter: 194 - 82 - Chapter 82 - Date: 2025-05-22
+2025-10-01 20:16:52,937 - Readloom - INFO - Adding calendar event: Chapter 82 - Shingeki no Kyojin on 2025-05-22
+2025-10-01 20:16:52,938 - Readloom - INFO - Processing chapter: 195 - 83 - Chapter 83 - Date: 2025-05-25
+2025-10-01 20:16:52,938 - Readloom - INFO - Adding calendar event: Chapter 83 - Shingeki no Kyojin on 2025-05-25
+2025-10-01 20:16:52,938 - Readloom - INFO - Processing chapter: 196 - 84 - Chapter 84 - Date: 2025-05-28
+2025-10-01 20:16:52,939 - Readloom - INFO - Adding calendar event: Chapter 84 - Shingeki no Kyojin on 2025-05-28
+2025-10-01 20:16:52,939 - Readloom - INFO - Processing chapter: 197 - 85 - Chapter 85 - Date: 2025-05-31
+2025-10-01 20:16:52,940 - Readloom - INFO - Adding calendar event: Chapter 85 - Shingeki no Kyojin on 2025-05-31
+2025-10-01 20:16:52,940 - Readloom - INFO - Processing chapter: 198 - 86 - Chapter 86 - Date: 2025-06-03
+2025-10-01 20:16:52,941 - Readloom - INFO - Adding calendar event: Chapter 86 - Shingeki no Kyojin on 2025-06-03
+2025-10-01 20:16:52,941 - Readloom - INFO - Processing chapter: 199 - 87 - Chapter 87 - Date: 2025-06-06
+2025-10-01 20:16:52,942 - Readloom - INFO - Adding calendar event: Chapter 87 - Shingeki no Kyojin on 2025-06-06
+2025-10-01 20:16:52,942 - Readloom - INFO - Processing chapter: 200 - 88 - Chapter 88 - Date: 2025-06-08
+2025-10-01 20:16:52,942 - Readloom - INFO - Adding calendar event: Chapter 88 - Shingeki no Kyojin on 2025-06-08
+2025-10-01 20:16:52,943 - Readloom - INFO - Processing chapter: 201 - 89 - Chapter 89 - Date: 2025-06-11
+2025-10-01 20:16:52,943 - Readloom - INFO - Adding calendar event: Chapter 89 - Shingeki no Kyojin on 2025-06-11
+2025-10-01 20:16:52,944 - Readloom - INFO - Processing chapter: 202 - 90 - Chapter 90 - Date: 2025-06-14
+2025-10-01 20:16:52,944 - Readloom - INFO - Adding calendar event: Chapter 90 - Shingeki no Kyojin on 2025-06-14
+2025-10-01 20:16:52,945 - Readloom - INFO - Processing chapter: 203 - 91 - Chapter 91 - Date: 2025-06-17
+2025-10-01 20:16:52,945 - Readloom - INFO - Adding calendar event: Chapter 91 - Shingeki no Kyojin on 2025-06-17
+2025-10-01 20:16:52,946 - Readloom - INFO - Processing chapter: 204 - 92 - Chapter 92 - Date: 2025-06-20
+2025-10-01 20:16:52,946 - Readloom - INFO - Adding calendar event: Chapter 92 - Shingeki no Kyojin on 2025-06-20
+2025-10-01 20:16:52,946 - Readloom - INFO - Processing chapter: 205 - 93 - Chapter 93 - Date: 2025-06-23
+2025-10-01 20:16:52,947 - Readloom - INFO - Adding calendar event: Chapter 93 - Shingeki no Kyojin on 2025-06-23
+2025-10-01 20:16:52,947 - Readloom - INFO - Processing chapter: 206 - 94 - Chapter 94 - Date: 2025-06-26
+2025-10-01 20:16:52,947 - Readloom - INFO - Adding calendar event: Chapter 94 - Shingeki no Kyojin on 2025-06-26
+2025-10-01 20:16:52,948 - Readloom - INFO - Processing chapter: 207 - 95 - Chapter 95 - Date: 2025-06-29
+2025-10-01 20:16:52,948 - Readloom - INFO - Adding calendar event: Chapter 95 - Shingeki no Kyojin on 2025-06-29
+2025-10-01 20:16:52,949 - Readloom - INFO - Processing chapter: 208 - 96 - Chapter 96 - Date: 2025-07-01
+2025-10-01 20:16:52,949 - Readloom - INFO - Adding calendar event: Chapter 96 - Shingeki no Kyojin on 2025-07-01
+2025-10-01 20:16:52,950 - Readloom - INFO - Processing chapter: 209 - 97 - Chapter 97 - Date: 2025-07-04
+2025-10-01 20:16:52,950 - Readloom - INFO - Adding calendar event: Chapter 97 - Shingeki no Kyojin on 2025-07-04
+2025-10-01 20:16:52,951 - Readloom - INFO - Processing chapter: 210 - 98 - Chapter 98 - Date: 2025-07-07
+2025-10-01 20:16:52,951 - Readloom - INFO - Adding calendar event: Chapter 98 - Shingeki no Kyojin on 2025-07-07
+2025-10-01 20:16:52,952 - Readloom - INFO - Processing chapter: 211 - 99 - Chapter 99 - Date: 2025-07-10
+2025-10-01 20:16:52,952 - Readloom - INFO - Adding calendar event: Chapter 99 - Shingeki no Kyojin on 2025-07-10
+2025-10-01 20:16:52,953 - Readloom - INFO - Processing chapter: 212 - 100 - Chapter 100 - Date: 2025-07-13
+2025-10-01 20:16:52,954 - Readloom - INFO - Adding calendar event: Chapter 100 - Shingeki no Kyojin on 2025-07-13
+2025-10-01 20:16:52,954 - Readloom - INFO - Processing chapter: 213 - 101 - Chapter 101 - Date: 2025-07-16
+2025-10-01 20:16:52,954 - Readloom - INFO - Adding calendar event: Chapter 101 - Shingeki no Kyojin on 2025-07-16
+2025-10-01 20:16:52,955 - Readloom - INFO - Processing chapter: 214 - 102 - Chapter 102 - Date: 2025-07-19
+2025-10-01 20:16:52,955 - Readloom - INFO - Adding calendar event: Chapter 102 - Shingeki no Kyojin on 2025-07-19
+2025-10-01 20:16:52,956 - Readloom - INFO - Processing chapter: 215 - 103 - Chapter 103 - Date: 2025-07-21
+2025-10-01 20:16:52,956 - Readloom - INFO - Adding calendar event: Chapter 103 - Shingeki no Kyojin on 2025-07-21
+2025-10-01 20:16:52,957 - Readloom - INFO - Processing chapter: 216 - 104 - Chapter 104 - Date: 2025-07-24
+2025-10-01 20:16:52,957 - Readloom - INFO - Adding calendar event: Chapter 104 - Shingeki no Kyojin on 2025-07-24
+2025-10-01 20:16:52,958 - Readloom - INFO - Processing chapter: 217 - 105 - Chapter 105 - Date: 2025-07-27
+2025-10-01 20:16:52,958 - Readloom - INFO - Adding calendar event: Chapter 105 - Shingeki no Kyojin on 2025-07-27
+2025-10-01 20:16:52,958 - Readloom - INFO - Processing chapter: 218 - 106 - Chapter 106 - Date: 2025-07-30
+2025-10-01 20:16:52,959 - Readloom - INFO - Adding calendar event: Chapter 106 - Shingeki no Kyojin on 2025-07-30
+2025-10-01 20:16:52,959 - Readloom - INFO - Processing chapter: 219 - 107 - Chapter 107 - Date: 2025-08-02
+2025-10-01 20:16:52,959 - Readloom - INFO - Adding calendar event: Chapter 107 - Shingeki no Kyojin on 2025-08-02
+2025-10-01 20:16:52,960 - Readloom - INFO - Processing chapter: 220 - 108 - Chapter 108 - Date: 2025-08-05
+2025-10-01 20:16:52,960 - Readloom - INFO - Adding calendar event: Chapter 108 - Shingeki no Kyojin on 2025-08-05
+2025-10-01 20:16:52,961 - Readloom - INFO - Processing chapter: 221 - 109 - Chapter 109 - Date: 2025-08-08
+2025-10-01 20:16:52,961 - Readloom - INFO - Adding calendar event: Chapter 109 - Shingeki no Kyojin on 2025-08-08
+2025-10-01 20:16:52,962 - Readloom - INFO - Processing chapter: 222 - 110 - Chapter 110 - Date: 2025-08-11
+2025-10-01 20:16:52,962 - Readloom - INFO - Adding calendar event: Chapter 110 - Shingeki no Kyojin on 2025-08-11
+2025-10-01 20:16:52,963 - Readloom - INFO - Processing chapter: 223 - 111 - Chapter 111 - Date: 2025-08-13
+2025-10-01 20:16:52,963 - Readloom - INFO - Adding calendar event: Chapter 111 - Shingeki no Kyojin on 2025-08-13
+2025-10-01 20:16:52,964 - Readloom - INFO - Processing chapter: 224 - 112 - Chapter 112 - Date: 2025-08-16
+2025-10-01 20:16:52,964 - Readloom - INFO - Adding calendar event: Chapter 112 - Shingeki no Kyojin on 2025-08-16
+2025-10-01 20:16:52,965 - Readloom - INFO - Processing chapter: 225 - 113 - Chapter 113 - Date: 2025-08-19
+2025-10-01 20:16:52,965 - Readloom - INFO - Adding calendar event: Chapter 113 - Shingeki no Kyojin on 2025-08-19
+2025-10-01 20:16:52,965 - Readloom - INFO - Processing chapter: 226 - 114 - Chapter 114 - Date: 2025-08-22
+2025-10-01 20:16:52,966 - Readloom - INFO - Adding calendar event: Chapter 114 - Shingeki no Kyojin on 2025-08-22
+2025-10-01 20:16:52,966 - Readloom - INFO - Processing chapter: 227 - 115 - Chapter 115 - Date: 2025-08-25
+2025-10-01 20:16:52,967 - Readloom - INFO - Adding calendar event: Chapter 115 - Shingeki no Kyojin on 2025-08-25
+2025-10-01 20:16:52,967 - Readloom - INFO - Processing chapter: 228 - 116 - Chapter 116 - Date: 2025-08-28
+2025-10-01 20:16:52,968 - Readloom - INFO - Adding calendar event: Chapter 116 - Shingeki no Kyojin on 2025-08-28
+2025-10-01 20:16:52,968 - Readloom - INFO - Processing chapter: 229 - 117 - Chapter 117 - Date: 2025-08-31
+2025-10-01 20:16:52,969 - Readloom - INFO - Adding calendar event: Chapter 117 - Shingeki no Kyojin on 2025-08-31
+2025-10-01 20:16:52,969 - Readloom - INFO - Processing chapter: 230 - 118 - Chapter 118 - Date: 2025-09-03
+2025-10-01 20:16:52,970 - Readloom - INFO - Adding calendar event: Chapter 118 - Shingeki no Kyojin on 2025-09-03
+2025-10-01 20:16:52,970 - Readloom - INFO - Processing chapter: 231 - 119 - Chapter 119 - Date: 2025-09-05
+2025-10-01 20:16:52,970 - Readloom - INFO - Adding calendar event: Chapter 119 - Shingeki no Kyojin on 2025-09-05
+2025-10-01 20:16:52,971 - Readloom - INFO - Processing chapter: 232 - 120 - Chapter 120 - Date: 2025-09-08
+2025-10-01 20:16:52,971 - Readloom - INFO - Adding calendar event: Chapter 120 - Shingeki no Kyojin on 2025-09-08
+2025-10-01 20:16:52,972 - Readloom - INFO - Processing chapter: 233 - 121 - Chapter 121 - Date: 2025-09-11
+2025-10-01 20:16:52,972 - Readloom - INFO - Adding calendar event: Chapter 121 - Shingeki no Kyojin on 2025-09-11
+2025-10-01 20:16:52,973 - Readloom - INFO - Processing chapter: 234 - 122 - Chapter 122 - Date: 2025-09-14
+2025-10-01 20:16:52,973 - Readloom - INFO - Adding calendar event: Chapter 122 - Shingeki no Kyojin on 2025-09-14
+2025-10-01 20:16:52,974 - Readloom - INFO - Processing chapter: 235 - 123 - Chapter 123 - Date: 2025-09-17
+2025-10-01 20:16:52,974 - Readloom - INFO - Adding calendar event: Chapter 123 - Shingeki no Kyojin on 2025-09-17
+2025-10-01 20:16:52,975 - Readloom - INFO - Processing chapter: 236 - 124 - Chapter 124 - Date: 2025-09-20
+2025-10-01 20:16:52,975 - Readloom - INFO - Adding calendar event: Chapter 124 - Shingeki no Kyojin on 2025-09-20
+2025-10-01 20:16:52,975 - Readloom - INFO - Processing chapter: 237 - 125 - Chapter 125 - Date: 2025-09-23
+2025-10-01 20:16:52,976 - Readloom - INFO - Adding calendar event: Chapter 125 - Shingeki no Kyojin on 2025-09-23
+2025-10-01 20:16:52,976 - Readloom - INFO - Processing chapter: 238 - 126 - Chapter 126 - Date: 2025-09-26
+2025-10-01 20:16:52,976 - Readloom - INFO - Adding calendar event: Chapter 126 - Shingeki no Kyojin on 2025-09-26
+2025-10-01 20:16:52,977 - Readloom - INFO - Processing chapter: 239 - 127 - Chapter 127 - Date: 2025-09-28
+2025-10-01 20:16:52,977 - Readloom - INFO - Adding calendar event: Chapter 127 - Shingeki no Kyojin on 2025-09-28
+2025-10-01 20:16:52,978 - Readloom - INFO - Processing chapter: 240 - 128 - Chapter 128 - Date: 2025-10-20
+2025-10-01 20:16:52,978 - Readloom - INFO - Adding calendar event: Chapter 128 - Shingeki no Kyojin on 2025-10-20
+2025-10-01 20:16:52,979 - Readloom - INFO - Processing chapter: 241 - 129 - Chapter 129 - Date: 2025-11-03
+2025-10-01 20:16:52,979 - Readloom - INFO - Adding calendar event: Chapter 129 - Shingeki no Kyojin on 2025-11-03
+2025-10-01 20:16:52,980 - Readloom - INFO - Processing chapter: 242 - 130 - Chapter 130 - Date: 2025-11-17
+2025-10-01 20:16:52,980 - Readloom - INFO - Adding calendar event: Chapter 130 - Shingeki no Kyojin on 2025-11-17
+2025-10-01 20:16:52,981 - Readloom - INFO - Processing chapter: 243 - 131 - Chapter 131 - Date: 2025-12-01
+2025-10-01 20:16:52,981 - Readloom - INFO - Adding calendar event: Chapter 131 - Shingeki no Kyojin on 2025-12-01
+2025-10-01 20:16:52,981 - Readloom - INFO - Processing chapter: 244 - 132 - Chapter 132 - Date: 2025-12-15
+2025-10-01 20:16:52,982 - Readloom - INFO - Adding calendar event: Chapter 132 - Shingeki no Kyojin on 2025-12-15
+2025-10-01 20:16:52,982 - Readloom - INFO - Processing chapter: 245 - 133 - Chapter 133 - Date: 2025-12-29
+2025-10-01 20:16:52,982 - Readloom - INFO - Adding calendar event: Chapter 133 - Shingeki no Kyojin on 2025-12-29
+2025-10-01 20:16:52,983 - Readloom - INFO - Processing chapter: 246 - 134 - Chapter 134 - Date: 2026-01-12
+2025-10-01 20:16:52,984 - Readloom - INFO - Adding calendar event: Chapter 134 - Shingeki no Kyojin on 2026-01-12
+2025-10-01 20:16:52,984 - Readloom - INFO - Processing chapter: 247 - 135 - Chapter 135 - Date: 2026-01-26
+2025-10-01 20:16:52,985 - Readloom - INFO - Adding calendar event: Chapter 135 - Shingeki no Kyojin on 2026-01-26
+2025-10-01 20:16:52,985 - Readloom - INFO - Processing chapter: 248 - 136 - Chapter 136 - Date: 2026-02-09
+2025-10-01 20:16:52,986 - Readloom - INFO - Adding calendar event: Chapter 136 - Shingeki no Kyojin on 2026-02-09
+2025-10-01 20:16:52,986 - Readloom - INFO - Processing chapter: 249 - 137 - Chapter 137 - Date: 2026-02-23
+2025-10-01 20:16:52,987 - Readloom - INFO - Adding calendar event: Chapter 137 - Shingeki no Kyojin on 2026-02-23
+2025-10-01 20:16:52,987 - Readloom - INFO - Processing chapter: 250 - 138 - Chapter 138 - Date: 2026-03-09
+2025-10-01 20:16:52,988 - Readloom - INFO - Adding calendar event: Chapter 138 - Shingeki no Kyojin on 2026-03-09
+2025-10-01 20:16:52,988 - Readloom - INFO - Processing chapter: 251 - 139 - Chapter 139 - Date: 2026-03-23
+2025-10-01 20:16:52,989 - Readloom - INFO - Adding calendar event: Chapter 139 - Shingeki no Kyojin on 2026-03-23
+2025-10-01 20:16:52,989 - Readloom - INFO - Processing chapter: 252 - 140 - Chapter 140 - Date: 2026-04-06
+2025-10-01 20:16:52,990 - Readloom - INFO - Adding calendar event: Chapter 140 - Shingeki no Kyojin on 2026-04-06
+2025-10-01 20:16:52,990 - Readloom - INFO - Processing chapter: 253 - 141 - Chapter 141 - Date: 2026-04-20
+2025-10-01 20:16:52,991 - Readloom - INFO - Adding calendar event: Chapter 141 - Shingeki no Kyojin on 2026-04-20
+2025-10-01 20:16:52,991 - Readloom - INFO - Special processing for AniList series: Shingeki no Kyojin
+2025-10-01 20:16:52,992 - Readloom - INFO - Calendar updated successfully
+2025-10-01 20:16:52,992 - Readloom - INFO - Calendar updated successfully after importing from AniList
+2025-10-01 20:16:52,993 - Readloom - INFO - Original name: 'Shingeki no Kyojin', Safe name: 'Shingeki no Kyojin'
+2025-10-01 20:16:52,993 - Readloom - INFO - Settings table created or verified
+2025-10-01 20:16:54,420 - Readloom - INFO - Settings table created or verified
+2025-10-01 20:16:54,421 - Readloom - INFO - Settings table created or verified
+2025-10-01 20:16:54,432 - Readloom - INFO - Settings table created or verified
+2025-10-01 20:16:54,615 - Readloom - INFO - Original name: 'Shingeki no Kyojin', Safe name: 'Shingeki no Kyojin'
+2025-10-01 20:16:54,617 - Readloom - INFO - Original title: 'Shingeki no Kyojin', Safe title for folder: 'Shingeki no Kyojin'
+2025-10-01 20:16:54,618 - Readloom - INFO - Settings table created or verified
+2025-10-01 20:17:22,959 - Readloom - INFO - Settings table created or verified
+2025-10-01 20:17:22,960 - Readloom - INFO - Settings table created or verified
+2025-10-01 20:17:22,961 - Readloom - INFO - Settings table created or verified
+2025-10-01 20:17:29,551 - Readloom - INFO - Getting accurate volume count from scrapers for: Dandadan
+2025-10-01 20:17:29,552 - Readloom - INFO - Searching MangaPark: https://mangapark.net/search?q=Dandadan
+2025-10-01 20:17:29,553 - Readloom - INFO - Searching MangaFire (method 1): https://mangafire.to/search?q=Dandadan
+2025-10-01 20:17:29,565 - Readloom - ERROR - Error getting MangaPark data: HTTPSConnectionPool(host='mangapark.net', port=443): Max retries exceeded with url: /search?q=Dandadan (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x000002EC9B9182D0>: Failed to resolve 'mangapark.net' ([Errno 11004] getaddrinfo failed)"))
+2025-10-01 20:17:29,565 - Readloom - ERROR - Error getting MangaDex data: HTTPSConnectionPool(host='api.mangadex.org', port=443): Max retries exceeded with url: /manga?title=Dandadan&limit=1 (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x000002EC9B918190>: Failed to resolve 'api.mangadex.org' ([Errno 11004] getaddrinfo failed)"))
+2025-10-01 20:17:29,658 - Readloom - INFO - Trying alternative MangaFire search (method 2): https://mangafire.to/manga/dandadan
+2025-10-01 20:17:30,060 - Readloom - WARNING - Alternative MangaFire search failed: 404
+2025-10-01 20:17:30,060 - Readloom - WARNING - All MangaFire search methods failed
+2025-10-01 20:17:30,061 - Readloom - INFO - Best data for Dandadan: 112 chapters, 11 volumes
+2025-10-01 20:17:30,061 - Readloom - INFO - Using scraped volume count: 11 volumes
+2025-10-01 20:17:30,815 - Readloom - INFO - Settings table created or verified
+2025-10-01 20:17:31,052 - Readloom - INFO - Getting accurate volume count from scrapers for: Dandadan
+2025-10-01 20:17:31,053 - Readloom - INFO - Using cached data for Dandadan: (112, 11)
+2025-10-01 20:17:31,053 - Readloom - INFO - Using scraped volume count: 11 volumes
+2025-10-01 20:17:31,054 - Readloom - INFO - Getting accurate chapter count for: Dandadan
+2025-10-01 20:17:31,054 - Readloom - INFO - Using cached data for Dandadan: (112, 11)
+2025-10-01 20:17:31,054 - Readloom - INFO - Using scraped chapter count for Dandadan: 112 chapters
+2025-10-01 20:17:31,054 - Readloom - INFO - Final data for Dandadan: 112 chapters, 11 volumes
+2025-10-01 20:17:31,056 - Readloom - INFO - Importing 11 volumes from AniList
+2025-10-01 20:17:31,063 - Readloom - INFO - Importing chapter: 1 with date 2024-10-01
+2025-10-01 20:17:31,063 - Readloom - INFO - Importing chapter: 2 with date 2024-10-05
+2025-10-01 20:17:31,064 - Readloom - INFO - Importing chapter: 3 with date 2024-10-09
+2025-10-01 20:17:31,064 - Readloom - INFO - Importing chapter: 4 with date 2024-10-12
+2025-10-01 20:17:31,064 - Readloom - INFO - Importing chapter: 5 with date 2024-10-16
+2025-10-01 20:17:31,065 - Readloom - INFO - Importing chapter: 6 with date 2024-10-19
+2025-10-01 20:17:31,065 - Readloom - INFO - Importing chapter: 7 with date 2024-10-23
+2025-10-01 20:17:31,065 - Readloom - INFO - Importing chapter: 8 with date 2024-10-27
+2025-10-01 20:17:31,066 - Readloom - INFO - Importing chapter: 9 with date 2024-10-30
+2025-10-01 20:17:31,066 - Readloom - INFO - Importing chapter: 10 with date 2024-11-03
+2025-10-01 20:17:31,066 - Readloom - INFO - Importing chapter: 11 with date 2024-11-06
+2025-10-01 20:17:31,067 - Readloom - INFO - Importing chapter: 12 with date 2024-11-10
+2025-10-01 20:17:31,067 - Readloom - INFO - Importing chapter: 13 with date 2024-11-14
+2025-10-01 20:17:31,067 - Readloom - INFO - Importing chapter: 14 with date 2024-11-17
+2025-10-01 20:17:31,068 - Readloom - INFO - Importing chapter: 15 with date 2024-11-21
+2025-10-01 20:17:31,068 - Readloom - INFO - Importing chapter: 16 with date 2024-11-25
+2025-10-01 20:17:31,068 - Readloom - INFO - Importing chapter: 17 with date 2024-11-28
+2025-10-01 20:17:31,069 - Readloom - INFO - Importing chapter: 18 with date 2024-12-02
+2025-10-01 20:17:31,069 - Readloom - INFO - Importing chapter: 19 with date 2024-12-05
+2025-10-01 20:17:31,069 - Readloom - INFO - Importing chapter: 20 with date 2024-12-09
+2025-10-01 20:17:31,069 - Readloom - INFO - Importing chapter: 21 with date 2024-12-13
+2025-10-01 20:17:31,070 - Readloom - INFO - Importing chapter: 22 with date 2024-12-16
+2025-10-01 20:17:31,070 - Readloom - INFO - Importing chapter: 23 with date 2024-12-20
+2025-10-01 20:17:31,070 - Readloom - INFO - Importing chapter: 24 with date 2024-12-23
+2025-10-01 20:17:31,071 - Readloom - INFO - Importing chapter: 25 with date 2024-12-27
+2025-10-01 20:17:31,071 - Readloom - INFO - Importing chapter: 26 with date 2024-12-31
+2025-10-01 20:17:31,071 - Readloom - INFO - Importing chapter: 27 with date 2025-01-03
+2025-10-01 20:17:31,071 - Readloom - INFO - Importing chapter: 28 with date 2025-01-07
+2025-10-01 20:17:31,072 - Readloom - INFO - Importing chapter: 29 with date 2025-01-11
+2025-10-01 20:17:31,072 - Readloom - INFO - Importing chapter: 30 with date 2025-01-14
+2025-10-01 20:17:31,072 - Readloom - INFO - Importing chapter: 31 with date 2025-01-18
+2025-10-01 20:17:31,072 - Readloom - INFO - Importing chapter: 32 with date 2025-01-21
+2025-10-01 20:17:31,073 - Readloom - INFO - Importing chapter: 33 with date 2025-01-25
+2025-10-01 20:17:31,073 - Readloom - INFO - Importing chapter: 34 with date 2025-01-29
+2025-10-01 20:17:31,073 - Readloom - INFO - Importing chapter: 35 with date 2025-02-01
+2025-10-01 20:17:31,073 - Readloom - INFO - Importing chapter: 36 with date 2025-02-05
+2025-10-01 20:17:31,074 - Readloom - INFO - Importing chapter: 37 with date 2025-02-08
+2025-10-01 20:17:31,074 - Readloom - INFO - Importing chapter: 38 with date 2025-02-12
+2025-10-01 20:17:31,074 - Readloom - INFO - Importing chapter: 39 with date 2025-02-16
+2025-10-01 20:17:31,074 - Readloom - INFO - Importing chapter: 40 with date 2025-02-19
+2025-10-01 20:17:31,074 - Readloom - INFO - Importing chapter: 41 with date 2025-02-23
+2025-10-01 20:17:31,075 - Readloom - INFO - Importing chapter: 42 with date 2025-02-27
+2025-10-01 20:17:31,075 - Readloom - INFO - Importing chapter: 43 with date 2025-03-02
+2025-10-01 20:17:31,075 - Readloom - INFO - Importing chapter: 44 with date 2025-03-06
+2025-10-01 20:17:31,075 - Readloom - INFO - Importing chapter: 45 with date 2025-03-09
+2025-10-01 20:17:31,076 - Readloom - INFO - Importing chapter: 46 with date 2025-03-13
+2025-10-01 20:17:31,076 - Readloom - INFO - Importing chapter: 47 with date 2025-03-17
+2025-10-01 20:17:31,076 - Readloom - INFO - Importing chapter: 48 with date 2025-03-20
+2025-10-01 20:17:31,076 - Readloom - INFO - Importing chapter: 49 with date 2025-03-24
+2025-10-01 20:17:31,077 - Readloom - INFO - Importing chapter: 50 with date 2025-03-27
+2025-10-01 20:17:31,077 - Readloom - INFO - Importing chapter: 51 with date 2025-03-31
+2025-10-01 20:17:31,077 - Readloom - INFO - Importing chapter: 52 with date 2025-04-04
+2025-10-01 20:17:31,077 - Readloom - INFO - Importing chapter: 53 with date 2025-04-07
+2025-10-01 20:17:31,077 - Readloom - INFO - Importing chapter: 54 with date 2025-04-11
+2025-10-01 20:17:31,078 - Readloom - INFO - Importing chapter: 55 with date 2025-04-14
+2025-10-01 20:17:31,078 - Readloom - INFO - Importing chapter: 56 with date 2025-04-18
+2025-10-01 20:17:31,078 - Readloom - INFO - Importing chapter: 57 with date 2025-04-22
+2025-10-01 20:17:31,078 - Readloom - INFO - Importing chapter: 58 with date 2025-04-25
+2025-10-01 20:17:31,079 - Readloom - INFO - Importing chapter: 59 with date 2025-04-29
+2025-10-01 20:17:31,079 - Readloom - INFO - Importing chapter: 60 with date 2025-05-03
+2025-10-01 20:17:31,079 - Readloom - INFO - Importing chapter: 61 with date 2025-05-06
+2025-10-01 20:17:31,079 - Readloom - INFO - Importing chapter: 62 with date 2025-05-10
+2025-10-01 20:17:31,079 - Readloom - INFO - Importing chapter: 63 with date 2025-05-13
+2025-10-01 20:17:31,080 - Readloom - INFO - Importing chapter: 64 with date 2025-05-17
+2025-10-01 20:17:31,080 - Readloom - INFO - Importing chapter: 65 with date 2025-05-21
+2025-10-01 20:17:31,080 - Readloom - INFO - Importing chapter: 66 with date 2025-05-24
+2025-10-01 20:17:31,080 - Readloom - INFO - Importing chapter: 67 with date 2025-05-28
+2025-10-01 20:17:31,081 - Readloom - INFO - Importing chapter: 68 with date 2025-05-31
+2025-10-01 20:17:31,081 - Readloom - INFO - Importing chapter: 69 with date 2025-06-04
+2025-10-01 20:17:31,081 - Readloom - INFO - Importing chapter: 70 with date 2025-06-08
+2025-10-01 20:17:31,081 - Readloom - INFO - Importing chapter: 71 with date 2025-06-11
+2025-10-01 20:17:31,082 - Readloom - INFO - Importing chapter: 72 with date 2025-06-15
+2025-10-01 20:17:31,082 - Readloom - INFO - Importing chapter: 73 with date 2025-06-19
+2025-10-01 20:17:31,082 - Readloom - INFO - Importing chapter: 74 with date 2025-06-22
+2025-10-01 20:17:31,083 - Readloom - INFO - Importing chapter: 75 with date 2025-06-26
+2025-10-01 20:17:31,083 - Readloom - INFO - Importing chapter: 76 with date 2025-06-29
+2025-10-01 20:17:31,083 - Readloom - INFO - Importing chapter: 77 with date 2025-07-03
+2025-10-01 20:17:31,084 - Readloom - INFO - Importing chapter: 78 with date 2025-07-07
+2025-10-01 20:17:31,084 - Readloom - INFO - Importing chapter: 79 with date 2025-07-10
+2025-10-01 20:17:31,084 - Readloom - INFO - Importing chapter: 80 with date 2025-07-14
+2025-10-01 20:17:31,085 - Readloom - INFO - Importing chapter: 81 with date 2025-07-17
+2025-10-01 20:17:31,085 - Readloom - INFO - Importing chapter: 82 with date 2025-07-21
+2025-10-01 20:17:31,085 - Readloom - INFO - Importing chapter: 83 with date 2025-07-25
+2025-10-01 20:17:31,086 - Readloom - INFO - Importing chapter: 84 with date 2025-07-28
+2025-10-01 20:17:31,086 - Readloom - INFO - Importing chapter: 85 with date 2025-08-01
+2025-10-01 20:17:31,086 - Readloom - INFO - Importing chapter: 86 with date 2025-08-05
+2025-10-01 20:17:31,086 - Readloom - INFO - Importing chapter: 87 with date 2025-08-08
+2025-10-01 20:17:31,087 - Readloom - INFO - Importing chapter: 88 with date 2025-08-12
+2025-10-01 20:17:31,087 - Readloom - INFO - Importing chapter: 89 with date 2025-08-15
+2025-10-01 20:17:31,087 - Readloom - INFO - Importing chapter: 90 with date 2025-08-19
+2025-10-01 20:17:31,087 - Readloom - INFO - Importing chapter: 91 with date 2025-08-23
+2025-10-01 20:17:31,088 - Readloom - INFO - Importing chapter: 92 with date 2025-08-26
+2025-10-01 20:17:31,088 - Readloom - INFO - Importing chapter: 93 with date 2025-08-30
+2025-10-01 20:17:31,088 - Readloom - INFO - Importing chapter: 94 with date 2025-09-02
+2025-10-01 20:17:31,089 - Readloom - INFO - Importing chapter: 95 with date 2025-09-06
+2025-10-01 20:17:31,089 - Readloom - INFO - Importing chapter: 96 with date 2025-09-10
+2025-10-01 20:17:31,089 - Readloom - INFO - Importing chapter: 97 with date 2025-09-13
+2025-10-01 20:17:31,089 - Readloom - INFO - Importing chapter: 98 with date 2025-09-17
+2025-10-01 20:17:31,089 - Readloom - INFO - Importing chapter: 99 with date 2025-09-21
+2025-10-01 20:17:31,090 - Readloom - INFO - Importing chapter: 100 with date 2025-09-24
+2025-10-01 20:17:31,090 - Readloom - INFO - Importing chapter: 101 with date 2025-09-28
+2025-10-01 20:17:31,090 - Readloom - INFO - Importing chapter: 102 with date 2025-10-20
+2025-10-01 20:17:31,090 - Readloom - INFO - Importing chapter: 103 with date 2025-11-03
+2025-10-01 20:17:31,091 - Readloom - INFO - Importing chapter: 104 with date 2025-11-17
+2025-10-01 20:17:31,091 - Readloom - INFO - Importing chapter: 105 with date 2025-12-01
+2025-10-01 20:17:31,091 - Readloom - INFO - Importing chapter: 106 with date 2025-12-15
+2025-10-01 20:17:31,091 - Readloom - INFO - Importing chapter: 107 with date 2025-12-29
+2025-10-01 20:17:31,092 - Readloom - INFO - Importing chapter: 108 with date 2026-01-12
+2025-10-01 20:17:31,092 - Readloom - INFO - Importing chapter: 109 with date 2026-01-26
+2025-10-01 20:17:31,092 - Readloom - INFO - Importing chapter: 110 with date 2026-02-09
+2025-10-01 20:17:31,092 - Readloom - INFO - Importing chapter: 111 with date 2026-02-23
+2025-10-01 20:17:31,093 - Readloom - INFO - Importing chapter: 112 with date 2026-03-09
+2025-10-01 20:17:31,093 - Readloom - INFO - Creating folder structure for imported series: Dandadan (ID: 3)
+2025-10-01 20:17:31,093 - Readloom - INFO - Original name: 'Dandadan', Safe name: 'Dandadan'
+2025-10-01 20:17:31,094 - Readloom - INFO - Settings table created or verified
+2025-10-01 20:17:31,094 - Readloom - INFO - Checking if folder already exists: C:\Users\dariu\Documents\Manga\Dandadan
+2025-10-01 20:17:31,095 - Readloom - INFO - Found existing folder: C:\Users\dariu\Documents\Manga\Dandadan
+2025-10-01 20:17:31,095 - Readloom - INFO - Using existing folder: C:\Users\dariu\Documents\Manga\Dandadan
+2025-10-01 20:17:31,097 - Readloom - INFO - Series added to collection with ID: []
+2025-10-01 20:17:31,097 - Readloom - INFO - Scanning existing folder for e-books: C:\Users\dariu\Documents\Manga\Dandadan
+2025-10-01 20:17:31,097 - Readloom - INFO - Starting e-book scan with specific_series_id=3, custom_path=None
+2025-10-01 20:17:31,098 - Readloom - INFO - Settings table created or verified
+2025-10-01 20:17:31,098 - Readloom - INFO - Using 1 root folders for scanning
+2025-10-01 20:17:31,098 - Readloom - INFO - Original name: 'Dandadan', Safe name: 'Dandadan'
+2025-10-01 20:17:31,099 - Readloom - INFO - Scanning for series: Dandadan (ID: 3)
+2025-10-01 20:17:31,099 - Readloom - INFO - Safe folder name: Dandadan
+2025-10-01 20:17:31,099 - Readloom - INFO - Checking root path: C:\Users\dariu\Documents\Manga
+2025-10-01 20:17:31,100 - Readloom - INFO - Looking for series directory: C:\Users\dariu\Documents\Manga\Dandadan
+2025-10-01 20:17:31,100 - Readloom - INFO - Found series directory: C:\Users\dariu\Documents\Manga\Dandadan
+2025-10-01 20:17:31,101 - Readloom - INFO - Processing directory: C:\Users\dariu\Documents\Manga\Dandadan for series ID: 3
+2025-10-01 20:17:31,101 - Readloom - INFO - Processing series: Dandadan (ID: 3)
+2025-10-01 20:17:31,101 - Readloom - INFO - Scanning directory C:\Users\dariu\Documents\Manga\Dandadan for e-book files
+2025-10-01 20:17:31,101 - Readloom - INFO - Have read permission for directory: C:\Users\dariu\Documents\Manga\Dandadan
+2025-10-01 20:17:31,102 - Readloom - INFO - Found 1 total files/directories
+2025-10-01 20:17:31,103 - Readloom - INFO - File extension: .txt for file C:\Users\dariu\Documents\Manga\Dandadan\README.txt
+2025-10-01 20:17:31,103 - Readloom - INFO - Skipping unsupported file type: C:\Users\dariu\Documents\Manga\Dandadan\README.txt
+2025-10-01 20:17:31,103 - Readloom - INFO - Scan completed with stats: {'scanned': 0, 'added': 0, 'skipped': 1, 'errors': 0, 'series_processed': 1}
+2025-10-01 20:17:31,103 - Readloom - INFO - Final stats after cleanup: {'scanned': 0, 'added': 0, 'skipped': 1, 'errors': 0, 'series_processed': 1}
+2025-10-01 20:17:31,104 - Readloom - INFO - Scan results: {'scanned': 0, 'added': 0, 'skipped': 1, 'errors': 0, 'series_processed': 1}
+2025-10-01 20:17:31,104 - Readloom - INFO - Imported manga from AniList, updating calendar...
+2025-10-01 20:17:31,104 - Readloom - INFO - Settings table created or verified
+2025-10-01 20:17:31,105 - Readloom - INFO - Updating calendar for all 3 series
+2025-10-01 20:17:31,106 - Readloom - INFO - Processing chapter: 1 - 1 - Chapter 1 - Date: 2024-10-01
+2025-10-01 20:17:31,106 - Readloom - INFO - Processing chapter: 2 - 2 - Chapter 2 - Date: 2024-10-05
+2025-10-01 20:17:31,106 - Readloom - INFO - Processing chapter: 3 - 3 - Chapter 3 - Date: 2024-10-09
+2025-10-01 20:17:31,106 - Readloom - INFO - Processing chapter: 4 - 4 - Chapter 4 - Date: 2024-10-12
+2025-10-01 20:17:31,107 - Readloom - INFO - Processing chapter: 5 - 5 - Chapter 5 - Date: 2024-10-16
+2025-10-01 20:17:31,107 - Readloom - INFO - Processing chapter: 6 - 6 - Chapter 6 - Date: 2024-10-19
+2025-10-01 20:17:31,107 - Readloom - INFO - Processing chapter: 7 - 7 - Chapter 7 - Date: 2024-10-23
+2025-10-01 20:17:31,107 - Readloom - INFO - Processing chapter: 8 - 8 - Chapter 8 - Date: 2024-10-27
+2025-10-01 20:17:31,108 - Readloom - INFO - Processing chapter: 9 - 9 - Chapter 9 - Date: 2024-10-30
+2025-10-01 20:17:31,108 - Readloom - INFO - Processing chapter: 10 - 10 - Chapter 10 - Date: 2024-11-03
+2025-10-01 20:17:31,108 - Readloom - INFO - Processing chapter: 11 - 11 - Chapter 11 - Date: 2024-11-06
+2025-10-01 20:17:31,108 - Readloom - INFO - Processing chapter: 12 - 12 - Chapter 12 - Date: 2024-11-10
+2025-10-01 20:17:31,109 - Readloom - INFO - Processing chapter: 13 - 13 - Chapter 13 - Date: 2024-11-14
+2025-10-01 20:17:31,109 - Readloom - INFO - Processing chapter: 14 - 14 - Chapter 14 - Date: 2024-11-17
+2025-10-01 20:17:31,109 - Readloom - INFO - Processing chapter: 15 - 15 - Chapter 15 - Date: 2024-11-21
+2025-10-01 20:17:31,109 - Readloom - INFO - Processing chapter: 16 - 16 - Chapter 16 - Date: 2024-11-25
+2025-10-01 20:17:31,110 - Readloom - INFO - Processing chapter: 17 - 17 - Chapter 17 - Date: 2024-11-28
+2025-10-01 20:17:31,110 - Readloom - INFO - Processing chapter: 18 - 18 - Chapter 18 - Date: 2024-12-02
+2025-10-01 20:17:31,110 - Readloom - INFO - Processing chapter: 19 - 19 - Chapter 19 - Date: 2024-12-05
+2025-10-01 20:17:31,110 - Readloom - INFO - Processing chapter: 20 - 20 - Chapter 20 - Date: 2024-12-09
+2025-10-01 20:17:31,111 - Readloom - INFO - Processing chapter: 21 - 21 - Chapter 21 - Date: 2024-12-13
+2025-10-01 20:17:31,111 - Readloom - INFO - Processing chapter: 22 - 22 - Chapter 22 - Date: 2024-12-16
+2025-10-01 20:17:31,111 - Readloom - INFO - Processing chapter: 23 - 23 - Chapter 23 - Date: 2024-12-20
+2025-10-01 20:17:31,112 - Readloom - INFO - Processing chapter: 24 - 24 - Chapter 24 - Date: 2024-12-23
+2025-10-01 20:17:31,112 - Readloom - INFO - Processing chapter: 25 - 25 - Chapter 25 - Date: 2024-12-27
+2025-10-01 20:17:31,112 - Readloom - INFO - Processing chapter: 26 - 26 - Chapter 26 - Date: 2024-12-31
+2025-10-01 20:17:31,112 - Readloom - INFO - Processing chapter: 27 - 27 - Chapter 27 - Date: 2025-01-03
+2025-10-01 20:17:31,112 - Readloom - INFO - Processing chapter: 28 - 28 - Chapter 28 - Date: 2025-01-07
+2025-10-01 20:17:31,113 - Readloom - INFO - Processing chapter: 29 - 29 - Chapter 29 - Date: 2025-01-11
+2025-10-01 20:17:31,113 - Readloom - INFO - Processing chapter: 30 - 30 - Chapter 30 - Date: 2025-01-14
+2025-10-01 20:17:31,113 - Readloom - INFO - Processing chapter: 31 - 31 - Chapter 31 - Date: 2025-01-18
+2025-10-01 20:17:31,113 - Readloom - INFO - Processing chapter: 32 - 32 - Chapter 32 - Date: 2025-01-21
+2025-10-01 20:17:31,114 - Readloom - INFO - Processing chapter: 33 - 33 - Chapter 33 - Date: 2025-01-25
+2025-10-01 20:17:31,114 - Readloom - INFO - Processing chapter: 34 - 34 - Chapter 34 - Date: 2025-01-29
+2025-10-01 20:17:31,114 - Readloom - INFO - Processing chapter: 35 - 35 - Chapter 35 - Date: 2025-02-01
+2025-10-01 20:17:31,115 - Readloom - INFO - Processing chapter: 36 - 36 - Chapter 36 - Date: 2025-02-05
+2025-10-01 20:17:31,115 - Readloom - INFO - Processing chapter: 37 - 37 - Chapter 37 - Date: 2025-02-08
+2025-10-01 20:17:31,115 - Readloom - INFO - Processing chapter: 38 - 38 - Chapter 38 - Date: 2025-02-12
+2025-10-01 20:17:31,116 - Readloom - INFO - Processing chapter: 39 - 39 - Chapter 39 - Date: 2025-02-16
+2025-10-01 20:17:31,116 - Readloom - INFO - Processing chapter: 40 - 40 - Chapter 40 - Date: 2025-02-19
+2025-10-01 20:17:31,116 - Readloom - INFO - Processing chapter: 41 - 41 - Chapter 41 - Date: 2025-02-23
+2025-10-01 20:17:31,116 - Readloom - INFO - Processing chapter: 42 - 42 - Chapter 42 - Date: 2025-02-27
+2025-10-01 20:17:31,117 - Readloom - INFO - Processing chapter: 43 - 43 - Chapter 43 - Date: 2025-03-02
+2025-10-01 20:17:31,117 - Readloom - INFO - Processing chapter: 44 - 44 - Chapter 44 - Date: 2025-03-06
+2025-10-01 20:17:31,117 - Readloom - INFO - Processing chapter: 45 - 45 - Chapter 45 - Date: 2025-03-09
+2025-10-01 20:17:31,118 - Readloom - INFO - Processing chapter: 46 - 46 - Chapter 46 - Date: 2025-03-13
+2025-10-01 20:17:31,118 - Readloom - INFO - Processing chapter: 47 - 47 - Chapter 47 - Date: 2025-03-17
+2025-10-01 20:17:31,118 - Readloom - INFO - Processing chapter: 48 - 48 - Chapter 48 - Date: 2025-03-20
+2025-10-01 20:17:31,119 - Readloom - INFO - Processing chapter: 49 - 49 - Chapter 49 - Date: 2025-03-24
+2025-10-01 20:17:31,119 - Readloom - INFO - Processing chapter: 50 - 50 - Chapter 50 - Date: 2025-03-27
+2025-10-01 20:17:31,119 - Readloom - INFO - Processing chapter: 51 - 51 - Chapter 51 - Date: 2025-03-31
+2025-10-01 20:17:31,120 - Readloom - INFO - Processing chapter: 52 - 52 - Chapter 52 - Date: 2025-04-04
+2025-10-01 20:17:31,120 - Readloom - INFO - Processing chapter: 53 - 53 - Chapter 53 - Date: 2025-04-07
+2025-10-01 20:17:31,120 - Readloom - INFO - Processing chapter: 54 - 54 - Chapter 54 - Date: 2025-04-11
+2025-10-01 20:17:31,120 - Readloom - INFO - Processing chapter: 55 - 55 - Chapter 55 - Date: 2025-04-14
+2025-10-01 20:17:31,121 - Readloom - INFO - Processing chapter: 56 - 56 - Chapter 56 - Date: 2025-04-18
+2025-10-01 20:17:31,121 - Readloom - INFO - Processing chapter: 57 - 57 - Chapter 57 - Date: 2025-04-22
+2025-10-01 20:17:31,121 - Readloom - INFO - Processing chapter: 58 - 58 - Chapter 58 - Date: 2025-04-25
+2025-10-01 20:17:31,122 - Readloom - INFO - Processing chapter: 59 - 59 - Chapter 59 - Date: 2025-04-29
+2025-10-01 20:17:31,122 - Readloom - INFO - Processing chapter: 60 - 60 - Chapter 60 - Date: 2025-05-03
+2025-10-01 20:17:31,122 - Readloom - INFO - Processing chapter: 61 - 61 - Chapter 61 - Date: 2025-05-06
+2025-10-01 20:17:31,122 - Readloom - INFO - Processing chapter: 62 - 62 - Chapter 62 - Date: 2025-05-10
+2025-10-01 20:17:31,123 - Readloom - INFO - Processing chapter: 63 - 63 - Chapter 63 - Date: 2025-05-13
+2025-10-01 20:17:31,123 - Readloom - INFO - Processing chapter: 64 - 64 - Chapter 64 - Date: 2025-05-17
+2025-10-01 20:17:31,123 - Readloom - INFO - Processing chapter: 65 - 65 - Chapter 65 - Date: 2025-05-21
+2025-10-01 20:17:31,123 - Readloom - INFO - Processing chapter: 66 - 66 - Chapter 66 - Date: 2025-05-24
+2025-10-01 20:17:31,124 - Readloom - INFO - Processing chapter: 67 - 67 - Chapter 67 - Date: 2025-05-28
+2025-10-01 20:17:31,124 - Readloom - INFO - Processing chapter: 68 - 68 - Chapter 68 - Date: 2025-05-31
+2025-10-01 20:17:31,124 - Readloom - INFO - Processing chapter: 69 - 69 - Chapter 69 - Date: 2025-06-04
+2025-10-01 20:17:31,125 - Readloom - INFO - Processing chapter: 70 - 70 - Chapter 70 - Date: 2025-06-08
+2025-10-01 20:17:31,125 - Readloom - INFO - Processing chapter: 71 - 71 - Chapter 71 - Date: 2025-06-11
+2025-10-01 20:17:31,125 - Readloom - INFO - Processing chapter: 72 - 72 - Chapter 72 - Date: 2025-06-15
+2025-10-01 20:17:31,125 - Readloom - INFO - Processing chapter: 73 - 73 - Chapter 73 - Date: 2025-06-19
+2025-10-01 20:17:31,126 - Readloom - INFO - Processing chapter: 74 - 74 - Chapter 74 - Date: 2025-06-22
+2025-10-01 20:17:31,126 - Readloom - INFO - Processing chapter: 75 - 75 - Chapter 75 - Date: 2025-06-26
+2025-10-01 20:17:31,126 - Readloom - INFO - Processing chapter: 76 - 76 - Chapter 76 - Date: 2025-06-29
+2025-10-01 20:17:31,126 - Readloom - INFO - Processing chapter: 77 - 77 - Chapter 77 - Date: 2025-07-03
+2025-10-01 20:17:31,127 - Readloom - INFO - Processing chapter: 78 - 78 - Chapter 78 - Date: 2025-07-07
+2025-10-01 20:17:31,127 - Readloom - INFO - Processing chapter: 79 - 79 - Chapter 79 - Date: 2025-07-10
+2025-10-01 20:17:31,127 - Readloom - INFO - Processing chapter: 80 - 80 - Chapter 80 - Date: 2025-07-14
+2025-10-01 20:17:31,127 - Readloom - INFO - Processing chapter: 81 - 81 - Chapter 81 - Date: 2025-07-17
+2025-10-01 20:17:31,127 - Readloom - INFO - Processing chapter: 82 - 82 - Chapter 82 - Date: 2025-07-21
+2025-10-01 20:17:31,128 - Readloom - INFO - Processing chapter: 83 - 83 - Chapter 83 - Date: 2025-07-25
+2025-10-01 20:17:31,128 - Readloom - INFO - Processing chapter: 84 - 84 - Chapter 84 - Date: 2025-07-28
+2025-10-01 20:17:31,128 - Readloom - INFO - Processing chapter: 85 - 85 - Chapter 85 - Date: 2025-08-01
+2025-10-01 20:17:31,129 - Readloom - INFO - Processing chapter: 86 - 86 - Chapter 86 - Date: 2025-08-05
+2025-10-01 20:17:31,129 - Readloom - INFO - Processing chapter: 87 - 87 - Chapter 87 - Date: 2025-08-08
+2025-10-01 20:17:31,129 - Readloom - INFO - Processing chapter: 88 - 88 - Chapter 88 - Date: 2025-08-12
+2025-10-01 20:17:31,129 - Readloom - INFO - Processing chapter: 89 - 89 - Chapter 89 - Date: 2025-08-15
+2025-10-01 20:17:31,129 - Readloom - INFO - Processing chapter: 90 - 90 - Chapter 90 - Date: 2025-08-19
+2025-10-01 20:17:31,130 - Readloom - INFO - Processing chapter: 91 - 91 - Chapter 91 - Date: 2025-08-23
+2025-10-01 20:17:31,130 - Readloom - INFO - Processing chapter: 92 - 92 - Chapter 92 - Date: 2025-08-26
+2025-10-01 20:17:31,130 - Readloom - INFO - Processing chapter: 93 - 93 - Chapter 93 - Date: 2025-08-30
+2025-10-01 20:17:31,131 - Readloom - INFO - Processing chapter: 94 - 94 - Chapter 94 - Date: 2025-09-02
+2025-10-01 20:17:31,131 - Readloom - INFO - Processing chapter: 95 - 95 - Chapter 95 - Date: 2025-09-06
+2025-10-01 20:17:31,131 - Readloom - INFO - Processing chapter: 96 - 96 - Chapter 96 - Date: 2025-09-10
+2025-10-01 20:17:31,131 - Readloom - INFO - Processing chapter: 97 - 97 - Chapter 97 - Date: 2025-09-13
+2025-10-01 20:17:31,132 - Readloom - INFO - Processing chapter: 98 - 98 - Chapter 98 - Date: 2025-09-17
+2025-10-01 20:17:31,132 - Readloom - INFO - Processing chapter: 99 - 99 - Chapter 99 - Date: 2025-09-21
+2025-10-01 20:17:31,132 - Readloom - INFO - Processing chapter: 100 - 100 - Chapter 100 - Date: 2025-09-24
+2025-10-01 20:17:31,132 - Readloom - INFO - Processing chapter: 101 - 101 - Chapter 101 - Date: 2025-09-28
+2025-10-01 20:17:31,133 - Readloom - INFO - Processing chapter: 102 - 102 - Chapter 102 - Date: 2025-10-20
+2025-10-01 20:17:31,133 - Readloom - INFO - Processing chapter: 103 - 103 - Chapter 103 - Date: 2025-11-03
+2025-10-01 20:17:31,133 - Readloom - INFO - Processing chapter: 104 - 104 - Chapter 104 - Date: 2025-11-17
+2025-10-01 20:17:31,134 - Readloom - INFO - Processing chapter: 105 - 105 - Chapter 105 - Date: 2025-12-01
+2025-10-01 20:17:31,134 - Readloom - INFO - Processing chapter: 106 - 106 - Chapter 106 - Date: 2025-12-15
+2025-10-01 20:17:31,134 - Readloom - INFO - Processing chapter: 107 - 107 - Chapter 107 - Date: 2025-12-29
+2025-10-01 20:17:31,135 - Readloom - INFO - Processing chapter: 108 - 108 - Chapter 108 - Date: 2026-01-12
+2025-10-01 20:17:31,135 - Readloom - INFO - Processing chapter: 109 - 109 - Chapter 109 - Date: 2026-01-26
+2025-10-01 20:17:31,135 - Readloom - INFO - Processing chapter: 110 - 110 - Chapter 110 - Date: 2026-02-09
+2025-10-01 20:17:31,136 - Readloom - INFO - Processing chapter: 111 - 111 - Chapter 111 - Date: 2026-02-23
+2025-10-01 20:17:31,136 - Readloom - INFO - Processing chapter: 112 - 112 - Chapter 112 - Date: 2026-03-09
+2025-10-01 20:17:31,138 - Readloom - INFO - Processing chapter: 113 - 1 - Chapter 1 - Date: 2024-10-01
+2025-10-01 20:17:31,138 - Readloom - INFO - Processing chapter: 114 - 2 - Chapter 2 - Date: 2024-10-04
+2025-10-01 20:17:31,138 - Readloom - INFO - Processing chapter: 115 - 3 - Chapter 3 - Date: 2024-10-07
+2025-10-01 20:17:31,139 - Readloom - INFO - Processing chapter: 116 - 4 - Chapter 4 - Date: 2024-10-10
+2025-10-01 20:17:31,139 - Readloom - INFO - Processing chapter: 117 - 5 - Chapter 5 - Date: 2024-10-13
+2025-10-01 20:17:31,139 - Readloom - INFO - Processing chapter: 118 - 6 - Chapter 6 - Date: 2024-10-16
+2025-10-01 20:17:31,140 - Readloom - INFO - Processing chapter: 119 - 7 - Chapter 7 - Date: 2024-10-19
+2025-10-01 20:17:31,140 - Readloom - INFO - Processing chapter: 120 - 8 - Chapter 8 - Date: 2024-10-21
+2025-10-01 20:17:31,140 - Readloom - INFO - Processing chapter: 121 - 9 - Chapter 9 - Date: 2024-10-24
+2025-10-01 20:17:31,140 - Readloom - INFO - Processing chapter: 122 - 10 - Chapter 10 - Date: 2024-10-27
+2025-10-01 20:17:31,141 - Readloom - INFO - Processing chapter: 123 - 11 - Chapter 11 - Date: 2024-10-30
+2025-10-01 20:17:31,141 - Readloom - INFO - Processing chapter: 124 - 12 - Chapter 12 - Date: 2024-11-02
+2025-10-01 20:17:31,141 - Readloom - INFO - Processing chapter: 125 - 13 - Chapter 13 - Date: 2024-11-05
+2025-10-01 20:17:31,141 - Readloom - INFO - Processing chapter: 126 - 14 - Chapter 14 - Date: 2024-11-08
+2025-10-01 20:17:31,142 - Readloom - INFO - Processing chapter: 127 - 15 - Chapter 15 - Date: 2024-11-11
+2025-10-01 20:17:31,142 - Readloom - INFO - Processing chapter: 128 - 16 - Chapter 16 - Date: 2024-11-13
+2025-10-01 20:17:31,142 - Readloom - INFO - Processing chapter: 129 - 17 - Chapter 17 - Date: 2024-11-16
+2025-10-01 20:17:31,143 - Readloom - INFO - Processing chapter: 130 - 18 - Chapter 18 - Date: 2024-11-19
+2025-10-01 20:17:31,143 - Readloom - INFO - Processing chapter: 131 - 19 - Chapter 19 - Date: 2024-11-22
+2025-10-01 20:17:31,143 - Readloom - INFO - Processing chapter: 132 - 20 - Chapter 20 - Date: 2024-11-25
+2025-10-01 20:17:31,143 - Readloom - INFO - Processing chapter: 133 - 21 - Chapter 21 - Date: 2024-11-28
+2025-10-01 20:17:31,144 - Readloom - INFO - Processing chapter: 134 - 22 - Chapter 22 - Date: 2024-12-01
+2025-10-01 20:17:31,144 - Readloom - INFO - Processing chapter: 135 - 23 - Chapter 23 - Date: 2024-12-04
+2025-10-01 20:17:31,144 - Readloom - INFO - Processing chapter: 136 - 24 - Chapter 24 - Date: 2024-12-06
+2025-10-01 20:17:31,145 - Readloom - INFO - Processing chapter: 137 - 25 - Chapter 25 - Date: 2024-12-09
+2025-10-01 20:17:31,145 - Readloom - INFO - Processing chapter: 138 - 26 - Chapter 26 - Date: 2024-12-12
+2025-10-01 20:17:31,145 - Readloom - INFO - Processing chapter: 139 - 27 - Chapter 27 - Date: 2024-12-15
+2025-10-01 20:17:31,145 - Readloom - INFO - Processing chapter: 140 - 28 - Chapter 28 - Date: 2024-12-18
+2025-10-01 20:17:31,146 - Readloom - INFO - Processing chapter: 141 - 29 - Chapter 29 - Date: 2024-12-21
+2025-10-01 20:17:31,146 - Readloom - INFO - Processing chapter: 142 - 30 - Chapter 30 - Date: 2024-12-24
+2025-10-01 20:17:31,146 - Readloom - INFO - Processing chapter: 143 - 31 - Chapter 31 - Date: 2024-12-27
+2025-10-01 20:17:31,146 - Readloom - INFO - Processing chapter: 144 - 32 - Chapter 32 - Date: 2024-12-29
+2025-10-01 20:17:31,147 - Readloom - INFO - Processing chapter: 145 - 33 - Chapter 33 - Date: 2025-01-01
+2025-10-01 20:17:31,147 - Readloom - INFO - Processing chapter: 146 - 34 - Chapter 34 - Date: 2025-01-04
+2025-10-01 20:17:31,147 - Readloom - INFO - Processing chapter: 147 - 35 - Chapter 35 - Date: 2025-01-07
+2025-10-01 20:17:31,147 - Readloom - INFO - Processing chapter: 148 - 36 - Chapter 36 - Date: 2025-01-10
+2025-10-01 20:17:31,148 - Readloom - INFO - Processing chapter: 149 - 37 - Chapter 37 - Date: 2025-01-13
+2025-10-01 20:17:31,148 - Readloom - INFO - Processing chapter: 150 - 38 - Chapter 38 - Date: 2025-01-16
+2025-10-01 20:17:31,149 - Readloom - INFO - Processing chapter: 151 - 39 - Chapter 39 - Date: 2025-01-19
+2025-10-01 20:17:31,149 - Readloom - INFO - Processing chapter: 152 - 40 - Chapter 40 - Date: 2025-01-21
+2025-10-01 20:17:31,149 - Readloom - INFO - Processing chapter: 153 - 41 - Chapter 41 - Date: 2025-01-24
+2025-10-01 20:17:31,150 - Readloom - INFO - Processing chapter: 154 - 42 - Chapter 42 - Date: 2025-01-27
+2025-10-01 20:17:31,151 - Readloom - INFO - Processing chapter: 155 - 43 - Chapter 43 - Date: 2025-01-30
+2025-10-01 20:17:31,151 - Readloom - INFO - Processing chapter: 156 - 44 - Chapter 44 - Date: 2025-02-02
+2025-10-01 20:17:31,151 - Readloom - INFO - Processing chapter: 157 - 45 - Chapter 45 - Date: 2025-02-05
+2025-10-01 20:17:31,152 - Readloom - INFO - Processing chapter: 158 - 46 - Chapter 46 - Date: 2025-02-08
+2025-10-01 20:17:31,152 - Readloom - INFO - Processing chapter: 159 - 47 - Chapter 47 - Date: 2025-02-11
+2025-10-01 20:17:31,152 - Readloom - INFO - Processing chapter: 160 - 48 - Chapter 48 - Date: 2025-02-13
+2025-10-01 20:17:31,152 - Readloom - INFO - Processing chapter: 161 - 49 - Chapter 49 - Date: 2025-02-16
+2025-10-01 20:17:31,153 - Readloom - INFO - Processing chapter: 162 - 50 - Chapter 50 - Date: 2025-02-19
+2025-10-01 20:17:31,153 - Readloom - INFO - Processing chapter: 163 - 51 - Chapter 51 - Date: 2025-02-22
+2025-10-01 20:17:31,153 - Readloom - INFO - Processing chapter: 164 - 52 - Chapter 52 - Date: 2025-02-25
+2025-10-01 20:17:31,154 - Readloom - INFO - Processing chapter: 165 - 53 - Chapter 53 - Date: 2025-02-28
+2025-10-01 20:17:31,154 - Readloom - INFO - Processing chapter: 166 - 54 - Chapter 54 - Date: 2025-03-03
+2025-10-01 20:17:31,154 - Readloom - INFO - Processing chapter: 167 - 55 - Chapter 55 - Date: 2025-03-06
+2025-10-01 20:17:31,154 - Readloom - INFO - Processing chapter: 168 - 56 - Chapter 56 - Date: 2025-03-08
+2025-10-01 20:17:31,155 - Readloom - INFO - Processing chapter: 169 - 57 - Chapter 57 - Date: 2025-03-11
+2025-10-01 20:17:31,155 - Readloom - INFO - Processing chapter: 170 - 58 - Chapter 58 - Date: 2025-03-14
+2025-10-01 20:17:31,155 - Readloom - INFO - Processing chapter: 171 - 59 - Chapter 59 - Date: 2025-03-17
+2025-10-01 20:17:31,156 - Readloom - INFO - Processing chapter: 172 - 60 - Chapter 60 - Date: 2025-03-20
+2025-10-01 20:17:31,156 - Readloom - INFO - Processing chapter: 173 - 61 - Chapter 61 - Date: 2025-03-23
+2025-10-01 20:17:31,156 - Readloom - INFO - Processing chapter: 174 - 62 - Chapter 62 - Date: 2025-03-26
+2025-10-01 20:17:31,156 - Readloom - INFO - Processing chapter: 175 - 63 - Chapter 63 - Date: 2025-03-29
+2025-10-01 20:17:31,157 - Readloom - INFO - Processing chapter: 176 - 64 - Chapter 64 - Date: 2025-03-31
+2025-10-01 20:17:31,157 - Readloom - INFO - Processing chapter: 177 - 65 - Chapter 65 - Date: 2025-04-03
+2025-10-01 20:17:31,157 - Readloom - INFO - Processing chapter: 178 - 66 - Chapter 66 - Date: 2025-04-06
+2025-10-01 20:17:31,157 - Readloom - INFO - Processing chapter: 179 - 67 - Chapter 67 - Date: 2025-04-09
+2025-10-01 20:17:31,157 - Readloom - INFO - Processing chapter: 180 - 68 - Chapter 68 - Date: 2025-04-12
+2025-10-01 20:17:31,158 - Readloom - INFO - Processing chapter: 181 - 69 - Chapter 69 - Date: 2025-04-15
+2025-10-01 20:17:31,158 - Readloom - INFO - Processing chapter: 182 - 70 - Chapter 70 - Date: 2025-04-18
+2025-10-01 20:17:31,158 - Readloom - INFO - Processing chapter: 183 - 71 - Chapter 71 - Date: 2025-04-21
+2025-10-01 20:17:31,159 - Readloom - INFO - Processing chapter: 184 - 72 - Chapter 72 - Date: 2025-04-23
+2025-10-01 20:17:31,159 - Readloom - INFO - Processing chapter: 185 - 73 - Chapter 73 - Date: 2025-04-26
+2025-10-01 20:17:31,159 - Readloom - INFO - Processing chapter: 186 - 74 - Chapter 74 - Date: 2025-04-29
+2025-10-01 20:17:31,159 - Readloom - INFO - Processing chapter: 187 - 75 - Chapter 75 - Date: 2025-05-02
+2025-10-01 20:17:31,160 - Readloom - INFO - Processing chapter: 188 - 76 - Chapter 76 - Date: 2025-05-05
+2025-10-01 20:17:31,160 - Readloom - INFO - Processing chapter: 189 - 77 - Chapter 77 - Date: 2025-05-08
+2025-10-01 20:17:31,160 - Readloom - INFO - Processing chapter: 190 - 78 - Chapter 78 - Date: 2025-05-11
+2025-10-01 20:17:31,160 - Readloom - INFO - Processing chapter: 191 - 79 - Chapter 79 - Date: 2025-05-14
+2025-10-01 20:17:31,161 - Readloom - INFO - Processing chapter: 192 - 80 - Chapter 80 - Date: 2025-05-16
+2025-10-01 20:17:31,161 - Readloom - INFO - Processing chapter: 193 - 81 - Chapter 81 - Date: 2025-05-19
+2025-10-01 20:17:31,161 - Readloom - INFO - Processing chapter: 194 - 82 - Chapter 82 - Date: 2025-05-22
+2025-10-01 20:17:31,161 - Readloom - INFO - Processing chapter: 195 - 83 - Chapter 83 - Date: 2025-05-25
+2025-10-01 20:17:31,162 - Readloom - INFO - Processing chapter: 196 - 84 - Chapter 84 - Date: 2025-05-28
+2025-10-01 20:17:31,162 - Readloom - INFO - Processing chapter: 197 - 85 - Chapter 85 - Date: 2025-05-31
+2025-10-01 20:17:31,162 - Readloom - INFO - Processing chapter: 198 - 86 - Chapter 86 - Date: 2025-06-03
+2025-10-01 20:17:31,162 - Readloom - INFO - Processing chapter: 199 - 87 - Chapter 87 - Date: 2025-06-06
+2025-10-01 20:17:31,162 - Readloom - INFO - Processing chapter: 200 - 88 - Chapter 88 - Date: 2025-06-08
+2025-10-01 20:17:31,163 - Readloom - INFO - Processing chapter: 201 - 89 - Chapter 89 - Date: 2025-06-11
+2025-10-01 20:17:31,163 - Readloom - INFO - Processing chapter: 202 - 90 - Chapter 90 - Date: 2025-06-14
+2025-10-01 20:17:31,163 - Readloom - INFO - Processing chapter: 203 - 91 - Chapter 91 - Date: 2025-06-17
+2025-10-01 20:17:31,163 - Readloom - INFO - Processing chapter: 204 - 92 - Chapter 92 - Date: 2025-06-20
+2025-10-01 20:17:31,164 - Readloom - INFO - Processing chapter: 205 - 93 - Chapter 93 - Date: 2025-06-23
+2025-10-01 20:17:31,164 - Readloom - INFO - Processing chapter: 206 - 94 - Chapter 94 - Date: 2025-06-26
+2025-10-01 20:17:31,165 - Readloom - INFO - Processing chapter: 207 - 95 - Chapter 95 - Date: 2025-06-29
+2025-10-01 20:17:31,165 - Readloom - INFO - Processing chapter: 208 - 96 - Chapter 96 - Date: 2025-07-01
+2025-10-01 20:17:31,165 - Readloom - INFO - Processing chapter: 209 - 97 - Chapter 97 - Date: 2025-07-04
+2025-10-01 20:17:31,166 - Readloom - INFO - Processing chapter: 210 - 98 - Chapter 98 - Date: 2025-07-07
+2025-10-01 20:17:31,166 - Readloom - INFO - Processing chapter: 211 - 99 - Chapter 99 - Date: 2025-07-10
+2025-10-01 20:17:31,166 - Readloom - INFO - Processing chapter: 212 - 100 - Chapter 100 - Date: 2025-07-13
+2025-10-01 20:17:31,167 - Readloom - INFO - Processing chapter: 213 - 101 - Chapter 101 - Date: 2025-07-16
+2025-10-01 20:17:31,167 - Readloom - INFO - Processing chapter: 214 - 102 - Chapter 102 - Date: 2025-07-19
+2025-10-01 20:17:31,167 - Readloom - INFO - Processing chapter: 215 - 103 - Chapter 103 - Date: 2025-07-21
+2025-10-01 20:17:31,168 - Readloom - INFO - Processing chapter: 216 - 104 - Chapter 104 - Date: 2025-07-24
+2025-10-01 20:17:31,168 - Readloom - INFO - Processing chapter: 217 - 105 - Chapter 105 - Date: 2025-07-27
+2025-10-01 20:17:31,168 - Readloom - INFO - Processing chapter: 218 - 106 - Chapter 106 - Date: 2025-07-30
+2025-10-01 20:17:31,169 - Readloom - INFO - Processing chapter: 219 - 107 - Chapter 107 - Date: 2025-08-02
+2025-10-01 20:17:31,169 - Readloom - INFO - Processing chapter: 220 - 108 - Chapter 108 - Date: 2025-08-05
+2025-10-01 20:17:31,170 - Readloom - INFO - Processing chapter: 221 - 109 - Chapter 109 - Date: 2025-08-08
+2025-10-01 20:17:31,170 - Readloom - INFO - Processing chapter: 222 - 110 - Chapter 110 - Date: 2025-08-11
+2025-10-01 20:17:31,170 - Readloom - INFO - Processing chapter: 223 - 111 - Chapter 111 - Date: 2025-08-13
+2025-10-01 20:17:31,171 - Readloom - INFO - Processing chapter: 224 - 112 - Chapter 112 - Date: 2025-08-16
+2025-10-01 20:17:31,171 - Readloom - INFO - Processing chapter: 225 - 113 - Chapter 113 - Date: 2025-08-19
+2025-10-01 20:17:31,171 - Readloom - INFO - Processing chapter: 226 - 114 - Chapter 114 - Date: 2025-08-22
+2025-10-01 20:17:31,172 - Readloom - INFO - Processing chapter: 227 - 115 - Chapter 115 - Date: 2025-08-25
+2025-10-01 20:17:31,172 - Readloom - INFO - Processing chapter: 228 - 116 - Chapter 116 - Date: 2025-08-28
+2025-10-01 20:17:31,172 - Readloom - INFO - Processing chapter: 229 - 117 - Chapter 117 - Date: 2025-08-31
+2025-10-01 20:17:31,172 - Readloom - INFO - Processing chapter: 230 - 118 - Chapter 118 - Date: 2025-09-03
+2025-10-01 20:17:31,172 - Readloom - INFO - Processing chapter: 231 - 119 - Chapter 119 - Date: 2025-09-05
+2025-10-01 20:17:31,173 - Readloom - INFO - Processing chapter: 232 - 120 - Chapter 120 - Date: 2025-09-08
+2025-10-01 20:17:31,173 - Readloom - INFO - Processing chapter: 233 - 121 - Chapter 121 - Date: 2025-09-11
+2025-10-01 20:17:31,173 - Readloom - INFO - Processing chapter: 234 - 122 - Chapter 122 - Date: 2025-09-14
+2025-10-01 20:17:31,174 - Readloom - INFO - Processing chapter: 235 - 123 - Chapter 123 - Date: 2025-09-17
+2025-10-01 20:17:31,174 - Readloom - INFO - Processing chapter: 236 - 124 - Chapter 124 - Date: 2025-09-20
+2025-10-01 20:17:31,174 - Readloom - INFO - Processing chapter: 237 - 125 - Chapter 125 - Date: 2025-09-23
+2025-10-01 20:17:31,174 - Readloom - INFO - Processing chapter: 238 - 126 - Chapter 126 - Date: 2025-09-26
+2025-10-01 20:17:31,175 - Readloom - INFO - Processing chapter: 239 - 127 - Chapter 127 - Date: 2025-09-28
+2025-10-01 20:17:31,175 - Readloom - INFO - Processing chapter: 240 - 128 - Chapter 128 - Date: 2025-10-20
+2025-10-01 20:17:31,175 - Readloom - INFO - Processing chapter: 241 - 129 - Chapter 129 - Date: 2025-11-03
+2025-10-01 20:17:31,175 - Readloom - INFO - Processing chapter: 242 - 130 - Chapter 130 - Date: 2025-11-17
+2025-10-01 20:17:31,176 - Readloom - INFO - Processing chapter: 243 - 131 - Chapter 131 - Date: 2025-12-01
+2025-10-01 20:17:31,176 - Readloom - INFO - Processing chapter: 244 - 132 - Chapter 132 - Date: 2025-12-15
+2025-10-01 20:17:31,176 - Readloom - INFO - Processing chapter: 245 - 133 - Chapter 133 - Date: 2025-12-29
+2025-10-01 20:17:31,176 - Readloom - INFO - Processing chapter: 246 - 134 - Chapter 134 - Date: 2026-01-12
+2025-10-01 20:17:31,177 - Readloom - INFO - Processing chapter: 247 - 135 - Chapter 135 - Date: 2026-01-26
+2025-10-01 20:17:31,177 - Readloom - INFO - Processing chapter: 248 - 136 - Chapter 136 - Date: 2026-02-09
+2025-10-01 20:17:31,177 - Readloom - INFO - Processing chapter: 249 - 137 - Chapter 137 - Date: 2026-02-23
+2025-10-01 20:17:31,177 - Readloom - INFO - Processing chapter: 250 - 138 - Chapter 138 - Date: 2026-03-09
+2025-10-01 20:17:31,178 - Readloom - INFO - Processing chapter: 251 - 139 - Chapter 139 - Date: 2026-03-23
+2025-10-01 20:17:31,178 - Readloom - INFO - Processing chapter: 252 - 140 - Chapter 140 - Date: 2026-04-06
+2025-10-01 20:17:31,178 - Readloom - INFO - Processing chapter: 253 - 141 - Chapter 141 - Date: 2026-04-20
+2025-10-01 20:17:31,188 - Readloom - INFO - Processing chapter: 254 - 1 - Chapter 1 - Date: 2024-10-01
+2025-10-01 20:17:31,188 - Readloom - INFO - Adding calendar event: Chapter 1 - Dandadan on 2024-10-01
+2025-10-01 20:17:31,189 - Readloom - INFO - Processing chapter: 255 - 2 - Chapter 2 - Date: 2024-10-05
+2025-10-01 20:17:31,189 - Readloom - INFO - Adding calendar event: Chapter 2 - Dandadan on 2024-10-05
+2025-10-01 20:17:31,190 - Readloom - INFO - Processing chapter: 256 - 3 - Chapter 3 - Date: 2024-10-09
+2025-10-01 20:17:31,190 - Readloom - INFO - Adding calendar event: Chapter 3 - Dandadan on 2024-10-09
+2025-10-01 20:17:31,191 - Readloom - INFO - Processing chapter: 257 - 4 - Chapter 4 - Date: 2024-10-12
+2025-10-01 20:17:31,192 - Readloom - INFO - Adding calendar event: Chapter 4 - Dandadan on 2024-10-12
+2025-10-01 20:17:31,193 - Readloom - INFO - Processing chapter: 258 - 5 - Chapter 5 - Date: 2024-10-16
+2025-10-01 20:17:31,193 - Readloom - INFO - Adding calendar event: Chapter 5 - Dandadan on 2024-10-16
+2025-10-01 20:17:31,194 - Readloom - INFO - Processing chapter: 259 - 6 - Chapter 6 - Date: 2024-10-19
+2025-10-01 20:17:31,194 - Readloom - INFO - Adding calendar event: Chapter 6 - Dandadan on 2024-10-19
+2025-10-01 20:17:31,195 - Readloom - INFO - Processing chapter: 260 - 7 - Chapter 7 - Date: 2024-10-23
+2025-10-01 20:17:31,195 - Readloom - INFO - Adding calendar event: Chapter 7 - Dandadan on 2024-10-23
+2025-10-01 20:17:31,196 - Readloom - INFO - Processing chapter: 261 - 8 - Chapter 8 - Date: 2024-10-27
+2025-10-01 20:17:31,196 - Readloom - INFO - Adding calendar event: Chapter 8 - Dandadan on 2024-10-27
+2025-10-01 20:17:31,197 - Readloom - INFO - Processing chapter: 262 - 9 - Chapter 9 - Date: 2024-10-30
+2025-10-01 20:17:31,198 - Readloom - INFO - Adding calendar event: Chapter 9 - Dandadan on 2024-10-30
+2025-10-01 20:17:31,199 - Readloom - INFO - Processing chapter: 263 - 10 - Chapter 10 - Date: 2024-11-03
+2025-10-01 20:17:31,199 - Readloom - INFO - Adding calendar event: Chapter 10 - Dandadan on 2024-11-03
+2025-10-01 20:17:31,200 - Readloom - INFO - Processing chapter: 264 - 11 - Chapter 11 - Date: 2024-11-06
+2025-10-01 20:17:31,200 - Readloom - INFO - Adding calendar event: Chapter 11 - Dandadan on 2024-11-06
+2025-10-01 20:17:31,202 - Readloom - INFO - Processing chapter: 265 - 12 - Chapter 12 - Date: 2024-11-10
+2025-10-01 20:17:31,202 - Readloom - INFO - Adding calendar event: Chapter 12 - Dandadan on 2024-11-10
+2025-10-01 20:17:31,203 - Readloom - INFO - Processing chapter: 266 - 13 - Chapter 13 - Date: 2024-11-14
+2025-10-01 20:17:31,203 - Readloom - INFO - Adding calendar event: Chapter 13 - Dandadan on 2024-11-14
+2025-10-01 20:17:31,204 - Readloom - INFO - Processing chapter: 267 - 14 - Chapter 14 - Date: 2024-11-17
+2025-10-01 20:17:31,204 - Readloom - INFO - Adding calendar event: Chapter 14 - Dandadan on 2024-11-17
+2025-10-01 20:17:31,205 - Readloom - INFO - Processing chapter: 268 - 15 - Chapter 15 - Date: 2024-11-21
+2025-10-01 20:17:31,206 - Readloom - INFO - Adding calendar event: Chapter 15 - Dandadan on 2024-11-21
+2025-10-01 20:17:31,206 - Readloom - INFO - Processing chapter: 269 - 16 - Chapter 16 - Date: 2024-11-25
+2025-10-01 20:17:31,207 - Readloom - INFO - Adding calendar event: Chapter 16 - Dandadan on 2024-11-25
+2025-10-01 20:17:31,208 - Readloom - INFO - Processing chapter: 270 - 17 - Chapter 17 - Date: 2024-11-28
+2025-10-01 20:17:31,208 - Readloom - INFO - Adding calendar event: Chapter 17 - Dandadan on 2024-11-28
+2025-10-01 20:17:31,209 - Readloom - INFO - Processing chapter: 271 - 18 - Chapter 18 - Date: 2024-12-02
+2025-10-01 20:17:31,209 - Readloom - INFO - Adding calendar event: Chapter 18 - Dandadan on 2024-12-02
+2025-10-01 20:17:31,210 - Readloom - INFO - Processing chapter: 272 - 19 - Chapter 19 - Date: 2024-12-05
+2025-10-01 20:17:31,210 - Readloom - INFO - Adding calendar event: Chapter 19 - Dandadan on 2024-12-05
+2025-10-01 20:17:31,211 - Readloom - INFO - Processing chapter: 273 - 20 - Chapter 20 - Date: 2024-12-09
+2025-10-01 20:17:31,211 - Readloom - INFO - Adding calendar event: Chapter 20 - Dandadan on 2024-12-09
+2025-10-01 20:17:31,212 - Readloom - INFO - Processing chapter: 274 - 21 - Chapter 21 - Date: 2024-12-13
+2025-10-01 20:17:31,212 - Readloom - INFO - Adding calendar event: Chapter 21 - Dandadan on 2024-12-13
+2025-10-01 20:17:31,213 - Readloom - INFO - Processing chapter: 275 - 22 - Chapter 22 - Date: 2024-12-16
+2025-10-01 20:17:31,214 - Readloom - INFO - Adding calendar event: Chapter 22 - Dandadan on 2024-12-16
+2025-10-01 20:17:31,214 - Readloom - INFO - Processing chapter: 276 - 23 - Chapter 23 - Date: 2024-12-20
+2025-10-01 20:17:31,215 - Readloom - INFO - Adding calendar event: Chapter 23 - Dandadan on 2024-12-20
+2025-10-01 20:17:31,216 - Readloom - INFO - Processing chapter: 277 - 24 - Chapter 24 - Date: 2024-12-23
+2025-10-01 20:17:31,216 - Readloom - INFO - Adding calendar event: Chapter 24 - Dandadan on 2024-12-23
+2025-10-01 20:17:31,217 - Readloom - INFO - Processing chapter: 278 - 25 - Chapter 25 - Date: 2024-12-27
+2025-10-01 20:17:31,217 - Readloom - INFO - Adding calendar event: Chapter 25 - Dandadan on 2024-12-27
+2025-10-01 20:17:31,221 - Readloom - INFO - Processing chapter: 279 - 26 - Chapter 26 - Date: 2024-12-31
+2025-10-01 20:17:31,221 - Readloom - INFO - Adding calendar event: Chapter 26 - Dandadan on 2024-12-31
+2025-10-01 20:17:31,222 - Readloom - INFO - Processing chapter: 280 - 27 - Chapter 27 - Date: 2025-01-03
+2025-10-01 20:17:31,223 - Readloom - INFO - Adding calendar event: Chapter 27 - Dandadan on 2025-01-03
+2025-10-01 20:17:31,223 - Readloom - INFO - Processing chapter: 281 - 28 - Chapter 28 - Date: 2025-01-07
+2025-10-01 20:17:31,224 - Readloom - INFO - Adding calendar event: Chapter 28 - Dandadan on 2025-01-07
+2025-10-01 20:17:31,225 - Readloom - INFO - Processing chapter: 282 - 29 - Chapter 29 - Date: 2025-01-11
+2025-10-01 20:17:31,225 - Readloom - INFO - Adding calendar event: Chapter 29 - Dandadan on 2025-01-11
+2025-10-01 20:17:31,226 - Readloom - INFO - Processing chapter: 283 - 30 - Chapter 30 - Date: 2025-01-14
+2025-10-01 20:17:31,226 - Readloom - INFO - Adding calendar event: Chapter 30 - Dandadan on 2025-01-14
+2025-10-01 20:17:31,227 - Readloom - INFO - Processing chapter: 284 - 31 - Chapter 31 - Date: 2025-01-18
+2025-10-01 20:17:31,227 - Readloom - INFO - Adding calendar event: Chapter 31 - Dandadan on 2025-01-18
+2025-10-01 20:17:31,228 - Readloom - INFO - Processing chapter: 285 - 32 - Chapter 32 - Date: 2025-01-21
+2025-10-01 20:17:31,228 - Readloom - INFO - Adding calendar event: Chapter 32 - Dandadan on 2025-01-21
+2025-10-01 20:17:31,229 - Readloom - INFO - Processing chapter: 286 - 33 - Chapter 33 - Date: 2025-01-25
+2025-10-01 20:17:31,229 - Readloom - INFO - Adding calendar event: Chapter 33 - Dandadan on 2025-01-25
+2025-10-01 20:17:31,230 - Readloom - INFO - Processing chapter: 287 - 34 - Chapter 34 - Date: 2025-01-29
+2025-10-01 20:17:31,231 - Readloom - INFO - Adding calendar event: Chapter 34 - Dandadan on 2025-01-29
+2025-10-01 20:17:31,232 - Readloom - INFO - Processing chapter: 288 - 35 - Chapter 35 - Date: 2025-02-01
+2025-10-01 20:17:31,232 - Readloom - INFO - Adding calendar event: Chapter 35 - Dandadan on 2025-02-01
+2025-10-01 20:17:31,233 - Readloom - INFO - Processing chapter: 289 - 36 - Chapter 36 - Date: 2025-02-05
+2025-10-01 20:17:31,233 - Readloom - INFO - Adding calendar event: Chapter 36 - Dandadan on 2025-02-05
+2025-10-01 20:17:31,234 - Readloom - INFO - Processing chapter: 290 - 37 - Chapter 37 - Date: 2025-02-08
+2025-10-01 20:17:31,235 - Readloom - INFO - Adding calendar event: Chapter 37 - Dandadan on 2025-02-08
+2025-10-01 20:17:31,236 - Readloom - INFO - Processing chapter: 291 - 38 - Chapter 38 - Date: 2025-02-12
+2025-10-01 20:17:31,236 - Readloom - INFO - Adding calendar event: Chapter 38 - Dandadan on 2025-02-12
+2025-10-01 20:17:31,237 - Readloom - INFO - Processing chapter: 292 - 39 - Chapter 39 - Date: 2025-02-16
+2025-10-01 20:17:31,237 - Readloom - INFO - Adding calendar event: Chapter 39 - Dandadan on 2025-02-16
+2025-10-01 20:17:31,238 - Readloom - INFO - Processing chapter: 293 - 40 - Chapter 40 - Date: 2025-02-19
+2025-10-01 20:17:31,238 - Readloom - INFO - Adding calendar event: Chapter 40 - Dandadan on 2025-02-19
+2025-10-01 20:17:31,239 - Readloom - INFO - Processing chapter: 294 - 41 - Chapter 41 - Date: 2025-02-23
+2025-10-01 20:17:31,240 - Readloom - INFO - Adding calendar event: Chapter 41 - Dandadan on 2025-02-23
+2025-10-01 20:17:31,241 - Readloom - INFO - Processing chapter: 295 - 42 - Chapter 42 - Date: 2025-02-27
+2025-10-01 20:17:31,241 - Readloom - INFO - Adding calendar event: Chapter 42 - Dandadan on 2025-02-27
+2025-10-01 20:17:31,242 - Readloom - INFO - Processing chapter: 296 - 43 - Chapter 43 - Date: 2025-03-02
+2025-10-01 20:17:31,242 - Readloom - INFO - Adding calendar event: Chapter 43 - Dandadan on 2025-03-02
+2025-10-01 20:17:31,243 - Readloom - INFO - Processing chapter: 297 - 44 - Chapter 44 - Date: 2025-03-06
+2025-10-01 20:17:31,243 - Readloom - INFO - Adding calendar event: Chapter 44 - Dandadan on 2025-03-06
+2025-10-01 20:17:31,244 - Readloom - INFO - Processing chapter: 298 - 45 - Chapter 45 - Date: 2025-03-09
+2025-10-01 20:17:31,244 - Readloom - INFO - Adding calendar event: Chapter 45 - Dandadan on 2025-03-09
+2025-10-01 20:17:31,245 - Readloom - INFO - Processing chapter: 299 - 46 - Chapter 46 - Date: 2025-03-13
+2025-10-01 20:17:31,245 - Readloom - INFO - Adding calendar event: Chapter 46 - Dandadan on 2025-03-13
+2025-10-01 20:17:31,246 - Readloom - INFO - Processing chapter: 300 - 47 - Chapter 47 - Date: 2025-03-17
+2025-10-01 20:17:31,246 - Readloom - INFO - Adding calendar event: Chapter 47 - Dandadan on 2025-03-17
+2025-10-01 20:17:31,247 - Readloom - INFO - Processing chapter: 301 - 48 - Chapter 48 - Date: 2025-03-20
+2025-10-01 20:17:31,247 - Readloom - INFO - Adding calendar event: Chapter 48 - Dandadan on 2025-03-20
+2025-10-01 20:17:31,248 - Readloom - INFO - Processing chapter: 302 - 49 - Chapter 49 - Date: 2025-03-24
+2025-10-01 20:17:31,249 - Readloom - INFO - Adding calendar event: Chapter 49 - Dandadan on 2025-03-24
+2025-10-01 20:17:31,250 - Readloom - INFO - Processing chapter: 303 - 50 - Chapter 50 - Date: 2025-03-27
+2025-10-01 20:17:31,250 - Readloom - INFO - Adding calendar event: Chapter 50 - Dandadan on 2025-03-27
+2025-10-01 20:17:31,251 - Readloom - INFO - Processing chapter: 304 - 51 - Chapter 51 - Date: 2025-03-31
+2025-10-01 20:17:31,252 - Readloom - INFO - Adding calendar event: Chapter 51 - Dandadan on 2025-03-31
+2025-10-01 20:17:31,252 - Readloom - INFO - Processing chapter: 305 - 52 - Chapter 52 - Date: 2025-04-04
+2025-10-01 20:17:31,253 - Readloom - INFO - Adding calendar event: Chapter 52 - Dandadan on 2025-04-04
+2025-10-01 20:17:31,254 - Readloom - INFO - Processing chapter: 306 - 53 - Chapter 53 - Date: 2025-04-07
+2025-10-01 20:17:31,254 - Readloom - INFO - Adding calendar event: Chapter 53 - Dandadan on 2025-04-07
+2025-10-01 20:17:31,255 - Readloom - INFO - Processing chapter: 307 - 54 - Chapter 54 - Date: 2025-04-11
+2025-10-01 20:17:31,255 - Readloom - INFO - Adding calendar event: Chapter 54 - Dandadan on 2025-04-11
+2025-10-01 20:17:31,256 - Readloom - INFO - Processing chapter: 308 - 55 - Chapter 55 - Date: 2025-04-14
+2025-10-01 20:17:31,257 - Readloom - INFO - Adding calendar event: Chapter 55 - Dandadan on 2025-04-14
+2025-10-01 20:17:31,257 - Readloom - INFO - Processing chapter: 309 - 56 - Chapter 56 - Date: 2025-04-18
+2025-10-01 20:17:31,258 - Readloom - INFO - Adding calendar event: Chapter 56 - Dandadan on 2025-04-18
+2025-10-01 20:17:31,259 - Readloom - INFO - Processing chapter: 310 - 57 - Chapter 57 - Date: 2025-04-22
+2025-10-01 20:17:31,259 - Readloom - INFO - Adding calendar event: Chapter 57 - Dandadan on 2025-04-22
+2025-10-01 20:17:31,260 - Readloom - INFO - Processing chapter: 311 - 58 - Chapter 58 - Date: 2025-04-25
+2025-10-01 20:17:31,260 - Readloom - INFO - Adding calendar event: Chapter 58 - Dandadan on 2025-04-25
+2025-10-01 20:17:31,261 - Readloom - INFO - Processing chapter: 312 - 59 - Chapter 59 - Date: 2025-04-29
+2025-10-01 20:17:31,261 - Readloom - INFO - Adding calendar event: Chapter 59 - Dandadan on 2025-04-29
+2025-10-01 20:17:31,262 - Readloom - INFO - Processing chapter: 313 - 60 - Chapter 60 - Date: 2025-05-03
+2025-10-01 20:17:31,262 - Readloom - INFO - Adding calendar event: Chapter 60 - Dandadan on 2025-05-03
+2025-10-01 20:17:31,263 - Readloom - INFO - Processing chapter: 314 - 61 - Chapter 61 - Date: 2025-05-06
+2025-10-01 20:17:31,263 - Readloom - INFO - Adding calendar event: Chapter 61 - Dandadan on 2025-05-06
+2025-10-01 20:17:31,264 - Readloom - INFO - Processing chapter: 315 - 62 - Chapter 62 - Date: 2025-05-10
+2025-10-01 20:17:31,265 - Readloom - INFO - Adding calendar event: Chapter 62 - Dandadan on 2025-05-10
+2025-10-01 20:17:31,266 - Readloom - INFO - Processing chapter: 316 - 63 - Chapter 63 - Date: 2025-05-13
+2025-10-01 20:17:31,266 - Readloom - INFO - Adding calendar event: Chapter 63 - Dandadan on 2025-05-13
+2025-10-01 20:17:31,267 - Readloom - INFO - Processing chapter: 317 - 64 - Chapter 64 - Date: 2025-05-17
+2025-10-01 20:17:31,268 - Readloom - INFO - Adding calendar event: Chapter 64 - Dandadan on 2025-05-17
+2025-10-01 20:17:31,268 - Readloom - INFO - Processing chapter: 318 - 65 - Chapter 65 - Date: 2025-05-21
+2025-10-01 20:17:31,269 - Readloom - INFO - Adding calendar event: Chapter 65 - Dandadan on 2025-05-21
+2025-10-01 20:17:31,270 - Readloom - INFO - Processing chapter: 319 - 66 - Chapter 66 - Date: 2025-05-24
+2025-10-01 20:17:31,270 - Readloom - INFO - Adding calendar event: Chapter 66 - Dandadan on 2025-05-24
+2025-10-01 20:17:31,271 - Readloom - INFO - Processing chapter: 320 - 67 - Chapter 67 - Date: 2025-05-28
+2025-10-01 20:17:31,271 - Readloom - INFO - Adding calendar event: Chapter 67 - Dandadan on 2025-05-28
+2025-10-01 20:17:31,272 - Readloom - INFO - Processing chapter: 321 - 68 - Chapter 68 - Date: 2025-05-31
+2025-10-01 20:17:31,273 - Readloom - INFO - Adding calendar event: Chapter 68 - Dandadan on 2025-05-31
+2025-10-01 20:17:31,273 - Readloom - INFO - Processing chapter: 322 - 69 - Chapter 69 - Date: 2025-06-04
+2025-10-01 20:17:31,274 - Readloom - INFO - Adding calendar event: Chapter 69 - Dandadan on 2025-06-04
+2025-10-01 20:17:31,274 - Readloom - INFO - Processing chapter: 323 - 70 - Chapter 70 - Date: 2025-06-08
+2025-10-01 20:17:31,275 - Readloom - INFO - Adding calendar event: Chapter 70 - Dandadan on 2025-06-08
+2025-10-01 20:17:31,276 - Readloom - INFO - Processing chapter: 324 - 71 - Chapter 71 - Date: 2025-06-11
+2025-10-01 20:17:31,276 - Readloom - INFO - Adding calendar event: Chapter 71 - Dandadan on 2025-06-11
+2025-10-01 20:17:31,277 - Readloom - INFO - Processing chapter: 325 - 72 - Chapter 72 - Date: 2025-06-15
+2025-10-01 20:17:31,277 - Readloom - INFO - Adding calendar event: Chapter 72 - Dandadan on 2025-06-15
+2025-10-01 20:17:31,278 - Readloom - INFO - Processing chapter: 326 - 73 - Chapter 73 - Date: 2025-06-19
+2025-10-01 20:17:31,278 - Readloom - INFO - Adding calendar event: Chapter 73 - Dandadan on 2025-06-19
+2025-10-01 20:17:31,279 - Readloom - INFO - Processing chapter: 327 - 74 - Chapter 74 - Date: 2025-06-22
+2025-10-01 20:17:31,279 - Readloom - INFO - Adding calendar event: Chapter 74 - Dandadan on 2025-06-22
+2025-10-01 20:17:31,280 - Readloom - INFO - Processing chapter: 328 - 75 - Chapter 75 - Date: 2025-06-26
+2025-10-01 20:17:31,280 - Readloom - INFO - Adding calendar event: Chapter 75 - Dandadan on 2025-06-26
+2025-10-01 20:17:31,281 - Readloom - INFO - Processing chapter: 329 - 76 - Chapter 76 - Date: 2025-06-29
+2025-10-01 20:17:31,281 - Readloom - INFO - Adding calendar event: Chapter 76 - Dandadan on 2025-06-29
+2025-10-01 20:17:31,282 - Readloom - INFO - Processing chapter: 330 - 77 - Chapter 77 - Date: 2025-07-03
+2025-10-01 20:17:31,283 - Readloom - INFO - Adding calendar event: Chapter 77 - Dandadan on 2025-07-03
+2025-10-01 20:17:31,284 - Readloom - INFO - Processing chapter: 331 - 78 - Chapter 78 - Date: 2025-07-07
+2025-10-01 20:17:31,284 - Readloom - INFO - Adding calendar event: Chapter 78 - Dandadan on 2025-07-07
+2025-10-01 20:17:31,285 - Readloom - INFO - Processing chapter: 332 - 79 - Chapter 79 - Date: 2025-07-10
+2025-10-01 20:17:31,285 - Readloom - INFO - Adding calendar event: Chapter 79 - Dandadan on 2025-07-10
+2025-10-01 20:17:31,286 - Readloom - INFO - Processing chapter: 333 - 80 - Chapter 80 - Date: 2025-07-14
+2025-10-01 20:17:31,287 - Readloom - INFO - Adding calendar event: Chapter 80 - Dandadan on 2025-07-14
+2025-10-01 20:17:31,287 - Readloom - INFO - Processing chapter: 334 - 81 - Chapter 81 - Date: 2025-07-17
+2025-10-01 20:17:31,288 - Readloom - INFO - Adding calendar event: Chapter 81 - Dandadan on 2025-07-17
+2025-10-01 20:17:31,289 - Readloom - INFO - Processing chapter: 335 - 82 - Chapter 82 - Date: 2025-07-21
+2025-10-01 20:17:31,289 - Readloom - INFO - Adding calendar event: Chapter 82 - Dandadan on 2025-07-21
+2025-10-01 20:17:31,290 - Readloom - INFO - Processing chapter: 336 - 83 - Chapter 83 - Date: 2025-07-25
+2025-10-01 20:17:31,290 - Readloom - INFO - Adding calendar event: Chapter 83 - Dandadan on 2025-07-25
+2025-10-01 20:17:31,291 - Readloom - INFO - Processing chapter: 337 - 84 - Chapter 84 - Date: 2025-07-28
+2025-10-01 20:17:31,291 - Readloom - INFO - Adding calendar event: Chapter 84 - Dandadan on 2025-07-28
+2025-10-01 20:17:31,292 - Readloom - INFO - Processing chapter: 338 - 85 - Chapter 85 - Date: 2025-08-01
+2025-10-01 20:17:31,292 - Readloom - INFO - Adding calendar event: Chapter 85 - Dandadan on 2025-08-01
+2025-10-01 20:17:31,293 - Readloom - INFO - Processing chapter: 339 - 86 - Chapter 86 - Date: 2025-08-05
+2025-10-01 20:17:31,293 - Readloom - INFO - Adding calendar event: Chapter 86 - Dandadan on 2025-08-05
+2025-10-01 20:17:31,294 - Readloom - INFO - Processing chapter: 340 - 87 - Chapter 87 - Date: 2025-08-08
+2025-10-01 20:17:31,295 - Readloom - INFO - Adding calendar event: Chapter 87 - Dandadan on 2025-08-08
+2025-10-01 20:17:31,295 - Readloom - INFO - Processing chapter: 341 - 88 - Chapter 88 - Date: 2025-08-12
+2025-10-01 20:17:31,296 - Readloom - INFO - Adding calendar event: Chapter 88 - Dandadan on 2025-08-12
+2025-10-01 20:17:31,296 - Readloom - INFO - Processing chapter: 342 - 89 - Chapter 89 - Date: 2025-08-15
+2025-10-01 20:17:31,297 - Readloom - INFO - Adding calendar event: Chapter 89 - Dandadan on 2025-08-15
+2025-10-01 20:17:31,298 - Readloom - INFO - Processing chapter: 343 - 90 - Chapter 90 - Date: 2025-08-19
+2025-10-01 20:17:31,298 - Readloom - INFO - Adding calendar event: Chapter 90 - Dandadan on 2025-08-19
+2025-10-01 20:17:31,299 - Readloom - INFO - Processing chapter: 344 - 91 - Chapter 91 - Date: 2025-08-23
+2025-10-01 20:17:31,299 - Readloom - INFO - Adding calendar event: Chapter 91 - Dandadan on 2025-08-23
+2025-10-01 20:17:31,300 - Readloom - INFO - Processing chapter: 345 - 92 - Chapter 92 - Date: 2025-08-26
+2025-10-01 20:17:31,301 - Readloom - INFO - Adding calendar event: Chapter 92 - Dandadan on 2025-08-26
+2025-10-01 20:17:31,302 - Readloom - INFO - Processing chapter: 346 - 93 - Chapter 93 - Date: 2025-08-30
+2025-10-01 20:17:31,302 - Readloom - INFO - Adding calendar event: Chapter 93 - Dandadan on 2025-08-30
+2025-10-01 20:17:31,303 - Readloom - INFO - Processing chapter: 347 - 94 - Chapter 94 - Date: 2025-09-02
+2025-10-01 20:17:31,303 - Readloom - INFO - Adding calendar event: Chapter 94 - Dandadan on 2025-09-02
+2025-10-01 20:17:31,304 - Readloom - INFO - Processing chapter: 348 - 95 - Chapter 95 - Date: 2025-09-06
+2025-10-01 20:17:31,305 - Readloom - INFO - Adding calendar event: Chapter 95 - Dandadan on 2025-09-06
+2025-10-01 20:17:31,305 - Readloom - INFO - Processing chapter: 349 - 96 - Chapter 96 - Date: 2025-09-10
+2025-10-01 20:17:31,306 - Readloom - INFO - Adding calendar event: Chapter 96 - Dandadan on 2025-09-10
+2025-10-01 20:17:31,307 - Readloom - INFO - Processing chapter: 350 - 97 - Chapter 97 - Date: 2025-09-13
+2025-10-01 20:17:31,307 - Readloom - INFO - Adding calendar event: Chapter 97 - Dandadan on 2025-09-13
+2025-10-01 20:17:31,308 - Readloom - INFO - Processing chapter: 351 - 98 - Chapter 98 - Date: 2025-09-17
+2025-10-01 20:17:31,308 - Readloom - INFO - Adding calendar event: Chapter 98 - Dandadan on 2025-09-17
+2025-10-01 20:17:31,309 - Readloom - INFO - Processing chapter: 352 - 99 - Chapter 99 - Date: 2025-09-21
+2025-10-01 20:17:31,309 - Readloom - INFO - Adding calendar event: Chapter 99 - Dandadan on 2025-09-21
+2025-10-01 20:17:31,310 - Readloom - INFO - Processing chapter: 353 - 100 - Chapter 100 - Date: 2025-09-24
+2025-10-01 20:17:31,310 - Readloom - INFO - Adding calendar event: Chapter 100 - Dandadan on 2025-09-24
+2025-10-01 20:17:31,311 - Readloom - INFO - Processing chapter: 354 - 101 - Chapter 101 - Date: 2025-09-28
+2025-10-01 20:17:31,311 - Readloom - INFO - Adding calendar event: Chapter 101 - Dandadan on 2025-09-28
+2025-10-01 20:17:31,312 - Readloom - INFO - Processing chapter: 355 - 102 - Chapter 102 - Date: 2025-10-20
+2025-10-01 20:17:31,312 - Readloom - INFO - Adding calendar event: Chapter 102 - Dandadan on 2025-10-20
+2025-10-01 20:17:31,313 - Readloom - INFO - Processing chapter: 356 - 103 - Chapter 103 - Date: 2025-11-03
+2025-10-01 20:17:31,313 - Readloom - INFO - Adding calendar event: Chapter 103 - Dandadan on 2025-11-03
+2025-10-01 20:17:31,314 - Readloom - INFO - Processing chapter: 357 - 104 - Chapter 104 - Date: 2025-11-17
+2025-10-01 20:17:31,315 - Readloom - INFO - Adding calendar event: Chapter 104 - Dandadan on 2025-11-17
+2025-10-01 20:17:31,315 - Readloom - INFO - Processing chapter: 358 - 105 - Chapter 105 - Date: 2025-12-01
+2025-10-01 20:17:31,316 - Readloom - INFO - Adding calendar event: Chapter 105 - Dandadan on 2025-12-01
+2025-10-01 20:17:31,317 - Readloom - INFO - Processing chapter: 359 - 106 - Chapter 106 - Date: 2025-12-15
+2025-10-01 20:17:31,317 - Readloom - INFO - Adding calendar event: Chapter 106 - Dandadan on 2025-12-15
+2025-10-01 20:17:31,319 - Readloom - INFO - Processing chapter: 360 - 107 - Chapter 107 - Date: 2025-12-29
+2025-10-01 20:17:31,319 - Readloom - INFO - Adding calendar event: Chapter 107 - Dandadan on 2025-12-29
+2025-10-01 20:17:31,320 - Readloom - INFO - Processing chapter: 361 - 108 - Chapter 108 - Date: 2026-01-12
+2025-10-01 20:17:31,320 - Readloom - INFO - Adding calendar event: Chapter 108 - Dandadan on 2026-01-12
+2025-10-01 20:17:31,321 - Readloom - INFO - Processing chapter: 362 - 109 - Chapter 109 - Date: 2026-01-26
+2025-10-01 20:17:31,321 - Readloom - INFO - Adding calendar event: Chapter 109 - Dandadan on 2026-01-26
+2025-10-01 20:17:31,322 - Readloom - INFO - Processing chapter: 363 - 110 - Chapter 110 - Date: 2026-02-09
+2025-10-01 20:17:31,323 - Readloom - INFO - Adding calendar event: Chapter 110 - Dandadan on 2026-02-09
+2025-10-01 20:17:31,323 - Readloom - INFO - Processing chapter: 364 - 111 - Chapter 111 - Date: 2026-02-23
+2025-10-01 20:17:31,324 - Readloom - INFO - Adding calendar event: Chapter 111 - Dandadan on 2026-02-23
+2025-10-01 20:17:31,325 - Readloom - INFO - Processing chapter: 365 - 112 - Chapter 112 - Date: 2026-03-09
+2025-10-01 20:17:31,325 - Readloom - INFO - Adding calendar event: Chapter 112 - Dandadan on 2026-03-09
+2025-10-01 20:17:31,326 - Readloom - INFO - Special processing for AniList series: Dandadan
+2025-10-01 20:17:31,326 - Readloom - INFO - Calendar updated successfully
+2025-10-01 20:17:31,327 - Readloom - INFO - Calendar updated successfully after importing from AniList
+2025-10-01 20:17:31,327 - Readloom - INFO - Original name: 'Dandadan', Safe name: 'Dandadan'
+2025-10-01 20:17:31,327 - Readloom - INFO - Settings table created or verified
+2025-10-01 20:17:33,457 - Readloom - INFO - Settings table created or verified
+2025-10-01 20:17:33,457 - Readloom - INFO - Settings table created or verified
+2025-10-01 20:17:33,458 - Readloom - INFO - Settings table created or verified
+2025-10-01 20:17:33,639 - Readloom - INFO - Original name: 'Dandadan', Safe name: 'Dandadan'
+2025-10-01 20:17:33,640 - Readloom - INFO - Original title: 'Dandadan', Safe title for folder: 'Dandadan'
+2025-10-01 20:17:33,641 - Readloom - INFO - Settings table created or verified
+2025-10-01 20:20:13,766 - Readloom - INFO - Logging to data\logs\readloom.log
+2025-10-01 20:20:13,767 - Readloom - INFO - Starting Readloom in development mode
+2025-10-01 20:20:13,767 - Readloom - INFO - Settings table created or verified
+2025-10-01 20:20:13,767 - Readloom - INFO - Settings initialized
+2025-10-01 20:25:12,453 - Readloom - INFO - Logging to data\logs\readloom.log
+2025-10-01 20:25:12,453 - Readloom - INFO - Starting Readloom in development mode
+2025-10-01 20:25:12,454 - Readloom - INFO - Settings table created or verified
+2025-10-01 20:25:12,454 - Readloom - INFO - Settings initialized
+2025-10-01 20:25:12,645 - Readloom - INFO - Registered metadata provider: MyAnimeList
+2025-10-01 20:25:12,645 - Readloom - INFO - Registered metadata provider: MangaAPI
+2025-10-01 20:25:12,645 - Readloom - INFO - Registered metadata provider: MangaDex
+2025-10-01 20:25:12,646 - Readloom - INFO - Registered metadata provider: MyAnimeList
+2025-10-01 20:25:12,646 - Readloom - INFO - Registered metadata provider: AniList
+2025-10-01 20:25:12,646 - Readloom - INFO - Registered metadata provider: MangaFire
+2025-10-01 20:25:12,646 - Readloom - INFO - Registered metadata provider: GoogleBooks
+2025-10-01 20:25:12,647 - Readloom - INFO - Registered metadata provider: OpenLibrary
+2025-10-01 20:25:12,647 - Readloom - INFO - Registered metadata provider: ISBNdb
+2025-10-01 20:25:12,647 - Readloom - INFO - Registered metadata provider: WorldCat
+2025-10-01 20:25:12,647 - Readloom - INFO - Initialized 9 metadata providers
+2025-10-01 20:25:12,649 - Readloom - INFO - Metadata service initialized
+2025-10-01 20:25:12,651 - Readloom - INFO - Settings table created or verified
+2025-10-01 20:25:12,651 - Readloom - INFO - Starting periodic task manager
+2025-10-01 20:25:12,652 - Readloom - INFO - Periodic task manager running with scan interval: 60 minutes
+2025-10-01 20:25:12,652 - Readloom - INFO - Periodic task manager started
+2025-10-01 20:25:12,652 - Readloom - INFO - Running periodic e-book scan
+2025-10-01 20:25:12,652 - Readloom - INFO - Starting e-book scan with specific_series_id=None, custom_path=None
+2025-10-01 20:25:12,653 - Readloom - INFO - Settings table created or verified
+2025-10-01 20:25:12,653 - Readloom - INFO - Using 1 root folders for scanning
+2025-10-01 20:25:12,654 - Readloom - INFO - Looking for series with folder name: Berserk
+2025-10-01 20:25:12,655 - Readloom - INFO - No exact match found, trying case-insensitive match
+2025-10-01 20:25:12,656 - Readloom - INFO - No case-insensitive match found, trying with similar name
+2025-10-01 20:25:12,656 - Readloom - INFO - Original name: 'Kagurabachi', Safe name: 'Kagurabachi'
+2025-10-01 20:25:12,656 - Readloom - INFO - Original name: 'Shingeki no Kyojin', Safe name: 'Shingeki no Kyojin'
+2025-10-01 20:25:12,656 - Readloom - INFO - Original name: 'Dandadan', Safe name: 'Dandadan'
+2025-10-01 20:25:12,657 - Readloom - WARNING - Series directory found but not in database: C:\Users\dariu\Documents\Manga\Berserk
+2025-10-01 20:25:12,657 - Readloom - INFO - Looking for series with folder name: Chainsaw Man
+2025-10-01 20:25:12,657 - Readloom - INFO - No exact match found, trying case-insensitive match
+2025-10-01 20:25:12,658 - Readloom - INFO - No case-insensitive match found, trying with similar name
+2025-10-01 20:25:12,658 - Readloom - INFO - Original name: 'Kagurabachi', Safe name: 'Kagurabachi'
+2025-10-01 20:25:12,658 - Readloom - INFO - Original name: 'Shingeki no Kyojin', Safe name: 'Shingeki no Kyojin'
+2025-10-01 20:25:12,659 - Readloom - INFO - Original name: 'Dandadan', Safe name: 'Dandadan'
+2025-10-01 20:25:12,659 - Readloom - WARNING - Series directory found but not in database: C:\Users\dariu\Documents\Manga\Chainsaw Man
+2025-10-01 20:25:12,659 - Readloom - INFO - Looking for series with folder name: Dandadan
+2025-10-01 20:25:12,660 - Readloom - INFO - Ensuring README file exists: C:\Users\dariu\Documents\Manga\Dandadan\README.txt
+2025-10-01 20:25:12,660 - Readloom - INFO - README file already exists: C:\Users\dariu\Documents\Manga\Dandadan\README.txt
+2025-10-01 20:25:12,661 - Readloom - INFO - Looking for series with folder name: Kagurabachi
+2025-10-01 20:25:12,661 - Readloom - INFO - Ensuring README file exists: C:\Users\dariu\Documents\Manga\Kagurabachi\README.txt
+2025-10-01 20:25:12,662 - Readloom - INFO - README file already exists: C:\Users\dariu\Documents\Manga\Kagurabachi\README.txt
+2025-10-01 20:25:12,662 - Readloom - INFO - Looking for series with folder name: Shangri-La Frontier_ Kusoge Hunter, Kami ge ni Idoman to su
+2025-10-01 20:25:12,663 - Readloom - INFO - Registered metadata provider: MyAnimeList
+2025-10-01 20:25:12,663 - Readloom - INFO - No exact match found, trying case-insensitive match
+2025-10-01 20:25:12,663 - Readloom - INFO - Registered metadata provider: MangaAPI
+2025-10-01 20:25:12,663 - Readloom - INFO - No case-insensitive match found, trying with similar name
+2025-10-01 20:25:12,663 - Readloom - INFO - Registered metadata provider: MangaDex
+2025-10-01 20:25:12,664 - Readloom - INFO - Original name: 'Kagurabachi', Safe name: 'Kagurabachi'
+2025-10-01 20:25:12,664 - Readloom - INFO - Registered metadata provider: MyAnimeList
+2025-10-01 20:25:12,664 - Readloom - INFO - Original name: 'Shingeki no Kyojin', Safe name: 'Shingeki no Kyojin'
+2025-10-01 20:25:12,664 - Readloom - INFO - Registered metadata provider: AniList
+2025-10-01 20:25:12,664 - Readloom - INFO - Original name: 'Dandadan', Safe name: 'Dandadan'
+2025-10-01 20:25:12,665 - Readloom - INFO - Registered metadata provider: MangaFire
+2025-10-01 20:25:12,665 - Readloom - WARNING - Series directory found but not in database: C:\Users\dariu\Documents\Manga\Shangri-La Frontier_ Kusoge Hunter, Kami ge ni Idoman to su
+2025-10-01 20:25:12,665 - Readloom - INFO - Registered metadata provider: GoogleBooks
+2025-10-01 20:25:12,665 - Readloom - INFO - Looking for series with folder name: Shingeki no Kyojin
+2025-10-01 20:25:12,665 - Readloom - INFO - Registered metadata provider: OpenLibrary
+2025-10-01 20:25:12,666 - Readloom - INFO - Registered metadata provider: ISBNdb
+2025-10-01 20:25:12,666 - Readloom - INFO - Ensuring README file exists: C:\Users\dariu\Documents\Manga\Shingeki no Kyojin\README.txt
+2025-10-01 20:25:12,666 - Readloom - INFO - Registered metadata provider: WorldCat
+2025-10-01 20:25:12,666 - Readloom - INFO - README file already exists: C:\Users\dariu\Documents\Manga\Shingeki no Kyojin\README.txt
+2025-10-01 20:25:12,667 - Readloom - INFO - Initialized 9 metadata providers
+2025-10-01 20:25:12,667 - Readloom - INFO - Looking for series with folder name: Vinland Saga
+2025-10-01 20:25:12,669 - Readloom - INFO - No exact match found, trying case-insensitive match
+2025-10-01 20:25:12,669 - Readloom - INFO - Metadata service initialized
+2025-10-01 20:25:12,669 - Readloom - INFO - No case-insensitive match found, trying with similar name
+2025-10-01 20:25:12,670 - Readloom - INFO - Original name: 'Kagurabachi', Safe name: 'Kagurabachi'
+2025-10-01 20:25:12,670 - Readloom - INFO - Original name: 'Shingeki no Kyojin', Safe name: 'Shingeki no Kyojin'
+2025-10-01 20:25:12,671 - Readloom - INFO - Original name: 'Dandadan', Safe name: 'Dandadan'
+2025-10-01 20:25:12,671 - Readloom - WARNING - Series directory found but not in database: C:\Users\dariu\Documents\Manga\Vinland Saga
+2025-10-01 20:25:12,671 - Readloom - INFO - Processing directory: C:\Users\dariu\Documents\Manga\Dandadan for series ID: 3
+2025-10-01 20:25:12,672 - Readloom - INFO - Processing series: Shingeki no Kyojin (ID: 3)
+2025-10-01 20:25:12,672 - Readloom - INFO - Scanning directory C:\Users\dariu\Documents\Manga\Dandadan for e-book files
+2025-10-01 20:25:12,672 - Readloom - INFO - Have read permission for directory: C:\Users\dariu\Documents\Manga\Dandadan
+2025-10-01 20:25:12,673 - Readloom - INFO - Found 1 total files/directories
+2025-10-01 20:25:12,674 - Readloom - INFO - File extension: .txt for file C:\Users\dariu\Documents\Manga\Dandadan\README.txt
+2025-10-01 20:25:12,674 - Readloom - INFO - Skipping unsupported file type: C:\Users\dariu\Documents\Manga\Dandadan\README.txt
+2025-10-01 20:25:12,675 - Readloom - INFO - Processing directory: C:\Users\dariu\Documents\Manga\Kagurabachi for series ID: 1
+2025-10-01 20:25:12,675 - Readloom - INFO - Processing series: Shingeki no Kyojin (ID: 1)
+2025-10-01 20:25:12,676 - Readloom - INFO - Scanning directory C:\Users\dariu\Documents\Manga\Kagurabachi for e-book files
+2025-10-01 20:25:12,676 - Readloom - INFO - Have read permission for directory: C:\Users\dariu\Documents\Manga\Kagurabachi
+2025-10-01 20:25:12,727 - Readloom - INFO - Application initialized successfully
+2025-10-01 20:25:12,727 - Readloom - INFO - Found 1 total files/directories
+2025-10-01 20:25:12,728 - Readloom - INFO - File extension: .txt for file C:\Users\dariu\Documents\Manga\Kagurabachi\README.txt
+2025-10-01 20:25:12,729 - Readloom - INFO - Skipping unsupported file type: C:\Users\dariu\Documents\Manga\Kagurabachi\README.txt
+2025-10-01 20:25:12,729 - Readloom - INFO - Processing directory: C:\Users\dariu\Documents\Manga\Shingeki no Kyojin for series ID: 2
+2025-10-01 20:25:12,729 - Readloom - INFO - Processing series: Shingeki no Kyojin (ID: 2)
+2025-10-01 20:25:12,729 - Readloom - INFO - Scanning directory C:\Users\dariu\Documents\Manga\Shingeki no Kyojin for e-book files
+2025-10-01 20:25:12,730 - Readloom - INFO - Have read permission for directory: C:\Users\dariu\Documents\Manga\Shingeki no Kyojin
+2025-10-01 20:25:12,731 - Readloom - INFO - Found 1 total files/directories
+2025-10-01 20:25:12,732 - Readloom - INFO - File extension: .txt for file C:\Users\dariu\Documents\Manga\Shingeki no Kyojin\README.txt
+2025-10-01 20:25:12,732 - Readloom - INFO - Skipping unsupported file type: C:\Users\dariu\Documents\Manga\Shingeki no Kyojin\README.txt
+2025-10-01 20:25:12,733 - Readloom - INFO - Scan completed with stats: {'scanned': 0, 'added': 0, 'skipped': 3, 'errors': 0, 'series_processed': 3}
+2025-10-01 20:25:12,733 - Readloom - INFO - Final stats after cleanup: {'scanned': 0, 'added': 0, 'skipped': 3, 'errors': 0, 'series_processed': 3}
+2025-10-01 20:25:12,733 - Readloom - INFO - Periodic scan complete: {'scanned': 0, 'added': 0, 'skipped': 3, 'errors': 0, 'series_processed': 3}
+2025-10-01 20:25:13,158 - Readloom - INFO - Logging to data\logs\readloom.log
+2025-10-01 20:25:13,158 - Readloom - INFO - Starting Readloom in development mode
+2025-10-01 20:25:13,159 - Readloom - INFO - Settings table created or verified
+2025-10-01 20:25:13,159 - Readloom - INFO - Settings initialized
+2025-10-01 20:25:13,335 - Readloom - INFO - Registered metadata provider: MyAnimeList
+2025-10-01 20:25:13,336 - Readloom - INFO - Registered metadata provider: MangaAPI
+2025-10-01 20:25:13,336 - Readloom - INFO - Registered metadata provider: MangaDex
+2025-10-01 20:25:13,336 - Readloom - INFO - Registered metadata provider: MyAnimeList
+2025-10-01 20:25:13,337 - Readloom - INFO - Registered metadata provider: AniList
+2025-10-01 20:25:13,337 - Readloom - INFO - Registered metadata provider: MangaFire
+2025-10-01 20:25:13,338 - Readloom - INFO - Registered metadata provider: GoogleBooks
+2025-10-01 20:25:13,338 - Readloom - INFO - Registered metadata provider: OpenLibrary
+2025-10-01 20:25:13,338 - Readloom - INFO - Registered metadata provider: ISBNdb
+2025-10-01 20:25:13,339 - Readloom - INFO - Registered metadata provider: WorldCat
+2025-10-01 20:25:13,339 - Readloom - INFO - Initialized 9 metadata providers
+2025-10-01 20:25:13,341 - Readloom - INFO - Metadata service initialized
+2025-10-01 20:25:13,343 - Readloom - INFO - Settings table created or verified
+2025-10-01 20:25:13,343 - Readloom - INFO - Starting periodic task manager
+2025-10-01 20:25:13,344 - Readloom - INFO - Periodic task manager running with scan interval: 60 minutes
+2025-10-01 20:25:13,344 - Readloom - INFO - Periodic task manager started
+2025-10-01 20:25:13,345 - Readloom - INFO - Running periodic e-book scan
+2025-10-01 20:25:13,345 - Readloom - INFO - Starting e-book scan with specific_series_id=None, custom_path=None
+2025-10-01 20:25:13,345 - Readloom - INFO - Settings table created or verified
+2025-10-01 20:25:13,346 - Readloom - INFO - Using 1 root folders for scanning
+2025-10-01 20:25:13,347 - Readloom - INFO - Looking for series with folder name: Berserk
+2025-10-01 20:25:13,348 - Readloom - INFO - No exact match found, trying case-insensitive match
+2025-10-01 20:25:13,348 - Readloom - INFO - No case-insensitive match found, trying with similar name
+2025-10-01 20:25:13,348 - Readloom - INFO - Original name: 'Kagurabachi', Safe name: 'Kagurabachi'
+2025-10-01 20:25:13,349 - Readloom - INFO - Original name: 'Shingeki no Kyojin', Safe name: 'Shingeki no Kyojin'
+2025-10-01 20:25:13,349 - Readloom - INFO - Original name: 'Dandadan', Safe name: 'Dandadan'
+2025-10-01 20:25:13,349 - Readloom - WARNING - Series directory found but not in database: C:\Users\dariu\Documents\Manga\Berserk
+2025-10-01 20:25:13,350 - Readloom - INFO - Looking for series with folder name: Chainsaw Man
+2025-10-01 20:25:13,350 - Readloom - INFO - No exact match found, trying case-insensitive match
+2025-10-01 20:25:13,350 - Readloom - INFO - No case-insensitive match found, trying with similar name
+2025-10-01 20:25:13,351 - Readloom - INFO - Original name: 'Kagurabachi', Safe name: 'Kagurabachi'
+2025-10-01 20:25:13,351 - Readloom - INFO - Original name: 'Shingeki no Kyojin', Safe name: 'Shingeki no Kyojin'
+2025-10-01 20:25:13,351 - Readloom - INFO - Original name: 'Dandadan', Safe name: 'Dandadan'
+2025-10-01 20:25:13,352 - Readloom - WARNING - Series directory found but not in database: C:\Users\dariu\Documents\Manga\Chainsaw Man
+2025-10-01 20:25:13,352 - Readloom - INFO - Looking for series with folder name: Dandadan
+2025-10-01 20:25:13,352 - Readloom - INFO - Ensuring README file exists: C:\Users\dariu\Documents\Manga\Dandadan\README.txt
+2025-10-01 20:25:13,353 - Readloom - INFO - README file already exists: C:\Users\dariu\Documents\Manga\Dandadan\README.txt
+2025-10-01 20:25:13,353 - Readloom - INFO - Looking for series with folder name: Kagurabachi
+2025-10-01 20:25:13,354 - Readloom - INFO - Ensuring README file exists: C:\Users\dariu\Documents\Manga\Kagurabachi\README.txt
+2025-10-01 20:25:13,354 - Readloom - INFO - README file already exists: C:\Users\dariu\Documents\Manga\Kagurabachi\README.txt
+2025-10-01 20:25:13,355 - Readloom - INFO - Looking for series with folder name: Shangri-La Frontier_ Kusoge Hunter, Kami ge ni Idoman to su
+2025-10-01 20:25:13,355 - Readloom - INFO - No exact match found, trying case-insensitive match
+2025-10-01 20:25:13,355 - Readloom - INFO - No case-insensitive match found, trying with similar name
+2025-10-01 20:25:13,356 - Readloom - INFO - Original name: 'Kagurabachi', Safe name: 'Kagurabachi'
+2025-10-01 20:25:13,356 - Readloom - INFO - Original name: 'Shingeki no Kyojin', Safe name: 'Shingeki no Kyojin'
+2025-10-01 20:25:13,356 - Readloom - INFO - Original name: 'Dandadan', Safe name: 'Dandadan'
+2025-10-01 20:25:13,357 - Readloom - INFO - Registered metadata provider: MyAnimeList
+2025-10-01 20:25:13,357 - Readloom - WARNING - Series directory found but not in database: C:\Users\dariu\Documents\Manga\Shangri-La Frontier_ Kusoge Hunter, Kami ge ni Idoman to su
+2025-10-01 20:25:13,357 - Readloom - INFO - Registered metadata provider: MangaAPI
+2025-10-01 20:25:13,357 - Readloom - INFO - Looking for series with folder name: Shingeki no Kyojin
+2025-10-01 20:25:13,358 - Readloom - INFO - Registered metadata provider: MangaDex
+2025-10-01 20:25:13,358 - Readloom - INFO - Registered metadata provider: MyAnimeList
+2025-10-01 20:25:13,358 - Readloom - INFO - Ensuring README file exists: C:\Users\dariu\Documents\Manga\Shingeki no Kyojin\README.txt
+2025-10-01 20:25:13,358 - Readloom - INFO - Registered metadata provider: AniList
+2025-10-01 20:25:13,359 - Readloom - INFO - README file already exists: C:\Users\dariu\Documents\Manga\Shingeki no Kyojin\README.txt
+2025-10-01 20:25:13,359 - Readloom - INFO - Registered metadata provider: MangaFire
+2025-10-01 20:25:13,359 - Readloom - INFO - Looking for series with folder name: Vinland Saga
+2025-10-01 20:25:13,359 - Readloom - INFO - Registered metadata provider: GoogleBooks
+2025-10-01 20:25:13,360 - Readloom - INFO - No exact match found, trying case-insensitive match
+2025-10-01 20:25:13,360 - Readloom - INFO - Registered metadata provider: OpenLibrary
+2025-10-01 20:25:13,360 - Readloom - INFO - No case-insensitive match found, trying with similar name
+2025-10-01 20:25:13,360 - Readloom - INFO - Registered metadata provider: ISBNdb
+2025-10-01 20:25:13,361 - Readloom - INFO - Registered metadata provider: WorldCat
+2025-10-01 20:25:13,361 - Readloom - INFO - Original name: 'Kagurabachi', Safe name: 'Kagurabachi'
+2025-10-01 20:25:13,361 - Readloom - INFO - Initialized 9 metadata providers
+2025-10-01 20:25:13,361 - Readloom - INFO - Original name: 'Shingeki no Kyojin', Safe name: 'Shingeki no Kyojin'
+2025-10-01 20:25:13,362 - Readloom - INFO - Original name: 'Dandadan', Safe name: 'Dandadan'
+2025-10-01 20:25:13,362 - Readloom - WARNING - Series directory found but not in database: C:\Users\dariu\Documents\Manga\Vinland Saga
+2025-10-01 20:25:13,362 - Readloom - INFO - Processing directory: C:\Users\dariu\Documents\Manga\Dandadan for series ID: 3
+2025-10-01 20:25:13,362 - Readloom - INFO - Processing series: Shingeki no Kyojin (ID: 3)
+2025-10-01 20:25:13,363 - Readloom - INFO - Scanning directory C:\Users\dariu\Documents\Manga\Dandadan for e-book files
+2025-10-01 20:25:13,363 - Readloom - INFO - Have read permission for directory: C:\Users\dariu\Documents\Manga\Dandadan
+2025-10-01 20:25:13,363 - Readloom - INFO - Metadata service initialized
+2025-10-01 20:25:13,364 - Readloom - INFO - Found 1 total files/directories
+2025-10-01 20:25:13,366 - Readloom - INFO - File extension: .txt for file C:\Users\dariu\Documents\Manga\Dandadan\README.txt
+2025-10-01 20:25:13,366 - Readloom - INFO - Skipping unsupported file type: C:\Users\dariu\Documents\Manga\Dandadan\README.txt
+2025-10-01 20:25:13,366 - Readloom - INFO - Processing directory: C:\Users\dariu\Documents\Manga\Kagurabachi for series ID: 1
+2025-10-01 20:25:13,367 - Readloom - INFO - Processing series: Shingeki no Kyojin (ID: 1)
+2025-10-01 20:25:13,367 - Readloom - INFO - Scanning directory C:\Users\dariu\Documents\Manga\Kagurabachi for e-book files
+2025-10-01 20:25:13,367 - Readloom - INFO - Have read permission for directory: C:\Users\dariu\Documents\Manga\Kagurabachi
+2025-10-01 20:25:13,368 - Readloom - INFO - Found 1 total files/directories
+2025-10-01 20:25:13,370 - Readloom - INFO - File extension: .txt for file C:\Users\dariu\Documents\Manga\Kagurabachi\README.txt
+2025-10-01 20:25:13,370 - Readloom - INFO - Skipping unsupported file type: C:\Users\dariu\Documents\Manga\Kagurabachi\README.txt
+2025-10-01 20:25:13,370 - Readloom - INFO - Processing directory: C:\Users\dariu\Documents\Manga\Shingeki no Kyojin for series ID: 2
+2025-10-01 20:25:13,371 - Readloom - INFO - Processing series: Shingeki no Kyojin (ID: 2)
+2025-10-01 20:25:13,371 - Readloom - INFO - Scanning directory C:\Users\dariu\Documents\Manga\Shingeki no Kyojin for e-book files
+2025-10-01 20:25:13,371 - Readloom - INFO - Have read permission for directory: C:\Users\dariu\Documents\Manga\Shingeki no Kyojin
+2025-10-01 20:25:13,372 - Readloom - INFO - Found 1 total files/directories
+2025-10-01 20:25:13,419 - Readloom - INFO - Application initialized successfully
+2025-10-01 20:25:13,420 - Readloom - INFO - File extension: .txt for file C:\Users\dariu\Documents\Manga\Shingeki no Kyojin\README.txt
+2025-10-01 20:25:13,421 - Readloom - INFO - Skipping unsupported file type: C:\Users\dariu\Documents\Manga\Shingeki no Kyojin\README.txt
+2025-10-01 20:25:13,421 - Readloom - INFO - Scan completed with stats: {'scanned': 0, 'added': 0, 'skipped': 3, 'errors': 0, 'series_processed': 3}
+2025-10-01 20:25:13,421 - Readloom - INFO - Final stats after cleanup: {'scanned': 0, 'added': 0, 'skipped': 3, 'errors': 0, 'series_processed': 3}
+2025-10-01 20:25:13,422 - Readloom - INFO - Periodic scan complete: {'scanned': 0, 'added': 0, 'skipped': 3, 'errors': 0, 'series_processed': 3}
+2025-10-01 20:25:19,676 - Readloom - INFO - Settings table created or verified
+2025-10-01 20:25:19,941 - Readloom - INFO - Settings table created or verified
+2025-10-01 20:25:23,104 - Readloom - INFO - Settings table created or verified

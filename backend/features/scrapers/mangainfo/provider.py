@@ -49,11 +49,22 @@ class MangaInfoProvider:
         
         # Look for matching popular manga in our static database
         for known_title, data in POPULAR_MANGA_DATA.items():
+            # Check main title
             if known_title in manga_title_lower or manga_title_lower in known_title:
                 result = (data['chapters'], data['volumes'])
-                LOGGER.info(f"Using static data for {manga_title}: {result[0]} chapters, {result[1]} volumes")
+                LOGGER.info(f"Using static data for {manga_title}: {result[0]} chapters, {result[1]} volumes (matched: {known_title})")
                 self.cache[manga_title] = result
                 return result
+            
+            # Check aliases if they exist
+            if 'aliases' in data:
+                for alias in data['aliases']:
+                    alias_lower = alias.lower()
+                    if alias_lower in manga_title_lower or manga_title_lower in alias_lower:
+                        result = (data['chapters'], data['volumes'])
+                        LOGGER.info(f"Using static data for {manga_title}: {result[0]} chapters, {result[1]} volumes (matched alias: {alias})")
+                        self.cache[manga_title] = result
+                        return result
         
         # Try different sources to get the most accurate data
         results = []
