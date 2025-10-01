@@ -1172,8 +1172,7 @@ def update_volume_format(volume_id: int):
             # Update existing collection item
             update_result = update_collection_item(
                 item_id=collection_item[0]['id'],
-                format=format_value,
-                digital_format=digital_format_value
+                format=format_value
             )
             
             if update_result:
@@ -1186,8 +1185,7 @@ def update_volume_format(volume_id: int):
                 series_id=series_id,
                 item_type="VOLUME",
                 volume_id=volume_id,
-                format=format_value,
-                digital_format=digital_format_value or "NONE"
+                format=format_value
             )
             
             return jsonify({"message": "Format set successfully"})

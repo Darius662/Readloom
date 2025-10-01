@@ -39,6 +39,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - One Piece: 115 volumes ✓
     - One Punch Man: 29 volumes ✓
     - Attack on Titan: 34 volumes ✓
+- **Volume Format Update API**:
+  - Fixed `digital_format` parameter being passed to functions that don't accept it
+  - Removed invalid parameter from `add_to_collection()` call
+  - Removed invalid parameter from `update_collection_item()` call
+  - Volume format changes (Physical ↔ Digital) now work correctly
 
 ### Added
 - Helper scripts for volume management:
@@ -59,6 +64,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated `get_chapter_list()` to use `volume_count` from manga details
 - Expanded static database from 25 to 27 manga entries with aliases
 - Enhanced scraper matching logic to support alternative titles
+- Updated volume format API to only use valid parameters (`format` only, removed `digital_format`)
 
 ## [0.1.0] - 2025-09-27
 
