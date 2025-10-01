@@ -284,16 +284,22 @@ class AniListProvider(MetadataProvider):
 
                 # Get manga title for scraper lookup
                 manga_title = item["title"].get("romaji", item["title"].get("english", ""))
+                manga_status = item.get("status", "")
+                anilist_id = str(item["id"])
                 
-                # Try to get accurate volume count from scraper first
+                # Try to get accurate volume count from scraper with smart caching
                 volume_count = 0
                 if self.info_provider and manga_title:
                     try:
                         self.logger.info(f"Getting accurate volume count from scrapers for: {manga_title}")
-                        accurate_chapters, accurate_volumes = self.info_provider.get_chapter_count(manga_title)
+                        accurate_chapters, accurate_volumes = self.info_provider.get_chapter_count(
+                            manga_title=manga_title,
+                            anilist_id=anilist_id,
+                            status=manga_status
+                        )
                         if accurate_volumes > 0:
                             volume_count = accurate_volumes
-                            self.logger.info(f"Using scraped volume count: {volume_count} volumes")
+                            self.logger.info(f"Using scraped/cached volume count: {volume_count} volumes")
                     except Exception as e:
                         self.logger.warning(f"Could not get accurate volume count from scrapers: {e}")
                 

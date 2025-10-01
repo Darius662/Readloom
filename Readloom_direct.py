@@ -11,6 +11,7 @@ from backend.base.helpers import check_min_python_version
 from backend.base.logging import LOGGER, setup_logging
 from backend.features.tasks import TaskHandler
 from backend.internals.db import set_db_location, setup_db
+from backend.internals.migrations import run_migrations
 from backend.internals.server import SERVER
 from backend.internals.settings import Settings
 
@@ -97,6 +98,9 @@ def main(
     
     with SERVER.app.app_context():
         setup_db()
+        
+        # Run database migrations
+        run_migrations()
         
         s = Settings()
         s.restart_on_hosting_changes = False

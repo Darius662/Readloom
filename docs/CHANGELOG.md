@@ -5,18 +5,40 @@ All notable changes to Readloom will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.1.1] - 2025-10-01
+
+### Added
+- **Smart Caching System** - Implemented comprehensive volume detection caching:
+  - Database cache table (`manga_volume_cache`) for persistent storage
+  - Dynamic static database (auto-populating JSON file)
+  - Memory cache for session-based performance
+  - Automatic cache refresh (30 days for ongoing, 90 days for completed manga)
+  - Migration system integration for automatic table creation
+- **Improved MangaDex API Integration**:
+  - Better search matching (top 5 results, prefer manga over doujinshi)
+  - Uses `lastVolume` and `lastChapter` attributes when available
+  - Removes language filter for complete volume data
+  - Filters out 'none' volumes for accurate counts
+- **Fixed MangaFire Scraper**:
+  - Changed from broken `/search?q=` to working `/filter?keyword=` endpoint
+  - Updated selector from `.manga-card` to `.unit` (correct class)
+  - Added language dropdown parsing for volume counts (e.g., "English (32 Volumes)")
+  - Now correctly detects volumes for most manga on MangaFire
 
 ### Fixed
-- **Critical: Volume Detection Bug** - Fixed incorrect volume counts for most manga series:
+- **Critical: Volume Detection System Overhaul**:
   - Fixed scraper not being called during volume creation in `get_manga_details()`
   - Resolved duplicate `"volumes"` key conflict in AniList provider
-  - Added support for Japanese titles and alternative names (aliases)
-  - Enhanced static database with 27+ popular manga entries
-  - Added aliases for manga with Japanese titles (e.g., "Shingeki no Kyojin" for "Attack on Titan")
-  - Improved matching logic to check both main titles and aliases
-  - Volume counts now accurate for popular manga (One Punch Man: 29 volumes, Attack on Titan: 34 volumes, etc.)
-  - See `VOLUME_FIX_FINAL_SUMMARY.md` for complete details
+  - Fixed MangaFire scraper failing due to outdated search endpoint
+  - Fixed MangaDex returning incomplete data for some manga
+  - Added migration call to `Readloom_direct.py` for automatic table creation
+  - Volume counts now accurate for most manga:
+    - Blue Exorcist: 32 volumes ✓
+    - D.Gray-man: 30 volumes ✓
+    - Fire Force: 34 volumes ✓
+    - One Piece: 115 volumes ✓
+    - One Punch Man: 29 volumes ✓
+    - Attack on Titan: 34 volumes ✓
 
 ### Added
 - Helper scripts for volume management:

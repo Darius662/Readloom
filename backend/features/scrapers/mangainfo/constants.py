@@ -19,9 +19,10 @@ MANGADEX_URL = "https://api.mangadex.org"
 MANGAFIRE_URL = "https://mangafire.to"
 
 # Static database of popular manga for fallback
-# Format: "search_key": {"chapters": X, "volumes": Y, "aliases": ["alt1", "alt2"]}
+# Format: "search_key": {"chapters": X, "volumes": Y, "aliases": ["alt1", "alt2"], "status": "ONGOING/COMPLETED"}
+# Note: For ongoing manga, this data may become outdated. The smart caching system will update it.
 POPULAR_MANGA_DATA = {
-    "one piece": {"chapters": 1112, "volumes": 108},
+    "one piece": {"chapters": 1130, "volumes": 115, "status": "ONGOING"},
     "naruto": {"chapters": 700, "volumes": 72},
     "bleach": {"chapters": 686, "volumes": 74},
     "dragon ball": {"chapters": 519, "volumes": 42},
