@@ -7,7 +7,7 @@ Migration script to add confirmed_release flag to chapters and volumes.
 
 from backend.internals.db import execute_query
 
-def run_migration():
+def migrate():
     """Add confirmed_release flag to chapters and volumes tables."""
     try:
         # Add is_confirmed_date column to chapters table if it doesn't exist
@@ -46,4 +46,4 @@ def run_migration():
         return False
 
 if __name__ == "__main__":
-    run_migration()
+    migrate()
