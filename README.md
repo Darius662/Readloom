@@ -214,6 +214,14 @@ Comprehensive documentation is available in the `docs/` directory:
 - [Refactoring Guide](docs/REFACTORING_GUIDE.md) - Guidelines for code refactoring
 - [Metadata Providers](docs/METADATA_PROVIDERS.md) - Details on metadata provider implementation
 
+### Volume Detection Fix
+
+If you're experiencing incorrect volume counts for manga series:
+
+- [Volume Fix Summary](VOLUME_FIX_FINAL_SUMMARY.md) - Complete overview of the volume detection fix
+- [Adding Manga to Database](ADDING_MANGA_TO_DATABASE.md) - Guide for adding manga with accurate volume counts
+- Use `python refresh_series_volumes.py --all` to update existing series
+
 ## Configuration
 
 Readloom stores its configuration in a SQLite database. You can modify settings through the web interface at http://localhost:7227/settings.

@@ -32,47 +32,23 @@ def get_mangafire_data(session: requests.Session, manga_title: str) -> Tuple[int
         # Update headers for this request
         session.headers.update(get_random_headers())
         
-        # Try alternative search methods if regular search fails
-        # First, try standard search
-        search_url = f"{MANGAFIRE_URL}/search?q={manga_title.replace(' ', '+')}"
-        LOGGER.info(f"Searching MangaFire (method 1): {search_url}")
+        # Use the filter page (search page is broken, returns 404)
+        filter_url = f"{MANGAFIRE_URL}/filter?keyword={manga_title.replace(' ', '+')}"
+        LOGGER.info(f"Searching MangaFire: {filter_url}")
         
         try:
-            response = session.get(search_url, timeout=10)
-            search_success = response.status_code == 200
+            response = session.get(filter_url, timeout=10)
+            if response.status_code != 200:
+                LOGGER.warning(f"MangaFire filter page failed: {response.status_code}")
+                return (0, 0)
         except Exception as e:
-            LOGGER.warning(f"MangaFire search request failed: {e}")
-            search_success = False
-        
-        # If first search fails, try alternative search method
-        if not search_success:
-            # Try direct manga URL if it looks like a common title format
-            # Convert to URL-friendly format
-            url_title = manga_title.lower().replace(' ', '-')
-            url_title = re.sub(r'[^a-z0-9-]', '', url_title)
-            alt_search_url = f"{MANGAFIRE_URL}/manga/{url_title}"
-            
-            LOGGER.info(f"Trying alternative MangaFire search (method 2): {alt_search_url}")
-            try:
-                response = session.get(alt_search_url, timeout=10)
-                if response.status_code == 200:
-                    search_success = True
-                    LOGGER.info("Alternative search method succeeded")
-                else:
-                    LOGGER.warning(f"Alternative MangaFire search failed: {response.status_code}")
-            except Exception as e:
-                LOGGER.warning(f"Alternative MangaFire search request failed: {e}")
-        
-        if not search_success:
-            LOGGER.warning("All MangaFire search methods failed")
+            LOGGER.warning(f"MangaFire request failed: {e}")
             return (0, 0)
             
         soup = BeautifulSoup(response.text, 'html.parser')
-        search_results = soup.select('.manga-card')
         
-        if not search_results:
-            # Try alternative selector
-            search_results = soup.select('.mangas-card')
+        # MangaFire uses .unit class for manga cards
+        search_results = soup.select('.unit')
             
         if not search_results:
             LOGGER.warning("No search results found on MangaFire")
@@ -80,7 +56,7 @@ def get_mangafire_data(session: requests.Session, manga_title: str) -> Tuple[int
             
         # Get the first result's URL
         first_result = search_results[0]
-        manga_link = first_result.select_one('a')
+        manga_link = first_result.select_one('a[href*="/manga/"]')
         if not manga_link or not manga_link.has_attr('href'):
             LOGGER.warning("No manga link found in search results")
             return (0, 0)
@@ -144,19 +120,30 @@ def get_mangafire_data(session: requests.Session, manga_title: str) -> Tuple[int
         
         # If no direct volume listing, try to find volume information in manga description or info
         if volume_count == 0:
-            volume_texts = [
-                manga_soup.select_one('.manga-info span:-soup-contains("Volume")'),
-                manga_soup.select_one('.manga-info span:-soup-contains("Volumes")'),
-                manga_soup.select_one('.info-item:-soup-contains("Volume")')
-            ]
+            # Check language dropdown (e.g., "English (32 Volumes)")
+            dropdown_items = manga_soup.select('.dropdown-item')
+            for item in dropdown_items:
+                match = re.search(r'\((\d+)\s+Volumes?\)', item.text, re.IGNORECASE)
+                if match:
+                    volume_count = int(match.group(1))
+                    LOGGER.info(f"Found volume count {volume_count} in language dropdown: {item.text.strip()}")
+                    break
             
-            for text in volume_texts:
-                if text:
-                    numbers = re.findall(r'\d+', text.text)
-                    if numbers:
-                        volume_count = int(numbers[0])
-                        LOGGER.info(f"Found volume count {volume_count} in text: {text.text.strip()}")
-                        break
+            # If still not found, check other text elements
+            if volume_count == 0:
+                volume_texts = [
+                    manga_soup.select_one('.manga-info span:-soup-contains("Volume")'),
+                    manga_soup.select_one('.manga-info span:-soup-contains("Volumes")'),
+                    manga_soup.select_one('.info-item:-soup-contains("Volume")')
+                ]
+                
+                for text in volume_texts:
+                    if text:
+                        numbers = re.findall(r'\d+', text.text)
+                        if numbers:
+                            volume_count = int(numbers[0])
+                            LOGGER.info(f"Found volume count {volume_count} in text: {text.text.strip()}")
+                            break
         
         # Advanced method: look for volume patterns in chapter titles
         if volume_count == 0 and chapter_count > 0:
