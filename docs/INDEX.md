@@ -21,6 +21,7 @@ This document provides an overview of all available documentation for Readloom.
 ## Technical Documentation
 
 - [Database Schema](DATABASE.md) - Database structure information
+- [Smart Caching System](SMART_CACHING_SYSTEM.md) - Volume detection caching architecture
 - [Codebase Structure](CODEBASE_STRUCTURE.md) - Overview of the modular architecture
 - [UI Structure](UI_STRUCTURE.md) - Overview of the user interface organization
 - [Direct Execution Mode](DIRECT_EXECUTION.md) - Running Readloom in direct execution mode

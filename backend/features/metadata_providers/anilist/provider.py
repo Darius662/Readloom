@@ -282,23 +282,46 @@ class AniListProvider(MetadataProvider):
 
                 volumes_list: List[Dict[str, Any]] = []
 
-                known_volume_count = self.known_volumes.get(str(item["id"]))
-                if known_volume_count:
-                    self.logger.info(
-                        f"Using known volume count {known_volume_count} for {item['title'].get('romaji')}"
-                    )
-                    volume_count = known_volume_count
-                else:
-                    volume_count = item.get("volumes", 0)
-                    if volume_count == 0 and item.get("status") == "FINISHED":
-                        chapter_count = item.get("chapters", 0)
-                        if chapter_count > 0:
-                            volume_count = max(1, chapter_count // 9)
-                            self.logger.info(
-                                f"Estimated {volume_count} volumes for {item['title'].get('romaji')} based on {chapter_count} chapters"
-                            )
-                    if volume_count == 0 and item.get("status") != "NOT_YET_RELEASED":
-                        volume_count = 1
+                # Get manga title for scraper lookup
+                manga_title = item["title"].get("romaji", item["title"].get("english", ""))
+                manga_status = item.get("status", "")
+                anilist_id = str(item["id"])
+                
+                # Try to get accurate volume count from scraper with smart caching
+                volume_count = 0
+                if self.info_provider and manga_title:
+                    try:
+                        self.logger.info(f"Getting accurate volume count from scrapers for: {manga_title}")
+                        accurate_chapters, accurate_volumes = self.info_provider.get_chapter_count(
+                            manga_title=manga_title,
+                            anilist_id=anilist_id,
+                            status=manga_status
+                        )
+                        if accurate_volumes > 0:
+                            volume_count = accurate_volumes
+                            self.logger.info(f"Using scraped/cached volume count: {volume_count} volumes")
+                    except Exception as e:
+                        self.logger.warning(f"Could not get accurate volume count from scrapers: {e}")
+                
+                # Fallback to known volumes or API data
+                if volume_count == 0:
+                    known_volume_count = self.known_volumes.get(str(item["id"]))
+                    if known_volume_count:
+                        self.logger.info(
+                            f"Using known volume count {known_volume_count} for {manga_title}"
+                        )
+                        volume_count = known_volume_count
+                    else:
+                        volume_count = item.get("volumes", 0)
+                        if volume_count == 0 and item.get("status") == "FINISHED":
+                            chapter_count = item.get("chapters", 0)
+                            if chapter_count > 0:
+                                volume_count = max(1, chapter_count // 9)
+                                self.logger.info(
+                                    f"Estimated {volume_count} volumes for {manga_title} based on {chapter_count} chapters"
+                                )
+                        if volume_count == 0 and item.get("status") != "NOT_YET_RELEASED":
+                            volume_count = 1
                 if volume_count and volume_count > 0:
                     if start_date and end_date and start_date != end_date:
                         try:
@@ -335,7 +358,7 @@ class AniListProvider(MetadataProvider):
                     "description": item.get("description", "").replace("<br>", "\n").replace("<i>", "").replace("</i>", ""),
                     "genres": item.get("genres", []),
                     "rating": str(item.get("averageScore", 0) / 10) if item.get("averageScore") else "0",
-                    "volumes": item.get("volumes", 0),
+                    "volume_count": volume_count,  # Volume count (integer) - using scraped data
                     "chapters": item.get("chapters", 0),
                     "start_date": start_date,
                     "end_date": end_date,
@@ -343,7 +366,7 @@ class AniListProvider(MetadataProvider):
                     "recommendations": recommendations,
                     "url": f"https://anilist.co/manga/{item['id']}",
                     "source": self.name,
-                    "volumes": volumes_list,
+                    "volumes": volumes_list,  # Volume list (array of volume objects)
                 }
         except Exception as e:
             self.logger.error(f"Error parsing AniList manga details: {e}")
@@ -359,37 +382,32 @@ class AniListProvider(MetadataProvider):
 
             chapters: List[Dict[str, Any]] = []
             total_chapters = manga_details.get("chapters", 0)
-            total_volumes = manga_details.get("volumes", 0)
+            # Use volume_count which already has scraped data from get_manga_details()
+            total_volumes = manga_details.get("volume_count", 0)
             manga_title = manga_details.get("title", "")
 
+            # The scraper was already called in get_manga_details(), so we have accurate data
+            # But we can still try to get chapter count if it wasn't set
             provider_data = False
-            if self.info_provider and manga_title:
+            if self.info_provider and manga_title and (not total_chapters or total_chapters <= 0):
                 self.logger.info(
-                    f"Getting accurate volume and chapter counts for: {manga_title}"
+                    f"Getting accurate chapter count for: {manga_title}"
                 )
-                accurate_chapters, accurate_volumes = self.info_provider.get_chapter_count(
+                accurate_chapters, _ = self.info_provider.get_chapter_count(
                     manga_title
                 )
 
-                if accurate_volumes > 0:
-                    total_volumes = accurate_volumes
-                    provider_data = True
-                    self.logger.info(
-                        f"Using scraped volume count for {manga_title}: {total_volumes} volumes"
-                    )
-
                 if accurate_chapters > 0:
-                    if total_chapters is None or accurate_chapters > total_chapters:
-                        total_chapters = accurate_chapters
-                        self.logger.info(
-                            f"Using scraped chapter count for {manga_title}: {total_chapters} chapters"
-                        )
+                    total_chapters = accurate_chapters
                     provider_data = True
-
-                if provider_data:
                     self.logger.info(
-                        f"Final data for {manga_title}: {total_chapters} chapters, {total_volumes} volumes"
+                        f"Using scraped chapter count for {manga_title}: {total_chapters} chapters"
                     )
+
+            if provider_data or total_volumes > 0:
+                self.logger.info(
+                    f"Final data for {manga_title}: {total_chapters} chapters, {total_volumes} volumes"
+                )
 
             if not provider_data and (not total_chapters or total_chapters <= 0):
                 status = manga_details.get("status", "")
