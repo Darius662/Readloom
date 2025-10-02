@@ -5,6 +5,16 @@ All notable changes to Readloom will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.1-1] - 2025-10-02
+
+### Added
+- **Legal Documentation**:
+  - Added comprehensive LEGAL.md file with copyright policy and terms of use
+  - Added copyright notice section to README.md
+  - Added copyright notice card to About page in UI
+  - Clarified that Readloom is a management tool, not a content distribution platform
+  - Outlined legitimate use cases and user responsibilities
+
 ## [0.1.1] - 2025-10-01
 
 ### Added

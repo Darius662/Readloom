@@ -316,6 +316,20 @@ See the [Integrations](http://localhost:7227/integrations) page in the Readloom 
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
+## Copyright Notice
+
+Readloom is a library management tool designed to help you organize and track digital media files you own or have legal rights to access.
+
+**Important:**
+- Readloom does not provide, host, or distribute any copyrighted content
+- Users are solely responsible for ensuring they have legal rights to any files they manage with Readloom
+- Readloom is intended for personal, non-commercial use
+- We do not condone or support piracy in any form
+
+Please respect copyright laws and support content creators by purchasing legal copies of manga, comics, and books.
+
+For more details, see [LEGAL.md](LEGAL.md).
+
 ## License
 
 Readloom is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
