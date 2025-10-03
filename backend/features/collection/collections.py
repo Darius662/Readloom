@@ -40,16 +40,80 @@ def create_collection(name: str, description: str = "", is_default: bool = False
     if existing:
         raise InvalidCollectionError(f"Collection with name '{name}' already exists")
     
-    # If this is set as default, unset any existing default
-    if is_default:
-        execute_query("UPDATE collections SET is_default = 0", commit=True)
-    
-    # Create the collection
-    execute_query(
-        "INSERT INTO collections (name, description, is_default) VALUES (?, ?, ?)",
-        (name, description, 1 if is_default else 0),
-        commit=True
-    )
+    try:
+        # First, try to fix any constraint issues in the database
+        try:
+            # Check if the unique_default constraint exists and is causing problems
+            constraints = execute_query("PRAGMA table_info(collections)")
+            has_constraint = False
+            for constraint in constraints:
+                if "unique_default" in str(constraint):
+                    has_constraint = True
+                    break
+                    
+            if has_constraint:
+                LOGGER.warning("Found problematic unique_default constraint, attempting to fix...")
+                
+                # Try to create a unique index that will enforce only one default collection
+                try:
+                    execute_query("""
+                    CREATE UNIQUE INDEX IF NOT EXISTS idx_unique_default 
+                    ON collections(is_default) WHERE is_default = 1
+                    """, commit=True)
+                except Exception as e:
+                    LOGGER.warning(f"Could not create index: {e}")
+        except Exception as e:
+            LOGGER.warning(f"Error checking constraints: {e}")
+            
+        # If this is set as default, unset any existing default
+        if is_default:
+            execute_query("UPDATE collections SET is_default = 0", commit=True)
+        
+        # Create the collection
+        execute_query(
+            "INSERT INTO collections (name, description, is_default) VALUES (?, ?, ?)",
+            (name, description, 1 if is_default else 0),
+            commit=True
+        )
+    except Exception as e:
+        # If the constraint is still causing issues, try a more direct approach
+        if "unique_default" in str(e):
+            LOGGER.warning(f"Constraint error: {e}, trying alternative approach")
+            
+            # Create the collection without setting default flag
+            execute_query(
+                "INSERT INTO collections (name, description, is_default) VALUES (?, ?, 0)",
+                (name, description),
+                commit=True
+            )
+            
+            # Get the ID
+            result = execute_query("SELECT id FROM collections WHERE name = ?", (name,))
+            if not result:
+                raise DatabaseError("Failed to create collection")
+            
+            collection_id = result[0]["id"]
+            
+            # If we need to set as default, do it in a separate update
+            if is_default:
+                try:
+                    # Unset any existing default
+                    execute_query("UPDATE collections SET is_default = 0", commit=True)
+                    
+                    # Set this one as default
+                    execute_query(
+                        "UPDATE collections SET is_default = 1 WHERE id = ?",
+                        (collection_id,),
+                        commit=True
+                    )
+                except Exception as update_err:
+                    LOGGER.warning(f"Could not set collection as default: {update_err}")
+            
+            LOGGER.info(f"Created collection '{name}' with ID {collection_id} using alternative approach")
+            return collection_id
+        else:
+            # If it's a different error, re-raise it
+            raise
     
     # Get the ID of the newly created collection
     result = execute_query("SELECT id FROM collections WHERE name = ?", (name,))

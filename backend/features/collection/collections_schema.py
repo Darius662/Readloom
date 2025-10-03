@@ -21,9 +21,20 @@ def setup_collections_tables():
             is_default INTEGER DEFAULT 0,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            CONSTRAINT unique_default CHECK (is_default = 0 OR is_default = 1)
+            CHECK (is_default IN (0, 1))
         )
         """, commit=True)
+        
+        # Create a unique index to ensure only one default collection
+        # This will fail silently if the index already exists
+        try:
+            execute_query("""
+            CREATE UNIQUE INDEX IF NOT EXISTS idx_unique_default 
+            ON collections(is_default) WHERE is_default = 1
+            """, commit=True)
+        except Exception as e:
+            # Index might already exist, that's okay
+            LOGGER.debug(f"Index creation note: {e}")
         
         # Create collection_root_folders table for many-to-many relationship
         execute_query("""
