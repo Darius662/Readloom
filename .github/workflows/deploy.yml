@@ -36,10 +36,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Ensure jq is installed
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y jq
+    - name: Ensure jq is installed
+      run: |
+        sudo -S apt-get update <<< "${{ secrets.SUDO_PASSWORD }}"
+        sudo -S apt-get install -y jq <<< "${{ secrets.SUDO_PASSWORD }}"
+      if: ${{ !env.ACT }}  # Only run on self-hosted runner
 
       - id: compute
         name: Compute deployment matrices
