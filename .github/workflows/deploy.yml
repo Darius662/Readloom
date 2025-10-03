@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - master
+      - development-master
   workflow_dispatch:
     inputs:
       environment:
@@ -18,7 +19,7 @@ on:
 
 env:
   SSH_USER: readloom
-  TARGETS_FILE: deploy/targets.json
+  TARGETS_FILE: .github/deploy/targets.json
 
 jobs:
   prepare:
