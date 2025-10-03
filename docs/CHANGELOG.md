@@ -14,6 +14,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Added copyright notice card to About page in UI
   - Clarified that Readloom is a management tool, not a content distribution platform
   - Outlined legitimate use cases and user responsibilities
+  
+### Fixed
+- **Docker Volume Mounting**:
+  - Fixed docker-compose.yml to mount data folder to `/config` instead of `/data`
+  - Database and logs now properly persist in the mounted volume
+  - Previously data was written to `/config/data` inside container (not persisted)
 
 ## [0.1.1] - 2025-10-01
 
