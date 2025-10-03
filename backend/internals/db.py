@@ -64,18 +64,26 @@ def get_db_connection(timeout: int = 30) -> sqlite3.Connection:
     
     try:
         # Set a longer timeout to help with locked database issues
-        DB_CONN = sqlite3.connect(DB_PATH, timeout=timeout, check_same_thread=False)
+        DB_CONN = sqlite3.connect(DB_PATH, timeout=timeout, check_same_thread=False, 
+                                   isolation_level=None)  # Autocommit mode
         
-        # Enable WAL mode for better concurrency
-        DB_CONN.execute('PRAGMA journal_mode = WAL')
+        # Use DELETE journal mode instead of WAL for Docker compatibility
+        # WAL mode doesn't work well with network filesystems and Docker volumes
+        result = DB_CONN.execute('PRAGMA journal_mode = DELETE')
+        journal_mode = result.fetchone()[0]
+        LOGGER.info(f"Database journal mode set to: {journal_mode}")
         
         # Set busy timeout to wait instead of immediately failing
         DB_CONN.execute(f'PRAGMA busy_timeout = {timeout * 1000}')
+        
+        # Set synchronous mode to NORMAL for better performance while maintaining safety
+        DB_CONN.execute('PRAGMA synchronous = NORMAL')
         
         # Enable foreign keys
         DB_CONN.execute('PRAGMA foreign_keys = ON')
         
         DB_CONN.row_factory = sqlite3.Row
+        LOGGER.info("Database connection established successfully")
         return DB_CONN
     except Exception as e:
         LOGGER.error(f"Could not connect to database: {e}")
@@ -115,8 +123,8 @@ def execute_query(query: str, params: Tuple = (), commit: bool = False, max_retr
             cursor = conn.cursor()
             cursor.execute(query, params)
             
-            if commit:
-                conn.commit()
+            # Note: commit parameter is ignored since we're using autocommit mode (isolation_level=None)
+            # This is intentional for Docker compatibility
             
             if query.strip().upper().startswith("SELECT"):
                 return [dict(row) for row in cursor.fetchall()]

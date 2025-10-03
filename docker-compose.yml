@@ -7,6 +7,7 @@ services:
       - "7227:7227" #Port
     volumes:
       - ./data:/config # Data folder contains the Logs and DB (mounted to /config for persistence)
+      # - ./ebooks:/ebooks #Path to your e-books
       - ./ebooks:/ebooks #Path to your e-books
     environment:
       - TZ=UTC # Europe/Berlin
