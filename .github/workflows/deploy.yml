@@ -1,0 +1,229 @@
+name: Deploy Readloom
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Deployment environment name (must exist in deploy/targets.json)"
+        required: false
+        default: production
+      components:
+        description: "Comma separated list of components to deploy (backend, frontend)"
+        required: false
+        default: backend,frontend
+
+env:
+  SSH_USER: readloom
+  TARGETS_FILE: deploy/targets.json
+
+jobs:
+  prepare:
+    name: Prepare deployment scope
+    runs-on: self-hosted
+    outputs:
+      env_name: ${{ steps.compute.outputs.env_name }}
+      components: ${{ steps.compute.outputs.components }}
+      deploy_backend: ${{ steps.compute.outputs.deploy_backend }}
+      deploy_frontend: ${{ steps.compute.outputs.deploy_frontend }}
+      backend_matrix: ${{ steps.compute.outputs.backend_matrix }}
+      frontend_matrix: ${{ steps.compute.outputs.frontend_matrix }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Ensure jq is installed
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq
+
+      - id: compute
+        name: Compute deployment matrices
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          INPUT_ENVIRONMENT: ${{ github.event.inputs.environment }}
+          INPUT_COMPONENTS: ${{ github.event.inputs.components }}
+        run: |
+          set -euo pipefail
+
+          if [[ "$EVENT_NAME" == "workflow_dispatch" && -n "${INPUT_ENVIRONMENT:-}" ]]; then
+            ENV_NAME="$INPUT_ENVIRONMENT"
+          else
+            ENV_NAME="production"
+          fi
+
+          if [[ "$EVENT_NAME" == "workflow_dispatch" && -n "${INPUT_COMPONENTS:-}" ]]; then
+            COMPONENTS="$INPUT_COMPONENTS"
+          else
+            COMPONENTS="backend,frontend"
+          fi
+
+          COMPONENTS=$(echo "$COMPONENTS" | tr '[:upper:]' '[:lower:]' | tr -d ' ')
+
+          if [[ ! -f "$TARGETS_FILE" ]]; then
+            echo "Deployment targets file $TARGETS_FILE not found" >&2
+            exit 1
+          fi
+
+          if ! jq -e --arg env "$ENV_NAME" '.[$env]' "$TARGETS_FILE" >/dev/null; then
+            echo "Environment '$ENV_NAME' is not defined in $TARGETS_FILE" >&2
+            exit 1
+          fi
+
+          backend_json=$(jq -c --arg env "$ENV_NAME" '.[$env].backend // []' "$TARGETS_FILE")
+          frontend_json=$(jq -c --arg env "$ENV_NAME" '.[$env].frontend // []' "$TARGETS_FILE")
+
+          echo "env_name=$ENV_NAME" >> "$GITHUB_OUTPUT"
+          echo "components=$COMPONENTS" >> "$GITHUB_OUTPUT"
+          echo "backend_matrix=$backend_json" >> "$GITHUB_OUTPUT"
+          echo "frontend_matrix=$frontend_json" >> "$GITHUB_OUTPUT"
+
+          if [[ ",$COMPONENTS," == *",backend,"* && "$backend_json" != "[]" ]]; then
+            echo "deploy_backend=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "deploy_backend=false" >> "$GITHUB_OUTPUT"
+          fi
+
+          if [[ ",$COMPONENTS," == *",frontend,"* && "$frontend_json" != "[]" ]]; then
+            echo "deploy_frontend=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "deploy_frontend=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  deploy_backend:
+    name: Deploy backend
+    needs: prepare
+    if: ${{ needs.prepare.outputs.deploy_backend == 'true' }}
+    runs-on: self-hosted
+    strategy:
+      matrix:
+        target: ${{ fromJson(needs.prepare.outputs.backend_matrix) }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Ensure rsync is installed locally
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y rsync
+
+      - name: Configure SSH key
+        env:
+          SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${SSH_KEY:-}" ]]; then
+            echo "DEPLOY_SSH_KEY secret is not defined" >&2
+            exit 1
+          fi
+          mkdir -p ~/.ssh
+          echo "$SSH_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          if [[ -n "${KNOWN_HOSTS:-}" ]]; then
+            echo "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+          else
+            ssh-keyscan -H "${{ matrix.target.host }}" >> ~/.ssh/known_hosts
+          fi
+
+      - name: Prepare backend host
+        run: |
+          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=yes "$SSH_USER@${{ matrix.target.host }}" <<EOF
+          set -e
+          sudo apt-get update
+          sudo apt-get install -y python3 python3-venv python3-pip rsync
+          sudo mkdir -p '${{ matrix.target.app_dir }}' '${{ matrix.target.data_dir }}' '${{ matrix.target.log_dir }}'
+          sudo chown -R $SSH_USER:$SSH_USER '${{ matrix.target.app_dir }}' '${{ matrix.target.data_dir }}' '${{ matrix.target.log_dir }}'
+          EOF
+
+      - name: Stop backend service
+        run: |
+          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=yes "$SSH_USER@${{ matrix.target.host }}" \
+            "sudo systemctl stop '${{ matrix.target.service_name }}' || true"
+
+      - name: Sync backend sources
+        run: |
+          rsync -az --delete \
+            --exclude '.git' \
+            --exclude '.github/workflows' \
+            -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=yes" \
+            "$GITHUB_WORKSPACE"/ "$SSH_USER@${{ matrix.target.host }}:${{ matrix.target.app_dir }}/"
+
+      - name: Install backend dependencies
+        run: |
+          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=yes "$SSH_USER@${{ matrix.target.host }}" <<EOF
+          set -e
+          python3 -m venv --copies '${{ matrix.target.venv_dir }}' || true
+          '${{ matrix.target.venv_dir }}/bin/pip' install --upgrade pip
+          '${{ matrix.target.venv_dir }}/bin/pip' install -r '${{ matrix.target.app_dir }}/requirements.txt'
+          EOF
+
+      - name: Start backend service
+        run: |
+          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=yes "$SSH_USER@${{ matrix.target.host }}" \
+            "sudo systemctl start '${{ matrix.target.service_name }}'"
+
+      - name: Verify backend status
+        run: |
+          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=yes "$SSH_USER@${{ matrix.target.host }}" \
+            "sudo systemctl status '${{ matrix.target.service_name }}' --no-pager"
+
+  deploy_frontend:
+    name: Deploy frontend
+    needs: prepare
+    if: ${{ needs.prepare.outputs.deploy_frontend == 'true' }}
+    runs-on: self-hosted
+    strategy:
+      matrix:
+        target: ${{ fromJson(needs.prepare.outputs.frontend_matrix) }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Ensure rsync is installed locally
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y rsync
+
+      - name: Configure SSH key
+        env:
+          SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${SSH_KEY:-}" ]]; then
+            echo "DEPLOY_SSH_KEY secret is not defined" >&2
+            exit 1
+          fi
+          mkdir -p ~/.ssh
+          echo "$SSH_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          if [[ -n "${KNOWN_HOSTS:-}" ]]; then
+            echo "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+          else
+            ssh-keyscan -H "${{ matrix.target.host }}" >> ~/.ssh/known_hosts
+          fi
+
+      - name: Prepare frontend host directory
+        run: |
+          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=yes "$SSH_USER@${{ matrix.target.host }}" \
+            "mkdir -p '${{ matrix.target.deploy_dir }}/static'"
+
+      - name: Sync frontend templates and assets
+        run: |
+          rsync -az --delete \
+            --exclude '.git' \
+            -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=yes" \
+            "$GITHUB_WORKSPACE/frontend"/ "$SSH_USER@${{ matrix.target.host }}:${{ matrix.target.deploy_dir }}/"
+
+      - name: Sync shared static files
+        run: |
+          rsync -az --delete \
+            -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=yes" \
+            "$GITHUB_WORKSPACE/static"/ "$SSH_USER@${{ matrix.target.host }}:${{ matrix.target.deploy_dir }}/static/"
+
+      - name: Frontend deployment summary
+        run: echo "Frontend synced to ${{ matrix.target.host }}:${{ matrix.target.deploy_dir }}"

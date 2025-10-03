@@ -1,0 +1,20 @@
+{
+  "production": {
+    "backend": [
+      {
+        "host": "10.10.0.122",
+        "service_name": "readloom",
+        "app_dir": "/opt/readloom/app",
+        "venv_dir": "/opt/readloom/app/.venv",
+        "data_dir": "/mnt/git/APPS/Readloom/data",
+        "log_dir": "/mnt/git/APPS/Readloom/logs"
+      }
+    ],
+    "frontend": [
+      {
+        "host": "10.10.0.122",
+        "deploy_dir": "/var/www/readloom-frontend"
+      }
+    ]
+  }
+}
