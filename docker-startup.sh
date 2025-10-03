@@ -17,6 +17,11 @@ cleanup() {
 # Set up signal handlers
 trap cleanup SIGTERM SIGINT
 
+# Ensure required directories exist
+echo "Ensuring required directories exist..."
+mkdir -p /config/data /config/logs
+echo "Directories created: /config/data and /config/logs"
+
 # Print network information for debugging
 echo "Network interfaces:"
 ip addr
