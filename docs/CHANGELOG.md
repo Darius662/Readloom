@@ -20,6 +20,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Root Folder Selection**:
   - Visible Root Folder selector added to both flows, populated from the auto-selected default collection for the chosen bucket.
   - Users can optionally choose a specific root folder when a collection has multiple.
+ - **Series Move API**:
+  - Added `POST /api/series/{id}/move` to move a series between collections within the same bucket (DB-only, no file moves yet).
+  - Returns a summary of before/after collection memberships and whether a change occurred.
+  - **Series Move Feature**:
+  - Backend:
+    - Added [move_service.py](cci:7://file:///c:/Users/dariu/Documents/GitHub/Readloom/backend/features/move_service.py:0:0-0:0) with full move operation support (DB + filesystem)
+    - Dry-run mode to preview moves before executing
+    - Bucket compatibility validation (MANGA/COMIC/BOOK)
+  - API:
+    - Extended `POST /api/series/{id}/move` endpoint with:
+      - `target_collection_id` (required)
+      - `target_root_folder_id` (optional)
+      - `move_files` flag for physical moves
+      - `clear_custom_path` option
+      - `dry_run` mode
+  - UI:
+    - Added Move button in series header and Quick Actions
+    - Interactive Move dialog with collection/folder selectors
+    - Dry-run preview panel showing paths and conflicts
+    - Safety checks to prevent destructive overwrites
 
 ### Fixed
 - **Default Collection Handling**:

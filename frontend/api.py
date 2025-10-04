@@ -43,6 +43,7 @@ from backend.features.notifications import (check_upcoming_releases, create_noti
 from backend.internals.db import execute_query
 from backend.internals.settings import Settings
 from frontend.api_metadata_fixed import metadata_api_bp
+from backend.features.move_service import move_series_db_only, plan_series_move
 
 # Create API blueprint
 api_bp = Blueprint('api', __name__, url_prefix='/api')
@@ -614,6 +615,50 @@ def update_series(series_id: int):
     
     except Exception as e:
         LOGGER.error(f"Error updating series {series_id}: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+@api_bp.route('/series/<int:series_id>/move', methods=['POST'])
+def move_series(series_id: int):
+    """Move a series between collections and/or root folders.
+
+    Body JSON fields:
+    - target_collection_id: int (optional)
+    - target_root_folder_id: int (optional)
+    - move_files: bool (optional, default false)
+    - clear_custom_path: bool (optional, default false)
+    - dry_run: bool (optional, default false)
+
+    Returns:
+        Response: Plan and/or result summary including before/after memberships, paths, and flags.
+    """
+    try:
+        data = request.json or {}
+        target_collection_id = data.get('target_collection_id')
+        target_root_folder_id = data.get('target_root_folder_id')
+        move_files = bool(data.get('move_files', False))
+        clear_custom_path = bool(data.get('clear_custom_path', False))
+        dry_run = bool(data.get('dry_run', False))
+
+        # Normalize numeric inputs
+        if isinstance(target_collection_id, str) and target_collection_id.isdigit():
+            target_collection_id = int(target_collection_id)
+        if isinstance(target_root_folder_id, str) and target_root_folder_id.isdigit():
+            target_root_folder_id = int(target_root_folder_id)
+
+        result = plan_series_move(
+            series_id=series_id,
+            target_collection_id=target_collection_id,
+            target_root_folder_id=target_root_folder_id,
+            move_files=move_files,
+            clear_custom_path=clear_custom_path,
+            dry_run=dry_run,
+        )
+        return jsonify({"result": result})
+    except ValueError as ve:
+        return jsonify({"error": str(ve)}), 400
+    except Exception as e:
+        LOGGER.error(f"Error moving series {series_id}: {e}")
         return jsonify({"error": str(e)}), 500
 
 
