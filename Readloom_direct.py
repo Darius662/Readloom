@@ -7,7 +7,7 @@ import os
 from typing import NoReturn, Union
 
 from backend.base.definitions import Constants, StartType
-from backend.base.helpers import check_min_python_version
+from backend.base.helpers import check_min_python_version, ensure_dir_exists
 from backend.base.logging import LOGGER, setup_logging
 from backend.features.tasks import TaskHandler
 from backend.internals.db import set_db_location, setup_db
@@ -59,6 +59,9 @@ def main(
     """
     print(f"Starting Readloom on {host or '0.0.0.0'}:{port or 7227}...")
     
+    # Use dev-like defaults if not provided
+    if not log_folder:
+        log_folder = "data/logs"
     setup_logging(log_folder, log_file)
     LOGGER.info('Starting up Readloom')
     
@@ -66,6 +69,11 @@ def main(
         print(f"Error: Python version {Constants.MIN_PYTHON_VERSION[0]}.{Constants.MIN_PYTHON_VERSION[1]} or higher is required")
         exit(1)
     
+    # Align DB location with dev environment if not provided
+    if not db_folder:
+        db_folder = "data/db"
+    # Make sure the DB directory exists before setting location
+    ensure_dir_exists(db_folder)
     set_db_location(db_folder)
     
     # Create Flask app with correct static folder path

@@ -5,6 +5,27 @@ All notable changes to Readloom will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.2] - 2025-10-04
+
+### Added
+- **Collections Manager**:
+  - Link Root Folder button and modal in `Collections Manager` collection details
+  - Modal lists only unlinked root folders for the selected collection
+  - Frontend wiring to `POST /api/collections/{id}/root-folders/{root_folder_id}` and auto-refresh of the table
+- **API Documentation**:
+  - Documented `GET /api/collections/default` endpoint usage across the app
+
+### Fixed
+- **Default Collection Handling**:
+  - Ensured only one default collection is treated as active throughout UI flows
+  - Consistent Default badge display in Collections Manager
+  - Safer delete behavior for default collection and clearer UX around default selection
+
+### Changed
+- **Docs**:
+  - Updated `docs/COLLECTIONS.md` with the new Link Root Folder workflow and troubleshooting
+  - Added `docs/LINK_ROOT_FOLDER.md` guide
+
 ## [0.1.1-1] - 2025-10-02
 
 ### Added

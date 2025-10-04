@@ -169,18 +169,32 @@ def setup_db() -> None:
     
     # Add content_type column to series table if it doesn't exist
     try:
-        # Check if the column exists
+        # Check existing columns
         column_check = execute_query("PRAGMA table_info(series)")
         column_names = [col['name'] for col in column_check]
-        
+
+        # Add content_type if missing
         if 'content_type' not in column_names:
-            LOGGER.info("Adding content_type column to series table")
-            execute_query("ALTER TABLE series ADD COLUMN content_type TEXT DEFAULT 'MANGA'", commit=True)
-            
-        # Add custom_path column to series table if it doesn't exist
+            try:
+                execute_query("ALTER TABLE series ADD COLUMN content_type TEXT DEFAULT 'MANGA'", commit=True)
+                LOGGER.info("Added content_type column to series table")
+            except Exception as add_err:
+                # If another process already added it or SQLite reports duplicate, ignore
+                if 'duplicate column name' in str(add_err).lower():
+                    LOGGER.info("content_type column already exists; skipping add")
+                else:
+                    raise
+
+        # Add custom_path if missing
         if 'custom_path' not in column_names:
-            LOGGER.info("Adding custom_path column to series table")
-            execute_query("ALTER TABLE series ADD COLUMN custom_path TEXT", commit=True)
+            try:
+                execute_query("ALTER TABLE series ADD COLUMN custom_path TEXT", commit=True)
+                LOGGER.info("Added custom_path column to series table")
+            except Exception as add_err:
+                if 'duplicate column name' in str(add_err).lower():
+                    LOGGER.info("custom_path column already exists; skipping add")
+                else:
+                    raise
     except Exception as e:
         LOGGER.error(f"Error checking/adding columns to series table: {e}")
         import traceback

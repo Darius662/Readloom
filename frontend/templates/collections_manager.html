@@ -13,6 +13,32 @@
                 <p>Each collection can have multiple root folders, and each root folder can be used by multiple collections.</p>
                 <p>You must have at least one collection and one root folder before you can add manga/comics to your library.</p>
             </div>
+
+<!-- Link Root Folder To Collection Modal -->
+<div class="modal fade" id="linkRootFolderModal" tabindex="-1" aria-labelledby="linkRootFolderModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="linkRootFolderModalLabel">Link Root Folder to Collection</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="linkRootFolderForm">
+                    <div class="mb-3">
+                        <label for="selectRootFolder" class="form-label">Root Folder</label>
+                        <select class="form-select" id="selectRootFolder">
+                        </select>
+                    </div>
+                </form>
+                <div id="linkRootFolderHelp" class="form-text">Only root folders not already in this collection are listed.</div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmLinkRootFolderBtn">Link</button>
+            </div>
+        </div>
+    </div>
+</div>
             
             <div class="row mb-4">
                 <div class="col-md-6">
@@ -86,7 +112,12 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
-                            <h6>Root Folders</h6>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <h6 class="mb-0">Root Folders</h6>
+                                <button class="btn btn-sm btn-primary" id="linkRootFolderBtn" data-bs-toggle="modal" data-bs-target="#linkRootFolderModal">
+                                    <i class="fas fa-link"></i> Link Root Folder
+                                </button>
+                            </div>
                             <div class="table-responsive">
                                 <table class="table table-sm table-striped" id="collectionRootFoldersTable">
                                     <thead>

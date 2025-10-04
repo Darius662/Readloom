@@ -7,6 +7,7 @@ $(document).ready(function() {
     // Load collections and root folders
     loadCollections();
     loadRootFolders();
+    window.selectedCollectionId = null;
     
     // Set up event handlers for collection actions
     $('#addCollectionBtn').click(function() {
@@ -127,6 +128,74 @@ function displayCollections(collections) {
     });
 }
 
+// Populate root folder choices when the Link modal is opened
+$(document).on('show.bs.modal', '#linkRootFolderModal', function () {
+    if (!window.selectedCollectionId) {
+        // If no collection selected, prevent opening
+        alert('Please view a collection first (click the eye icon).');
+        $('#linkRootFolderModal').modal('hide');
+        return;
+    }
+
+    // Load all root folders and those already linked to this collection
+    $.when(
+        $.get('/api/root-folders'),
+        $.get(`/api/collections/${window.selectedCollectionId}/root-folders`)
+    ).done(function(allResp, collResp) {
+        const allFolders = (allResp[0].success && allResp[0].root_folders) ? allResp[0].root_folders : [];
+        const collFolders = (collResp[0].success && collResp[0].root_folders) ? collResp[0].root_folders : [];
+
+        const collIds = new Set(collFolders.map(f => f.id));
+        const available = allFolders.filter(f => !collIds.has(f.id));
+
+        const select = $('#selectRootFolder');
+        select.empty();
+        if (available.length === 0) {
+            select.append('<option value="" disabled selected>No available root folders to link</option>');
+        } else {
+            available.forEach(f => {
+                const label = `${f.name} — ${f.path}`;
+                select.append(`<option value="${f.id}">${label}</option>`);
+            });
+        }
+    }).fail(function() {
+        alert('Failed to load root folders.');
+    });
+});
+
+// Confirm linking selected root folder to the current collection
+$(document).on('click', '#confirmLinkRootFolderBtn', function () {
+    const rootFolderId = $('#selectRootFolder').val();
+    if (!window.selectedCollectionId || !rootFolderId) {
+        alert('Please select a root folder.');
+        return;
+    }
+
+    const btn = $(this);
+    const original = btn.text();
+    btn.prop('disabled', true).text('Linking...');
+
+    $.ajax({
+        url: `/api/collections/${window.selectedCollectionId}/root-folders/${rootFolderId}`,
+        method: 'POST',
+        success: function(response) {
+            if (response.success) {
+                $('#linkRootFolderModal').modal('hide');
+                loadCollectionRootFolders(window.selectedCollectionId);
+                alert('Root folder linked to collection successfully');
+            } else {
+                alert('Failed to link root folder: ' + (response.error || 'Unknown error'));
+            }
+        },
+        error: function(xhr, status, error) {
+            alert('Failed to link root folder: ' + error);
+        },
+        complete: function() {
+            btn.prop('disabled', false).text(original);
+        }
+    });
+});
+
 /**
  * Load root folders from the API
  */
@@ -215,6 +284,7 @@ function displayRootFolders(rootFolders) {
 function viewCollectionDetails(collectionId) {
     // Show the collection details card
     $('#collectionDetailsCard').removeClass('d-none');
+    window.selectedCollectionId = collectionId;
     
     // Load collection details
     $.ajax({
