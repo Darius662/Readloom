@@ -21,6 +21,49 @@
     </div>
 </div>
 
+<!-- Move Series Modal -->
+<div class="modal fade" id="moveSeriesModal" tabindex="-1" aria-labelledby="moveSeriesModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="moveSeriesModalLabel">Move Series</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="move-series-form">
+                    <div class="mb-3">
+                        <label for="move-target-collection" class="form-label">Target Collection</label>
+                        <select class="form-select" id="move-target-collection"></select>
+                        <div class="form-text">Only collections in the same bucket as this series are listed.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="move-target-root-folder" class="form-label">Target Root Folder (optional)</label>
+                        <select class="form-select" id="move-target-root-folder">
+                            <option value="">Auto-select first root folder</option>
+                        </select>
+                    </div>
+                    <div class="form-check form-switch mb-2">
+                        <input class="form-check-input" type="checkbox" id="move-files-switch">
+                        <label class="form-check-label" for="move-files-switch">Physically move files</label>
+                    </div>
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="clear-custom-path-switch">
+                        <label class="form-check-label" for="clear-custom-path-switch">Clear custom path after move</label>
+                    </div>
+                    <div class="border rounded p-2 bg-light">
+                        <div class="small text-muted">Dry Run Preview</div>
+                        <pre id="move-dryrun-output" class="mb-0" style="white-space: pre-wrap; max-height: 200px; overflow:auto;">No plan yet</pre>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" id="move-dryrun-btn">Preview (Dry Run)</button>
+                <button type="button" class="btn btn-primary" id="move-execute-btn">Execute Move</button>
+            </div>
+        </div>
+    </div>
+ </div>
+
 <div class="row mb-4" id="volumes-container" style="display: none;">
     <div class="col-md-12">
         <div class="card">
@@ -310,6 +353,18 @@
     .ebook-file-container {
         width: 100%;
     }
+
+    /* Move button styling to ensure visibility next to Edit */
+    #move-series-btn {
+        height: 38px;
+        padding: 6px 10px;
+        margin: 10px 0;
+        z-index: 100;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
     
     .ebook-file-item {
         display: flex;
@@ -412,6 +467,8 @@
                     seriesData = data.series;
                     volumesData = data.volumes;
                     chaptersData = data.chapters;
+                    // Expose globally for event handlers
+                    try { window.currentSeries = seriesData; } catch (e) {}
                     
                     displaySeriesDetails();
                     displayVolumes();
@@ -423,6 +480,173 @@
                     $('#series-details').html('<div class="col-12 text-center text-danger">Failed to load series data</div>');
                 }
             });
+
+            // Move button handler (delegated to work with dynamic content)
+            $(document).off('click', '#move-series-btn').on('click', '#move-series-btn', function(e) {
+                e.preventDefault();
+                console.log('Move button clicked');
+                const modalEl = document.getElementById('moveSeriesModal');
+                let modal = null;
+                try {
+                    if (window.bootstrap && bootstrap.Modal) {
+                        modal = new bootstrap.Modal(modalEl);
+                    }
+                } catch (err) {
+                    console.warn('Bootstrap Modal init failed, will try jQuery .modal("show")', err);
+                }
+                // Reset preview
+                $('#move-dryrun-output').text('No plan yet');
+                $('#move-files-switch').prop('checked', false);
+                $('#clear-custom-path-switch').prop('checked', false);
+                // Use the globally loaded seriesData in this handler
+                const series = (typeof window !== 'undefined' && window.currentSeries) ? window.currentSeries : seriesData;
+                if (!series || !series.id) {
+                    console.error('Series data not ready');
+                    if (typeof showToast === 'function') { showToast('Move', 'Series data not loaded yet', 'warning'); }
+                    return;
+                }
+
+                // Normalize bucket helper
+                const normBucket = (t) => {
+                    const u = (t || 'MANGA').toString().toUpperCase();
+                    if (u === 'COMICS') return 'COMIC';
+                    if (u === 'COMIC') return 'COMIC';
+                    if (u === 'BOOKS') return 'BOOK';
+                    if (u === 'NOVEL' || u === 'NOVELS') return 'BOOK';
+                    if (u === 'MANGA' || u === 'MANHWA' || u === 'MANHUA') return 'MANGA';
+                    return u;
+                };
+
+                const seriesBucket = normBucket(series.content_type);
+
+                // Load target collections and current memberships (dry-run to get before_collections)
+                Promise.all([
+                    fetch('/api/collections').then(r => r.json()),
+                    fetch(`/api/series/${series.id}/move`, {
+                        method: 'POST', headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ dry_run: true })
+                    }).then(r => r.json()).catch(() => ({ result: { before_collections: [] }}))
+                ]).then(([payload, moveInfo]) => {
+                    const allCols = payload.collections || [];
+                    const currentCols = (moveInfo && moveInfo.result && moveInfo.result.before_collections) ? moveInfo.result.before_collections : [];
+
+                    // Filter: same-bucket OR in current memberships (to always show current collection)
+                    const allowed = allCols.filter(c => {
+                        const b = normBucket(c.content_type);
+                        const sameBucket = b === seriesBucket;
+                        const isCurrent = currentCols.some(cc => cc.id === c.id);
+                        return sameBucket || isCurrent;
+                    });
+
+                    const select = $('#move-target-collection');
+                    select.empty();
+                    if (allowed.length === 0) {
+                        select.append('<option value="" disabled>No collections available</option>');
+                    } else {
+                        allowed.forEach(c => select.append(`<option value="${c.id}">${c.name}</option>`));
+                        // Preselect current collection if present
+                        const current = currentCols.length ? currentCols[0].id : null;
+                        if (current) select.val(String(current));
+                    }
+
+                    // Load root folders for selected collection
+                    loadRootFoldersForSelectedCollection();
+                }).catch(err => {
+                    console.error('Failed to init move collections', err);
+                });
+
+                // When collection changes, reload root folders
+                $('#move-target-collection').off('change').on('change', loadRootFoldersForSelectedCollection);
+
+                function loadRootFoldersForSelectedCollection() {
+                    const cid = $('#move-target-collection').val();
+                    const rfSelect = $('#move-target-root-folder');
+                    rfSelect.empty();
+                    rfSelect.append('<option value="">Auto-select first root folder</option>');
+                    if (!cid) return;
+                    fetch(`/api/collections/${cid}/root-folders`)
+                        .then(r => r.json())
+                        .then(payload => {
+                            (payload.root_folders || []).forEach(rf => rfSelect.append(`<option value="${rf.id}">${rf.name}</option>`));
+                        })
+                        .catch(err => console.error('Failed to load root folders', err));
+                }
+
+                // Dry run
+                $('#move-dryrun-btn').off('click').on('click', function() {
+                    const body = {
+                        target_collection_id: parseInt($('#move-target-collection').val() || '0', 10) || null,
+                        target_root_folder_id: parseInt($('#move-target-root-folder').val() || '0', 10) || null,
+                        move_files: $('#move-files-switch').is(':checked'),
+                        clear_custom_path: $('#clear-custom-path-switch').is(':checked'),
+                        dry_run: true
+                    };
+                    fetch(`/api/series/${series.id}/move`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(body)
+                    })
+                    .then(r => r.json())
+                    .then(resp => {
+                        if (resp.error) {
+                            $('#move-dryrun-output').text(`Error: ${resp.error}`);
+                            return;
+                        }
+                        $('#move-dryrun-output').text(JSON.stringify(resp.result, null, 2));
+                    })
+                    .catch(err => {
+                        $('#move-dryrun-output').text(`Error: ${err}`);
+                    });
+                });
+
+                // Execute move
+                $('#move-execute-btn').off('click').on('click', function() {
+                    const body = {
+                        target_collection_id: parseInt($('#move-target-collection').val() || '0', 10) || null,
+                        target_root_folder_id: parseInt($('#move-target-root-folder').val() || '0', 10) || null,
+                        move_files: $('#move-files-switch').is(':checked'),
+                        clear_custom_path: $('#clear-custom-path-switch').is(':checked'),
+                        dry_run: false
+                    };
+                    fetch(`/api/series/${series.id}/move`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(body)
+                    })
+                    .then(r => r.json())
+                    .then(resp => {
+                        if (resp.error) {
+                            showToast('Move failed', resp.error, 'danger');
+                            return;
+                        }
+                        showToast('Move complete', 'Series has been moved successfully.', 'success');
+                        // Reload series data to reflect changes
+                        loadSeriesData();
+                        modal.hide();
+                    })
+                    .catch(err => {
+                        showToast('Move failed', String(err), 'danger');
+                    });
+                });
+
+                try {
+                    if (modal && modal.show) {
+                        modal.show();
+                    } else if (typeof $ !== 'undefined' && $('#moveSeriesModal').modal) {
+                        $('#moveSeriesModal').modal('show');
+                    } else {
+                        console.error('No modal show method available');
+                        if (typeof showToast === 'function') {
+                            showToast('Move', 'Unable to open Move dialog', 'danger');
+                        }
+                    }
+                } catch (err) {
+                    console.error('Error showing Move modal', err);
+                    if (typeof showToast === 'function') {
+                        showToast('Move', 'Error opening Move dialog', 'danger');
+                    }
+                }
+            });
         }
         
         // Display series details
@@ -431,7 +655,10 @@
             
             const html = `
                 <div class="position-relative">
-                    <div class="position-absolute top-0 end-0">
+                    <div class="position-absolute top-0 end-0 d-flex gap-2">
+                        <button class="btn btn-sm btn-outline-secondary rounded-circle" id="move-series-btn" title="Move Series" data-bs-toggle="modal" data-bs-target="#moveSeriesModal">
+                            <i class="fas fa-arrows-alt"></i>
+                        </button>
                         <button class="btn btn-sm btn-outline-primary rounded-circle" id="edit-series-btn" title="Edit Series">
                             <i class="fas fa-edit"></i>
                         </button>
@@ -1264,9 +1491,14 @@
                         <div class="card-footer bg-transparent">
                             <div class="d-flex justify-content-between align-items-center">
                                 <span class="text-muted small">Quick Actions</span>
+                                <div class="btn-group">
+                                <button class="btn btn-sm btn-outline-secondary" id="quick-move-series-btn" title="Move Series" data-bs-toggle="modal" data-bs-target="#moveSeriesModal">
+                                    <i class="fas fa-exchange-alt"></i> Move
+                                </button>
                                 <button class="btn btn-sm btn-primary" id="quick-scan-ebooks-btn">
                                     <i class="fas fa-search"></i> Scan for E-books
                                 </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1364,6 +1596,12 @@
         // Set up quick scan button
         $('#quick-scan-ebooks-btn').click(function() {
             scanEbooks($(this));
+        });
+
+        // Quick move button uses same handler as header button
+        $(document).off('click', '#quick-move-series-btn').on('click', '#quick-move-series-btn', function(e) {
+            e.preventDefault();
+            $('#move-series-btn').trigger('click');
         });
         
         // Initial load

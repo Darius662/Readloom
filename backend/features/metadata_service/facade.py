@@ -267,7 +267,13 @@ def update_provider(name: str, enabled: bool, settings: Dict[str, Any]) -> Dict[
         }
 
 
-def import_manga_to_collection(manga_id: str, provider: str) -> Dict[str, Any]:
+def import_manga_to_collection(
+    manga_id: str,
+    provider: str,
+    collection_id: Optional[int] = None,
+    content_type: Optional[str] = None,
+    root_folder_id: Optional[int] = None,
+) -> Dict[str, Any]:
     """Import a manga from an external source to the collection.
     
     Args:
@@ -301,6 +307,49 @@ def import_manga_to_collection(manga_id: str, provider: str) -> Dict[str, Any]:
                 "series_id": existing_series[0]["id"]
             }
         
+        # Determine inferred content type using metadata heuristics
+        def infer_from_metadata(details: Dict[str, Any]) -> Optional[str]:
+            try:
+                text_bins: List[str] = []
+                # Common fields across providers
+                for key in [
+                    "categories", "subjects", "tags", "genres", "topic",
+                    "topic_list", "genre_list"
+                ]:
+                    val = details.get(key)
+                    if isinstance(val, list):
+                        text_bins.extend([str(v) for v in val])
+                    elif isinstance(val, str):
+                        text_bins.append(val)
+                # Title/description hints
+                for key in ["title", "description"]:
+                    v = details.get(key)
+                    if isinstance(v, str):
+                        text_bins.append(v)
+
+                blob = " ".join(text_bins).lower()
+                if any(tok in blob for tok in ["manga", "manhwa", "manhua", "shonen", "seinen", "shojo", "shoujo"]):
+                    return "MANGA"
+                if any(tok in blob for tok in ["graphic novel", "comics", "comic", "bd "]):
+                    return "COMIC"
+                return None
+            except Exception:
+                return None
+
+        if content_type:
+            inferred_type = (content_type or "MANGA").upper()
+        else:
+            heur = infer_from_metadata(manga_details) if isinstance(manga_details, dict) else None
+            if heur:
+                inferred_type = heur
+            else:
+                # Provider-based fallback
+                provider_upper = (provider or "").upper()
+                if provider_upper in {"GOOGLEBOOKS", "OPENLIBRARY", "ISBNDB", "WORLDCAT"}:
+                    inferred_type = "BOOK"
+                else:
+                    inferred_type = "MANGA"
+
         # Insert the series
         try:
             # Get a direct connection to execute the insert and get the last row ID
@@ -309,8 +358,8 @@ def import_manga_to_collection(manga_id: str, provider: str) -> Dict[str, Any]:
             cursor.execute(
                 """
                 INSERT INTO series (
-                    title, description, author, publisher, cover_url, status, metadata_source, metadata_id
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                    title, description, author, publisher, cover_url, status, content_type, metadata_source, metadata_id
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """,
                 (
                     manga_details.get("title", "Unknown"),
@@ -319,6 +368,7 @@ def import_manga_to_collection(manga_id: str, provider: str) -> Dict[str, Any]:
                     manga_details.get("publisher", "Unknown"),
                     manga_details.get("cover_url", ""),
                     manga_details.get("status", "ONGOING"),
+                    manga_details.get("content_type", inferred_type),
                     provider,
                     manga_id
                 )
@@ -498,6 +548,24 @@ def import_manga_to_collection(manga_id: str, provider: str) -> Dict[str, Any]:
             
             chapters_added += 1
         
+        # Link to a collection (selected or default by type)
+        try:
+            from backend.features.collection import add_series_to_collection, get_default_collection
+            target_collection_id = None
+            if collection_id:
+                try:
+                    target_collection_id = int(collection_id)
+                except Exception:
+                    target_collection_id = None
+            if not target_collection_id:
+                default_coll = get_default_collection(manga_details.get("content_type", inferred_type))
+                if default_coll and default_coll.get("id"):
+                    target_collection_id = default_coll["id"]
+            if target_collection_id:
+                add_series_to_collection(target_collection_id, series_id)
+        except Exception as e:
+            LOGGER.warning(f"Failed linking series to collection: {e}")
+
         # Create folder structure for the series
         try:
             from backend.base.helpers import create_series_folder_structure, get_safe_folder_name
@@ -534,7 +602,9 @@ def import_manga_to_collection(manga_id: str, provider: str) -> Dict[str, Any]:
                 series_path = create_series_folder_structure(
                     series_id,
                     manga_details.get('title', 'Unknown'),
-                    manga_details.get('content_type', 'MANGA')
+                    manga_details.get('content_type', inferred_type),
+                    collection_id,
+                    root_folder_id
                 )
                 LOGGER.info(f"Folder structure created at: {series_path}")
             else:
@@ -542,16 +612,7 @@ def import_manga_to_collection(manga_id: str, provider: str) -> Dict[str, Any]:
                 LOGGER.info(f"Using existing folder: {series_path}")
             
             # Add the series to the collection
-            from backend.features.collection import add_to_collection
-            
-            collection_item_id = add_to_collection(
-                series_id=series_id,
-                item_type="SERIES",
-                ownership_status="OWNED",
-                read_status="UNREAD"
-            )
-            
-            LOGGER.info(f"Series added to collection with ID: {collection_item_id}")
+            # No-op: linking performed above with add_series_to_collection
             
             # If the folder already existed, scan it for e-books
             if folder_already_exists:

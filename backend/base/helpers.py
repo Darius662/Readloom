@@ -300,7 +300,7 @@ def ensure_readme_file(series_dir: Path, series_title: str, series_id: int, cont
         return False
 
 
-def create_series_folder_structure(series_id: int, series_title: str, content_type: str, collection_id: Optional[int] = None) -> Path:
+def create_series_folder_structure(series_id: int, series_title: str, content_type: str, collection_id: Optional[int] = None, root_folder_id: Optional[int] = None) -> Path:
     """Create folder structure for a series.
 
     Args:
@@ -322,9 +322,14 @@ def create_series_folder_structure(series_id: int, series_title: str, content_ty
     safe_series_title = get_safe_folder_name(series_title)
     LOGGER.info(f"Original series title: '{series_title}', Safe series title for folder: '{safe_series_title}'")
     
-    # If collection_id is provided, get root folders for that collection
+    # If an explicit root_folder_id is provided, use it directly
     root_folders = []
-    if collection_id is not None:
+    if root_folder_id is not None:
+        LOGGER.info(f"Using explicit root_folder_id={root_folder_id}")
+        query = "SELECT * FROM root_folders WHERE id = ?"
+        root_folders = execute_query(query, (root_folder_id,))
+    # Else if collection_id is provided, get root folders for that collection
+    elif collection_id is not None:
         LOGGER.info(f"Getting root folders for collection ID: {collection_id}")
         query = """
         SELECT rf.* FROM root_folders rf
@@ -337,9 +342,9 @@ def create_series_folder_structure(series_id: int, series_title: str, content_ty
     
     # If no collection specified or no root folders found for the collection, use default root folders
     if not root_folders:
-        LOGGER.info("No collection-specific root folders found, checking for default collection")
-        # Try to get the default collection
-        default_collections = execute_query("SELECT id FROM collections WHERE is_default = 1")
+        LOGGER.info("No collection-specific root folders found, checking for per-type default collection")
+        # Try to get the default collection for this content_type
+        default_collections = execute_query("SELECT id FROM collections WHERE is_default = 1 AND UPPER(content_type) = UPPER(?)", (content_type,))
         if default_collections:
             default_collection_id = default_collections[0]["id"]
             LOGGER.info(f"Using default collection ID: {default_collection_id}")

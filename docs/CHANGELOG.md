@@ -14,17 +14,50 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Frontend wiring to `POST /api/collections/{id}/root-folders/{root_folder_id}` and auto-refresh of the table
 - **API Documentation**:
   - Documented `GET /api/collections/default` endpoint usage across the app
+- **Expanded Content Types in UI**:
+  - `frontend/templates/search.html` (Import modal) and `frontend/templates/series_list.html` (Add Series) now support: Manga, Manhwa, Manhua, Comics, Novel, Book, Other.
+  - Implemented subtype-to-bucket mapping function to group these under collection buckets: `MANGA` (Manga/Manhwa/Manhua), `COMIC` (Comics), `BOOK` (Book/Novel/Other).
+- **Root Folder Selection**:
+  - Visible Root Folder selector added to both flows, populated from the auto-selected default collection for the chosen bucket.
+  - Users can optionally choose a specific root folder when a collection has multiple.
+ - **Series Move API**:
+  - Added `POST /api/series/{id}/move` to move a series between collections within the same bucket (DB-only, no file moves yet).
+  - Returns a summary of before/after collection memberships and whether a change occurred.
+  - **Series Move Feature**:
+  - Backend:
+    - Added [move_service.py](cci:7://file:///c:/Users/dariu/Documents/GitHub/Readloom/backend/features/move_service.py:0:0-0:0) with full move operation support (DB + filesystem)
+    - Dry-run mode to preview moves before executing
+    - Bucket compatibility validation (MANGA/COMIC/BOOK)
+  - API:
+    - Extended `POST /api/series/{id}/move` endpoint with:
+      - `target_collection_id` (required)
+      - `target_root_folder_id` (optional)
+      - `move_files` flag for physical moves
+      - `clear_custom_path` option
+      - `dry_run` mode
+  - UI:
+    - Added Move button in series header and Quick Actions
+    - Interactive Move dialog with collection/folder selectors
+    - Dry-run preview panel showing paths and conflicts
+    - Safety checks to prevent destructive overwrites
 
 ### Fixed
 - **Default Collection Handling**:
   - Ensured only one default collection is treated as active throughout UI flows
   - Consistent Default badge display in Collections Manager
   - Safer delete behavior for default collection and clearer UX around default selection
+- **UnboundLocalError in folder path endpoint**:
+  - `frontend/api.py`: removed inner import shadowing of `execute_query` and moved `Path` import to top-level to fix "cannot access local variable 'execute_query'" error in `get_series_folder_path()`.
 
 ### Changed
 - **Docs**:
   - Updated `docs/COLLECTIONS.md` with the new Link Root Folder workflow and troubleshooting
   - Added `docs/LINK_ROOT_FOLDER.md` guide
+- **Simplified Collection Selection UX**:
+  - Collection selector is now hidden in both Import and Add Series flows and auto-selected to the single default collection per bucket.
+  - Import/Add requests now include `content_type` (the selected subtype), resolved `collection_id` (default per bucket), and optional `root_folder_id`.
+- **Type Inference on Details Modal**:
+  - Light heuristics added in `search.html` to pre-select a sensible content subtype based on title/genres/description.
 
 ## [0.1.1-1] - 2025-10-02
 

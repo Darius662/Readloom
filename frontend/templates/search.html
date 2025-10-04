@@ -65,6 +65,29 @@
                     <div class="col-md-4 mb-3">
                         <img id="modalCover" src="" alt="E-book Cover" class="img-fluid rounded">
                         <div class="mt-3">
+                            <div class="mb-2">
+                                <label class="form-label small mb-1">Content Type</label>
+                                <select id="modalContentType" class="form-select form-select-sm">
+                                    <option value="MANGA">Manga</option>
+                                    <option value="MANHWA">Manhwa</option>
+                                    <option value="MANHUA">Manhua</option>
+                                    <option value="COMICS">Comics</option>
+                                    <option value="NOVEL">Novel</option>
+                                    <option value="BOOK">Book</option>
+                                    <option value="OTHER">Other</option>
+                                </select>
+                            </div>
+                            <!-- Collection is auto-selected by content type; hidden from UI -->
+                            <div class="mb-2 d-none">
+                                <label class="form-label small mb-1">Collection</label>
+                                <select id="modalCollection" class="form-select form-select-sm" disabled></select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label small mb-1">Root Folder (if collection has multiple)</label>
+                                <select id="modalRootFolder" class="form-select form-select-sm" disabled>
+                                    <option value="">-- Auto --</option>
+                                </select>
+                            </div>
                             <button id="btnAddToCollection" class="btn btn-success w-100 mb-2">
                                 <i class="fas fa-plus-circle me-2"></i> Add to Collection
                             </button>
@@ -220,6 +243,14 @@
                     if (totalResults === 0) {
                         $('#noResults').removeClass('d-none');
                     }
+                    // Try to infer type lightly from genres/description
+                    const blob = (Array.isArray(data.genres)? data.genres.join(' '): '') + ' ' + (data.description||'') + ' ' + (data.title||'');
+                    let inferred = 'MANGA';
+                    const lower = blob.toLowerCase();
+                    if (/(graphic\s*novel|comic|comics|bd\s)/.test(lower)) inferred = 'COMIC';
+                    if (/(manga|manhwa|manhua|shonen|seinen|shojo|shoujo)/.test(lower)) inferred = 'MANGA';
+                    $('#modalContentType').val(inferred);
+                    autoSelectDefaultForType(inferred);
                 },
                 error: function(xhr) {
                     $('#loadingIndicator').addClass('d-none');
@@ -263,6 +294,59 @@
             `;
         }
         
+        // Cached collections for selectors
+        let allCollections = [];
+        function loadCollections() {
+            return $.get('/api/collections').then(function(resp){
+                allCollections = (resp && resp.success && Array.isArray(resp.collections)) ? resp.collections : [];
+                populateCollectionsSelect();
+            }).catch(function(){ allCollections = []; populateCollectionsSelect(); });
+        }
+        function mapSubtypeToBucket(ct){
+            const v = (ct||'').toString().toUpperCase();
+            if (["MANGA","MANHWA","MANHUA"].includes(v)) return "MANGA";
+            if (["COMIC","COMICS"].includes(v)) return "COMIC";
+            if (["BOOK","BOOKS","NOVEL","OTHER"].includes(v)) return "BOOK";
+            return "MANGA";
+        }
+        function populateCollectionsSelect(){
+            const $sel = $('#modalCollection');
+            $sel.empty();
+            // group by content_type and mark default
+            const groups = {};
+            allCollections.forEach(c=>{
+                const ct = (c.content_type || 'MANGA').toUpperCase();
+                (groups[ct] ||= []).push(c);
+            });
+            Object.keys(groups).sort().forEach(ct=>{
+                const og = $(`<optgroup label="${ct}"></optgroup>`);
+                groups[ct].sort((a,b)=>a.name.localeCompare(b.name)).forEach(c=>{
+                    og.append(`<option value="${c.id}">${c.name}${c.is_default? ' (default)':''}</option>`);
+                });
+                $sel.append(og);
+            });
+            autoSelectDefaultForType($('#modalContentType').val());
+        }
+        function autoSelectDefaultForType(ct){
+            const bucket = mapSubtypeToBucket(ct);
+            const m = allCollections.find(c=> (c.content_type||'MANGA').toUpperCase() === bucket && c.is_default === 1);
+            $('#modalCollection').val(m? String(m.id):'');
+            // load root folders for default collection silently
+            loadRootFoldersForCollection($('#modalCollection').val());
+        }
+        function loadRootFoldersForCollection(collectionId){
+            const $rf = $('#modalRootFolder');
+            $rf.prop('disabled', true).empty().append('<option value="">-- Auto --</option>');
+            if (!collectionId) return;
+            $.get(`/api/collections/${collectionId}/root-folders`).then(function(resp){
+                const rfs = (resp && resp.success && Array.isArray(resp.root_folders))? resp.root_folders : [];
+                if (rfs.length>0){
+                    rfs.forEach(r=> $rf.append(`<option value="${r.id}">${r.name} (${r.path})</option>`));
+                    $rf.prop('disabled', false);
+                }
+            });
+        }
+
         // View e-book details
         $(document).on('click', '.view-details', function() {
             const ebookId = $(this).data('ebook-id');
@@ -284,6 +368,9 @@
             $('#btnAddToCollection').data('ebook-id', ebookId);
             $('#btnAddToCollection').data('provider', provider);
             
+            // Ensure selectors are populated
+            loadCollections();
+
             // Show modal
             const ebookModal = new bootstrap.Modal(document.getElementById('ebookDetailsModal'));
             ebookModal.show();
@@ -343,6 +430,12 @@
             });
         });
         
+        // When content type changes, re-auto-select default collection group
+        $(document).on('change', '#modalContentType', function(){
+            autoSelectDefaultForType($(this).val());
+        });
+        // Collection changes are internal only; no user control
+
         // View chapters button click
         $('#btnViewChapters').on('click', function() {
             const ebookId = $('#btnAddToCollection').data('ebook-id');
@@ -402,12 +495,16 @@
             const originalText = $btn.html();
             $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin me-2"></i> Adding...');
             
-            // Import e-book to collection
+            // Import e-book to collection with selectors
             $.ajax({
                 url: `/api/metadata/import/${provider}/${ebookId}`,
                 method: 'POST',
                 contentType: 'application/json',
-                data: JSON.stringify({}),
+                data: JSON.stringify({
+                    content_type: $('#modalContentType').val(),
+                    collection_id: $('#modalCollection').val() || null,
+                    root_folder_id: $('#modalRootFolder').val() || null,
+                }),
                 success: function(data) {
                     // Reset button
                     $btn.prop('disabled', false).html(originalText);

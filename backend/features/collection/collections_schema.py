@@ -18,6 +18,7 @@ def setup_collections_tables():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
             description TEXT,
+            content_type TEXT DEFAULT 'MANGA',
             is_default INTEGER DEFAULT 0,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -25,12 +26,12 @@ def setup_collections_tables():
         )
         """, commit=True)
         
-        # Create a unique index to ensure only one default collection
+        # Create a unique index to ensure only one default per content_type
         # This will fail silently if the index already exists
         try:
             execute_query("""
-            CREATE UNIQUE INDEX IF NOT EXISTS idx_unique_default 
-            ON collections(is_default) WHERE is_default = 1
+            CREATE UNIQUE INDEX IF NOT EXISTS idx_unique_default_per_type 
+            ON collections(content_type, is_default) WHERE is_default = 1
             """, commit=True)
         except Exception as e:
             # Index might already exist, that's okay

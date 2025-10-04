@@ -40,12 +40,12 @@ function loadCollections() {
                 displayCollections(response.collections);
             } else {
                 console.error('Error loading collections:', response);
-                $('#collectionsTableBody').html('<tr><td colspan="6" class="text-center text-danger">Failed to load collections</td></tr>');
+                $('#collectionsTableBody').html('<tr><td colspan="7" class="text-center text-danger">Failed to load collections</td></tr>');
             }
         },
         error: function(xhr, status, error) {
             console.error('Error loading collections:', error);
-            $('#collectionsTableBody').html('<tr><td colspan="6" class="text-center text-danger">Failed to load collections</td></tr>');
+            $('#collectionsTableBody').html('<tr><td colspan="7" class="text-center text-danger">Failed to load collections</td></tr>');
         }
     });
     
@@ -61,7 +61,7 @@ function displayCollections(collections) {
     tbody.empty();
     
     if (collections.length === 0) {
-        tbody.html('<tr><td colspan="6" class="text-center">No collections found</td></tr>');
+        tbody.html('<tr><td colspan="7" class="text-center">No collections found</td></tr>');
         return;
     }
     
@@ -73,13 +73,16 @@ function displayCollections(collections) {
         
         // Description
         row.append($('<td>').text(collection.description || '-'));
+
+        // Type
+        row.append($('<td>').text(collection.content_type || 'MANGA'));
         
         // Root Folders count
-        const rootFoldersCount = collection.root_folders ? collection.root_folders.length : 0;
+        const rootFoldersCount = (typeof collection.root_folder_count === 'number') ? collection.root_folder_count : (collection.root_folders ? collection.root_folders.length : 0);
         row.append($('<td>').text(rootFoldersCount));
         
         // Series count
-        const seriesCount = collection.series ? collection.series.length : 0;
+        const seriesCount = (typeof collection.series_count === 'number') ? collection.series_count : (collection.series ? collection.series.length : 0);
         row.append($('<td>').text(seriesCount));
         
         // Default
@@ -453,6 +456,7 @@ function saveCollection() {
     const name = $('#collectionName').val().trim();
     const description = $('#collectionDescription').val().trim();
     const isDefault = $('#collectionIsDefault').is(':checked');
+    const contentType = $('#collectionContentType').val();
     
     if (!name) {
         alert('Collection name is required');
@@ -471,7 +475,8 @@ function saveCollection() {
         data: JSON.stringify({
             name: name,
             description: description,
-            is_default: isDefault
+            is_default: isDefault,
+            content_type: contentType
         }),
         success: function(response) {
             if (response.success) {
@@ -513,6 +518,7 @@ function editCollection(collection) {
     $('#editCollectionName').val(collection.name);
     $('#editCollectionDescription').val(collection.description || '');
     $('#editCollectionIsDefault').prop('checked', collection.is_default);
+    $('#editCollectionContentType').val(collection.content_type || 'MANGA');
     
     // Show the modal
     $('#editCollectionModal').modal('show');
@@ -526,6 +532,7 @@ function updateCollection() {
     const name = $('#editCollectionName').val().trim();
     const description = $('#editCollectionDescription').val().trim();
     const isDefault = $('#editCollectionIsDefault').is(':checked');
+    const contentType = $('#editCollectionContentType').val();
     
     if (!name) {
         alert('Collection name is required');
@@ -544,7 +551,8 @@ function updateCollection() {
         data: JSON.stringify({
             name: name,
             description: description,
-            is_default: isDefault
+            is_default: isDefault,
+            content_type: contentType
         }),
         success: function(response) {
             if (response.success) {
