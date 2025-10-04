@@ -4,6 +4,7 @@
 import json
 from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Union
+from pathlib import Path
 
 from flask import Blueprint, Response, jsonify, request
 
@@ -16,10 +17,18 @@ from backend.base.helpers import (
 from backend.base.logging import LOGGER
 from frontend.middleware import root_folders_required
 from backend.features.calendar import get_calendar_events, update_calendar
-from backend.features.collection import (add_to_collection, export_collection,
-                                        get_collection_items, get_collection_stats,
-                                        import_collection, remove_from_collection,
-                                        update_collection_item, update_collection_stats)
+from backend.features.collection import (
+    add_to_collection,
+    export_collection,
+    get_collection_items,
+    get_collection_stats,
+    import_collection,
+    remove_from_collection,
+    update_collection_item,
+    update_collection_stats,
+    add_series_to_collection,
+    get_default_collection,
+)
 from backend.features.home_assistant import (get_home_assistant_sensor_data,
                                             get_home_assistant_setup_instructions)
 from backend.features.homarr import get_homarr_data, get_homarr_setup_instructions
@@ -203,10 +212,12 @@ def get_series_folder_path():
             if field not in data:
                 return jsonify({"error": f"Missing required field: {field}"}), 400
         
-        # Get the folder path
+        # Get the folder path inputs
         series_id = data["series_id"]
         title = data["title"]
-        content_type = data["content_type"]
+        content_type = (data.get("content_type") or "MANGA").upper()
+        collection_id = data.get("collection_id")
+        root_folder_id = data.get("root_folder_id")
         
         # Check if the series has a custom path
         custom_path = execute_query("SELECT custom_path FROM series WHERE id = ?", (series_id,))
@@ -227,23 +238,74 @@ def get_series_folder_path():
             # Create folder name that preserves spaces but replaces invalid characters
             safe_title = get_safe_folder_name(title)
             LOGGER.info(f"Original title: '{title}', Safe title for folder: '{safe_title}'")
-            
-            # Get root folders from settings
+
+            # Resolve preferred root folder without creating any directories
             from backend.internals.settings import Settings
-            from pathlib import Path
             settings = Settings().get_settings()
-            root_folders = settings.root_folders
-            
-            # If no root folders configured, use default ebook storage
-            if not root_folders:
-                # Get ebook storage directory
-                ebook_dir = get_ebook_storage_dir()
-                series_dir = ebook_dir / safe_title
-            else:
-                # Use the first root folder
-                root_folder = root_folders[0]
-                root_path = Path(root_folder['path'])
-                series_dir = root_path / safe_title
+
+            chosen_root_path = None
+
+            # 1) explicit root_folder_id
+            if root_folder_id:
+                try:
+                    rf = execute_query("SELECT path FROM root_folders WHERE id = ?", (int(root_folder_id),))
+                    if rf:
+                        chosen_root_path = Path(rf[0]['path'])
+                except Exception:
+                    pass
+
+            # 2) collection's root folders
+            if chosen_root_path is None and collection_id:
+                try:
+                    rows = execute_query(
+                        """
+                        SELECT rf.path FROM root_folders rf
+                        JOIN collection_root_folders crf ON rf.id = crf.root_folder_id
+                        WHERE crf.collection_id = ?
+                        ORDER BY rf.name ASC
+                        """,
+                        (int(collection_id),)
+                    )
+                    if rows:
+                        chosen_root_path = Path(rows[0]['path'])
+                except Exception:
+                    pass
+
+            # 3) default collection for type
+            if chosen_root_path is None:
+                try:
+                    rows = execute_query(
+                        """
+                        SELECT rf.path FROM root_folders rf
+                        JOIN collection_root_folders crf ON rf.id = crf.root_folder_id
+                        JOIN collections c ON c.id = crf.collection_id
+                        WHERE c.is_default = 1 AND UPPER(c.content_type) = ?
+                        ORDER BY rf.name ASC
+                        """,
+                        (content_type.upper(),)
+                    )
+                    if rows:
+                        chosen_root_path = Path(rows[0]['path'])
+                except Exception:
+                    pass
+
+            # 4) any settings root folder matching type
+            if chosen_root_path is None and settings.root_folders:
+                try:
+                    rf = next((rf for rf in settings.root_folders if (rf.get('content_type') or 'MANGA').upper() == content_type), None)
+                    if rf:
+                        chosen_root_path = Path(rf['path'])
+                except Exception:
+                    pass
+
+            # 5) fallback: first configured root folder or default ebooks dir
+            if chosen_root_path is None:
+                if settings.root_folders:
+                    chosen_root_path = Path(settings.root_folders[0]['path'])
+                else:
+                    chosen_root_path = get_ebook_storage_dir()
+
+            series_dir = chosen_root_path / safe_title
         
         # Return the folder path
         return jsonify({"folder_path": str(series_dir)})
@@ -394,6 +456,27 @@ def add_series():
         WHERE id = last_insert_rowid()
         """)
         
+        # Optionally link the series to a collection
+        try:
+            collection_id = data.get("collection_id")
+            if collection_id:
+                try:
+                    collection_id = int(collection_id)
+                except Exception:
+                    collection_id = None
+            if collection_id:
+                add_series_to_collection(collection_id, series_id)
+            else:
+                # Auto-link to default collection for the selected content_type if available
+                try:
+                    default_coll = get_default_collection(content_type)
+                    if default_coll and default_coll.get('id'):
+                        add_series_to_collection(default_coll['id'], series_id)
+                except Exception as _e:
+                    LOGGER.warning(f"Could not auto-link series to default collection: {_e}")
+        except Exception as link_err:
+            LOGGER.warning(f"Link to collection failed: {link_err}")
+
         # Create folder structure
         try:
             series_data = series[0]
@@ -411,8 +494,14 @@ def add_series():
             if not settings.root_folders:
                 LOGGER.warning("No root folders configured, using default ebook storage")
             else:
-                # Check if the first root folder exists
-                root_folder = settings.root_folders[0]
+                # Prefer a root folder that matches the collection type if possible (simple heuristic)
+                preferred_root = None
+                try:
+                    # find any root folder whose content_type matches selected content_type
+                    preferred_root = next((rf for rf in settings.root_folders if (rf.get('content_type') or 'MANGA').upper() == content_type), None)
+                except Exception:
+                    preferred_root = None
+                root_folder = preferred_root or settings.root_folders[0]
                 root_path = Path(root_folder['path'])
                 LOGGER.info(f"Root folder path: {root_path}, exists: {root_path.exists()}, is directory: {root_path.is_dir() if root_path.exists() else False}")
                 
@@ -430,7 +519,9 @@ def add_series():
             series_path = create_series_folder_structure(
                 series_data['id'],
                 series_data['title'],
-                series_data['content_type']
+                series_data['content_type'],
+                collection_id=data.get('collection_id'),
+                root_folder_id=data.get('root_folder_id')
             )
             
             LOGGER.info(f"Folder structure created at: {series_path}")

@@ -225,12 +225,20 @@ def api_import_manga(provider, manga_id):
     from backend.base.logging import LOGGER
     
     try:
-        # Get collection_id from request if provided
+        # Get optional overrides from request
         data = request.json or {}
         collection_id = data.get('collection_id')
+        content_type = data.get('content_type')
+        root_folder_id = data.get('root_folder_id')
         
-        # Import the manga
-        result = import_manga_to_collection(manga_id, provider)
+        # Import the manga, passing optional parameters
+        result = import_manga_to_collection(
+            manga_id,
+            provider,
+            collection_id=collection_id,
+            content_type=content_type,
+            root_folder_id=root_folder_id,
+        )
         
         if not result.get("success", False):
             # Check if it's because the series already exists

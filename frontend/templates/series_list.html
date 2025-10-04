@@ -79,6 +79,29 @@
                         </select>
                     </div>
                     <div class="mb-3">
+                        <label for="series-content-type" class="form-label">Content Type</label>
+                        <select class="form-select" id="series-content-type">
+                            <option value="MANGA">Manga</option>
+                            <option value="MANHWA">Manhwa</option>
+                            <option value="MANHUA">Manhua</option>
+                            <option value="COMICS">Comics</option>
+                            <option value="NOVEL">Novel</option>
+                            <option value="BOOK">Book</option>
+                            <option value="OTHER">Other</option>
+                        </select>
+                    </div>
+                    <!-- Collection auto-selected by content type; hidden from UI -->
+                    <div class="mb-3 d-none">
+                        <label for="series-collection" class="form-label">Collection</label>
+                        <select class="form-select" id="series-collection" disabled></select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="series-root-folder" class="form-label">Root Folder (if collection has multiple)</label>
+                        <select class="form-select" id="series-root-folder" disabled>
+                            <option value="">-- Auto --</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
                         <label for="series-cover-url" class="form-label">Cover URL</label>
                         <input type="url" class="form-control" id="series-cover-url">
                     </div>
@@ -213,10 +236,100 @@
             displaySeries(filteredSeries);
         });
         
+        // Load all collections once and cache
+        let allCollections = [];
+        function loadCollectionsForModal() {
+            return $.get('/api/collections').then(function(resp) {
+                if (resp.success && resp.collections) {
+                    allCollections = resp.collections || [];
+                } else {
+                    allCollections = [];
+                }
+                populateCollectionSelect();
+            }).catch(function() {
+                allCollections = [];
+                populateCollectionSelect();
+            });
+        }
+
+        function populateCollectionSelect() {
+            const select = $('#series-collection');
+            select.empty();
+            // Group by content_type
+            const groups = {};
+            allCollections.forEach(c => {
+                const ct = (c.content_type || 'MANGA').toUpperCase();
+                if (!groups[ct]) groups[ct] = [];
+                groups[ct].push(c);
+            });
+            Object.keys(groups).sort().forEach(ct => {
+                const optgroup = $(`<optgroup label="${ct}"></optgroup>`);
+                groups[ct]
+                    .sort((a,b)=> a.name.localeCompare(b.name))
+                    .forEach(c => {
+                        const defaultMark = c.is_default ? ' (default)' : '';
+                        optgroup.append(`<option value="${c.id}">${c.name}${defaultMark}</option>`);
+                    });
+                select.append(optgroup);
+            });
+        }
+
+        function mapSubtypeToBucket(ct) {
+            const v = (ct||'').toString().toUpperCase();
+            if (["MANGA","MANHWA","MANHUA"].includes(v)) return "MANGA";
+            if (["COMIC","COMICS"].includes(v)) return "COMIC";
+            if (["BOOK","BOOKS","NOVEL","OTHER"].includes(v)) return "BOOK";
+            return "MANGA";
+        }
+        function autoSelectDefaultForType(ct) {
+            const type = mapSubtypeToBucket(ct);
+            // try to pick default of that type
+            const match = allCollections.find(c => (c.content_type || 'MANGA').toUpperCase() === type && c.is_default === 1);
+            if (match) {
+                $('#series-collection').val(String(match.id));
+                // load root folders for this default collection
+                loadRootFoldersForCollection(String(match.id));
+                return;
+            }
+            // otherwise clear selection
+            $('#series-collection').val('');
+            // and reset root folders
+            resetRootFolders();
+        }
+
+        function resetRootFolders() {
+            const $rf = $('#series-root-folder');
+            $rf.prop('disabled', true).empty().append('<option value="">-- Auto --</option>');
+        }
+
+        function loadRootFoldersForCollection(collectionId) {
+            const $rf = $('#series-root-folder');
+            resetRootFolders();
+            if (!collectionId) return;
+            $.get(`/api/collections/${collectionId}/root-folders`).then(function(resp){
+                const rfs = (resp && resp.success && Array.isArray(resp.root_folders)) ? resp.root_folders : [];
+                if (rfs.length > 0) {
+                    rfs.forEach(r => $rf.append(`<option value="${r.id}">${r.name} (${r.path})</option>`));
+                    $rf.prop('disabled', false);
+                }
+            });
+        }
+
         // Add series modal
         $('#add-series-btn').click(function() {
             const modal = new bootstrap.Modal(document.getElementById('addSeriesModal'));
-            modal.show();
+            // load collections and then show
+            loadCollectionsForModal().then(function() {
+                // default type MANGA
+                $('#series-content-type').val('MANGA');
+                autoSelectDefaultForType('MANGA');
+                modal.show();
+            });
+        });
+
+        // When content type changes, re-auto-select default collection for that type
+        $(document).on('change', '#series-content-type', function() {
+            autoSelectDefaultForType($(this).val());
         });
         
         // Save new series
@@ -234,7 +347,11 @@
                 publisher: $('#series-publisher').val(),
                 description: $('#series-description').val(),
                 status: $('#series-status').val(),
-                cover_url: $('#series-cover-url').val()
+                cover_url: $('#series-cover-url').val(),
+                content_type: $('#series-content-type').val(),
+                // collection auto-mapped by subtype bucket
+                collection_id: $('#series-collection').val() || null,
+                root_folder_id: $('#series-root-folder').val() || null,
             };
             
             // Disable button and show loading

@@ -92,6 +92,7 @@ def api_create_collection():
         name = data.get('name')
         description = data.get('description', '')
         is_default = data.get('is_default', False)
+        content_type = data.get('content_type', 'MANGA')
         
         if not name:
             return jsonify({
@@ -99,7 +100,7 @@ def api_create_collection():
                 "error": "Collection name is required"
             }), 400
         
-        collection_id = create_collection(name, description, is_default)
+        collection_id = create_collection(name, description, is_default, content_type)
         collection = get_collection_by_id(collection_id)
         
         return jsonify({
@@ -135,8 +136,9 @@ def api_update_collection(collection_id: int):
         name = data.get('name')
         description = data.get('description')
         is_default = data.get('is_default')
+        content_type = data.get('content_type')
         
-        updated = update_collection(collection_id, name, description, is_default)
+        updated = update_collection(collection_id, name, description, is_default, content_type)
         if not updated:
             return jsonify({
                 "success": True,
@@ -192,7 +194,9 @@ def api_delete_collection(collection_id: int):
 def api_get_default_collection():
     """Get the default collection."""
     try:
-        collection = get_default_collection()
+        # Optional query parameter: content_type (e.g., MANGA, COMICS, BOOK)
+        ct = request.args.get('content_type')
+        collection = get_default_collection(ct)
         return jsonify({
             "success": True,
             "collection": collection

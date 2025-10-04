@@ -18,7 +18,7 @@ from backend.base.helpers import ensure_dir_exists
 from backend.internals.db import execute_query
 
 
-def create_collection(name: str, description: str = "", is_default: bool = False) -> int:
+def create_collection(name: str, description: str = "", is_default: bool = False, content_type: str = "MANGA") -> int:
     """Create a new collection.
 
     Args:
@@ -65,14 +65,18 @@ def create_collection(name: str, description: str = "", is_default: bool = False
         except Exception as e:
             LOGGER.warning(f"Error checking constraints: {e}")
             
-        # If this is set as default, unset any existing default
+        # If this is set as default, unset any existing default for the same content_type
         if is_default:
-            execute_query("UPDATE collections SET is_default = 0", commit=True)
+            execute_query(
+                "UPDATE collections SET is_default = 0 WHERE COALESCE(content_type, 'MANGA') = ?",
+                (content_type or "MANGA",),
+                commit=True,
+            )
         
         # Create the collection
         execute_query(
-            "INSERT INTO collections (name, description, is_default) VALUES (?, ?, ?)",
-            (name, description, 1 if is_default else 0),
+            "INSERT INTO collections (name, description, content_type, is_default) VALUES (?, ?, ?, ?)",
+            (name, description, content_type or "MANGA", 1 if is_default else 0),
             commit=True
         )
     except Exception as e:
@@ -82,8 +86,8 @@ def create_collection(name: str, description: str = "", is_default: bool = False
             
             # Create the collection without setting default flag
             execute_query(
-                "INSERT INTO collections (name, description, is_default) VALUES (?, ?, 0)",
-                (name, description),
+                "INSERT INTO collections (name, description, content_type, is_default) VALUES (?, ?, ?, 0)",
+                (name, description, content_type or "MANGA"),
                 commit=True
             )
             
@@ -97,8 +101,12 @@ def create_collection(name: str, description: str = "", is_default: bool = False
             # If we need to set as default, do it in a separate update
             if is_default:
                 try:
-                    # Unset any existing default
-                    execute_query("UPDATE collections SET is_default = 0", commit=True)
+                    # Unset any existing default for same type
+                    execute_query(
+                        "UPDATE collections SET is_default = 0 WHERE COALESCE(content_type, 'MANGA') = ?",
+                        (content_type or "MANGA",),
+                        commit=True,
+                    )
                     
                     # Set this one as default
                     execute_query(
@@ -131,7 +139,7 @@ def get_collections() -> List[Dict[str, Any]]:
     Returns:
         List[Dict[str, Any]]: A list of collections.
     """
-    collections = execute_query("SELECT * FROM collections ORDER BY is_default DESC, name ASC")
+    collections = execute_query("SELECT * FROM collections ORDER BY content_type ASC, is_default DESC, name ASC")
     
     # Add root folder count to each collection
     for collection in collections:
@@ -177,13 +185,11 @@ def get_collection_by_id(collection_id: int) -> Optional[Dict[str, Any]]:
         "SELECT COUNT(*) as count FROM series_collections WHERE collection_id = ?",
         (collection_id,)
     )
-    collection["series_count"] = series_count[0]["count"] if series_count else 0
-    
     return collection
 
-
-def update_collection(collection_id: int, name: Optional[str] = None, 
-                      description: Optional[str] = None, is_default: Optional[bool] = None) -> bool:
+def update_collection(collection_id: int, name: Optional[str] = None,
+                      description: Optional[str] = None, is_default: Optional[bool] = None,
+                      content_type: Optional[str] = None) -> bool:
     """Update a collection.
 
     Args:
@@ -191,60 +197,60 @@ def update_collection(collection_id: int, name: Optional[str] = None,
         name (Optional[str], optional): The new name of the collection. Defaults to None.
         description (Optional[str], optional): The new description of the collection. Defaults to None.
         is_default (Optional[bool], optional): Whether this is the default collection. Defaults to None.
+        content_type (Optional[str], optional): The content type for the collection. Defaults to None.
 
     Returns:
         bool: True if the collection was updated, False otherwise.
 
     Raises:
-        InvalidCollectionError: If the collection name is invalid or already exists.
+        InvalidCollectionError: If the collection doesn't exist or name conflicts.
     """
     # Check if collection exists
     collection = get_collection_by_id(collection_id)
     if not collection:
         raise InvalidCollectionError(f"Collection with ID {collection_id} does not exist")
-    
-    # Build update query
-    updates = []
-    params = []
-    
+
+    updates: List[str] = []
+    params: List[Any] = []
+
     if name is not None:
         if not name:
             raise InvalidCollectionError("Collection name cannot be empty")
-        
-        # Check if another collection with this name already exists
+        # Ensure unique name
         existing = execute_query(
-            "SELECT id FROM collections WHERE name = ? AND id != ?", 
+            "SELECT id FROM collections WHERE name = ? AND id != ?",
             (name, collection_id)
         )
         if existing:
             raise InvalidCollectionError(f"Collection with name '{name}' already exists")
-        
         updates.append("name = ?")
         params.append(name)
-    
+
     if description is not None:
         updates.append("description = ?")
         params.append(description)
-    
+
+    if content_type is not None:
+        updates.append("content_type = ?")
+        params.append(content_type)
+
     if is_default is not None:
         updates.append("is_default = ?")
         params.append(1 if is_default else 0)
-        
-        # If this is set as default, unset any existing default
         if is_default:
+            # Determine target type for uniqueness
+            target_type = content_type if content_type is not None else collection.get("content_type") or "MANGA"
             execute_query(
-                "UPDATE collections SET is_default = 0 WHERE id != ?",
-                (collection_id,),
+                "UPDATE collections SET is_default = 0 WHERE id != ? AND COALESCE(content_type, 'MANGA') = ?",
+                (collection_id, target_type),
                 commit=True
             )
-    
+
     if not updates:
-        return False  # Nothing to update
-    
-    # Execute update query
+        return False
+
     query = f"UPDATE collections SET {', '.join(updates)}, updated_at = CURRENT_TIMESTAMP WHERE id = ?"
     params.append(collection_id)
-    
     execute_query(query, tuple(params), commit=True)
     LOGGER.info(f"Updated collection with ID {collection_id}")
     return True
@@ -720,7 +726,7 @@ def get_collection_series(collection_id: int) -> List[Dict[str, Any]]:
     return execute_query(query, (collection_id,))
 
 
-def get_default_collection() -> Dict[str, Any]:
+def get_default_collection(content_type: Optional[str] = None) -> Dict[str, Any]:
     """Get the default collection.
 
     Returns:
@@ -729,23 +735,36 @@ def get_default_collection() -> Dict[str, Any]:
     Raises:
         DatabaseError: If no default collection exists.
     """
-    # First check if there are multiple default collections and fix if needed
-    default_collections = execute_query("SELECT * FROM collections WHERE is_default = 1")
+    # If a content_type is specified, scope all operations to that type
+    type_clause = "COALESCE(content_type, 'MANGA') = ?"
+    type_param = (content_type or "MANGA",)
+    
+    # First check if there are multiple default collections per specified type and fix if needed
+    default_collections = execute_query(
+        f"SELECT * FROM collections WHERE {type_clause} AND is_default = 1",
+        type_param,
+    )
     
     if len(default_collections) > 1:
         # Keep only the first default collection and unset the others
         LOGGER.warning(f"Found {len(default_collections)} default collections. Fixing...")
         first_default_id = default_collections[0]['id']
         execute_query(
-            "UPDATE collections SET is_default = 0 WHERE is_default = 1 AND id != ?",
-            (first_default_id,),
+            f"UPDATE collections SET is_default = 0 WHERE {type_clause} AND is_default = 1 AND id != ?",
+            (*type_param, first_default_id),
             commit=True
         )
         # Refresh the list
-        default_collections = execute_query("SELECT * FROM collections WHERE is_default = 1")
+        default_collections = execute_query(
+            f"SELECT * FROM collections WHERE {type_clause} AND is_default = 1",
+            type_param,
+        )
     
     # Check for duplicate "Default Collection" entries and clean them up
-    named_default_collections = execute_query("SELECT * FROM collections WHERE name = ?", ("Default Collection",))
+    named_default_collections = execute_query(
+        f"SELECT * FROM collections WHERE name = ? AND {type_clause}",
+        ("Default Collection", *type_param),
+    )
     if len(named_default_collections) > 1:
         LOGGER.warning(f"Found {len(named_default_collections)} collections named 'Default Collection'. Cleaning up...")
         
@@ -778,7 +797,10 @@ def get_default_collection() -> Dict[str, Any]:
     
     if not default_collections:
         # Check if there's a collection named 'Default Collection' already
-        existing = execute_query("SELECT * FROM collections WHERE name = ?", ("Default Collection",))
+        existing = execute_query(
+            f"SELECT * FROM collections WHERE name = ? AND {type_clause}",
+            ("Default Collection", *type_param),
+        )
         
         if existing:
             # Set the existing one as default
@@ -791,7 +813,12 @@ def get_default_collection() -> Dict[str, Any]:
             return existing[0]
         else:
             # Create a default collection if none exists
-            collection_id = create_collection("Default Collection", "Default collection created by the system", True)
+            collection_id = create_collection(
+                "Default Collection",
+                "Default collection created by the system",
+                True,
+                content_type=content_type or "MANGA",
+            )
             collections = execute_query("SELECT * FROM collections WHERE id = ?", (collection_id,))
             if not collections:
                 raise DatabaseError("Failed to create default collection")
