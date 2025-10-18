@@ -13,8 +13,14 @@
                 <div class="card-body">
                     <form id="searchForm" class="mb-4">
                         <div class="row g-3 align-items-center">
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" id="searchQuery" placeholder="Enter e-book title..." required>
+                            <div class="col-md-5">
+                                <input type="text" class="form-control" id="searchQuery" placeholder="Enter search term..." required>
+                            </div>
+                            <div class="col-md-2">
+                                <select class="form-select" id="searchType">
+                                    <option value="title">Title</option>
+                                    <option value="author">Author</option>
+                                </select>
                             </div>
                             <div class="col-md-3">
                                 <select class="form-select" id="searchProvider">
@@ -22,7 +28,7 @@
                                     <!-- Providers will be populated dynamically -->
                                 </select>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <button type="submit" class="btn btn-primary w-100">
                                     <i class="fas fa-search me-2"></i> Search
                                 </button>
@@ -169,6 +175,16 @@
 {% block scripts %}
 <script>
     $(document).ready(function() {
+        // Update placeholder based on search type
+        $('#searchType').on('change', function() {
+            const searchType = $(this).val();
+            if (searchType === 'author') {
+                $('#searchQuery').attr('placeholder', 'Enter author name...');
+            } else {
+                $('#searchQuery').attr('placeholder', 'Enter book title...');
+            }
+        });
+        
         // Load providers
         $.ajax({
             url: '/api/metadata/providers',
@@ -197,6 +213,7 @@
             
             const query = $('#searchQuery').val().trim();
             const provider = $('#searchProvider').val();
+            const searchType = $('#searchType').val();
             
             if (!query) {
                 showToast('warning', 'Warning', 'Please enter a search term');
@@ -208,8 +225,15 @@
             $('#noResults').addClass('d-none');
             $('#loadingIndicator').removeClass('d-none');
             
+            // Update placeholder based on search type
+            if (searchType === 'author') {
+                $('#searchQuery').attr('placeholder', 'Enter author name...');
+            } else {
+                $('#searchQuery').attr('placeholder', 'Enter book title...');
+            }
+            
             // Build URL
-            let url = `/api/metadata/search?query=${encodeURIComponent(query)}`;
+            let url = `/api/metadata/search?query=${encodeURIComponent(query)}&search_type=${searchType}`;
             if (provider) {
                 url += `&provider=${provider}`;
             }

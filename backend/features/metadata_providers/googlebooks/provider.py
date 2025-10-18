@@ -35,12 +35,13 @@ class GoogleBooksProvider(MetadataProvider):
         }
         self.session = requests.Session()
 
-    def search(self, query: str, page: int = 1) -> List[Dict[str, Any]]:
+    def search(self, query: str, page: int = 1, search_type: str = "title") -> List[Dict[str, Any]]:
         """Search for books on Google Books API.
         
         Args:
             query: The search query.
             page: The page number (1-indexed).
+            search_type: The type of search to perform (title or author).
             
         Returns:
             A list of book search results.
@@ -52,8 +53,14 @@ class GoogleBooksProvider(MetadataProvider):
             
             # Build the API URL
             url = f"{self.base_url}/volumes"
+            
+            # Format query based on search type
+            formatted_query = query
+            if search_type == "author":
+                formatted_query = f"inauthor:{query}"
+            
             params = {
-                "q": query,
+                "q": formatted_query,
                 "startIndex": start_index,
                 "maxResults": 10,
                 "printType": "books"

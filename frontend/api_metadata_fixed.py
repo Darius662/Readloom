@@ -22,7 +22,7 @@ metadata_api_bp = Blueprint('metadata_api', __name__, url_prefix='/api/metadata'
 
 @metadata_api_bp.route('/search', methods=['GET'])
 def api_search_manga():
-    """Search for manga.
+    """Search for manga or books.
     
     Returns:
         Response: The search results.
@@ -31,11 +31,16 @@ def api_search_manga():
         query = request.args.get('query', '')
         provider = request.args.get('provider', None)
         page = int(request.args.get('page', 1))
+        search_type = request.args.get('search_type', 'title')
+        
+        # Validate search_type
+        if search_type not in ['title', 'author']:
+            return jsonify({"error": "Invalid search_type. Must be 'title' or 'author'"}), 400
         
         if not query:
             return jsonify({"error": "Query parameter is required"}), 400
         
-        results = search_manga(query, provider, page)
+        results = search_manga(query, provider, page, search_type)
         
         if "error" in results:
             return jsonify(results), 400
