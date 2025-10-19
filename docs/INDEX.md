@@ -32,6 +32,7 @@ This document provides an overview of all available documentation for Readloom.
 
 - [AniList Provider](ANILIST_PROVIDER.md) - AniList integration details
 - [Book Providers](BOOK_PROVIDERS.md) - Google Books, Open Library, and ISBNdb integration details
+- [Author Search](AUTHOR_SEARCH.md) - Comprehensive author search and details features
 - [Metadata Providers](METADATA_PROVIDERS.md) - Details on metadata provider implementation
 - [Image Proxy](IMAGE_PROXY.md) - Image proxy functionality
 
@@ -45,10 +46,15 @@ This document provides an overview of all available documentation for Readloom.
 
 ### v0.2.0 (Latest)
 
-- **Enhanced Author Search**:
+- **Enhanced Author Search and Details**:
   - Added author metadata API endpoint for detailed author information
   - Implemented specialized author cards in search results
-  - Added comprehensive author details modal with biography, birth/death dates, and external links
+  - Added comprehensive author details modal with biography, works, and metadata
+  - Added subject categorization for authors
+  - Added notable works listing with direct links
+  - Added external resource links (Goodreads, Wikipedia, etc.)
+  - Implemented proper image display in both search results and author details
+  - Added loading indicators for improved user experience
   - Added support for OpenLibrary author photos and metadata
 - **Improved Search Functionality**:
   - Fixed provider/indexer dropdown in search forms

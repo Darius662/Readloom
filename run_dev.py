@@ -105,6 +105,8 @@ def run_app():
         # Register blueprints
         from frontend.api import api_bp
         from frontend.api_metadata_fixed import metadata_api_bp
+        from frontend.api_author_metadata import author_metadata_api_bp
+        from frontend.api_author_search import author_search_api_bp
         from frontend.api_ebooks import ebooks_api_bp
         from frontend.api_rootfolders import rootfolders_api_bp
         from frontend.api_collections import collections_api
@@ -117,6 +119,8 @@ def run_app():
         
         app.register_blueprint(api_bp)
         app.register_blueprint(metadata_api_bp, url_prefix='/api/metadata')
+        app.register_blueprint(author_metadata_api_bp)
+        app.register_blueprint(author_search_api_bp)
         app.register_blueprint(ebooks_api_bp)
         app.register_blueprint(rootfolders_api_bp)
         app.register_blueprint(collections_api)

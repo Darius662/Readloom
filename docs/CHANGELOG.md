@@ -17,6 +17,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Implemented specialized author cards in search results
   - Added comprehensive author details modal with biography, birth/death dates, and external links
   - Added support for OpenLibrary author photos and metadata
+- **Enhanced Author Details**:
+  - Improved author details modal with loading indicators
+  - Added subject categorization for authors
+  - Added notable works listing with direct links
+  - Added external resource links (Goodreads, Wikipedia, etc.)
+  - Implemented proper image display in both search results and author details
+  - Added comprehensive biographical information from OpenLibrary
+  - Added places associated with authors when available
 
 ### Fixed
 - **Root Folders Detection**:
@@ -29,6 +37,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Implemented proper filtering of providers based on content type (books vs. manga)
   - Fixed search type selection to properly handle title and author searches
   - Corrected content type selector links in search templates
+  - Fixed author image display in search results
+  - Improved author details loading time with visual feedback
+  - Fixed missing subjects and metadata in author details
 
 ### Changed
 - **Search Functionality**:

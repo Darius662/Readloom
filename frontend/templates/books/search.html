@@ -79,7 +79,7 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-4 mb-3">
-                        <img id="modalCover" src="" alt="Book Cover" class="img-fluid rounded">
+                        <img id="modalCover" src="" alt="Cover Image" class="img-fluid rounded">
                         <div class="mt-3">
                             <div class="mb-2">
                                 <label class="form-label small mb-1">Collection</label>
@@ -100,33 +100,37 @@
                         </div>
                     </div>
                     <div class="col-md-8">
-                        <h4 id="modalTitle"></h4>
-                        <div id="modalAltTitles" class="text-muted small mb-2"></div>
+                        <h4 id="modalTitle" class="mb-3"></h4>
+                        <div id="modalAltTitles" class="text-muted small mb-3"></div>
                         
-                        <div class="mb-3">
-                            <strong>Author:</strong> <span id="modalAuthor"></span>
+                        <!-- Author info will be dynamically populated here -->
+                        <div id="modalAuthor" class="mb-4"></div>
+                        
+                        <!-- Book-specific fields -->
+                        <div class="book-fields">
+                            <div class="mb-3">
+                                <strong>Publisher:</strong> <span id="modalPublisher"></span>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <strong>Published:</strong> <span id="modalPublishedDate"></span>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <strong>ISBN:</strong> <span id="modalISBN"></span>
+                            </div>
                         </div>
                         
-                        <div class="mb-3">
-                            <strong>Publisher:</strong> <span id="modalPublisher"></span>
+                        <!-- Genres/Subjects -->
+                        <div class="mb-4">
+                            <strong>Subjects:</strong>
+                            <div id="modalGenres" class="mt-2"></div>
                         </div>
                         
-                        <div class="mb-3">
-                            <strong>Published:</strong> <span id="modalPublishedDate"></span>
-                        </div>
-                        
-                        <div class="mb-3">
-                            <strong>ISBN:</strong> <span id="modalISBN"></span>
-                        </div>
-                        
-                        <div class="mb-3">
-                            <strong>Genres:</strong>
-                            <div id="modalGenres" class="mt-1"></div>
-                        </div>
-                        
+                        <!-- Description/Biography -->
                         <div class="mb-3">
                             <strong>Description:</strong>
-                            <p id="modalDescription" class="mt-1"></p>
+                            <div id="modalDescription" class="mt-2 description-box"></div>
                         </div>
                     </div>
                 </div>
@@ -262,12 +266,12 @@
             // Build URL based on search type
             let url;
             if (searchType === 'author') {
-                // Use regular search API but with author search type
-                url = `/api/metadata/search?query=${encodeURIComponent(query)}&search_type=author&content_type=BOOK`;
+                // Use dedicated author search API
+                url = `/api/metadata/author_search?query=${encodeURIComponent(query)}`;
                 if (provider) {
                     url += `&provider=${provider}`;
                 }
-                console.log('Using author search with regular API:', url);
+                console.log('Using dedicated author search API:', url);
             } else {
                 // Use regular book search API
                 url = `/api/metadata/search?query=${encodeURIComponent(query)}&search_type=${searchType}&content_type=BOOK`;
@@ -324,7 +328,23 @@
                 // Process author image URL
                 let imageUrl = book.image_url || '/static/img/no-cover.png';
                 if (imageUrl && imageUrl.startsWith('http')) {
+                    // Use image proxy for external images
                     imageUrl = `/api/proxy/image?url=${encodeURIComponent(imageUrl)}`;
+                }
+                
+                // Ensure the image is loaded properly
+                const img = new Image();
+                img.onload = function() {
+                    // Image loaded successfully
+                    console.log('Author image loaded:', imageUrl);
+                };
+                img.onerror = function() {
+                    // If image fails to load, use fallback
+                    console.log('Author image failed to load, using fallback');
+                    imageUrl = '/static/img/no-cover.png';
+                };
+                if (imageUrl !== '/static/img/no-cover.png') {
+                    img.src = imageUrl;
                 }
                 
                 // Create an author card
@@ -505,12 +525,12 @@
             // Show a modal with author details
             $('#modalTitle').text('Loading author details...');
             $('#modalCover').attr('src', '/static/img/no-cover.png');
-            $('#modalAuthor').html('');
+            $('#modalAuthor').html('<div class="text-center my-4"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div><p class="mt-2">Loading author information...</p></div>');
             $('#modalPublisher').parent().parent().hide(); // Hide publisher row
             $('#modalPublishedDate').parent().parent().hide(); // Hide published date row
             $('#modalISBN').parent().parent().hide(); // Hide ISBN row
             $('#modalGenres').empty();
-            $('#modalDescription').text('Loading...');
+            $('#modalDescription').html('<div class="text-center"><div class="spinner-border text-secondary" role="status"><span class="visually-hidden">Loading...</span></div></div>');
             
             // Show modal with a different title
             $('#bookDetailsModalLabel').text('Author Details');
@@ -544,13 +564,29 @@
                             $('#modalTitle').text(authorResult.author || 'Unknown Author');
                             
                             // Use image proxy for external images in modal
-                            let modalCoverUrl = authorResult.cover_url || '/static/img/no-cover.png';
-                            if (modalCoverUrl && modalCoverUrl.startsWith('http')) {
-                                modalCoverUrl = `/api/proxy/image?url=${encodeURIComponent(modalCoverUrl)}`;
+                            if (authorResult.image_url) {
+                                let imageUrl = authorResult.image_url;
+                                if (imageUrl.startsWith('http')) {
+                                    imageUrl = `/api/proxy/image?url=${encodeURIComponent(imageUrl)}`;
+                                }
+                                
+                                // Preload image to ensure it's valid
+                                const img = new Image();
+                                img.onload = function() {
+                                    // Image loaded successfully, update modal
+                                    $('#modalCover').attr('src', imageUrl);
+                                    console.log('Author details image loaded successfully:', imageUrl);
+                                };
+                                img.onerror = function() {
+                                    // Image failed to load, use fallback
+                                    $('#modalCover').attr('src', '/static/img/no-cover.png');
+                                    console.log('Author details image failed to load, using fallback');
+                                };
+                                img.src = imageUrl;
+                            } else {
+                                $('#modalCover').attr('src', '/static/img/no-cover.png');
                             }
-                            $('#modalCover').attr('src', modalCoverUrl);
                             
-                            // Create author info HTML
                             let authorInfoHtml = `<p><strong>Author:</strong> ${authorResult.author}</p>`;
                             if (authorResult.title) {
                                 authorInfoHtml += `<p><strong>Notable Work:</strong> ${authorResult.title}</p>`;
@@ -591,9 +627,46 @@
                         authorInfoHtml += `<p><strong>Died:</strong> ${data.death_date}</p>`;
                     }
                     
+                    // Add work count if available
+                    if (data.work_count) {
+                        authorInfoHtml += `<p><strong>Works:</strong> ${data.work_count}</p>`;
+                    }
+                    
+                    // Add notable works if available
+                    if (data.notable_works && data.notable_works.length > 0) {
+                        authorInfoHtml += `<p><strong>Notable Works:</strong></p><ul class="list-unstyled">`;
+                        data.notable_works.forEach(work => {
+                            authorInfoHtml += `<li>- ${work}</li>`;
+                        });
+                        authorInfoHtml += `</ul>`;
+                    }
+                    
+                    // Add subjects if available
+                    if (data.subjects && data.subjects.length > 0) {
+                        authorInfoHtml += `<p><strong>Subjects:</strong></p>`;
+                        const subjectsHtml = data.subjects.map(subject => 
+                            `<span class="badge bg-secondary me-1 mb-1">${subject}</span>`
+                        ).join('');
+                        authorInfoHtml += `<div class="mb-3">${subjectsHtml}</div>`;
+                    }
+                    
+                    // Add places if available
+                    if (data.places && data.places.length > 0) {
+                        authorInfoHtml += `<p><strong>Places:</strong></p>`;
+                        const placesHtml = data.places.map(place => 
+                            `<span class="badge bg-info me-1 mb-1">${place}</span>`
+                        ).join('');
+                        authorInfoHtml += `<div class="mb-3">${placesHtml}</div>`;
+                    }
+                    
                     // Add alternate names if available
                     if (data.alternate_names && data.alternate_names.length > 0) {
                         authorInfoHtml += `<p><strong>Also Known As:</strong> ${data.alternate_names.join(', ')}</p>`;
+                    }
+                    
+                    // Add OpenLibrary link
+                    if (data.html_url) {
+                        authorInfoHtml += `<p><a href="${data.html_url}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-primary"><i class="fas fa-external-link-alt me-1"></i> View on OpenLibrary</a></p>`;
                     }
                     
                     // Add links to external resources
@@ -617,20 +690,33 @@
                     $('#modalISBN').parent().parent().hide(); // Hide ISBN row
                     
                     // Subjects/Genres
+                    console.log('Author data:', data);
+                    console.log('Subjects:', data.subjects);
                     if (data.subjects && data.subjects.length > 0) {
+                        console.log('Subjects length:', data.subjects.length);
                         const genresHtml = data.subjects.map(subject => 
                             `<span class="badge bg-secondary me-1 mb-1">${subject}</span>`
                         ).join('');
+                        console.log('Genres HTML:', genresHtml);
                         $('#modalGenres').html(genresHtml);
                     } else {
+                        console.log('No subjects available');
                         $('#modalGenres').html('<span class="text-muted">No subjects available</span>');
                     }
                     
                     // Biography
                     if (data.biography) {
-                        $('#modalDescription').html(data.biography.replace(/\n/g, '<br>'));
+                        // Format the biography text properly
+                        let formattedBio = data.biography;
+                        // Replace newlines with <br> tags
+                        formattedBio = formattedBio.replace(/\n/g, '<br>');
+                        // Add paragraph tags if not already present
+                        if (!formattedBio.includes('<p>')) {
+                            formattedBio = `<p>${formattedBio}</p>`;
+                        }
+                        $('#modalDescription').html(formattedBio);
                     } else {
-                        $('#modalDescription').text('No biography available');
+                        $('#modalDescription').html('<p><em>No biography available. View on OpenLibrary for more information.</em></p>');
                     }
                 },
                 error: function(xhr) {
@@ -825,6 +911,33 @@
     #modalDescription {
         max-height: 200px;
         overflow-y: auto;
+        line-height: 1.5;
+    }
+    
+    .description-box {
+        padding: 10px;
+        background-color: #f8f9fa;
+        border-radius: 5px;
+    }
+    
+    #modalGenres .badge {
+        margin-right: 5px;
+        margin-bottom: 5px;
+        padding: 6px 10px;
+        font-size: 0.85rem;
+    }
+    
+    #modalAuthor p {
+        margin-bottom: 0.5rem;
+    }
+    
+    #modalAuthor ul {
+        padding-left: 1rem;
+    }
+    
+    #modalAuthor .badge {
+        margin-right: 5px;
+        margin-bottom: 5px;
     }
 </style>
 {% endblock %}

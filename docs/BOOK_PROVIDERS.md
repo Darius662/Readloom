@@ -94,11 +94,26 @@ WorldCat is a global catalog of library collections with millions of books from 
 4. Select a provider (OpenLibrary recommended for author information)
 5. Browse the author results
 6. Click "Author Details" to view comprehensive information including:
-   - Author biography
+   - Author biography and personal information
    - Birth and death dates
-   - Bibliography (works by the author)
-   - External links and references
-   - Subject areas the author writes about
+   - Bibliography (notable works by the author)
+   - Work count and publication history
+   - External links (Goodreads, Wikipedia, etc.)
+   - Subject categories and genres
+   - Places associated with the author
+   - Alternative names
+
+#### Enhanced Author Details
+
+The enhanced author details feature provides a rich, comprehensive view of author information:
+
+- **Visual Presentation**: Author photos are displayed both in search results and detailed views
+- **Biographical Information**: Detailed biographies sourced from OpenLibrary and other providers
+- **Subject Categorization**: Authors are categorized by literary genres and subject areas
+- **Notable Works**: A curated list of the author's most significant publications
+- **External Resources**: Direct links to author pages on Goodreads, Wikipedia, and other platforms
+- **Responsive Design**: Author details are presented in a clean, modern interface that works on all devices
+- **Loading Indicators**: Visual feedback during data loading to improve user experience
 
 ### Importing Books
 

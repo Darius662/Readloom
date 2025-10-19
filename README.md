@@ -41,7 +41,12 @@ Readloom is a manga, manwa, and comics collection manager with a focus on releas
   - Advanced volume detection with multiple scrapers (v0.0.5+)
   - MangaFire integration for accurate volume data
   - Search interface for finding manga, books, and authors across multiple sources
-  - Enhanced author search with biographies, photos, and bibliographies (v0.2.0+)
+  - **Enhanced author search and details** (v0.2.0+):
+    - Author profiles with photos, biographies, and bibliographies
+    - Comprehensive subject categorization for authors
+    - Notable works listing with direct links
+    - External resource links (Goodreads, Wikipedia, etc.)
+    - Author-specific metadata from OpenLibrary
 - **Monitoring System**: Stay updated on upcoming releases
   - Notification system for upcoming releases
   - Subscription functionality for specific series

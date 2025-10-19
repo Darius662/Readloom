@@ -50,7 +50,7 @@ class Server:
         self.app.register_blueprint(api_bp)
         self.app.register_blueprint(metadata_api_bp, url_prefix='/api/metadata')
         self.app.register_blueprint(author_metadata_api_bp)
-        self.app.register_blueprint(author_search_api_bp, url_prefix='')
+        self.app.register_blueprint(author_search_api_bp)  # Use the blueprint's own URL prefix
         self.app.register_blueprint(ebooks_api_bp)
         self.app.register_blueprint(collections_api)
         self.app.register_blueprint(folders_api)

@@ -9,7 +9,7 @@ import logging
 import requests
 from flask import Blueprint, jsonify, request
 from backend.features.metadata_providers.openlibrary.provider import OpenLibraryProvider
-from backend.base.decorators import setup_required
+from frontend.middleware import setup_required
 
 # Set up logger
 LOGGER = logging.getLogger(__name__)
@@ -68,9 +68,15 @@ def search_authors():
                 
                 # Get photo URL if available
                 photo_url = "/static/img/no-cover.png"
+                
+                # Check for photos in the author data
                 if "photos" in author and author["photos"] and len(author["photos"]) > 0:
                     photo_id = author["photos"][0]
                     photo_url = f"https://covers.openlibrary.org/a/id/{photo_id}-L.jpg"
+                else:
+                    # If no photos in API response, try using the OLID-based URL format
+                    # This matches the format used in the author details modal
+                    photo_url = f"https://covers.openlibrary.org/a/olid/{author_key}-L.jpg"
                 
                 author_info = {
                     "id": author_key,
