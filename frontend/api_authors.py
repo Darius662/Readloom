@@ -25,12 +25,34 @@ def get_all_authors():
         Response: The authors.
     """
     try:
+        # Get query parameters
+        limit = request.args.get('limit', default=None, type=int)
+        offset = request.args.get('offset', default=0, type=int)
+        sort_by = request.args.get('sort_by', default='name')
+        sort_order = request.args.get('sort_order', default='asc')
+        
         book_service = BookService()
         authors = book_service.get_all_authors()
         
+        # Apply sorting
+        if sort_by == 'book_count':
+            authors = sorted(authors, key=lambda x: x.get('book_count', 0), reverse=(sort_order.lower() == 'desc'))
+        elif sort_by == 'name':
+            authors = sorted(authors, key=lambda x: x.get('name', '').lower(), reverse=(sort_order.lower() == 'desc'))
+        elif sort_by == 'created_at':
+            authors = sorted(authors, key=lambda x: x.get('created_at', ''), reverse=(sort_order.lower() == 'desc'))
+        
+        # Get total count before pagination
+        total_count = len(authors)
+        
+        # Apply pagination
+        if limit is not None:
+            authors = authors[offset:offset + limit]
+        
         return jsonify({
             "success": True,
-            "authors": authors
+            "authors": authors,
+            "total": total_count
         })
     except Exception as e:
         LOGGER.error(f"Error getting all authors: {e}")

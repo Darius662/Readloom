@@ -118,9 +118,9 @@ class MangaService(ContentServiceBase):
             if result.get("success") and "series_id" in result:
                 series_id = result["series_id"]
                 
-                # Mark as not a book
+                # Mark as manga content type
                 execute_query("""
-                    UPDATE series SET is_book = 0 WHERE id = ?
+                    UPDATE series SET content_type = 'MANGA' WHERE id = ?
                 """, (series_id,), commit=True)
             
             return result
@@ -174,7 +174,7 @@ class MangaService(ContentServiceBase):
         try:
             series = execute_query("""
                 SELECT * FROM series 
-                WHERE publisher = ? AND is_book = 0
+                WHERE publisher = ? AND UPPER(content_type) IN ('MANGA', 'MANHWA', 'MANHUA', 'COMIC')
                 ORDER BY title
             """, (publisher,))
             
@@ -193,7 +193,8 @@ class MangaService(ContentServiceBase):
             publishers = execute_query("""
                 SELECT publisher, COUNT(*) as series_count
                 FROM series
-                WHERE is_book = 0 AND publisher IS NOT NULL AND publisher != ''
+                WHERE UPPER(content_type) IN ('MANGA', 'MANHWA', 'MANHUA', 'COMIC') 
+                AND publisher IS NOT NULL AND publisher != ''
                 GROUP BY publisher
                 ORDER BY publisher
             """)

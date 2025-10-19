@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block title %}{{ author.name }} - Readloom{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/authors">Authors</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ author.name }}</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">{{ author.name }}</h5>
+                </div>
+                <div class="card-body">
+                    <div class="text-center mb-3">
+                        {% if author.biography and author.biography.find('![') >= 0 %}
+                            {% set img_match = author.biography.split('![')[1].split('](')[1].split(')')[0] if author.biography.find('![') >= 0 and author.biography.find('](') >= 0 else None %}
+                            {% if img_match %}
+                                <img src="/api/proxy/image?url={{ img_match|urlencode }}" class="img-fluid rounded" alt="{{ author.name }}" style="max-height: 300px;">
+                            {% else %}
+                                <img src="/static/img/no-cover.png" class="img-fluid rounded" alt="{{ author.name }}" style="max-height: 300px;">
+                            {% endif %}
+                        {% else %}
+                            <img src="/static/img/no-cover.png" class="img-fluid rounded" alt="{{ author.name }}" style="max-height: 300px;">
+                        {% endif %}
+                    </div>
+                    
+                    <div class="author-info">
+                        {% if author.birth_date %}
+                            <p><strong>Born:</strong> {{ author.birth_date }}</p>
+                        {% endif %}
+                        
+                        {% if author.death_date %}
+                            <p><strong>Died:</strong> {{ author.death_date }}</p>
+                        {% endif %}
+                        
+                        <p><strong>Provider:</strong> {{ author.provider }}</p>
+                        <p><strong>Provider ID:</strong> {{ author.provider_id }}</p>
+                        <p><strong>Books in Collection:</strong> {{ books|length }}</p>
+                        <p><strong>Folder:</strong> {{ author.folder_path }}</p>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="d-grid gap-2">
+                        <a href="/authors/{{ author.id }}/books" class="btn btn-primary">
+                            <i class="fas fa-book"></i> View Books
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Biography</h5>
+                </div>
+                <div class="card-body">
+                    {% if author.biography %}
+                        <div class="biography">
+                            {{ author.biography|markdown }}
+                        </div>
+                    {% else %}
+                        <p class="text-muted">No biography available.</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">Books in Collection</h5>
+                    <a href="/authors/{{ author.id }}/books" class="btn btn-sm btn-outline-primary">
+                        <i class="fas fa-list"></i> View All
+                    </a>
+                </div>
+                <div class="card-body">
+                    {% if books %}
+                        <div class="row">
+                            {% for book in books[:6] %}
+                                <div class="col-md-4 mb-3">
+                                    <div class="card h-100">
+                                        <div class="card-body">
+                                            <h6 class="card-title">{{ book.title }}</h6>
+                                            <p class="card-text small">{{ book.description|truncate(100) if book.description else 'No description available.' }}</p>
+                                        </div>
+                                        <div class="card-footer">
+                                            <a href="/books/{{ book.id }}" class="btn btn-sm btn-outline-primary">
+                                                <i class="fas fa-eye"></i> View
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        
+                        {% if books|length > 6 %}
+                            <div class="text-center mt-3">
+                                <a href="/authors/{{ author.id }}/books" class="btn btn-outline-primary">
+                                    <i class="fas fa-list"></i> View All {{ books|length }} Books
+                                </a>
+                            </div>
+                        {% endif %}
+                    {% else %}
+                        <p class="text-muted">No books in collection.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

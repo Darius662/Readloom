@@ -49,6 +49,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Fixed author image display in search results
   - Improved author details loading time with visual feedback
   - Fixed missing subjects and metadata in author details
+- **Database Issues**:
+  - Fixed database error related to missing `has_file` column in ebook_files table
+  - Added fallback method to get inserted file ID when `RETURNING id` clause doesn't work
+  - Fixed error handling in `add_ebook_file` function to prevent database errors
+- **API Endpoints**:
+  - Added missing `/api/series/{series_id}/scan` endpoint for scanning e-books
+  - Improved error handling in scan endpoint with better logging
+  - Fixed content-type handling in API requests
+- **UI Improvements**:
+  - Fixed folder path display in series details page
+  - Removed duplicate folder path display
+  - Fixed "Loading..." text that never updated in folder path elements
+  - Improved error handling in scan for e-books functionality
+- **Folder Creation**:
+  - Fixed issue where series folders were created in the wrong root folder
+  - Added proper association between collections and root folders
+  - Improved logging for folder creation process
+
 
 ### Changed
 - **Search Functionality**:

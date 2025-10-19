@@ -299,6 +299,36 @@ def setup_db() -> None:
     )
     """, commit=True)
     
+    # Create authors table
+    execute_query("""
+    CREATE TABLE IF NOT EXISTS authors (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        description TEXT,
+        biography TEXT,
+        birth_date TEXT,
+        death_date TEXT,
+        provider TEXT,
+        provider_id TEXT,
+        folder_path TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+    """, commit=True)
+    
+    # Create author_books table
+    execute_query("""
+    CREATE TABLE IF NOT EXISTS author_books (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        author_id INTEGER NOT NULL,
+        series_id INTEGER NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (author_id) REFERENCES authors (id) ON DELETE CASCADE,
+        FOREIGN KEY (series_id) REFERENCES series (id) ON DELETE CASCADE
+    )
+    """, commit=True)
+    
     # Import here to avoid circular imports
     from backend.features.collection import setup_collection_tables
     from backend.features.notifications import setup_notifications_tables

@@ -47,8 +47,8 @@ def get_mangafire_data(session: requests.Session, manga_title: str) -> Tuple[int
             
         soup = BeautifulSoup(response.text, 'html.parser')
         
-        # MangaFire uses .unit class for manga cards
-        search_results = soup.select('.unit')
+        # UPDATED: MangaFire now uses different selectors
+        search_results = soup.select('.manga-card, .unit, .manga-item')
             
         if not search_results:
             LOGGER.warning("No search results found on MangaFire")
@@ -56,7 +56,7 @@ def get_mangafire_data(session: requests.Session, manga_title: str) -> Tuple[int
             
         # Get the first result's URL
         first_result = search_results[0]
-        manga_link = first_result.select_one('a[href*="/manga/"]')
+        manga_link = first_result.select_one('a[href*="/manga/"], a[href*="/series/"]')
         if not manga_link or not manga_link.has_attr('href'):
             LOGGER.warning("No manga link found in search results")
             return (0, 0)
@@ -79,12 +79,14 @@ def get_mangafire_data(session: requests.Session, manga_title: str) -> Tuple[int
         chapter_count = 0
         volume_count = 0
         
-        # Look for chapter count in various locations
+        # UPDATED: Look for chapter count in various locations with updated selectors
         chapter_indicators = [
             manga_soup.select_one('.manga-info span:-soup-contains("Chapter")'),
             manga_soup.select_one('.manga-info span:-soup-contains("Chapters")'),
             manga_soup.select_one('.info-item:-soup-contains("Chapter")'),
-            manga_soup.select_one('div:-soup-contains("Chapters")')
+            manga_soup.select_one('div:-soup-contains("Chapters")'),
+            manga_soup.select_one('.detail-info:-soup-contains("Chapter")'),
+            manga_soup.select_one('.series-info:-soup-contains("Chapter")')
         ]
         
         for indicator in chapter_indicators:
@@ -96,19 +98,21 @@ def get_mangafire_data(session: requests.Session, manga_title: str) -> Tuple[int
         
         # Try counting chapters if no count found
         if chapter_count == 0:
-            chapter_elements = manga_soup.select('.chapters-list a, .chapter-item')
+            chapter_elements = manga_soup.select('.chapters-list a, .chapter-item, .chapter-row, .chapter-link')
             if chapter_elements:
                 chapter_count = len(chapter_elements)
         
-        # Look for volume information
-        # MangaFire often has volume information in dropdown menus or tabs
+        # UPDATED: Look for volume information with updated selectors
         volume_selectors = [
             '.volumes-list .volume-item',
             '.manga-volumes .volume',
             '.volume-selector option',
             '.volume-list li',
             '.manga-volume',
-            '#volumes-container .volume'
+            '#volumes-container .volume',
+            '.volume-dropdown option',
+            '.volume-select option',
+            '.volume-container .volume'
         ]
         
         for selector in volume_selectors:
@@ -118,15 +122,15 @@ def get_mangafire_data(session: requests.Session, manga_title: str) -> Tuple[int
                 LOGGER.info(f"Found {volume_count} volumes using selector {selector}")
                 break
         
-        # If no direct volume listing, try to find volume information in manga description or info
+        # UPDATED: If no direct volume listing, try to find volume information in manga description or info
         if volume_count == 0:
             # Check language dropdown (e.g., "English (32 Volumes)")
-            dropdown_items = manga_soup.select('.dropdown-item')
+            dropdown_items = manga_soup.select('.dropdown-item, .language-item, .format-item')
             for item in dropdown_items:
                 match = re.search(r'\((\d+)\s+Volumes?\)', item.text, re.IGNORECASE)
                 if match:
                     volume_count = int(match.group(1))
-                    LOGGER.info(f"Found volume count {volume_count} in language dropdown: {item.text.strip()}")
+                    LOGGER.info(f"Found volume count {volume_count} in dropdown: {item.text.strip()}")
                     break
             
             # If still not found, check other text elements
@@ -134,7 +138,9 @@ def get_mangafire_data(session: requests.Session, manga_title: str) -> Tuple[int
                 volume_texts = [
                     manga_soup.select_one('.manga-info span:-soup-contains("Volume")'),
                     manga_soup.select_one('.manga-info span:-soup-contains("Volumes")'),
-                    manga_soup.select_one('.info-item:-soup-contains("Volume")')
+                    manga_soup.select_one('.info-item:-soup-contains("Volume")'),
+                    manga_soup.select_one('.detail-info:-soup-contains("Volume")'),
+                    manga_soup.select_one('.series-info:-soup-contains("Volume")')
                 ]
                 
                 for text in volume_texts:
@@ -145,10 +151,10 @@ def get_mangafire_data(session: requests.Session, manga_title: str) -> Tuple[int
                             LOGGER.info(f"Found volume count {volume_count} in text: {text.text.strip()}")
                             break
         
-        # Advanced method: look for volume patterns in chapter titles
+        # UPDATED: Look for volume patterns in chapter titles with improved regex
         if volume_count == 0 and chapter_count > 0:
             all_text = manga_soup.get_text()
-            vol_matches = re.findall(r'(?:^|[^0-9])(?:Vol(?:ume)?[\s.]*)(\d+)', all_text, re.IGNORECASE)
+            vol_matches = re.findall(r'(?:^|[^0-9a-zA-Z])(?:Vol(?:ume)?[\s.]*?)(\d+)(?:[^0-9]|$)', all_text, re.IGNORECASE)
             unique_volumes = set(vol_matches)
             
             if unique_volumes:

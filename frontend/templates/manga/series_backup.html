@@ -1,0 +1,1285 @@
+{% extends 'base.html' %}
+
+{% block title %}Readloom - {{ series.title }}{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row" id="series-details">
+                    <div class="text-center py-5">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Move Series Modal -->
+<div class="modal fade" id="moveSeriesModal" tabindex="-1" aria-labelledby="moveSeriesModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="moveSeriesModalLabel">Move Series</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="move-series-form">
+                    <div class="mb-3">
+                        <label for="move-target-collection" class="form-label">Target Collection</label>
+                        <select class="form-select" id="move-target-collection"></select>
+                        <div class="form-text">Only collections in the same bucket as this series are listed.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="move-target-root-folder" class="form-label">Target Root Folder (optional)</label>
+                        <select class="form-select" id="move-target-root-folder">
+                            <option value="">Auto-select first root folder</option>
+                        </select>
+                    </div>
+                    <div class="form-check form-switch mb-2">
+                        <input class="form-check-input" type="checkbox" id="move-files-switch">
+                        <label class="form-check-label" for="move-files-switch">Physically move files</label>
+                    </div>
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="clear-custom-path-switch">
+                        <label class="form-check-label" for="clear-custom-path-switch">Clear custom path after move</label>
+                    </div>
+                    <div class="border rounded p-2 bg-light">
+                        <div class="small text-muted">Dry Run Preview</div>
+                        <pre id="move-dryrun-output" class="mb-0" style="white-space: pre-wrap; max-height: 200px; overflow:auto;">No plan yet</pre>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" id="move-dryrun-btn">Preview (Dry Run)</button>
+                <button type="button" class="btn btn-primary" id="move-execute-btn">Execute Move</button>
+            </div>
+        </div>
+    </div>
+ </div>
+
+<div class="row mb-4" id="volumes-container" style="display: none;">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Volumes</h5>
+                <button class="btn btn-sm btn-primary" id="add-volume-btn">
+                    <i class="fas fa-plus"></i> Add Volume
+                </button>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover" id="volumes-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Title</th>
+                                <th>Release Date</th>
+                                <th>Format</th>
+                                <th>Digital Format</th>
+                                <th>File</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="volumes-list">
+                            <tr>
+                                <td colspan="7" class="text-center">No volumes found</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4" id="chapters-container" style="display: none;">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Chapters</h5>
+                <button class="btn btn-sm btn-primary" id="add-chapter-btn">
+                    <i class="fas fa-plus"></i> Add Chapter
+                </button>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover" id="chapters-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Title</th>
+                                <th>Volume</th>
+                                <th>Release Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="chapters-list">
+                            <tr>
+                                <td colspan="6" class="text-center">No chapters found</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4" id="upcoming-container" style="display: none;">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Upcoming Releases</h5>
+            </div>
+            <div class="card-body">
+                <div id="upcoming-events" class="list-group">
+                    <div class="text-center py-3">No upcoming releases</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add/Edit Volume Modal -->
+<div class="modal fade" id="volumeModal" tabindex="-1" aria-labelledby="volumeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="volumeModalLabel">Add Volume</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="volume-form">
+                    <input type="hidden" id="volume-id">
+                    <div class="mb-3">
+                        <label for="volume-number" class="form-label">Volume Number *</label>
+                        <input type="text" class="form-control" id="volume-number" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="volume-title" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="volume-title">
+                    </div>
+                    <div class="mb-3">
+                        <label for="volume-description" class="form-label">Description</label>
+                        <textarea class="form-control" id="volume-description" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="volume-release-date" class="form-label">Release Date</label>
+                        <input type="date" class="form-control" id="volume-release-date">
+                    </div>
+                    <div class="mb-3">
+                        <label for="volume-cover-url" class="form-label">Cover URL</label>
+                        <input type="url" class="form-control" id="volume-cover-url">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="save-volume-btn">Save Volume</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add/Edit Chapter Modal -->
+<div class="modal fade" id="chapterModal" tabindex="-1" aria-labelledby="chapterModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="chapterModalLabel">Add Chapter</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="chapter-form">
+                    <input type="hidden" id="chapter-id">
+                    <div class="mb-3">
+                        <label for="chapter-number" class="form-label">Chapter Number *</label>
+                        <input type="text" class="form-control" id="chapter-number" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="chapter-title" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="chapter-title">
+                    </div>
+                    <div class="mb-3">
+                        <label for="chapter-volume" class="form-label">Volume</label>
+                        <select class="form-select" id="chapter-volume">
+                            <option value="">None</option>
+                            <!-- Volumes will be populated dynamically -->
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="chapter-description" class="form-label">Description</label>
+                        <textarea class="form-control" id="chapter-description" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="chapter-release-date" class="form-label">Release Date</label>
+                        <input type="date" class="form-control" id="chapter-release-date">
+                    </div>
+                    <div class="mb-3">
+                        <label for="chapter-status" class="form-label">Status</label>
+                        <select class="form-select" id="chapter-status">
+                            <option value="ANNOUNCED">Announced</option>
+                            <option value="RELEASED">Released</option>
+                            <option value="DELAYED">Delayed</option>
+                            <option value="CANCELLED">Cancelled</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="chapter-read-status" class="form-label">Read Status</label>
+                        <select class="form-select" id="chapter-read-status">
+                            <option value="UNREAD">Unread</option>
+                            <option value="READING">Reading</option>
+                            <option value="READ">Read</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="save-chapter-btn">Save Chapter</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Series Modal -->
+<div class="modal fade" id="seriesModal" tabindex="-1" aria-labelledby="seriesModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="seriesModalLabel">Edit Series</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="series-form">
+                    <div class="mb-3">
+                        <label for="series-title" class="form-label">Title *</label>
+                        <input type="text" class="form-control" id="series-title" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="series-author" class="form-label">Author</label>
+                        <input type="text" class="form-control" id="series-author">
+                    </div>
+                    <div class="mb-3">
+                        <label for="series-publisher" class="form-label">Publisher</label>
+                        <input type="text" class="form-control" id="series-publisher">
+                    </div>
+                    <div class="mb-3">
+                        <label for="series-content-type" class="form-label">Content Type</label>
+                        <select class="form-select" id="series-content-type">
+                            <!-- Content types will be populated dynamically -->
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="series-status" class="form-label">Status</label>
+                        <select class="form-select" id="series-status">
+                            <option value="ONGOING">Ongoing</option>
+                            <option value="COMPLETED">Completed</option>
+                            <option value="HIATUS">Hiatus</option>
+                            <option value="CANCELLED">Cancelled</option>
+                            <option value="UNKNOWN">Unknown</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="series-description" class="form-label">Description</label>
+                        <textarea class="form-control" id="series-description" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="series-cover-url" class="form-label">Cover URL</label>
+                        <input type="url" class="form-control" id="series-cover-url">
+                    </div>
+                    <div class="mb-3">
+                        <label for="series-custom-path" class="form-label">Custom Path</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="series-custom-path" placeholder="/path/to/manga/folder or C:\Path\to\manga\folder">
+                            <button class="btn btn-outline-secondary" type="button" id="validate-series-custom-path-btn">Validate</button>
+                        </div>
+                        <div class="form-text">If your e-books are in a different location than the default, specify the full path here.</div>
+                        <div id="series-custom-path-validation-status" class="mt-2"></div>
+                        <div class="mt-2">
+                            <button type="button" class="btn btn-outline-primary btn-sm" id="create-series-custom-path-btn" style="display: none;" disabled>
+                                <i class="fas fa-folder-plus"></i> Create Folder
+                            </button>
+                        </div>
+                        <div class="form-check mt-3">
+                            <input class="form-check-input" type="checkbox" id="import-from-custom-path">
+                            <label class="form-check-label" for="import-from-custom-path">
+                                Import files from custom folder
+                            </label>
+                            <div class="form-text">When saving, scan this folder for e-books and import them automatically.</div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="save-series-btn">Save Series</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Delete Confirmation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="delete-message"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirm-delete-btn">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block styles %}
+<style>
+    /* E-book components styling */
+    .ebook-file-container {
+        width: 100%;
+    }
+
+    /* Move button styling to ensure visibility next to Edit */
+    #move-series-btn {
+        height: 38px;
+        padding: 6px 10px;
+        margin: 10px 0;
+        z-index: 100;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+    
+    .ebook-file-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 5px;
+        border-radius: 4px;
+        background-color: rgba(13, 110, 253, 0.1);
+    }
+    
+    .ebook-file-info {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 150px;
+    }
+    
+    .digital-format-selector, .format-selector {
+        min-width: 100px;
+    }
+    
+    /* Edit button styling */
+    #edit-series-btn {
+        width: 38px;
+        height: 38px;
+        padding: 6px;
+        margin: 10px;
+        z-index: 100;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+    
+    #edit-series-btn i {
+        font-size: 16px;
+    }
+    
+    /* Toast styling */
+    .toast-container {
+        z-index: 9999;
+    }
+    
+    /* Modal styling fixes */
+    .modal {
+        overflow-y: auto !important;
+        z-index: 1050 !important;
+    }
+    
+    .modal-backdrop {
+        z-index: 1040 !important;
+    }
+    
+    .modal-dialog {
+        margin: 1.75rem auto;
+        max-width: 600px;
+        width: auto;
+        z-index: 1055 !important;
+    }
+    
+    .modal-content {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        pointer-events: auto;
+        background-color: var(--bs-modal-bg, #fff);
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        border-radius: 0.3rem;
+        outline: 0;
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    }
+    
+    /* Ensure modal elements are clickable */
+    .modal-header,
+    .modal-body,
+    .modal-footer,
+    .modal-content button,
+    .modal-content input,
+    .modal-content .input-group {
+        pointer-events: auto !important;
+        position: relative;
+        z-index: 1060 !important;
+    }
+</style>
+{% endblock styles %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/folder-validation.js') }}"></script>
+<script>
+    $(document).ready(function() {
+        const seriesId = "{{ series.id }}";
+        let seriesData = null;
+        let volumesData = [];
+        let chaptersData = [];
+        
+        // Load series data
+        function loadSeriesData() {
+            $.ajax({
+                url: `/api/series/${seriesId}`,
+                method: 'GET',
+                success: function(data) {
+                    seriesData = data.series;
+                    volumesData = data.volumes;
+                    chaptersData = data.chapters;
+                    // Expose globally for event handlers
+                    try { window.currentSeries = seriesData; } catch (e) {}
+                    
+                    displaySeriesDetails();
+                    displayVolumes();
+                    displayChapters();
+                    displayUpcomingEvents(data.upcoming_events);
+                },
+                error: function(error) {
+                    console.error('Error loading series data:', error);
+                    $('#series-details').html('<div class="col-12 text-center text-danger">Failed to load series data</div>');
+                }
+            });
+        }
+        
+        // Process image URLs to handle proxy if needed
+        function processImageUrl(url) {
+            if (!url) return '';
+            if (url.startsWith('http')) {
+                return `/api/proxy/image?url=${encodeURIComponent(url)}`;
+            }
+            return url;
+        }
+        
+        // Display series details
+        function displaySeriesDetails() {
+            const series = seriesData;
+            
+            const html = `
+                <div class="position-relative">
+                    <div class="position-absolute top-0 end-0 d-flex gap-2">
+                        <button class="btn btn-sm btn-outline-secondary rounded-circle" id="move-series-btn" title="Move Series" data-bs-toggle="modal" data-bs-target="#moveSeriesModal">
+                            <i class="fas fa-arrows-alt"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-primary rounded-circle" id="edit-series-btn" title="Edit Series">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <img src="${processImageUrl(series.cover_url)}" class="img-fluid rounded" alt="${series.title}">
+                        </div>
+                        <div class="col-md-9">
+                            <h2>${series.title}</h2>
+                            <p class="text-muted">${series.author ? `Author: ${series.author}` : ''} ${series.publisher ? `| Publisher: ${series.publisher}` : ''}</p>
+                            <p>${series.description || 'No description available'}</p>
+                            <div class="mb-3">
+                                <span class="badge bg-secondary">${series.status || 'Unknown status'}</span>
+                                <span class="badge bg-info">${series.content_type || 'MANGA'}</span>
+                            </div>
+                            <div class="mb-3">
+                                <small class="text-muted">Folder Path: <span id="series-folder-path">Loading...</span></small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            $('#series-details').html(html);
+            
+            // Fetch folder path
+            fetchSeriesFolderPath(series.id, series.title, series.content_type || 'MANGA');
+            
+            // Set up edit button
+            $('#edit-series-btn').click(function() {
+                // Load content types
+                loadContentTypes().then(() => {
+                    // Populate form with series data
+                    $('#series-title').val(series.title);
+                    $('#series-author').val(series.author || '');
+                    $('#series-publisher').val(series.publisher || '');
+                    $('#series-status').val(series.status || 'UNKNOWN');
+                    $('#series-description').val(series.description || '');
+                    $('#series-cover-url').val(series.cover_url || '');
+                    $('#series-custom-path').val(series.custom_path || '');
+                    
+                    // Set content type if available, default to MANGA
+                    const contentType = series.content_type || 'MANGA';
+                    $('#series-content-type').val(contentType);
+                    
+                    // Show the modal
+                    const seriesModal = new bootstrap.Modal(document.getElementById('seriesModal'));
+                    seriesModal.show();
+                });
+            });
+        }
+        
+        // Call loadSeriesData on page load
+        loadSeriesData();
+    });
+</script>
+{% endblock scripts %}
+
+<!-- Move Series Modal -->
+<div class="modal fade" id="moveSeriesModal" tabindex="-1" aria-labelledby="moveSeriesModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="moveSeriesModalLabel">Move Series</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="move-series-form">
+                    <div class="mb-3">
+                        <label for="move-target-collection" class="form-label">Target Collection</label>
+                        <select class="form-select" id="move-target-collection"></select>
+                        <div class="form-text">Only collections in the same bucket as this series are listed.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="move-target-root-folder" class="form-label">Target Root Folder (optional)</label>
+                        <select class="form-select" id="move-target-root-folder">
+                            <option value="">Auto-select first root folder</option>
+                        </select>
+                    </div>
+                    <div class="form-check form-switch mb-2">
+                        <input class="form-check-input" type="checkbox" id="move-files-switch">
+                        <label class="form-check-label" for="move-files-switch">Physically move files</label>
+                    </div>
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="clear-custom-path-switch">
+                        <label class="form-check-label" for="clear-custom-path-switch">Clear custom path after move</label>
+                    </div>
+                    <div class="border rounded p-2 bg-light">
+                        <div class="small text-muted">Dry Run Preview</div>
+                        <pre id="move-dryrun-output" class="mb-0" style="white-space: pre-wrap; max-height: 200px; overflow:auto;">No plan yet</pre>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" id="move-dryrun-btn">Preview (Dry Run)</button>
+                <button type="button" class="btn btn-primary" id="move-execute-btn">Execute Move</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add/Edit Volume Modal -->
+<div class="modal fade" id="volumeModal" tabindex="-1" aria-labelledby="volumeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="volumeModalLabel">Add Volume</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="volume-form">
+                    <input type="hidden" id="volume-id">
+                    <div class="mb-3">
+                        <label for="volume-number" class="form-label">Volume Number *</label>
+                        <input type="text" class="form-control" id="volume-number" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="volume-title" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="volume-title">
+                    </div>
+                    <div class="mb-3">
+                        <label for="volume-description" class="form-label">Description</label>
+                        <textarea class="form-control" id="volume-description" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="volume-release-date" class="form-label">Release Date</label>
+                        <input type="date" class="form-control" id="volume-release-date">
+                    </div>
+                    <div class="mb-3">
+                        <label for="volume-cover-url" class="form-label">Cover URL</label>
+                        <input type="url" class="form-control" id="volume-cover-url">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="save-volume-btn">Save Volume</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Upload E-book Modal -->
+<div class="modal fade" id="uploadEbookModal" tabindex="-1" aria-labelledby="uploadEbookModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="uploadEbookModalLabel">Upload E-book File</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="upload-ebook-form" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="ebook-file" class="form-label">E-book File</label>
+                        <input type="file" class="form-control" id="ebook-file" accept=".cbz,.cbr,.pdf,.epub,.mobi">
+                        <div class="form-text">Supported formats: CBZ, CBR, PDF, EPUB, MOBI</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="ebook-volume" class="form-label">Volume</label>
+                        <select class="form-select" id="ebook-volume">
+                            <option value="">Select Volume</option>
+                            <!-- Volumes will be populated dynamically -->
+                        </select>
+                    </div>
+                    <div class="progress mb-3" style="display: none;">
+                        <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="upload-ebook-btn">Upload</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Volume Chapters Modal -->
+<div class="modal fade" id="volumeChaptersModal" tabindex="-1" aria-labelledby="volumeChaptersModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="volumeChaptersModalLabel">Volume Chapters</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="loadingChapters" class="text-center my-3">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-2">Loading chapters...</p>
+                </div>
+                <div id="chaptersList" class="list-group">
+                    <!-- Chapters will be populated here -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block scripts %}
+{{ super() }}
+<script src="{{ url_for('static', filename='js/folder-validation.js') }}"></script>
+<script>
+    $(document).ready(function() {
+        const seriesId = "{{ series.id }}";
+        let seriesData = JSON.parse('{{ series|tojson|safe }}');
+        
+        // Initialize volumes data
+        window.volumes = JSON.parse('{{ volumes|tojson|default("[]") |safe}}');
+        
+        // Process image URLs to handle proxy if needed
+        function processImageUrl(url) {
+            if (!url) return '';
+            if (url.startsWith('http')) {
+                return `/api/proxy/image?url=${encodeURIComponent(url)}`;
+            }
+            return url;
+        }
+        
+        // Populate volumes in upload modal
+        $(document).on('click', '[data-bs-target="#uploadEbookModal"]', function() {
+            // Populate volumes dropdown
+            const volumeSelect = $('#ebook-volume');
+            volumeSelect.empty();
+            volumeSelect.append('<option value="">Select Volume</option>');
+            
+            // Add option for new volume
+            volumeSelect.append('<option value="new">Create New Volume</option>');
+            
+            // Add existing volumes
+            if (window.volumes && window.volumes.length > 0) {
+                window.volumes.forEach(function(volume) {
+                    volumeSelect.append(`<option value="${volume.id}">Volume ${volume.volume_number}${volume.title ? ` - ${volume.title}` : ''}</option>`);
+                });
+            }
+        });
+        
+        // Upload e-book file
+        $('#upload-ebook-btn').click(function() {
+            const fileInput = $('#ebook-file')[0];
+            const volumeId = $('#ebook-volume').val();
+            
+            if (!fileInput.files || fileInput.files.length === 0) {
+                showToast('Error', 'Please select a file to upload', 'danger');
+                return;
+            }
+            
+            const formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+            formData.append('series_id', seriesId);
+            
+            if (volumeId && volumeId !== 'new') {
+                formData.append('volume_id', volumeId);
+            } else if (volumeId === 'new') {
+                // Create new volume logic would go here
+                // For now, we'll just upload without a volume
+            }
+            
+            // Show progress bar
+            const progressBar = $('.progress');
+            const progressBarInner = $('.progress-bar');
+            progressBar.show();
+            
+            $.ajax({
+                url: '/api/ebooks/upload',
+                method: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                xhr: function() {
+                    const xhr = new window.XMLHttpRequest();
+                    xhr.upload.addEventListener('progress', function(e) {
+                        if (e.lengthComputable) {
+                            const percent = Math.round((e.loaded / e.total) * 100);
+                            progressBarInner.width(percent + '%');
+                            progressBarInner.text(percent + '%');
+                        }
+                    }, false);
+                    return xhr;
+                },
+                success: function(response) {
+                    if (response.success) {
+                        showToast('Success', 'File uploaded successfully', 'success');
+                        // Close modal
+                        const modal = bootstrap.Modal.getInstance(document.getElementById('uploadEbookModal'));
+                        modal.hide();
+                        // Reload page to reflect changes
+                        window.location.reload();
+                    } else {
+                        showToast('Error', response.error || 'Failed to upload file', 'danger');
+                    }
+                },
+                error: function(xhr) {
+                    showToast('Error', xhr.responseJSON?.error || 'Failed to upload file', 'danger');
+                },
+                complete: function() {
+                    // Hide progress bar
+                    progressBar.hide();
+                }
+            });
+        });
+        
+        // Add volume functionality
+        $('#add-volume-btn').click(function() {
+            // Reset form
+            $('#volume-id').val('');
+            $('#volume-number').val('');
+            $('#volume-title').val('');
+            $('#volume-description').val('');
+            $('#volume-release-date').val('');
+            $('#volume-cover-url').val('');
+            
+            // Update modal title
+            $('#volumeModalLabel').text('Add Volume');
+        });
+        
+        // Edit volume functionality
+        $(document).on('click', '.edit-volume', function() {
+            const volumeId = $(this).data('volume-id');
+            
+            // Find volume in volumes data
+            const volume = window.volumes.find(v => v.id === volumeId);
+            if (!volume) return;
+            
+            // Populate form
+            $('#volume-id').val(volume.id);
+            $('#volume-number').val(volume.volume_number);
+            $('#volume-title').val(volume.title || '');
+            $('#volume-description').val(volume.description || '');
+            $('#volume-release-date').val(volume.release_date || '');
+            $('#volume-cover-url').val(volume.cover_url || '');
+            
+            // Update modal title
+            $('#volumeModalLabel').text('Edit Volume');
+            
+            // Show modal
+            const volumeModal = new bootstrap.Modal(document.getElementById('volumeModal'));
+            volumeModal.show();
+        });
+        
+        // Save volume
+        $('#save-volume-btn').click(function() {
+            const volumeId = $('#volume-id').val();
+            const formData = {
+                volume_number: $('#volume-number').val(),
+                title: $('#volume-title').val(),
+                description: $('#volume-description').val(),
+                release_date: $('#volume-release-date').val(),
+                cover_url: $('#volume-cover-url').val(),
+                series_id: seriesId
+            };
+            
+            const url = volumeId ? `/api/volumes/${volumeId}` : '/api/volumes';
+            const method = volumeId ? 'PUT' : 'POST';
+            
+            $.ajax({
+                url: url,
+                method: method,
+                contentType: 'application/json',
+                data: JSON.stringify(formData),
+                success: function(response) {
+                    if (response.success) {
+                        showToast('Success', volumeId ? 'Volume updated successfully' : 'Volume added successfully', 'success');
+                        // Close modal
+                        const modal = bootstrap.Modal.getInstance(document.getElementById('volumeModal'));
+                        modal.hide();
+                        // Reload page to reflect changes
+                        window.location.reload();
+                    } else {
+                        showToast('Error', response.error || 'Failed to save volume', 'danger');
+                    }
+                },
+                error: function(xhr) {
+                    showToast('Error', xhr.responseJSON?.error || 'Failed to save volume', 'danger');
+                }
+            });
+        });
+        
+        // Scan for e-books
+        $('#scan-for-ebooks').click(function() {
+            // Show loading indicator
+            const $btn = $(this);
+            const originalText = $btn.html();
+            $btn.html('<i class="fas fa-spinner fa-spin me-1"></i> Scanning...');
+            $btn.prop('disabled', true);
+            
+            // Call the API to scan for e-books
+            $.ajax({
+                url: `/api/series/${seriesId}/scan`,
+                method: 'POST',
+                success: function(response) {
+                    if (response.success) {
+                        showToast('Success', 'Scan completed successfully. ' + (response.added || 0) + ' files added.', 'success');
+                        // Reload page to reflect changes
+                        window.location.reload();
+                    } else {
+                        showToast('Error', response.error || 'Failed to scan for e-books', 'danger');
+                        $btn.html(originalText);
+                        $btn.prop('disabled', false);
+                    }
+                },
+                error: function(xhr) {
+                    showToast('Error', xhr.responseJSON?.error || 'Failed to scan for e-books', 'danger');
+                    $btn.html(originalText);
+                    $btn.prop('disabled', false);
+                }
+            });
+        });
+        
+        // View volume chapters
+        $(document).on('click', '.view-volume', function() {
+            const volumeId = $(this).data('volume-id');
+            
+            // Reset modal
+            $('#volumeChaptersModalLabel').text('Volume Chapters');
+            $('#loadingChapters').removeClass('d-none');
+            $('#chaptersList').empty();
+            
+            // Show modal
+            const volumeModal = new bootstrap.Modal(document.getElementById('volumeChaptersModal'));
+            volumeModal.show();
+            
+            // Fetch chapters
+            $.ajax({
+                url: `/api/volumes/${volumeId}/chapters`,
+                method: 'GET',
+                success: function(data) {
+                    $('#loadingChapters').addClass('d-none');
+                    
+                    if (data.chapters && data.chapters.length > 0) {
+                        // Update modal title
+                        $('#volumeChaptersModalLabel').text(`Volume ${data.volume_number} Chapters`);
+                        
+                        // Sort chapters by number
+                        const chapters = data.chapters.sort((a, b) => {
+                            const numA = parseFloat(a.chapter_number) || 0;
+                            const numB = parseFloat(b.chapter_number) || 0;
+                            return numA - numB;
+                        });
+                        
+                        // Add chapters to list
+                        chapters.forEach(function(chapter) {
+                            const chapterItem = `
+                                <div class="list-group-item list-group-item-action">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1">${chapter.title || `Chapter ${chapter.chapter_number}`}</h6>
+                                        <small>${chapter.release_date || 'Unknown date'}</small>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <small class="text-muted">Chapter ${chapter.chapter_number}</small>
+                                        <span class="badge bg-${chapter.read_status === 'READ' ? 'success' : 'secondary'}">${chapter.read_status}</span>
+                                    </div>
+                                </div>
+                            `;
+                            $('#chaptersList').append(chapterItem);
+                        });
+                    } else {
+                        $('#chaptersList').html('<div class="alert alert-info">No chapters found for this volume</div>');
+                    }
+                },
+                error: function(xhr) {
+                    $('#loadingChapters').addClass('d-none');
+                    console.error('Error fetching chapters:', xhr.responseText);
+                    $('#chaptersList').html('<div class="alert alert-danger">Error loading chapters</div>');
+                }
+            });
+        });
+        
+        // Edit series functionality
+        $(document).on('click', '#edit-series-btn', function() {
+            // Populate form with series data
+            $('#series-title').val(seriesData.title || '');
+            $('#series-author').val(seriesData.author || '');
+            $('#series-publisher').val(seriesData.publisher || '');
+            $('#series-status').val(seriesData.status || 'UNKNOWN');
+            $('#series-description').val(seriesData.description || '');
+            $('#series-cover-url').val(seriesData.cover_url || '');
+            $('#series-custom-path').val(seriesData.custom_path || '');
+            
+            // Set content type if available, default to MANGA
+            const contentType = seriesData.content_type || 'MANGA';
+            $('#series-content-type').val(contentType);
+            
+            // Validate the custom path if it exists
+            if (seriesData.custom_path) {
+                validateFolder(seriesData.custom_path, function(result) {
+                    if (result.success && result.exists) {
+                        $('#series-custom-path-validation-status').html('<div class="alert alert-success py-1">Path exists</div>');
+                    } else {
+                        $('#series-custom-path-validation-status').html('<div class="alert alert-warning py-1">Path does not exist</div>');
+                        $('#create-series-custom-path-btn').show().prop('disabled', false);
+                    }
+                });
+            }
+        });
+        
+        // Save series changes
+        $('#save-series-btn').click(function() {
+            const formData = {
+                title: $('#series-title').val(),
+                author: $('#series-author').val(),
+                publisher: $('#series-publisher').val(),
+                status: $('#series-status').val(),
+                description: $('#series-description').val(),
+                cover_url: $('#series-cover-url').val(),
+                content_type: $('#series-content-type').val(),
+                custom_path: $('#series-custom-path').val(),
+                import_from_custom_path: $('#import-from-custom-path').is(':checked')
+            };
+            
+            $.ajax({
+                url: `/api/series/${seriesId}`,
+                method: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify(formData),
+                success: function(response) {
+                    if (response.success) {
+                        showToast('Success', 'Series updated successfully', 'success');
+                        // Close modal
+                        const modal = bootstrap.Modal.getInstance(document.getElementById('editSeriesModal'));
+                        modal.hide();
+                        // Reload page to reflect changes
+                        window.location.reload();
+                    } else {
+                        showToast('Error', response.error || 'Failed to update series', 'danger');
+                    }
+                },
+                error: function(xhr) {
+                    showToast('Error', xhr.responseJSON?.error || 'Failed to update series', 'danger');
+                }
+            });
+        });
+        
+        // Delete series functionality
+        $('#confirm-delete-series-btn').click(function() {
+            const deleteFiles = $('#delete-files-switch').is(':checked');
+            
+            $.ajax({
+                url: `/api/series/${seriesId}?delete_files=${deleteFiles}`,
+                method: 'DELETE',
+                success: function(response) {
+                    if (response.success) {
+                        showToast('Success', 'Series deleted successfully', 'success');
+                        // Redirect to series list
+                        window.location.href = '/series';
+                    } else {
+                        showToast('Error', response.error || 'Failed to delete series', 'danger');
+                    }
+                },
+                error: function(xhr) {
+                    showToast('Error', xhr.responseJSON?.error || 'Failed to delete series', 'danger');
+                }
+            });
+        });
+        
+        // Validate custom path
+        $('#validate-series-custom-path-btn').click(function() {
+            const path = $('#series-custom-path').val();
+            if (!path) {
+                $('#series-custom-path-validation-status').html('<div class="alert alert-warning py-1">Please enter a path</div>');
+                return;
+            }
+            
+            validateFolder(path, function(result) {
+                if (result.success && result.exists) {
+                    $('#series-custom-path-validation-status').html('<div class="alert alert-success py-1">Path exists</div>');
+                    $('#create-series-custom-path-btn').hide();
+                } else {
+                    $('#series-custom-path-validation-status').html('<div class="alert alert-warning py-1">Path does not exist</div>');
+                    $('#create-series-custom-path-btn').show().prop('disabled', false);
+                }
+            });
+        });
+        
+        // Create custom path folder
+        $('#create-series-custom-path-btn').click(function() {
+            const path = $('#series-custom-path').val();
+            if (!path) return;
+            
+            $.ajax({
+                url: '/api/folders/create',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ path: path }),
+                success: function(response) {
+                    if (response.success) {
+                        $('#series-custom-path-validation-status').html('<div class="alert alert-success py-1">Folder created successfully</div>');
+                        $('#create-series-custom-path-btn').hide();
+                    } else {
+                        $('#series-custom-path-validation-status').html(`<div class="alert alert-danger py-1">${response.error || 'Failed to create folder'}</div>`);
+                    }
+                },
+                error: function(xhr) {
+                    $('#series-custom-path-validation-status').html(`<div class="alert alert-danger py-1">${xhr.responseJSON?.error || 'Failed to create folder'}</div>`);
+                }
+            });
+        });
+        
+        // Move series functionality
+        $(document).on('click', '#move-series-btn', function(e) {
+            e.preventDefault();
+            console.log('Move button clicked');
+            const modalEl = document.getElementById('moveSeriesModal');
+            let modal = null;
+            try {
+                if (window.bootstrap && bootstrap.Modal) {
+                    modal = new bootstrap.Modal(modalEl);
+                }
+            } catch (err) {
+                console.warn('Bootstrap Modal init failed, will try jQuery .modal("show")', err);
+            }
+            
+            // Reset preview
+            $('#move-dryrun-output').text('No plan yet');
+            $('#move-files-switch').prop('checked', false);
+            $('#clear-custom-path-switch').prop('checked', false);
+            
+            // Normalize bucket helper
+            const normBucket = (t) => {
+                const u = (t || 'MANGA').toString().toUpperCase();
+                if (u === 'COMICS') return 'COMIC';
+                if (u === 'COMIC') return 'COMIC';
+                if (u === 'BOOKS') return 'BOOK';
+                if (u === 'NOVEL' || u === 'NOVELS') return 'BOOK';
+                if (u === 'MANGA' || u === 'MANHWA' || u === 'MANHUA') return 'MANGA';
+                return u;
+            };
+
+            const seriesBucket = normBucket(seriesData.content_type);
+
+            // Load target collections and current memberships (dry-run to get before_collections)
+            Promise.all([
+                fetch('/api/collections').then(r => r.json()),
+                fetch(`/api/series/${seriesId}/move`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ dry_run: true })
+                }).then(r => r.json()).catch(() => ({ result: { before_collections: [] }}))
+            ]).then(([payload, moveInfo]) => {
+                const allCols = payload.collections || [];
+                const currentCols = (moveInfo && moveInfo.result && moveInfo.result.before_collections) ? moveInfo.result.before_collections : [];
+
+                // Filter: same-bucket OR in current memberships (to always show current collection)
+                const allowed = allCols.filter(c => {
+                    const b = normBucket(c.content_type);
+                    const sameBucket = b === seriesBucket;
+                    const isCurrent = currentCols.some(cc => cc.id === c.id);
+                    return sameBucket || isCurrent;
+                });
+
+                const select = $('#move-target-collection');
+                select.empty();
+                if (allowed.length === 0) {
+                    select.append('<option value="" disabled>No collections available</option>');
+                } else {
+                    allowed.forEach(c => select.append(`<option value="${c.id}">${c.name}</option>`));
+                    // Preselect current collection if present
+                    const current = currentCols.length ? currentCols[0].id : null;
+                    if (current) select.val(String(current));
+                }
+
+                // Load root folders for selected collection
+                loadRootFoldersForSelectedCollection();
+            }).catch(err => {
+                console.error('Failed to init move collections', err);
+            });
+
+            // When collection changes, reload root folders
+            $('#move-target-collection').off('change').on('change', loadRootFoldersForSelectedCollection);
+
+            function loadRootFoldersForSelectedCollection() {
+                const cid = $('#move-target-collection').val();
+                const rfSelect = $('#move-target-root-folder');
+                rfSelect.empty();
+                rfSelect.append('<option value="">Auto-select first root folder</option>');
+                if (!cid) return;
+                fetch(`/api/collections/${cid}/root-folders`)
+                    .then(r => r.json())
+                    .then(payload => {
+                        (payload.root_folders || []).forEach(rf => rfSelect.append(`<option value="${rf.id}">${rf.name}</option>`));
+                    })
+                    .catch(err => console.error('Failed to load root folders', err));
+            }
+
+            // Dry run
+            $('#move-dryrun-btn').off('click').on('click', function() {
+                const body = {
+                    target_collection_id: parseInt($('#move-target-collection').val() || '0', 10) || null,
+                    target_root_folder_id: parseInt($('#move-target-root-folder').val() || '0', 10) || null,
+                    move_files: $('#move-files-switch').is(':checked'),
+                    clear_custom_path: $('#clear-custom-path-switch').is(':checked'),
+                    dry_run: true
+                };
+                fetch(`/api/series/${seriesId}/move`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                })
+                .then(r => r.json())
+                .then(resp => {
+                    if (resp.error) {
+                        $('#move-dryrun-output').text(`Error: ${resp.error}`);
+                        return;
+                    }
+                    $('#move-dryrun-output').text(JSON.stringify(resp.result, null, 2));
+                })
+                .catch(err => {
+                    $('#move-dryrun-output').text(`Error: ${err}`);
+                });
+            });
+
+            // Execute move
+            $('#move-execute-btn').off('click').on('click', function() {
+                const body = {
+                    target_collection_id: parseInt($('#move-target-collection').val() || '0', 10) || null,
+                    target_root_folder_id: parseInt($('#move-target-root-folder').val() || '0', 10) || null,
+                    move_files: $('#move-files-switch').is(':checked'),
+                    clear_custom_path: $('#clear-custom-path-switch').is(':checked'),
+                    dry_run: false
+                };
+                fetch(`/api/series/${seriesId}/move`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                })
+                .then(r => r.json())
+                .then(resp => {
+                    if (resp.error) {
+                        showToast('Move failed', resp.error, 'danger');
+                        return;
+                    }
+                    showToast('Move complete', 'Series has been moved successfully.', 'success');
+                    // Reload page to reflect changes
+                    window.location.reload();
+                    modal.hide();
+                })
+                .catch(err => {
+                    showToast('Move failed', String(err), 'danger');
+                });
+            });
+
+            try {
+                if (modal && modal.show) {
+                    modal.show();
+                } else if (typeof $ !== 'undefined' && $('#moveSeriesModal').modal) {
+                    $('#moveSeriesModal').modal('show');
+                } else {
+                    console.error('No modal show method available');
+                }
+            } catch (err) {
+                console.error('Error showing Move modal', err);
+            }
+        });
+        
+        // Helper function to show toast notifications
+        function showToast(title, message, type = 'info') {
+            const toastHtml = `
+                <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="5000">
+                    <div class="toast-header bg-${type} text-white">
+                        <strong class="me-auto">${title}</strong>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body">${message}</div>
+                </div>
+            `;
+            
+            // Create toast container if it doesn't exist
+            if ($('.toast-container').length === 0) {
+                $('body').append('<div class="toast-container position-fixed top-0 end-0 p-3"></div>');
+            }
+            
+            // Add toast to container and show it
+            const $toast = $(toastHtml);
+            $('.toast-container').append($toast);
+            const toast = new bootstrap.Toast($toast[0]);
+            toast.show();
+        }
+    });
+</script>
+{% endblock scripts %}

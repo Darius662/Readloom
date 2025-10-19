@@ -33,7 +33,7 @@ def get_book_collections():
             SELECT c.*, COUNT(sc.series_id) as book_count
             FROM collections c
             LEFT JOIN series_collections sc ON c.id = sc.collection_id
-            LEFT JOIN series s ON sc.series_id = s.id AND s.is_book = 1
+            LEFT JOIN series s ON sc.series_id = s.id AND s.content_type = 'BOOK'
             WHERE UPPER(c.content_type) IN ('BOOK', 'NOVEL')
             GROUP BY c.id
             ORDER BY c.name
@@ -51,7 +51,7 @@ def get_manga_collections():
             SELECT c.*, COUNT(sc.series_id) as manga_count
             FROM collections c
             LEFT JOIN series_collections sc ON c.id = sc.collection_id
-            LEFT JOIN series s ON sc.series_id = s.id AND s.is_book = 0
+            LEFT JOIN series s ON sc.series_id = s.id AND UPPER(s.content_type) IN ('MANGA', 'MANHWA', 'MANHUA', 'COMIC')
             WHERE UPPER(c.content_type) IN ('MANGA', 'MANHWA', 'MANHUA', 'COMIC')
             GROUP BY c.id
             ORDER BY c.name
@@ -85,7 +85,7 @@ def get_recent_books(limit=10):
         books = execute_query("""
             SELECT s.*
             FROM series s
-            WHERE s.is_book = 1
+            WHERE s.content_type = 'BOOK'
             ORDER BY s.created_at DESC
             LIMIT ?
         """, (limit,))
@@ -101,7 +101,7 @@ def get_recent_series(limit=10):
         series = execute_query("""
             SELECT s.*
             FROM series s
-            WHERE s.is_book = 0
+            WHERE UPPER(s.content_type) IN ('MANGA', 'MANHWA', 'MANHUA', 'COMIC')
             ORDER BY s.created_at DESC
             LIMIT ?
         """, (limit,))

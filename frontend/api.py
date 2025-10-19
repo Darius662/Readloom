@@ -33,6 +33,7 @@ from backend.features.home_assistant import (get_home_assistant_sensor_data,
                                             get_home_assistant_setup_instructions)
 from backend.features.homarr import get_homarr_data, get_homarr_setup_instructions
 from backend.features.metadata_service import init_metadata_service
+from backend.features.ebook_files import scan_for_ebooks
 from backend.features.notifications import (check_upcoming_releases, create_notification,
                                            delete_all_notifications, delete_notification,
                                            get_notification_settings, get_notifications,
@@ -319,20 +320,68 @@ def get_series_folder_path():
 @api_bp.route('/series', methods=['GET'])
 def get_series_list():
     """Get all series.
+    
+    Query Parameters:
+        content_type (str): Filter by content type (e.g., 'BOOK', 'MANGA')
+        limit (int): Limit the number of results
+        sort_by (str): Field to sort by
+        sort_order (str): Sort order ('asc' or 'desc')
 
     Returns:
         Response: The series list.
     """
     try:
-        series = execute_query("""
+        # Get query parameters
+        content_type = request.args.get('content_type')
+        limit = request.args.get('limit', type=int)
+        sort_by = request.args.get('sort_by', 'title')
+        sort_order = request.args.get('sort_order', 'asc').lower()
+        
+        # Validate sort order
+        if sort_order not in ['asc', 'desc']:
+            sort_order = 'asc'
+            
+        # Build the query
+        query = """
         SELECT 
             id, title, description, author, publisher, cover_url, status, 
             content_type, metadata_source, metadata_id, created_at, updated_at
         FROM series
-        ORDER BY title
-        """)
+        """
         
-        return jsonify({"series": series})
+        params = []
+        
+        # Add content_type filter if provided
+        if content_type:
+            query += "WHERE content_type = ? "
+            params.append(content_type)
+            
+        # Add sorting
+        query += f"ORDER BY {sort_by} {sort_order.upper()}"
+        
+        # Add limit if provided
+        if limit:
+            query += " LIMIT ?"
+            params.append(limit)
+            
+        # Execute the query
+        series = execute_query(query, tuple(params))
+        
+        # Get total count if limit is provided
+        total = None
+        if limit:
+            count_query = "SELECT COUNT(*) as total FROM series"
+            if content_type:
+                count_query += " WHERE content_type = ?"
+                total = execute_query(count_query, (content_type,))[0]['total']
+            else:
+                total = execute_query(count_query)[0]['total']
+        
+        response = {"series": series, "success": True}
+        if total is not None:
+            response["total"] = total
+            
+        return jsonify(response)
     
     except Exception as e:
         LOGGER.error(f"Error getting series list: {e}")
@@ -731,6 +780,62 @@ def set_series_custom_path(series_id: int):
     except Exception as e:
         LOGGER.error(f"Error setting custom path: {e}")
         return jsonify({"error": str(e)}), 500
+
+
+@api_bp.route('/series/<int:series_id>/scan', methods=['POST'])
+def scan_series_for_ebooks(series_id: int):
+    """Scan for e-books for a specific series.
+
+    Args:
+        series_id (int): The series ID.
+
+    Returns:
+        Response: The scan results.
+    """
+    try:
+        LOGGER.info(f"Received scan request for series ID: {series_id}")
+        
+        # Check if series exists
+        series = execute_query("SELECT id, title, content_type FROM series WHERE id = ?", (series_id,))
+        if not series:
+            LOGGER.error(f"Series with ID {series_id} not found")
+            return jsonify({"error": "Series not found"}), 404
+        
+        LOGGER.info(f"Found series: {series[0]['title']} (ID: {series_id}, Type: {series[0]['content_type']})")
+        
+        # Get custom path from request if provided
+        custom_path = None
+        
+        # Check if request has JSON content
+        if request.is_json:
+            data = request.json or {}
+            custom_path = data.get('custom_path')
+            LOGGER.info(f"Request has JSON content, custom_path: {custom_path}")
+        else:
+            LOGGER.info("Request does not have JSON content")
+        
+        # Scan for e-books
+        LOGGER.info(f"Starting scan for series ID {series_id} with custom_path: {custom_path}")
+        scan_results = scan_for_ebooks(specific_series_id=series_id, custom_path=custom_path)
+        LOGGER.info(f"Scan completed with results: {scan_results}")
+        
+        # Add success flag
+        scan_results['success'] = 'error' not in scan_results
+        
+        return jsonify(scan_results)
+    
+    except Exception as e:
+        import traceback
+        LOGGER.error(f"Error scanning for e-books for series {series_id}: {e}")
+        LOGGER.error(traceback.format_exc())
+        return jsonify({
+            "error": str(e),
+            "success": False,
+            "scanned": 0,
+            "added": 0,
+            "skipped": 0,
+            "errors": 1
+        }), 500
 
 
 @api_bp.route('/series/<int:series_id>', methods=['DELETE'])

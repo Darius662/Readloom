@@ -28,38 +28,23 @@ def get_all_series():
         # Get content type filter
         content_type = request.args.get('content_type', None)
         
-        # Try to use is_book column if it exists
-        try:
-            if content_type == 'book':
-                series = execute_query("""
-                    SELECT * FROM series WHERE is_book = 1 ORDER BY title
-                """)
-            elif content_type == 'manga':
-                series = execute_query("""
-                    SELECT * FROM series WHERE is_book = 0 ORDER BY title
-                """)
-            else:
-                series = execute_query("""
-                    SELECT * FROM series ORDER BY title
-                """)
-        except Exception:
-            # Fallback to content_type if is_book doesn't exist
-            if content_type == 'book':
-                series = execute_query("""
-                    SELECT * FROM series 
-                    WHERE UPPER(content_type) IN ('BOOK', 'NOVEL')
-                    ORDER BY title
-                """)
-            elif content_type == 'manga':
-                series = execute_query("""
-                    SELECT * FROM series 
-                    WHERE UPPER(content_type) IN ('MANGA', 'MANHWA', 'MANHUA', 'COMIC')
-                    ORDER BY title
-                """)
-            else:
-                series = execute_query("""
-                    SELECT * FROM series ORDER BY title
-                """)
+        # Use content_type for filtering
+        if content_type == 'book':
+            series = execute_query("""
+                SELECT * FROM series 
+                WHERE UPPER(content_type) IN ('BOOK', 'NOVEL')
+                ORDER BY title
+            """)
+        elif content_type == 'manga':
+            series = execute_query("""
+                SELECT * FROM series 
+                WHERE UPPER(content_type) IN ('MANGA', 'MANHWA', 'MANHUA', 'COMIC')
+                ORDER BY title
+            """)
+        else:
+            series = execute_query("""
+                SELECT * FROM series ORDER BY title
+            """)
         
         return jsonify({"series": series})
     except Exception as e:
@@ -90,3 +75,45 @@ def get_series(series_id: int):
     except Exception as e:
         LOGGER.error(f"Error getting series: {e}")
         return jsonify({"error": str(e)}), 500
+
+
+@api_series_bp.route('/api/series/recent', methods=['GET'])
+@setup_required
+def get_recent_series():
+    """Get recent series.
+    
+    Returns:
+        Response: The recent series.
+    """
+    try:
+        # Get query parameters
+        content_type = request.args.get('content_type', 'all')
+        limit = request.args.get('limit', 10, type=int)
+        
+        # Build the query
+        query = "SELECT s.* FROM series s"
+        params = []
+        
+        # Add content type filter
+        if content_type == 'book':
+            query += " WHERE UPPER(s.content_type) IN ('BOOK', 'NOVEL')"
+        elif content_type == 'manga':
+            query += " WHERE UPPER(s.content_type) IN ('MANGA', 'MANHWA', 'MANHUA', 'COMIC')"
+        
+        # Add order by and limit
+        query += " ORDER BY s.created_at DESC LIMIT ?"
+        params.append(limit)
+        
+        # Execute the query
+        series = execute_query(query, params)
+        
+        return jsonify({
+            "success": True,
+            "series": series
+        })
+    except Exception as e:
+        LOGGER.error(f"Error getting recent series: {e}")
+        return jsonify({
+            "success": False,
+            "message": f"Error getting recent series: {str(e)}"
+        }), 500

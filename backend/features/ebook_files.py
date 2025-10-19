@@ -130,30 +130,65 @@ def add_ebook_file(series_id: int, volume_id: int, file_path: str, file_type: Op
     while retries <= max_retries:
         try:
             # Add file to the database
-            result = execute_query("""
-            INSERT INTO ebook_files (
-                series_id, volume_id, file_path, file_name, file_size,
-                file_type, original_name
-            ) VALUES (?, ?, ?, ?, ?, ?, ?)
-            RETURNING id
-            """, (
-                series_id,
-                volume_id,
-                str(target_path),
-                unique_file_name,
-                file_size,
-                file_type,
-                file_name
-            ), commit=True)
-            
-            # Get the inserted ID
-            if result and len(result) > 0:
-                file_id = result[0]['id']
-                # Get the created file
-                file_info = get_ebook_file(file_id)
-            else:
-                LOGGER.error(f"Failed to get ID for inserted file: {target_path}")
-                file_info = None
+            try:
+                # First try with RETURNING id
+                result = execute_query("""
+                INSERT INTO ebook_files (
+                    series_id, volume_id, file_path, file_name, file_size,
+                    file_type, original_name
+                ) VALUES (?, ?, ?, ?, ?, ?, ?)
+                RETURNING id
+                """, (
+                    series_id,
+                    volume_id,
+                    str(target_path),
+                    unique_file_name,
+                    file_size,
+                    file_type,
+                    file_name
+                ), commit=True)
+                
+                # Get the inserted ID
+                if result and len(result) > 0:
+                    file_id = result[0]['id']
+                    # Get the created file
+                    file_info = get_ebook_file(file_id)
+                else:
+                    # If RETURNING id didn't work, get the last inserted ID
+                    LOGGER.info(f"RETURNING id didn't work, trying to get last_insert_rowid() for: {target_path}")
+                    last_id_result = execute_query("SELECT last_insert_rowid() as id")
+                    if last_id_result and len(last_id_result) > 0:
+                        file_id = last_id_result[0]['id']
+                        file_info = get_ebook_file(file_id)
+                    else:
+                        LOGGER.error(f"Failed to get ID for inserted file: {target_path}")
+                        file_info = None
+            except Exception as e:
+                LOGGER.error(f"Error during file insertion: {e}")
+                # Try a simpler insert without RETURNING
+                execute_query("""
+                INSERT INTO ebook_files (
+                    series_id, volume_id, file_path, file_name, file_size,
+                    file_type, original_name
+                ) VALUES (?, ?, ?, ?, ?, ?, ?)
+                """, (
+                    series_id,
+                    volume_id,
+                    str(target_path),
+                    unique_file_name,
+                    file_size,
+                    file_type,
+                    file_name
+                ), commit=True)
+                
+                # Get the last inserted ID
+                last_id_result = execute_query("SELECT last_insert_rowid() as id")
+                if last_id_result and len(last_id_result) > 0:
+                    file_id = last_id_result[0]['id']
+                    file_info = get_ebook_file(file_id)
+                else:
+                    LOGGER.error(f"Failed to get ID for inserted file after fallback: {target_path}")
+                    file_info = None
             
             if file_info:
                 # Update the collection item to link to this file

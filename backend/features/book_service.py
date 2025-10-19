@@ -159,8 +159,8 @@ class BookService(ContentServiceBase):
                     
                     # Create book-author relationship
                     execute_query("""
-                        INSERT INTO book_authors (book_id, author_id, is_primary)
-                        VALUES (?, ?, 1)
+                        INSERT INTO author_books (series_id, author_id)
+                        VALUES (?, ?)
                     """, (series_id, author_id), commit=True)
                     
                     # Update the folder structure to be author-based
@@ -260,8 +260,8 @@ class BookService(ContentServiceBase):
         try:
             books = execute_query("""
                 SELECT s.* FROM series s
-                JOIN book_authors ba ON s.id = ba.book_id
-                WHERE ba.author_id = ? AND s.is_book = 1
+                JOIN author_books ab ON s.id = ab.series_id
+                WHERE ab.author_id = ? AND UPPER(s.content_type) IN ('BOOK', 'NOVEL')
                 ORDER BY s.title
             """, (author_id,))
             
@@ -289,7 +289,7 @@ class BookService(ContentServiceBase):
             
             # Get book count
             book_count = execute_query("""
-                SELECT COUNT(*) as count FROM book_authors WHERE author_id = ?
+                SELECT COUNT(*) as count FROM author_books WHERE author_id = ?
             """, (author_id,))
             
             author_data = author[0]
@@ -307,13 +307,44 @@ class BookService(ContentServiceBase):
             A list of all authors.
         """
         try:
-            authors = execute_query("""
-                SELECT a.*, COUNT(ba.book_id) as book_count
-                FROM authors a
-                LEFT JOIN book_authors ba ON a.id = ba.author_id
-                GROUP BY a.id
-                ORDER BY a.name
-            """)
+            # First check if the authors table exists and has data
+            author_count = execute_query("SELECT COUNT(*) as count FROM authors")
+            if not author_count or author_count[0]['count'] == 0:
+                # Return empty list if no authors
+                return []
+            
+            # Get the column names from the authors table
+            columns_query = execute_query("PRAGMA table_info(authors)")
+            column_names = [col['name'] for col in columns_query]
+            
+            # Build the query dynamically based on available columns
+            select_columns = "a.id, a.name"
+            for col in column_names:
+                if col not in ['id', 'name']:
+                    select_columns += f", a.{col}"
+            
+            # Check if author_books table exists
+            try:
+                execute_query("SELECT 1 FROM author_books LIMIT 1")
+                has_author_books = True
+            except Exception:
+                has_author_books = False
+            
+            # Execute the query with the available columns
+            if has_author_books:
+                authors = execute_query(f"""
+                    SELECT {select_columns}, COUNT(ab.series_id) as book_count
+                    FROM authors a
+                    LEFT JOIN author_books ab ON a.id = ab.author_id
+                    GROUP BY a.id
+                    ORDER BY a.name
+                """)
+            else:
+                authors = execute_query(f"""
+                    SELECT {select_columns}, 0 as book_count
+                    FROM authors a
+                    ORDER BY a.name
+                """)
             
             return authors
         except Exception as e:

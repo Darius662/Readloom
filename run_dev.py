@@ -7,6 +7,7 @@ import argparse
 import subprocess
 from pathlib import Path
 from flask import Flask
+from flask_cors import CORS
 
 def setup_dev_environment():
     """Set up development environment."""
@@ -92,6 +93,10 @@ def run_app():
                    template_folder='frontend/templates')
         app.config["SECRET_KEY"] = os.urandom(24)
         app.config["JSON_SORT_KEYS"] = False
+        
+        # Enable CORS for all routes
+        CORS(app, resources={r"/*": {"origins": "*"}})
+        app.config['CORS_HEADERS'] = 'Content-Type'
         
         # Initialize metadata service
         from backend.features.metadata_service import init_metadata_service

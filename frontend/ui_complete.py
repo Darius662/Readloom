@@ -33,7 +33,7 @@ def get_book_collections():
             SELECT c.*, COUNT(sc.series_id) as book_count
             FROM collections c
             LEFT JOIN series_collections sc ON c.id = sc.collection_id
-            LEFT JOIN series s ON sc.series_id = s.id AND s.is_book = 1
+            LEFT JOIN series s ON sc.series_id = s.id AND UPPER(s.content_type) IN ('BOOK', 'NOVEL')
             WHERE UPPER(c.content_type) IN ('BOOK', 'NOVEL')
             GROUP BY c.id
             ORDER BY c.name
@@ -51,7 +51,7 @@ def get_manga_collections():
             SELECT c.*, COUNT(sc.series_id) as manga_count
             FROM collections c
             LEFT JOIN series_collections sc ON c.id = sc.collection_id
-            LEFT JOIN series s ON sc.series_id = s.id AND s.is_book = 0
+            LEFT JOIN series s ON sc.series_id = s.id AND UPPER(s.content_type) IN ('MANGA', 'MANHWA', 'MANHUA', 'COMIC')
             WHERE UPPER(c.content_type) IN ('MANGA', 'MANHWA', 'MANHUA', 'COMIC')
             GROUP BY c.id
             ORDER BY c.name
@@ -66,9 +66,9 @@ def get_popular_authors(limit=10):
     """Get popular authors."""
     try:
         authors = execute_query("""
-            SELECT a.*, COUNT(ba.book_id) as book_count
+            SELECT a.*, COUNT(ab.series_id) as book_count
             FROM authors a
-            JOIN book_authors ba ON a.id = ba.author_id
+            LEFT JOIN author_books ab ON a.id = ab.author_id
             GROUP BY a.id
             ORDER BY book_count DESC, a.name
             LIMIT ?
@@ -82,27 +82,15 @@ def get_popular_authors(limit=10):
 def get_recent_books(limit=10):
     """Get recent books."""
     try:
-        # Check if is_book column exists
-        try:
-            books = execute_query("""
-                SELECT s.*
-                FROM series s
-                WHERE s.is_book = 1
-                ORDER BY s.created_at DESC
-                LIMIT ?
-            """, (limit,))
-            return books
-        except Exception:
-            # Fallback if is_book column doesn't exist
-            # Use content_type to filter books
-            books = execute_query("""
-                SELECT s.*
-                FROM series s
-                WHERE UPPER(s.content_type) IN ('BOOK', 'NOVEL')
-                ORDER BY s.created_at DESC
-                LIMIT ?
-            """, (limit,))
-            return books
+        # Use content_type to filter books
+        books = execute_query("""
+            SELECT s.*
+            FROM series s
+            WHERE UPPER(s.content_type) IN ('BOOK', 'NOVEL')
+            ORDER BY s.created_at DESC
+            LIMIT ?
+        """, (limit,))
+        return books
     except Exception as e:
         LOGGER.error(f"Error getting recent books: {e}")
         return []
@@ -111,27 +99,15 @@ def get_recent_books(limit=10):
 def get_recent_series(limit=10):
     """Get recent manga series."""
     try:
-        # Check if is_book column exists
-        try:
-            series = execute_query("""
-                SELECT s.*
-                FROM series s
-                WHERE s.is_book = 0
-                ORDER BY s.created_at DESC
-                LIMIT ?
-            """, (limit,))
-            return series
-        except Exception:
-            # Fallback if is_book column doesn't exist
-            # Use content_type to filter manga
-            series = execute_query("""
-                SELECT s.*
-                FROM series s
-                WHERE UPPER(s.content_type) IN ('MANGA', 'MANHWA', 'MANHUA', 'COMIC')
-                ORDER BY s.created_at DESC
-                LIMIT ?
-            """, (limit,))
-            return series
+        # Use content_type to filter manga
+        series = execute_query("""
+            SELECT s.*
+            FROM series s
+            WHERE UPPER(s.content_type) IN ('MANGA', 'MANHWA', 'MANHUA', 'COMIC')
+            ORDER BY s.created_at DESC
+            LIMIT ?
+        """, (limit,))
+        return series
     except Exception as e:
         LOGGER.error(f"Error getting recent series: {e}")
         return []
@@ -233,14 +209,14 @@ def series_detail(series_id: int):
     """
     # Check if the series is a book or manga
     from backend.internals.db import execute_query
-    series = execute_query("SELECT is_book FROM series WHERE id = ?", (series_id,))
+    series = execute_query("SELECT content_type FROM series WHERE id = ?", (series_id,))
     
     if not series:
         abort(404)
     
-    is_book = series[0]['is_book']
+    content_type = series[0]['content_type']
     
-    if is_book:
+    if content_type == 'BOOK':
         return redirect(url_for('ui.book_view', book_id=series_id))
     else:
         return redirect(url_for('ui.series_view', series_id=series_id))
@@ -296,6 +272,66 @@ def favicon():
     """Serve the favicon."""
     from flask import send_from_directory
     return send_from_directory('static/img', 'favicon.ico')
+
+
+# Authors routes
+@ui_bp.route('/authors')
+@setup_required
+def authors_home():
+    """Authors home page."""
+    return render_template('authors/authors.html')
+
+
+@ui_bp.route('/authors/<int:author_id>')
+@setup_required
+def author_detail(author_id):
+    """Author detail page."""
+    # Get author details
+    author = execute_query("SELECT * FROM authors WHERE id = ?", (author_id,))
+    
+    if not author:
+        abort(404)
+    
+    # Get author's books
+    books = execute_query("""
+        SELECT s.* 
+        FROM series s
+        JOIN author_books ab ON s.id = ab.series_id
+        WHERE ab.author_id = ?
+        ORDER BY s.title ASC
+    """, (author_id,))
+    
+    return render_template(
+        'authors/author_detail.html',
+        author=author[0],
+        books=books
+    )
+
+
+@ui_bp.route('/authors/<int:author_id>/books')
+@setup_required
+def author_books(author_id):
+    """Author's books page."""
+    # Get author details
+    author = execute_query("SELECT * FROM authors WHERE id = ?", (author_id,))
+    
+    if not author:
+        abort(404)
+    
+    # Get author's books
+    books = execute_query("""
+        SELECT s.* 
+        FROM series s
+        JOIN author_books ab ON s.id = ab.series_id
+        WHERE ab.author_id = ?
+        ORDER BY s.title ASC
+    """, (author_id,))
+    
+    return render_template(
+        'authors/author_books.html',
+        author=author[0],
+        books=books
+    )
 
 
 # Books routes
@@ -365,7 +401,7 @@ def author_view(author_id):
 def book_view(book_id):
     """Book detail page."""
     # Get book details
-    book = execute_query("SELECT * FROM series WHERE id = ? AND is_book = 1", (book_id,))
+    book = execute_query("SELECT * FROM series WHERE id = ? AND content_type = 'BOOK'", (book_id,))
     
     if not book:
         abort(404)
@@ -375,8 +411,8 @@ def book_view(book_id):
     # Get author
     author = execute_query("""
         SELECT a.* FROM authors a
-        JOIN book_authors ba ON a.id = ba.author_id
-        WHERE ba.book_id = ? AND ba.is_primary = 1
+        JOIN author_books ab ON a.id = ab.author_id
+        WHERE ab.series_id = ?
     """, (book_id,))
     
     author = author[0] if author else None
@@ -437,7 +473,7 @@ def manga_search():
 def series_view(series_id):
     """Series detail page."""
     # Get series details
-    series = execute_query("SELECT * FROM series WHERE id = ? AND is_book = 0", (series_id,))
+    series = execute_query("SELECT * FROM series WHERE id = ? AND content_type IN ('MANGA', 'MANHWA', 'MANHUA', 'COMIC')", (series_id,))
     
     if not series:
         abort(404)

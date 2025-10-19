@@ -109,6 +109,11 @@
             <i class="fas fa-book-open me-1"></i> Manga
         </button>
     </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="authors-tab" data-bs-toggle="tab" data-bs-target="#authors-content" type="button" role="tab" aria-controls="authors-content" aria-selected="false">
+            <i class="fas fa-user-edit me-1"></i> Authors
+        </button>
+    </li>
 </ul>
 <div class="tab-content" id="contentTypeTabsContent">
     <!-- All Content Tab -->
@@ -306,6 +311,162 @@
             </div>
         </div>
     </div>
+    
+    <!-- Books Content Tab -->
+    <div class="tab-pane fade" id="books-content" role="tabpanel" aria-labelledby="books-tab">
+        <div class="row">
+            <!-- Books Stats Card -->
+            <div class="col-md-3 mb-4">
+                <div class="card stats-card bg-primary text-white h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="stats-number" id="books-count">0</div>
+                                <div class="stats-label">Books</div>
+                            </div>
+                            <div class="stats-icon">
+                                <i class="fas fa-book"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recent Books Card -->
+            <div class="col-md-9 mb-4">
+                <div class="card h-100">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Recent Books</h5>
+                        <a href="/books" class="btn btn-sm btn-outline-primary">
+                            <i class="fas fa-book me-1"></i> View All Books
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <div class="row" id="recent-books">
+                            <div class="text-center py-5" id="loading-books">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <p class="mt-2">Loading recent books...</p>
+                            </div>
+                            <div class="text-center py-5 d-none" id="no-books">
+                                <i class="fas fa-book-open fa-3x mb-3 text-muted"></i>
+                                <h5>No books found</h5>
+                                <p class="text-muted">Start by adding some books to your collection</p>
+                                <a href="/books/search" class="btn btn-primary">
+                                    <i class="fas fa-search me-1"></i> Search for Books
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Manga Content Tab -->
+    <div class="tab-pane fade" id="manga-content" role="tabpanel" aria-labelledby="manga-tab">
+        <div class="row">
+            <!-- Manga Stats Card -->
+            <div class="col-md-3 mb-4">
+                <div class="card stats-card bg-success text-white h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="stats-number" id="manga-count">0</div>
+                                <div class="stats-label">Manga</div>
+                            </div>
+                            <div class="stats-icon">
+                                <i class="fas fa-book-open"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recent Manga Card -->
+            <div class="col-md-9 mb-4">
+                <div class="card h-100">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Recent Manga</h5>
+                        <a href="/manga" class="btn btn-sm btn-outline-primary">
+                            <i class="fas fa-book-open me-1"></i> View All Manga
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <div class="row" id="recent-manga">
+                            <div class="text-center py-5" id="loading-manga">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <p class="mt-2">Loading recent manga...</p>
+                            </div>
+                            <div class="text-center py-5 d-none" id="no-manga">
+                                <i class="fas fa-book-open fa-3x mb-3 text-muted"></i>
+                                <h5>No manga found</h5>
+                                <p class="text-muted">Start by adding some manga to your collection</p>
+                                <a href="/manga/search" class="btn btn-primary">
+                                    <i class="fas fa-search me-1"></i> Search for Manga
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Authors Content Tab -->
+    <div class="tab-pane fade" id="authors-content" role="tabpanel" aria-labelledby="authors-tab">
+        <div class="row">
+            <!-- Authors Stats Card -->
+            <div class="col-md-3 mb-4">
+                <div class="card stats-card bg-info text-white h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="stats-number" id="authors-count">0</div>
+                                <div class="stats-label">Authors</div>
+                            </div>
+                            <div class="stats-icon">
+                                <i class="fas fa-user-edit"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Popular Authors Card -->
+            <div class="col-md-9 mb-4">
+                <div class="card h-100">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Popular Authors</h5>
+                        <a href="/authors" class="btn btn-sm btn-outline-primary">
+                            <i class="fas fa-users me-1"></i> View All Authors
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <div class="row" id="popular-authors">
+                            <div class="text-center py-5" id="loading-authors">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <p class="mt-2">Loading popular authors...</p>
+                            </div>
+                            <div class="text-center py-5 d-none" id="no-authors">
+                                <i class="fas fa-user-slash fa-3x mb-3 text-muted"></i>
+                                <h5>No authors found</h5>
+                                <p class="text-muted">Start by adding some authors to your collection</p>
+                                <a href="/books/search" class="btn btn-primary">
+                                    <i class="fas fa-search me-1"></i> Search for Authors
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
 
@@ -313,6 +474,9 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Initialize tabs
+        initializeTabs();
+        
         // Check if root folders are configured
         checkRootFolders();
         
@@ -328,21 +492,33 @@
         // Load recent series
         loadRecentSeries();
         
+        // Load authors data
+        loadAuthorsData();
+        
+        // Load books data
+        loadBooksData();
+        
+        // Load manga data
+        loadMangaData();
+        
         // Add event listeners for tab changes
         document.querySelectorAll('#contentTypeTabs .nav-link').forEach(tab => {
             tab.addEventListener('shown.bs.tab', function(event) {
                 // Clear the series container
                 const seriesContainer = document.getElementById('recent-series');
-                while (seriesContainer.firstChild) {
-                    if (seriesContainer.firstChild.id === 'loading-series' || seriesContainer.firstChild.id === 'no-series') {
-                        break;
+                const loadingElement = document.getElementById('loading-series');
+                const noSeriesElement = document.getElementById('no-series');
+                
+                // Remove all child elements except loading and no-series elements
+                Array.from(seriesContainer.children).forEach(child => {
+                    if (child !== loadingElement && child !== noSeriesElement) {
+                        seriesContainer.removeChild(child);
                     }
-                    seriesContainer.removeChild(seriesContainer.firstChild);
-                }
+                });
                 
                 // Show loading indicator
-                document.getElementById('loading-series').classList.remove('d-none');
-                document.getElementById('no-series').classList.add('d-none');
+                loadingElement.classList.remove('d-none');
+                noSeriesElement.classList.add('d-none');
                 
                 // Reload series for the selected tab
                 loadRecentSeries();
@@ -506,101 +682,437 @@
         
         // Recent series
         function loadRecentSeries() {
-            const seriesContainer = document.getElementById('recent-series');
-            const loadingSeries = document.getElementById('loading-series');
-            const noSeries = document.getElementById('no-series');
-            
             // Get the active tab
-            const activeTab = document.querySelector('#contentTypeTabs .nav-link.active');
-            let contentType = null;
+            const activeTab = document.querySelector('#contentTypeTabs .nav-link.active').id;
             
-            if (activeTab) {
-                if (activeTab.id === 'books-tab') {
-                    contentType = 'book';
-                } else if (activeTab.id === 'manga-tab') {
-                    contentType = 'manga';
-                }
+            // Determine content type based on active tab
+            let contentType = 'all';
+            if (activeTab === 'books-tab') {
+                contentType = 'book';
+            } else if (activeTab === 'manga-tab') {
+                contentType = 'manga';
             }
             
-            // Build the URL with content type parameter if specified
-            let url = '/api/series';
-            if (contentType) {
-                url += `?content_type=${contentType}`;
-            }
-            
-            fetch(url)
+            // Fetch recent series
+            fetch(`/api/series/recent?content_type=${contentType}&limit=6`)
                 .then(response => response.json())
                 .then(data => {
                     // Hide loading
-                    loadingSeries.classList.add('d-none');
+                    document.getElementById('loading-series').classList.add('d-none');
                     
-                    // Show/hide no series message
                     if (data.series && data.series.length > 0) {
-                        noSeries.classList.add('d-none');
-                        
-                        // Sort series by created_at (newest first)
-                        data.series.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-                        
-                        // Limit to 4 series
-                        const series = data.series.slice(0, 4);
+                        // Show series
+                        document.getElementById('no-series').classList.add('d-none');
                         
                         // Render series
-                        series.forEach(item => {
-                            const col = document.createElement('div');
-                            col.className = 'col-md-3 col-sm-6 mb-4';
-                            
-                            const card = document.createElement('div');
-                            card.className = 'card recent-series h-100';
-                            
-                            // Cover image
-                            const img = document.createElement('img');
-                            img.src = processImageUrl(item.cover_url);
-                            img.alt = item.title;
-                            img.className = 'series-cover';
-                            
-                            // Card body
-                            const cardBody = document.createElement('div');
-                            cardBody.className = 'card-body';
-                            
-                            const title = document.createElement('h6');
-                            title.className = 'card-title mb-1';
-                            title.textContent = item.title;
-                            
-                            const author = document.createElement('p');
-                            author.className = 'card-text small text-muted';
-                            author.textContent = item.author || 'Unknown author';
-                            
-                            cardBody.appendChild(title);
-                            cardBody.appendChild(author);
-                            
-                            // Card footer
-                            const cardFooter = document.createElement('div');
-                            cardFooter.className = 'card-footer bg-transparent';
-                            
-                            const link = document.createElement('a');
-                            link.href = `/series/${item.id}`;
-                            link.className = 'btn btn-sm btn-outline-primary w-100';
-                            link.textContent = 'View Details';
-                            
-                            cardFooter.appendChild(link);
-                            
-                            // Assemble card
-                            card.appendChild(img);
-                            card.appendChild(cardBody);
-                            card.appendChild(cardFooter);
-                            
-                            col.appendChild(card);
-                            seriesContainer.appendChild(col);
-                        });
+                        renderRecentSeries(data.series);
                     } else {
-                        noSeries.classList.remove('d-none');
+                        document.getElementById('no-series').classList.remove('d-none');
                     }
                 })
                 .catch(error => {
                     console.error('Error loading recent series:', error);
-                    loadingSeries.classList.add('d-none');
-                    noSeries.classList.remove('d-none');
+                    document.getElementById('loading-series').classList.add('d-none');
+                    document.getElementById('no-series').classList.remove('d-none');
                 });
+        }
+        
+        // Render recent series
+        function renderRecentSeries(series) {
+            const seriesContainer = document.getElementById('recent-series');
+            const loadingElement = document.getElementById('loading-series');
+            const noSeriesElement = document.getElementById('no-series');
+            
+            // Remove all child elements except loading and no-series elements
+            Array.from(seriesContainer.children).forEach(child => {
+                if (child !== loadingElement && child !== noSeriesElement) {
+                    seriesContainer.removeChild(child);
+                }
+            });
+            
+            series.forEach(item => {
+                // Create card
+                const col = document.createElement('div');
+                col.className = 'col-md-4 col-lg-2 mb-4';
+                
+                const card = document.createElement('div');
+                card.className = 'card h-100';
+                
+                // Card image
+                const img = document.createElement('img');
+                img.src = processImageUrl(item.cover_url) || '/static/img/no-cover.png';
+                img.alt = item.title;
+                img.className = 'series-cover';
+                
+                // Card body
+                const cardBody = document.createElement('div');
+                cardBody.className = 'card-body';
+                
+                const title = document.createElement('h6');
+                title.className = 'card-title mb-1';
+                title.textContent = item.title;
+                
+                const author = document.createElement('p');
+                author.className = 'card-text small text-muted';
+                author.textContent = item.author || 'Unknown author';
+                
+                cardBody.appendChild(title);
+                cardBody.appendChild(author);
+                
+                // Card footer
+                const cardFooter = document.createElement('div');
+                cardFooter.className = 'card-footer bg-transparent';
+                
+                const link = document.createElement('a');
+                link.href = `/series/${item.id}`;
+                link.className = 'btn btn-sm btn-outline-primary w-100';
+                link.textContent = 'View Details';
+                
+                cardFooter.appendChild(link);
+                
+                // Assemble card
+                card.appendChild(img);
+                card.appendChild(cardBody);
+                card.appendChild(cardFooter);
+                
+                col.appendChild(card);
+                seriesContainer.appendChild(col);
+            });
+        }
+        
+        // Authors data
+        function loadAuthorsData() {
+            // Set default count to 0
+            document.getElementById('authors-count').textContent = '0';
+            
+            // Get authors count
+            fetch('/api/authors?limit=1')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data && data.success) {
+                        document.getElementById('authors-count').textContent = data.total || 0;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading authors count:', error);
+                    // Already set default count to 0, so no need to update
+                });
+            
+            // Get popular authors
+            fetch('/api/authors?limit=6&sort_by=book_count&sort_order=desc')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Hide loading
+                    document.getElementById('loading-authors').classList.add('d-none');
+                    
+                    if (data && data.success && data.authors && data.authors.length > 0) {
+                        // Show authors
+                        document.getElementById('no-authors').classList.add('d-none');
+                        
+                        // Render authors
+                        renderPopularAuthors(data.authors);
+                    } else {
+                        // Show no authors message
+                        document.getElementById('no-authors').classList.remove('d-none');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading popular authors:', error);
+                    document.getElementById('loading-authors').classList.add('d-none');
+                    document.getElementById('no-authors').classList.remove('d-none');
+                });
+        }
+        
+        // Books data
+        function loadBooksData() {
+            // Get books count
+            fetch('/api/series?content_type=BOOK&limit=1')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data && data.success) {
+                        document.getElementById('books-count').textContent = data.total || 0;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading books count:', error);
+                    // Default count is already set to 0
+                });
+            
+            // Get recent books
+            fetch('/api/series?content_type=BOOK&limit=6&sort_by=updated_at&sort_order=desc')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Hide loading
+                    document.getElementById('loading-books').classList.add('d-none');
+                    
+                    if (data && data.success && data.series && data.series.length > 0) {
+                        // Show books
+                        document.getElementById('no-books').classList.add('d-none');
+                        
+                        // Render books
+                        renderRecentBooks(data.series);
+                    } else {
+                        // Show no books message
+                        document.getElementById('no-books').classList.remove('d-none');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading recent books:', error);
+                    document.getElementById('loading-books').classList.add('d-none');
+                    document.getElementById('no-books').classList.remove('d-none');
+                });
+        }
+        
+        // Render recent books
+        function renderRecentBooks(books) {
+            const booksContainer = document.getElementById('recent-books');
+            const loadingElement = document.getElementById('loading-books');
+            const noBooksElement = document.getElementById('no-books');
+            
+            // Remove all child elements except loading and no-books elements
+            Array.from(booksContainer.children).forEach(child => {
+                if (child !== loadingElement && child !== noBooksElement) {
+                    booksContainer.removeChild(child);
+                }
+            });
+            
+            books.forEach(book => {
+                // Create book card
+                const col = document.createElement('div');
+                col.className = 'col-md-4 col-lg-2 mb-4';
+                
+                const card = document.createElement('div');
+                card.className = 'card h-100';
+                
+                // Card image
+                const img = document.createElement('img');
+                img.src = processImageUrl(book.cover_url) || '/static/img/no-cover.png';
+                img.alt = book.title;
+                img.className = 'series-cover';
+                
+                // Card body
+                const cardBody = document.createElement('div');
+                cardBody.className = 'card-body';
+                
+                const title = document.createElement('h6');
+                title.className = 'card-title mb-1';
+                title.textContent = book.title;
+                
+                const author = document.createElement('p');
+                author.className = 'card-text small text-muted';
+                author.textContent = book.author || 'Unknown author';
+                
+                cardBody.appendChild(title);
+                cardBody.appendChild(author);
+                
+                // Card footer
+                const cardFooter = document.createElement('div');
+                cardFooter.className = 'card-footer bg-transparent';
+                
+                const link = document.createElement('a');
+                link.href = `/series/${book.id}`;
+                link.className = 'btn btn-sm btn-outline-primary w-100';
+                link.textContent = 'View Details';
+                
+                cardFooter.appendChild(link);
+                
+                // Assemble card
+                card.appendChild(img);
+                card.appendChild(cardBody);
+                card.appendChild(cardFooter);
+                
+                col.appendChild(card);
+                booksContainer.appendChild(col);
+            });
+        }
+        
+        // Manga data
+        function loadMangaData() {
+            // Get manga count
+            fetch('/api/series?content_type=MANGA&limit=1')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data && data.success) {
+                        document.getElementById('manga-count').textContent = data.total || 0;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading manga count:', error);
+                    // Default count is already set to 0
+                });
+            
+            // Get recent manga
+            fetch('/api/series?content_type=MANGA&limit=6&sort_by=updated_at&sort_order=desc')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Hide loading
+                    document.getElementById('loading-manga').classList.add('d-none');
+                    
+                    if (data && data.success && data.series && data.series.length > 0) {
+                        // Show manga
+                        document.getElementById('no-manga').classList.add('d-none');
+                        
+                        // Render manga
+                        renderRecentManga(data.series);
+                    } else {
+                        // Show no manga message
+                        document.getElementById('no-manga').classList.remove('d-none');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading recent manga:', error);
+                    document.getElementById('loading-manga').classList.add('d-none');
+                    document.getElementById('no-manga').classList.remove('d-none');
+                });
+        }
+        
+        // Render recent manga
+        function renderRecentManga(manga) {
+            const mangaContainer = document.getElementById('recent-manga');
+            const loadingElement = document.getElementById('loading-manga');
+            const noMangaElement = document.getElementById('no-manga');
+            
+            // Remove all child elements except loading and no-manga elements
+            Array.from(mangaContainer.children).forEach(child => {
+                if (child !== loadingElement && child !== noMangaElement) {
+                    mangaContainer.removeChild(child);
+                }
+            });
+            
+            manga.forEach(item => {
+                // Create manga card
+                const col = document.createElement('div');
+                col.className = 'col-md-4 col-lg-2 mb-4';
+                
+                const card = document.createElement('div');
+                card.className = 'card h-100';
+                
+                // Card image
+                const img = document.createElement('img');
+                img.src = processImageUrl(item.cover_url) || '/static/img/no-cover.png';
+                img.alt = item.title;
+                img.className = 'series-cover';
+                
+                // Card body
+                const cardBody = document.createElement('div');
+                cardBody.className = 'card-body';
+                
+                const title = document.createElement('h6');
+                title.className = 'card-title mb-1';
+                title.textContent = item.title;
+                
+                const author = document.createElement('p');
+                author.className = 'card-text small text-muted';
+                author.textContent = item.author || 'Unknown author';
+                
+                cardBody.appendChild(title);
+                cardBody.appendChild(author);
+                
+                // Card footer
+                const cardFooter = document.createElement('div');
+                cardFooter.className = 'card-footer bg-transparent';
+                
+                const link = document.createElement('a');
+                link.href = `/series/${item.id}`;
+                link.className = 'btn btn-sm btn-outline-primary w-100';
+                link.textContent = 'View Details';
+                
+                cardFooter.appendChild(link);
+                
+                // Assemble card
+                card.appendChild(img);
+                card.appendChild(cardBody);
+                card.appendChild(cardFooter);
+                
+                col.appendChild(card);
+                mangaContainer.appendChild(col);
+            });
+        }
+        
+        // Render popular authors
+        function renderPopularAuthors(authors) {
+            const authorsContainer = document.getElementById('popular-authors');
+            const loadingElement = document.getElementById('loading-authors');
+            const noAuthorsElement = document.getElementById('no-authors');
+            
+            // Remove all child elements except loading and no-authors elements
+            Array.from(authorsContainer.children).forEach(child => {
+                if (child !== loadingElement && child !== noAuthorsElement) {
+                    authorsContainer.removeChild(child);
+                }
+            });
+            
+            authors.forEach(author => {
+                // Create author card
+                const col = document.createElement('div');
+                col.className = 'col-md-4 mb-3';
+                
+                const card = document.createElement('div');
+                card.className = 'card h-100';
+                
+                const cardBody = document.createElement('div');
+                cardBody.className = 'card-body';
+                
+                // Author name
+                const authorName = document.createElement('h5');
+                authorName.className = 'card-title';
+                authorName.textContent = author.name || 'Unknown Author';
+                
+                // Author info
+                const authorInfo = document.createElement('p');
+                authorInfo.className = 'card-text';
+                authorInfo.innerHTML = `<small class="text-muted">Books: ${author.book_count || 0}</small>`;
+                
+                // Card footer
+                const cardFooter = document.createElement('div');
+                cardFooter.className = 'card-footer bg-transparent';
+                
+                const viewLink = document.createElement('a');
+                viewLink.href = `/authors/${author.id}`;
+                viewLink.className = 'btn btn-sm btn-outline-primary';
+                viewLink.innerHTML = '<i class="fas fa-eye me-1"></i> View';
+                
+                // Assemble card
+                cardBody.appendChild(authorName);
+                cardBody.appendChild(authorInfo);
+                cardFooter.appendChild(viewLink);
+                
+                card.appendChild(cardBody);
+                card.appendChild(cardFooter);
+                
+                col.appendChild(card);
+                authorsContainer.appendChild(col);
+            });
         }
         
         // Create collection chart
@@ -680,6 +1192,54 @@
             } else {
                 return date.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
             }
+        }
+        
+        // Initialize tabs
+        function initializeTabs() {
+            // Get all tab buttons
+            const tabButtons = document.querySelectorAll('#contentTypeTabs .nav-link');
+            
+            // Add click event listeners to each tab button
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function(event) {
+                    // Remove active class from all tabs
+                    tabButtons.forEach(btn => {
+                        btn.classList.remove('active');
+                        btn.setAttribute('aria-selected', 'false');
+                    });
+                    
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    this.setAttribute('aria-selected', 'true');
+                    
+                    // Get target tab content
+                    const targetId = this.getAttribute('data-bs-target');
+                    const targetContent = document.querySelector(targetId);
+                    
+                    // Hide all tab content
+                    document.querySelectorAll('.tab-pane').forEach(pane => {
+                        pane.classList.remove('show', 'active');
+                    });
+                    
+                    // Show target tab content
+                    if (targetContent) {
+                        targetContent.classList.add('show', 'active');
+                    }
+                });
+            });
+        }
+        
+        // Process image URL
+        function processImageUrl(url) {
+            if (!url) return null;
+            
+            // If URL is already a proxy URL or absolute URL, return as is
+            if (url.startsWith('/api/image-proxy') || url.startsWith('http')) {
+                return url;
+            }
+            
+            // Otherwise, proxy the URL
+            return `/api/image-proxy?url=${encodeURIComponent(url)}`;
         }
     });
 </script>

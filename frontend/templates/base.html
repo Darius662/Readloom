@@ -232,6 +232,11 @@
                         <i class="fas fa-book"></i> <span>Series</span>
                     </a>
                 </li>
+                <li {% if request.path.startswith('/authors') %}class="active"{% endif %}>
+                    <a href="{{ url_for('ui.authors_home') }}">
+                        <i class="fas fa-user-edit"></i> <span>Authors</span>
+                    </a>
+                </li>
                 <li {% if request.path == '/collection' %}class="active"{% endif %}>
                     <a href="{{ url_for('ui.collection') }}">
                         <i class="fas fa-bookmark"></i> <span>Library</span>

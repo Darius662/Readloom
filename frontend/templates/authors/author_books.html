@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}{{ author.name }}'s Books - Readloom{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/authors">Authors</a></li>
+                    <li class="breadcrumb-item"><a href="/authors/{{ author.id }}">{{ author.name }}</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Books</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">{{ author.name }}'s Books</h5>
+                    <a href="/authors/{{ author.id }}" class="btn btn-sm btn-outline-primary">
+                        <i class="fas fa-user"></i> Author Profile
+                    </a>
+                </div>
+                <div class="card-body">
+                    {% if books %}
+                        <div class="row">
+                            {% for book in books %}
+                                <div class="col-md-4 col-lg-3 mb-4">
+                                    <div class="card h-100">
+                                        <div class="card-header">
+                                            <h6 class="card-title mb-0">{{ book.title }}</h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="card-text small">{{ book.description|truncate(150) if book.description else 'No description available.' }}</p>
+                                        </div>
+                                        <div class="card-footer">
+                                            <div class="d-flex justify-content-between">
+                                                <a href="/books/{{ book.id }}" class="btn btn-sm btn-outline-primary">
+                                                    <i class="fas fa-eye"></i> View
+                                                </a>
+                                                <a href="/books/{{ book.id }}/read" class="btn btn-sm btn-outline-success">
+                                                    <i class="fas fa-book-open"></i> Read
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center py-5">
+                            <p class="mb-3">No books found for this author in your collection.</p>
+                            <a href="/books/search?query={{ author.name }}" class="btn btn-primary">
+                                <i class="fas fa-search"></i> Search for Books by {{ author.name }}
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

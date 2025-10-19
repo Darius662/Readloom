@@ -58,12 +58,19 @@ class Settings:
             # Insert default settings that don't exist
             for key, value in default_settings.items():
                 if key not in existing_keys:
-                    execute_query(
-                        "INSERT INTO settings (key, value) VALUES (?, ?)",
-                        (key, json.dumps(value)),
-                        commit=True
-                    )
-                    LOGGER.info(f"Initialized default setting: {key} = {value}")
+                    try:
+                        execute_query(
+                            "INSERT INTO settings (key, value) VALUES (?, ?)",
+                            (key, json.dumps(value)),
+                            commit=True
+                        )
+                        LOGGER.info(f"Initialized default setting: {key} = {value}")
+                    except Exception as e:
+                        # If the setting already exists (due to concurrent initialization), just log it
+                        if "UNIQUE constraint failed" in str(e):
+                            LOGGER.info(f"Setting {key} already exists, skipping initialization")
+                        else:
+                            LOGGER.error(f"Error initializing setting {key}: {e}")
         except Exception as e:
             LOGGER.error(f"Error initializing settings: {e}")
     
@@ -74,7 +81,22 @@ class Settings:
             SettingsType: All settings.
         """
         settings_rows = execute_query("SELECT key, value FROM settings")
-        settings_dict = {row["key"]: json.loads(row["value"]) for row in settings_rows}
+        settings_dict = {}
+        
+        for row in settings_rows:
+            key = row["key"]
+            value = row["value"]
+            
+            # Skip NULL values
+            if value is None:
+                LOGGER.warning(f"Found NULL value for setting {key}, using default instead")
+                continue
+                
+            try:
+                settings_dict[key] = json.loads(value)
+            except (json.JSONDecodeError, TypeError) as e:
+                LOGGER.error(f"Error parsing JSON for setting {key}: {e}")
+                # Skip this setting
         
         return SettingsType(
             host=settings_dict.get("host", Constants.DEFAULT_HOST),
