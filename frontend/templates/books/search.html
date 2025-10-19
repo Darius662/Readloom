@@ -689,6 +689,20 @@
                     $('#modalPublishedDate').parent().parent().hide(); // Hide published date row
                     $('#modalISBN').parent().parent().hide(); // Hide ISBN row
                     
+                    // Show collection dropdown for authors
+                    $('.collection-controls').show();
+                    
+                    // Store author ID and provider for add to collection button
+                    $('#btnAddToCollection').data('author-id', data.id);
+                    $('#btnAddToCollection').data('provider', provider);
+                    $('#btnAddToCollection').data('content-type', 'AUTHOR');
+                    
+                    // Change button text to indicate we're adding an author
+                    $('#btnAddToCollection').html('<i class="fas fa-plus-circle me-2"></i> Add Author to Collection');
+                    
+                    // Ensure collections are loaded
+                    loadCollections();
+                    
                     // Subjects/Genres
                     console.log('Author data:', data);
                     console.log('Subjects:', data.subjects);
@@ -813,23 +827,41 @@
         // Add to collection button click
         $('#btnAddToCollection').on('click', function() {
             const bookId = $(this).data('book-id');
+            const authorId = $(this).data('author-id');
             const provider = $(this).data('provider');
+            const contentType = $(this).data('content-type') || 'BOOK';
             
             // Disable button and show loading state
             const $btn = $(this);
             const originalText = $btn.html();
             $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin me-2"></i> Adding...');
             
-            // Import book to collection
-            $.ajax({
-                url: `/api/metadata/import/${provider}/${bookId}`,
-                method: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({
+            // Determine which API to use based on content type
+            let apiUrl;
+            let requestData;
+            
+            if (contentType === 'AUTHOR') {
+                apiUrl = `/api/metadata/author/import/${provider}/${authorId}`;
+                requestData = {
+                    collection_id: $('#modalCollection').val() || null,
+                    root_folder_id: $('#modalRootFolder').val() || null,
+                };
+            } else {
+                // Use the enhanced book import API that creates author folders
+                apiUrl = `/api/metadata/enhanced_import/${provider}/${bookId}`;
+                requestData = {
                     content_type: 'BOOK',
                     collection_id: $('#modalCollection').val() || null,
                     root_folder_id: $('#modalRootFolder').val() || null,
-                }),
+                };
+            }
+            
+            // Import to collection
+            $.ajax({
+                url: apiUrl,
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(requestData),
                 success: function(data) {
                     // Reset button
                     $btn.prop('disabled', false).html(originalText);
@@ -838,16 +870,74 @@
                     bootstrap.Modal.getInstance(document.getElementById('bookDetailsModal')).hide();
                     
                     if (data.success) {
-                        // Show success modal
-                        $('#importSuccessMessage').text(data.message);
-                        $('#viewBookLink').attr('href', `/books/${data.series_id}`);
+                        // Show success modal with folder information
+                        let successMessage = data.message;
+                        
+                        // Add folder path information if available
+                        if (contentType === 'AUTHOR' && data.folder_path) {
+                            successMessage += `<br><br>Author folder created: <code>${data.folder_path}</code>`;
+                        } else if (data.author_folder_path && data.book_folder_path) {
+                            successMessage += `<br><br>Author folder: <code>${data.author_folder_path}</code><br>Book folder: <code>${data.book_folder_path}</code>`;
+                        } else if (data.folder_path) {
+                            successMessage += `<br><br>Folder created: <code>${data.folder_path}</code>`;
+                        }
+                        
+                        $('#importSuccessMessage').html(successMessage);
+                        
+                        if (contentType === 'AUTHOR') {
+                            // For authors, link to the author page if available
+                            if (data.author_id) {
+                                $('#viewBookLink').text('View Author');
+                                $('#viewBookLink').attr('href', `/authors/${data.author_id}`);
+                            } else {
+                                // Hide the view link if no author ID
+                                $('#viewBookLink').hide();
+                            }
+                        } else {
+                            // For books, link to the book page
+                            $('#viewBookLink').text('View Book');
+                            $('#viewBookLink').attr('href', `/books/${data.series_id}`);
+                        }
                         
                         const successModal = new bootstrap.Modal(document.getElementById('importSuccessModal'));
                         successModal.show();
                     } else if (data.already_exists) {
                         // Show already exists notification
-                        $('#importSuccessMessage').text('This book is already in your collection');
-                        $('#viewBookLink').attr('href', `/books/${data.series_id}`);
+                        if (contentType === 'AUTHOR') {
+                            // For authors, show a message that allows adding books
+                            let message = 'This author is already in your collection.';
+                            
+                            // Add a button to search for books by this author
+                            message += '<br><br><button id="searchAuthorBooks" class="btn btn-sm btn-primary">Search for books by this author</button>';
+                            
+                            $('#importSuccessMessage').html(message);
+                            
+                            // Add click handler for the search button
+                            $('#searchAuthorBooks').on('click', function() {
+                                // Close the success modal
+                                bootstrap.Modal.getInstance(document.getElementById('importSuccessModal')).hide();
+                                
+                                // Get the author name from the modal title
+                                const authorName = $('#modalTitle').text();
+                                
+                                // Set the search type to title and search for the author name
+                                $('#searchTypeSelect').val('title');
+                                $('#searchQuery').val(authorName);
+                                $('#searchForm').submit();
+                            });
+                            
+                            if (data.author_id) {
+                                $('#viewBookLink').text('View Author');
+                                $('#viewBookLink').attr('href', `/authors/${data.author_id}`);
+                            } else {
+                                // Hide the view link if no author ID
+                                $('#viewBookLink').hide();
+                            }
+                        } else {
+                            $('#importSuccessMessage').text('This book is already in your collection');
+                            $('#viewBookLink').text('View Book');
+                            $('#viewBookLink').attr('href', `/books/${data.series_id}`);
+                        }
                         
                         const successModal = new bootstrap.Modal(document.getElementById('importSuccessModal'));
                         successModal.show();

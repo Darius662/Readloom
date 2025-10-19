@@ -47,6 +47,12 @@ Readloom is a manga, manwa, and comics collection manager with a focus on releas
     - Notable works listing with direct links
     - External resource links (Goodreads, Wikipedia, etc.)
     - Author-specific metadata from OpenLibrary
+- **Author Collection Management** (v0.1.7+):
+    - Add authors to collections with proper folder structure
+    - Create author folders with subfolders for notable works
+    - Generate README.md files with author information
+    - Add more books to existing author folders
+    - Consistent folder organization for authors and their books
 - **Monitoring System**: Stay updated on upcoming releases
   - Notification system for upcoming releases
   - Subscription functionality for specific series
@@ -212,6 +218,7 @@ Comprehensive documentation is available in the `docs/` directory:
 - [Installation Guide](docs/INSTALLATION.md) - Detailed setup instructions
 - [API Documentation](docs/API.md) - Complete API reference
 - [Collections](docs/COLLECTIONS.md) - Collection-based organization system
+- [Author Collection Management](docs/AUTHOR_COLLECTION_MANAGEMENT.md) - Author folder structure and book organization
 - [E-book Management](docs/EBOOKS.md) - E-book organization and scanning
 - [Folder Structure](docs/FOLDER_STRUCTURE.md) - Series folder organization and naming
 - [Performance Tips](docs/PERFORMANCE_TIPS.md) - Optimize for large collections

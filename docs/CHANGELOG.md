@@ -25,6 +25,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Implemented proper image display in both search results and author details
   - Added comprehensive biographical information from OpenLibrary
   - Added places associated with authors when available
+- **Author Collection Management**:
+  - Added ability to add authors to collections with proper folder structure
+  - Created author folders with subfolders for notable works
+  - Implemented README.md generation with author information
+  - Added support for adding more books to existing author folders
+  - Created database tables for authors, collection_authors, and author_books
+  - Added API endpoints for author import and enhanced book import
+  - Improved author details modal with "Add to Collection" button
+  - Added workflow to search for and add books by an existing author
 
 ### Fixed
 - **Root Folders Detection**:
