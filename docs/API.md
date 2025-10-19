@@ -24,6 +24,8 @@ The API is organized into several modules, each handling different functionality
 frontend/
 ├── api.py                # Main API endpoints
 ├── api_metadata_fixed.py # Metadata API endpoints
+├── api_author_metadata.py # Author metadata endpoints
+├── api_author_search.py   # Author search endpoints
 ├── api_downloader.py     # Downloader API endpoints
 ├── image_proxy.py        # Image proxy functionality
 └── ui.py                 # UI routes
@@ -2006,13 +2008,100 @@ Clear the metadata cache.
 
 **Query Parameters:**
 - `provider` (optional): The provider name
-- `type` (optional): The cache type
+- `type` (optional): The cache type (manga_details, chapters, chapter_images)
 
 **Example Response:**
 ```json
 {
   "success": true,
-  "message": "Cache cleared successfully"
+  "message": "Cache cleared"
+}
+```
+
+#### Get Author Details
+
+```
+GET /api/metadata/author/{provider}/{author_id}
+```
+
+Get detailed information about an author from a specific provider.
+
+**Parameters:**
+- `provider`: The provider name (e.g., OpenLibrary)
+- `author_id`: The author ID in the provider's system
+
+**Example Request:**
+```
+GET /api/metadata/author/OpenLibrary/OL23919A
+```
+
+**Example Response:**
+```json
+{
+  "id": "OL23919A",
+  "name": "J.K. Rowling",
+  "birth_date": "July 31, 1965",
+  "death_date": "",
+  "biography": "Joanne Rowling CH, OBE, HonFRSE, FRCPE, FRSL, better known by her pen name J. K. Rowling, is a British author and philanthropist. She is best known for writing the Harry Potter fantasy series.",
+  "wikipedia": "https://en.wikipedia.org/wiki/J._K._Rowling",
+  "personal_name": "Joanne Kathleen Rowling",
+  "alternate_names": ["Robert Galbraith", "J.K. Rowling", "JK Rowling"],
+  "image_url": "https://covers.openlibrary.org/a/id/6564654-L.jpg",
+  "subjects": ["Fantasy", "Children's literature", "Young adult fiction"],
+  "links": [
+    {
+      "title": "Official Website",
+      "url": "https://www.jkrowling.com/"
+    },
+    {
+      "title": "Publisher Page",
+      "url": "https://www.bloomsbury.com/author/j-k-rowling/"
+    }
+  ]
+}
+```
+
+#### Search for Authors
+
+```
+GET /api/metadata/author_search
+```
+
+Search for authors across enabled providers.
+
+**Query Parameters:**
+- `query`: The search query
+- `provider` (optional): The provider name to search in
+
+**Example Request:**
+```
+GET /api/metadata/author_search?query=Stephen+King&provider=OpenLibrary
+```
+
+**Example Response:**
+```json
+{
+  "success": true,
+  "results": {
+    "OpenLibrary": [
+      {
+        "id": "OL2162284A",
+        "name": "Stephen King",
+        "birth_date": "September 21, 1947",
+        "work_count": 374,
+        "top_work": "The Shining",
+        "image_url": "https://covers.openlibrary.org/a/id/6287136-L.jpg",
+        "is_author": true
+      },
+      {
+        "id": "OL7182852A",
+        "name": "Stephen R. King",
+        "work_count": 12,
+        "image_url": "/static/img/no-cover.png",
+        "is_author": true
+      }
+    ]
+  }
 }
 ```
 

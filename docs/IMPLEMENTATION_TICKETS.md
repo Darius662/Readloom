@@ -378,32 +378,44 @@ Create a deployment plan for rolling out the changes.
 
 ## Implementation Order
 
-For the most efficient implementation, follow this order:
+For the most efficient implementation, follow this order with the recommended branches:
 
-1. **Backend Foundation**
+1. **Backend Foundation** (`feature/content-type-system` branch)
    - B1: Content Type System and Service Factory
    - D1: Author Database Schema
 
 2. **Core Services**
-   - B2: Book-Specific Service Implementation
-   - B3: Manga-Specific Service Implementation
-   - D2: Data Migration for Existing Books
-   - B4: Folder Structure Helper Updates
+   - **Book Service** (`feature/book-service` branch)
+     - B2: Book-Specific Service Implementation
+     - D2: Data Migration for Existing Books
+     - A2: Author API Endpoints
+   - **Manga Service** (`feature/manga-service` branch)
+     - B3: Manga-Specific Service Implementation
+     - A1: Content-Type Aware API Endpoints
+   - **Folder Structure** (`feature/folder-structure` branch)
+     - B4: Folder Structure Helper Updates
+     - D3: Folder Structure Migration
 
-3. **API Layer**
-   - A1: Content-Type Aware API Endpoints
-   - A2: Author API Endpoints
-   - D3: Folder Structure Migration
+3. **Frontend Implementation**
+   - **UI Foundation** (`feature/frontend-base` branch)
+     - F1: Base Template with Content Type Selector
+     - F2: Content-Specific Layouts
+     - F5: Route Updates
+   - **Content Views** (`feature/content-views` branch)
+     - F3: Book-Specific Views
+     - F4: Manga-Specific Views
 
-4. **Frontend Implementation**
-   - F1: Base Template with Content Type Selector
-   - F2: Content-Specific Layouts
-   - F3: Book-Specific Views
-   - F4: Manga-Specific Views
-   - F5: Route Updates
-
-5. **Testing and Finalization**
+4. **Testing and Finalization** (can be implemented across all branches)
    - T1: Unit and Integration Tests
    - T2: UI Testing and Refinement
    - P1: User Documentation
    - P2: Deployment Plan
+
+### Branch Merge Order
+
+1. `feature/content-type-system` → Hybrid-UI-Split
+2. `feature/book-service` → Hybrid-UI-Split
+3. `feature/manga-service` → Hybrid-UI-Split
+4. `feature/folder-structure` → Hybrid-UI-Split
+5. `feature/frontend-base` → Hybrid-UI-Split
+6. `feature/content-views` → Hybrid-UI-Split

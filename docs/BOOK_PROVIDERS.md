@@ -34,6 +34,8 @@ Open Library is a free, open database of books maintained by the Internet Archiv
 - Extensive catalog of books
 - Cover images for many books
 - Publication information and ISBNs
+- Author information including biographies, photos, and bibliographies
+- Author search functionality with dedicated author pages
 
 **Configuration:**
 - No configuration required - ready to use out of the box
@@ -80,8 +82,38 @@ WorldCat is a global catalog of library collections with millions of books from 
 
 1. Go to the Search page
 2. Enter a book title, author, or ISBN
-3. Select a specific provider or search across all enabled providers
-4. Browse the results and click "Details" to view more information
+3. Select the search type (Title or Author)
+4. Select a specific provider or search across all enabled providers
+5. Browse the results and click "Details" to view more information
+
+### Searching for Authors
+
+1. Go to the Search page
+2. Enter an author's name
+3. Select "Author" from the search type dropdown
+4. Select a provider (OpenLibrary recommended for author information)
+5. Browse the author results
+6. Click "Author Details" to view comprehensive information including:
+   - Author biography and personal information
+   - Birth and death dates
+   - Bibliography (notable works by the author)
+   - Work count and publication history
+   - External links (Goodreads, Wikipedia, etc.)
+   - Subject categories and genres
+   - Places associated with the author
+   - Alternative names
+
+#### Enhanced Author Details
+
+The enhanced author details feature provides a rich, comprehensive view of author information:
+
+- **Visual Presentation**: Author photos are displayed both in search results and detailed views
+- **Biographical Information**: Detailed biographies sourced from OpenLibrary and other providers
+- **Subject Categorization**: Authors are categorized by literary genres and subject areas
+- **Notable Works**: A curated list of the author's most significant publications
+- **External Resources**: Direct links to author pages on Goodreads, Wikipedia, and other platforms
+- **Responsive Design**: Author details are presented in a clean, modern interface that works on all devices
+- **Loading Indicators**: Visual feedback during data loading to improve user experience
 
 ### Importing Books
 

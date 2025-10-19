@@ -4,76 +4,55 @@
 
 {% block content %}
 <div class="container-fluid">
-    <!-- Content Type Selector - Keep this -->
-    <div class="row mb-3">
+    <div class="row mb-4">
         <div class="col-12">
-            <div class="content-type-selector btn-group w-100">
-                <a href="/books/search" 
-                   class="btn btn-lg {{ 'btn-primary' if content_type == 'book' else 'btn-outline-primary' }}" id="books-tab">
-                    <i class="fas fa-book me-1"></i> Books
-                </a>
-                <a href="/manga/search" 
-                   class="btn btn-lg {{ 'btn-primary' if content_type == 'manga' else 'btn-outline-primary' }}" id="manga-tab">
-                    <i class="fas fa-book-open me-1"></i> Manga
-                </a>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Simple Search Form - Match screenshot exactly -->
-    <div class="row">
-        <div class="col-12">
-            <h5 class="mb-3">Search {{ 'Books' if content_type == 'book' else 'Manga' }}</h5>
-            <!-- Debug output -->
-            <div class="d-none">
-                Content type: {{ content_type }}<br>
-                URL for map available: {{ url_for_map is defined }}<br>
-                {% if url_for_map is defined %}
-                URL for map: {{ url_for_map }}<br>
-                Books search in map: {{ 'books_search' in url_for_map }}<br>
-                Manga search in map: {{ 'manga_search' in url_for_map }}<br>
-                {% endif %}
-            </div>
-            <form id="searchForm" class="mb-4">
-                <div class="row g-2 align-items-center">
-                    <div class="col-md-4">
-                        <input type="text" class="form-control" id="searchQuery" placeholder="Enter {{ 'book' if content_type == 'book' else 'manga' }} title..." required>
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Search E-books</h5>
+                </div>
+                <div class="card-body">
+                    <form id="searchForm" class="mb-4">
+                        <div class="row g-3 align-items-center">
+                            <div class="col-md-5">
+                                <input type="text" class="form-control" id="searchQuery" placeholder="Enter search term..." required>
+                            </div>
+                            <div class="col-md-2">
+                                <select class="form-select" id="searchType">
+                                    <option value="title">Title</option>
+                                    <option value="author">Author</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <select class="form-select" id="searchProvider">
+                                    <option value="">All Providers</option>
+                                    <!-- Providers will be populated dynamically -->
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn-primary w-100">
+                                    <i class="fas fa-search me-2"></i> Search
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    
+                    <div id="searchResults" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
+                        <!-- Search results will be populated here -->
                     </div>
-                    <div class="col-md-2">
-                        <select class="form-select" id="searchType">
-                            <option value="title">Title</option>
-                            <option value="author">Author</option>
-                        </select>
+                    
+                    <div id="loadingIndicator" class="text-center my-5 d-none">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-2">Searching across providers...</p>
                     </div>
-                    <div class="col-md-3">
-                        <select class="form-select" id="searchProvider">
-                            <option value="">All Providers</option>
-                            <!-- Providers will be populated dynamically -->
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <button type="submit" class="btn btn-primary w-100">
-                            <i class="fas fa-search me-1"></i> Search
-                        </button>
+                    
+                    <div id="noResults" class="text-center my-5 d-none">
+                        <i class="fas fa-search fa-3x text-muted mb-3"></i>
+                        <h5>No results found</h5>
+                        <p class="text-muted">Try a different search term or provider</p>
                     </div>
                 </div>
-            </form>
-            
-            <div id="searchResults" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
-                <!-- Search results will be populated here -->
-            </div>
-            
-            <div id="loadingIndicator" class="text-center my-5 d-none">
-                <div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-                <p class="mt-2">Searching across providers...</p>
-            </div>
-            
-            <div id="noResults" class="text-center my-5 d-none">
-                <i class="fas fa-search fa-3x text-muted mb-3"></i>
-                <h5>No results found</h5>
-                <p class="text-muted">Try a different search term or provider</p>
             </div>
         </div>
     </div>
@@ -196,108 +175,35 @@
 {% block scripts %}
 <script>
     $(document).ready(function() {
-        // Debug logging for content type selector
-        console.log('Content type:', '{{ content_type }}');
-        console.log('Books tab href:', $('#books-tab').attr('href'));
-        console.log('Manga tab href:', $('#manga-tab').attr('href'));
+        // Update placeholder based on search type
+        $('#searchType').on('change', function() {
+            const searchType = $(this).val();
+            if (searchType === 'author') {
+                $('#searchQuery').attr('placeholder', 'Enter author name...');
+            } else {
+                $('#searchQuery').attr('placeholder', 'Enter book title...');
+            }
+        });
+        
         // Load providers
-        console.log('Loading providers...');
         $.ajax({
             url: '/api/metadata/providers',
             method: 'GET',
             success: function(data) {
-                console.log('Providers loaded:', data);
                 const providerSelect = $('#searchProvider');
                 
                 if (data.providers) {
-                    // Explicitly define book providers
-                    const bookProviders = [
-                        'GoogleBooks', 'OpenLibrary', 'Goodreads', 'Amazon', 'LibraryThing',
-                        'WorldCat', 'CBRydb'
-                    ];
-                    
-                    // Explicitly define manga providers
-                    const mangaProviders = [
-                        'MangaDex', 'AniList', 'MyAnimeList', 'Comick', 'MangaUpdates',
-                        'MangaFire', 'MangaAPI'
-                    ];
-                    
-                    const contentType = '{{ content_type }}';
-                    console.log('Content type for filtering:', contentType);
-                    
                     Object.keys(data.providers).forEach(function(providerName) {
                         const provider = data.providers[providerName];
-                        console.log('Provider:', providerName, provider);
-                        
-                        let showProvider = false;
-                        
-                        if (contentType === 'book') {
-                            // Check if this is a book provider
-                            // Exact match for known book providers
-                            if (bookProviders.includes(providerName)) {
-                                showProvider = true;
-                            }
-                            
-                            // Check for book-related keywords in provider name
-                            if (providerName.toLowerCase().includes('book') || 
-                                providerName.toLowerCase().includes('library') || 
-                                providerName.toLowerCase().includes('read')) {
-                                showProvider = true;
-                            }
-                            
-                            // Exclude explicitly known manga providers
-                            if (mangaProviders.includes(providerName) || 
-                                providerName.toLowerCase().includes('manga') || 
-                                providerName.toLowerCase().includes('anime')) {
-                                showProvider = false;
-                            }
-                        } else if (contentType === 'manga') {
-                            // Check if this is a manga provider
-                            // Exact match for known manga providers
-                            if (mangaProviders.includes(providerName)) {
-                                showProvider = true;
-                            }
-                            
-                            // Check for manga-related keywords in provider name
-                            if (providerName.toLowerCase().includes('manga') || 
-                                providerName.toLowerCase().includes('anime') || 
-                                providerName.toLowerCase().includes('comic')) {
-                                showProvider = true;
-                            }
-                            
-                            // Exclude explicitly known book providers
-                            if (bookProviders.includes(providerName)) {
-                                showProvider = false;
-                            }
-                        } else {
-                            // If content type is unknown, show all providers
-                            showProvider = true;
-                        }
-                        
-                        if (provider.enabled && showProvider) {
+                        if (provider.enabled) {
                             providerSelect.append(`<option value="${providerName}">${providerName}</option>`);
                         }
                     });
-                    console.log('Filtered providers added to dropdown');
-                } else {
-                    console.warn('No providers found in response');
                 }
             },
             error: function(xhr) {
                 console.error('Error loading providers:', xhr.responseText);
                 showToast('error', 'Error', 'Failed to load metadata providers');
-            }
-        });
-        
-        // Update placeholder based on search type
-        $('#searchType').on('change', function() {
-            const searchType = $(this).val();
-            const contentType = '{{ content_type }}';
-            if (searchType === 'author') {
-                $('#searchQuery').attr('placeholder', 'Enter author name...');
-            } else {
-                const itemType = contentType === 'book' ? 'book' : 'manga';
-                $('#searchQuery').attr('placeholder', `Enter ${itemType} title...`);
             }
         });
         
@@ -319,10 +225,15 @@
             $('#noResults').addClass('d-none');
             $('#loadingIndicator').removeClass('d-none');
             
+            // Update placeholder based on search type
+            if (searchType === 'author') {
+                $('#searchQuery').attr('placeholder', 'Enter author name...');
+            } else {
+                $('#searchQuery').attr('placeholder', 'Enter book title...');
+            }
+            
             // Build URL
-            const contentType = '{{ content_type }}';
-            const apiContentType = contentType === 'book' ? 'BOOK' : 'MANGA';
-            let url = `/api/metadata/search?query=${encodeURIComponent(query)}&search_type=${searchType}&content_type=${apiContentType}`;
+            let url = `/api/metadata/search?query=${encodeURIComponent(query)}&search_type=${searchType}`;
             if (provider) {
                 url += `&provider=${provider}`;
             }
@@ -376,7 +287,7 @@
         // Create e-book card
         function createEbookCard(ebook, providerName) {
             // Process cover URL - use proxy for external images
-            let coverUrl = ebook.cover_url || '/static/img/no-cover.png';
+            let coverUrl = ebook.cover_url || '{{ url_for("ui.static", filename="img/no-cover.png") }}';
             if (coverUrl && coverUrl.startsWith('http')) {
                 coverUrl = `/api/proxy/image?url=${encodeURIComponent(coverUrl)}`;
             }
@@ -386,7 +297,7 @@
             return `
                 <div class="col">
                     <div class="card h-100">
-                        <img src="${coverUrl}" class="card-img-top ebook-cover" alt="${title}" onerror="this.src='/static/img/no-cover.png'">
+                        <img src="${coverUrl}" class="card-img-top ebook-cover" alt="${title}" onerror="this.src='{{ url_for("ui.static", filename="img/no-cover.png") }}'">
                         <div class="card-body">
                             <h5 class="card-title text-truncate">${title}</h5>
                             <p class="card-text text-muted">${author}</p>
@@ -467,7 +378,7 @@
             
             // Reset modal
             $('#modalTitle').text('Loading...');
-            $('#modalCover').attr('src', '/static/img/no-cover.png');
+            $('#modalCover').attr('src', '{{ url_for("ui.static", filename="img/no-cover.png") }}');
             $('#modalAltTitles').empty();
             $('#modalStatus').text('');
             $('#modalSource').text(provider);
@@ -496,11 +407,11 @@
                     // Update modal with e-book details
                     $('#modalTitle').text(data.title || 'Unknown Title');
                     // Use image proxy for external images in modal
-                    let modalCoverUrl = data.cover_url || '/static/img/no-cover.png';
-                    if (modalCoverUrl && modalCoverUrl.startsWith('http')) {
-                        modalCoverUrl = `/api/proxy/image?url=${encodeURIComponent(modalCoverUrl)}`;
-                    }
-                    $('#modalCover').attr('src', modalCoverUrl);
+            let modalCoverUrl = data.cover_url || '{{ url_for("ui.static", filename="img/no-cover.png") }}';
+            if (modalCoverUrl && modalCoverUrl.startsWith('http')) {
+                modalCoverUrl = `/api/proxy/image?url=${encodeURIComponent(modalCoverUrl)}`;
+            }
+            $('#modalCover').attr('src', modalCoverUrl);
                     
                     // Alternative titles
                     if (data.alternative_titles && data.alternative_titles.length > 0) {

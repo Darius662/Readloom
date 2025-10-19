@@ -1,0 +1,426 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+"""
+Content-specific UI routes for Readloom.
+Handles book and manga specific views.
+"""
+
+from flask import Blueprint, render_template, redirect, url_for, request, abort
+
+from backend.base.logging import LOGGER
+from backend.features.content_service_factory import ContentType, get_content_service
+from backend.internals.db import execute_query
+from frontend.middleware import setup_required
+
+
+# Create Blueprint for content-specific UI routes
+content_ui_bp = Blueprint('ui', __name__)
+
+
+# Helper functions
+def get_user_preference():
+    """Get the user's content type preference."""
+    # This could be stored in a cookie or user settings
+    # For now, default to books
+    return request.cookies.get('content_preference', 'book')
+
+
+def get_book_collections():
+    """Get book collections."""
+    try:
+        collections = execute_query("""
+            SELECT c.*, COUNT(sc.series_id) as book_count
+            FROM collections c
+            LEFT JOIN series_collections sc ON c.id = sc.collection_id
+            LEFT JOIN series s ON sc.series_id = s.id AND s.is_book = 1
+            WHERE UPPER(c.content_type) IN ('BOOK', 'NOVEL')
+            GROUP BY c.id
+            ORDER BY c.name
+        """)
+        return collections
+    except Exception as e:
+        LOGGER.error(f"Error getting book collections: {e}")
+        return []
+
+
+def get_manga_collections():
+    """Get manga collections."""
+    try:
+        collections = execute_query("""
+            SELECT c.*, COUNT(sc.series_id) as manga_count
+            FROM collections c
+            LEFT JOIN series_collections sc ON c.id = sc.collection_id
+            LEFT JOIN series s ON sc.series_id = s.id AND s.is_book = 0
+            WHERE UPPER(c.content_type) IN ('MANGA', 'MANHWA', 'MANHUA', 'COMIC')
+            GROUP BY c.id
+            ORDER BY c.name
+        """)
+        return collections
+    except Exception as e:
+        LOGGER.error(f"Error getting manga collections: {e}")
+        return []
+
+
+def get_popular_authors(limit=10):
+    """Get popular authors."""
+    try:
+        authors = execute_query("""
+            SELECT a.*, COUNT(ba.book_id) as book_count
+            FROM authors a
+            JOIN book_authors ba ON a.id = ba.author_id
+            GROUP BY a.id
+            ORDER BY book_count DESC, a.name
+            LIMIT ?
+        """, (limit,))
+        return authors
+    except Exception as e:
+        LOGGER.error(f"Error getting popular authors: {e}")
+        return []
+
+
+def get_recent_books(limit=10):
+    """Get recent books."""
+    try:
+        books = execute_query("""
+            SELECT s.*
+            FROM series s
+            WHERE s.is_book = 1
+            ORDER BY s.created_at DESC
+            LIMIT ?
+        """, (limit,))
+        return books
+    except Exception as e:
+        LOGGER.error(f"Error getting recent books: {e}")
+        return []
+
+
+def get_recent_series(limit=10):
+    """Get recent manga series."""
+    try:
+        series = execute_query("""
+            SELECT s.*
+            FROM series s
+            WHERE s.is_book = 0
+            ORDER BY s.created_at DESC
+            LIMIT ?
+        """, (limit,))
+        return series
+    except Exception as e:
+        LOGGER.error(f"Error getting recent series: {e}")
+        return []
+
+
+# Setup wizard route
+@content_ui_bp.route('/setup')
+@content_ui_bp.route('/setup-wizard')
+def setup_wizard():
+    """Setup wizard page."""
+    # Check if setup is already complete
+    from backend.features.setup_check import is_setup_complete
+    if is_setup_complete():
+        return redirect(url_for('ui.home'))
+    
+    # Get root folders for the setup wizard
+    from backend.internals.settings import Settings
+    settings = Settings().get_settings()
+    root_folders = settings.root_folders
+    
+    return render_template('setup_wizard.html', root_folders=root_folders)
+
+
+# Settings route
+@content_ui_bp.route('/settings')
+def settings():
+    """Settings page."""
+    return render_template('settings.html')
+
+
+# Root folders route
+@content_ui_bp.route('/root-folders')
+@setup_required
+def root_folders():
+    """Root folders page."""
+    return render_template('root_folders.html')
+
+
+# Collections route
+@content_ui_bp.route('/collections')
+@setup_required
+def collections_manager():
+    """Collections management page."""
+    return render_template('collections_manager.html')
+
+
+# About route
+@content_ui_bp.route('/about')
+def about():
+    """About page."""
+    return render_template('about.html')
+
+
+# Calendar route
+@content_ui_bp.route('/calendar')
+@setup_required
+def calendar():
+    """Calendar page."""
+    return render_template('calendar.html')
+
+
+# Collection route
+@content_ui_bp.route('/collection')
+@setup_required
+def collection():
+    """Collection page."""
+    return render_template('collection.html')
+
+
+# Collection view route
+@content_ui_bp.route('/collection/<int:collection_id>')
+@setup_required
+def collection_view(collection_id):
+    """Collection detail page."""
+    return render_template('collection_view.html', collection_id=collection_id)
+
+
+# Series list route
+@content_ui_bp.route('/series')
+@setup_required
+def series_list():
+    """Series list page."""
+    return render_template('series_list.html')
+
+
+# Series detail route (for backward compatibility)
+@content_ui_bp.route('/series/<int:series_id>')
+@setup_required
+def series_detail(series_id: int):
+    """Series detail page.
+    
+    This route is for backward compatibility. It will redirect to the appropriate
+    book or manga detail page based on the series type.
+    """
+    # Check if the series is a book or manga
+    from backend.internals.db import execute_query
+    series = execute_query("SELECT is_book FROM series WHERE id = ?", (series_id,))
+    
+    if not series:
+        abort(404)
+    
+    is_book = series[0]['is_book']
+    
+    if is_book:
+        return redirect(url_for('ui.book_view', book_id=series_id))
+    else:
+        return redirect(url_for('ui.series_view', series_id=series_id))
+
+
+# Search route
+@content_ui_bp.route('/search')
+@setup_required
+def search():
+    """Search page.
+    
+    This is the main search page for all content types.
+    """
+    # Get user preference for content type
+    content_type = get_user_preference()
+    return render_template('search.html', content_type=content_type)
+
+
+# Notifications route
+@content_ui_bp.route('/notifications')
+@setup_required
+def notifications():
+    """Notifications page."""
+    return render_template('notifications.html')
+
+# Home route - redirects to books or manga based on user preference
+@content_ui_bp.route('/')
+@setup_required
+def home():
+    """Home page."""
+    # Check user preference or default to books
+    user_preference = get_user_preference()
+    if user_preference == 'manga':
+        return redirect(url_for('ui.manga_home'))
+    else:
+        return redirect(url_for('ui.books_home'))
+
+
+# Books routes
+@content_ui_bp.route('/books')
+@setup_required
+def books_home():
+    """Books home page."""
+    # Get book collections
+    book_collections = get_book_collections()
+    
+    # Get popular authors
+    popular_authors = get_popular_authors(5)
+    
+    # Get recent books
+    recent_books = get_recent_books(6)
+    
+    return render_template(
+        'books/home.html',
+        book_collections=book_collections,
+        popular_authors=popular_authors,
+        recent_books=recent_books
+    )
+
+
+@content_ui_bp.route('/books/search')
+@setup_required
+def books_search():
+    """Book search page."""
+    return render_template('search.html', content_type='book')
+
+
+@content_ui_bp.route('/books/authors')
+@setup_required
+def authors_view():
+    """Authors list page."""
+    # Get all authors
+    authors = execute_query("""
+        SELECT a.*, COUNT(ba.book_id) as book_count
+        FROM authors a
+        LEFT JOIN book_authors ba ON a.id = ba.author_id
+        GROUP BY a.id
+        ORDER BY a.name
+    """)
+    
+    return render_template('books/authors.html', authors=authors)
+
+
+@content_ui_bp.route('/books/authors/<int:author_id>')
+@setup_required
+def author_view(author_id):
+    """Author detail page."""
+    # Get author details
+    book_service = get_content_service(ContentType.BOOK)
+    author = book_service.get_author_details(author_id)
+    
+    if "error" in author:
+        abort(404)
+    
+    # Get books by author
+    books = book_service.get_books_by_author(author_id)
+    
+    return render_template('books/author.html', author=author, books=books)
+
+
+@content_ui_bp.route('/books/<int:book_id>')
+@setup_required
+def book_view(book_id):
+    """Book detail page."""
+    # Get book details
+    book = execute_query("SELECT * FROM series WHERE id = ? AND is_book = 1", (book_id,))
+    
+    if not book:
+        abort(404)
+    
+    book = book[0]
+    
+    # Get author
+    author = execute_query("""
+        SELECT a.* FROM authors a
+        JOIN book_authors ba ON a.id = ba.author_id
+        WHERE ba.book_id = ? AND ba.is_primary = 1
+    """, (book_id,))
+    
+    author = author[0] if author else None
+    
+    # Get collection
+    collection = execute_query("""
+        SELECT c.* FROM collections c
+        JOIN series_collections sc ON c.id = sc.collection_id
+        WHERE sc.series_id = ?
+    """, (book_id,))
+    
+    collection = collection[0] if collection else None
+    
+    # Get e-book files
+    from backend.features.ebook_files import get_ebook_files_for_series
+    ebook_files = get_ebook_files_for_series(book_id)
+    
+    # Get all book collections for the edit form
+    book_collections = get_book_collections()
+    
+    return render_template(
+        'books/book.html',
+        book=book,
+        author=author,
+        collection=collection,
+        ebook_files=ebook_files,
+        book_collections=book_collections
+    )
+
+
+# Manga routes
+@content_ui_bp.route('/manga')
+@setup_required
+def manga_home():
+    """Manga home page."""
+    # Get manga collections
+    manga_collections = get_manga_collections()
+    
+    # Get recent series
+    recent_series = get_recent_series(10)
+    
+    return render_template(
+        'manga/home.html',
+        manga_collections=manga_collections,
+        recent_series=recent_series
+    )
+
+
+@content_ui_bp.route('/manga/search')
+@setup_required
+def manga_search():
+    """Manga search page."""
+    return render_template('search.html', content_type='manga')
+
+
+@content_ui_bp.route('/manga/series/<int:series_id>')
+@setup_required
+def series_view(series_id):
+    """Series detail page."""
+    # Get series details
+    series = execute_query("SELECT * FROM series WHERE id = ? AND is_book = 0", (series_id,))
+    
+    if not series:
+        abort(404)
+    
+    series = series[0]
+    
+    # Get volumes
+    volumes = execute_query("""
+        SELECT v.*, COUNT(c.id) as chapter_count
+        FROM volumes v
+        LEFT JOIN chapters c ON v.id = c.volume_id
+        WHERE v.series_id = ?
+        GROUP BY v.id
+        ORDER BY CAST(v.volume_number AS INTEGER)
+    """, (series_id,))
+    
+    # Get collection
+    collection = execute_query("""
+        SELECT c.* FROM collections c
+        JOIN series_collections sc ON c.id = sc.collection_id
+        WHERE sc.series_id = ?
+    """, (series_id,))
+    
+    collection = collection[0] if collection else None
+    
+    # Get e-book files
+    from backend.features.ebook_files import get_ebook_files_for_series
+    ebook_files = get_ebook_files_for_series(series_id)
+    
+    return render_template(
+        'manga/series.html',
+        series=series,
+        volumes=volumes,
+        collection=collection,
+        ebook_files=ebook_files
+    )

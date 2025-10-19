@@ -78,17 +78,17 @@ def search_with_all_providers(query: str, page: int = 1, search_type: str = "tit
     
     # Fallback: manually search each provider with search_type support
     results = {}
-    for provider_name, provider in metadata_provider_manager.get_enabled_providers().items():
+    for provider in metadata_provider_manager.get_enabled_providers():
         try:
             # Check if the provider supports the search_type parameter
             if "search_type" in provider.search.__code__.co_varnames:
-                results[provider_name] = provider.search(query, page, search_type)
+                results[provider.name] = provider.search(query, page, search_type)
             else:
                 # Fallback for providers that don't support search_type
-                results[provider_name] = provider.search(query, page)
+                results[provider.name] = provider.search(query, page)
         except Exception as e:
-            LOGGER.error(f"Error searching with provider {provider_name}: {e}")
-            results[provider_name] = []
+            LOGGER.error(f"Error searching with provider {provider.name}: {e}")
+            results[provider.name] = []
     
     return results
 

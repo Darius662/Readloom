@@ -86,7 +86,10 @@ def run_app():
         LOGGER.info("Settings initialized")
         
         # Create Flask app
-        app = Flask(__name__, static_folder='frontend/static', static_url_path='/static')
+        app = Flask(__name__, 
+                   static_folder='frontend/static', 
+                   static_url_path='/static',
+                   template_folder='frontend/templates')
         app.config["SECRET_KEY"] = os.urandom(24)
         app.config["JSON_SORT_KEYS"] = False
         
@@ -102,21 +105,29 @@ def run_app():
         # Register blueprints
         from frontend.api import api_bp
         from frontend.api_metadata_fixed import metadata_api_bp
+        from frontend.api_author_metadata import author_metadata_api_bp
+        from frontend.api_author_search import author_search_api_bp
         from frontend.api_ebooks import ebooks_api_bp
         from frontend.api_rootfolders import rootfolders_api_bp
         from frontend.api_collections import collections_api
         from frontend.api_collection import collection_api
         from frontend.api_folders import folders_api
-        from frontend.ui import ui_bp
+        from frontend.api_authors import authors_api_bp
+        from frontend.api_series import api_series_bp
+        from frontend.ui_complete import ui_bp
         from frontend.image_proxy import image_proxy_bp
         
         app.register_blueprint(api_bp)
         app.register_blueprint(metadata_api_bp, url_prefix='/api/metadata')
+        app.register_blueprint(author_metadata_api_bp)
+        app.register_blueprint(author_search_api_bp)
         app.register_blueprint(ebooks_api_bp)
         app.register_blueprint(rootfolders_api_bp)
         app.register_blueprint(collections_api)
         app.register_blueprint(collection_api)
         app.register_blueprint(folders_api)
+        app.register_blueprint(authors_api_bp)
+        app.register_blueprint(api_series_bp)
         app.register_blueprint(ui_bp)
         app.register_blueprint(image_proxy_bp)
         

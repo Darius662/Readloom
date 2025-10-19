@@ -5,6 +5,101 @@ All notable changes to Readloom will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.6] - 2025-10-19
+
+### Added
+- **JavaScript Files for Collections**:
+  - Added missing `collection.js` for collection view functionality
+  - Added missing `collections.js` for collections list functionality
+  - Fixed 404 errors when accessing collection pages
+- **Enhanced Author Search**:
+  - Added author metadata API endpoint for detailed author information
+  - Implemented specialized author cards in search results
+  - Added comprehensive author details modal with biography, birth/death dates, and external links
+  - Added support for OpenLibrary author photos and metadata
+- **Enhanced Author Details**:
+  - Improved author details modal with loading indicators
+  - Added subject categorization for authors
+  - Added notable works listing with direct links
+  - Added external resource links (Goodreads, Wikipedia, etc.)
+  - Implemented proper image display in both search results and author details
+  - Added comprehensive biographical information from OpenLibrary
+  - Added places associated with authors when available
+
+### Fixed
+- **Root Folders Detection**:
+  - Added API endpoint `/api/rootfolders/check-configured` to check if root folders are configured
+  - Implemented JavaScript-based root folders detection in dashboard and series pages
+  - Fixed issue where root folders warning was showing even when root folders were configured
+  - Added localStorage flag to communicate root folder updates between pages
+- **Search Functionality**:
+  - Fixed provider/indexer dropdown in search forms
+  - Implemented proper filtering of providers based on content type (books vs. manga)
+  - Fixed search type selection to properly handle title and author searches
+  - Corrected content type selector links in search templates
+  - Fixed author image display in search results
+  - Improved author details loading time with visual feedback
+  - Fixed missing subjects and metadata in author details
+
+### Changed
+- **Search Functionality**:
+  - Removed Book Collections and Authors sections from search
+  - Redesigned search page to match original clean layout
+  - Kept content type selector while removing sidebar
+  - Created unified search template for both Books and Manga
+  - Enhanced author search to display proper author information instead of book covers
+  - Improved search results presentation with better visual distinction between books and authors
+- **Books Tab UI**:
+  - Removed Book Collections and Authors sections from the Books tab sidebar
+  - Added Search Box and Quick Actions to the sidebar instead
+  - Streamlined the Books tab interface for better user experience
+
+## [0.1.5] - 2025-10-18
+
+### Added
+- **Content Type System**:
+  - Added comprehensive content type system with service factory pattern
+  - Implemented `ContentType` enum for better type safety
+  - Created `BookService` and `MangaService` classes for content-specific operations
+  - Added helper functions to determine content type from metadata
+
+### Changed
+- **UI Blueprint Structure**:
+  - Reorganized UI routes into content-specific and shared blueprints
+  - Created comprehensive UI blueprint (`ui_complete.py`) that includes all routes
+  - Updated route handlers to pass necessary context variables to templates
+
+## [0.1.4] - 2025-10-15
+
+### Added
+- **Book-specific Features**:
+  - Added author-based organization for books
+  - Implemented book search by author name
+  - Created author detail pages with book listings
+  - Added book-specific templates and routes
+
+### Changed
+- **Database Schema**:
+  - Added `is_book` column to series table
+  - Created authors table and book_authors relationship table
+  - Updated migration system to handle schema changes
+  - Added content type detection from metadata
+
+## [0.1.3] - 2025-10-10
+
+### Added
+- **Hybrid UI Implementation**:
+  - Added content type tabs to dashboard
+  - Implemented dynamic content loading based on selected tab
+  - Created separate book and manga home pages
+  - Added API endpoints for content-specific operations
+
+### Changed
+- **Series API**:
+  - Updated series API to support filtering by content type
+  - Added content type parameter to search endpoints
+  - Modified series list to show appropriate content based on type
+
 ## [0.1.2] - 2025-10-04
 
 ### Added

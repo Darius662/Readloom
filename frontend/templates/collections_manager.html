@@ -332,8 +332,8 @@
 {% endblock %}
 
 {% block scripts %}
-<script src="{{ url_for('ui.static', filename='js/folder-validation.js') }}"></script>
-<script src="{{ url_for('ui.static', filename='js/collections_manager.js') }}"></script>
+<script src="{{ url_for('static', filename='js/folder-validation.js') }}"></script>
+<script src="{{ url_for('static', filename='js/collections_manager.js') }}"></script>
 <script>
     $(document).ready(function() {
         // Set up folder validation for the Add Root Folder modal
