@@ -78,13 +78,19 @@ Only AniList and Google Books are enabled by default to improve initial performa
 
 ### Open Library
 
-- **Search**: Returns book titles from a free, open database
+- **Search**: Returns book titles and authors from a free, open database
 - **Details**: Provides book information including description, authors, publication info
+- **Author Search**: Dedicated author search functionality with rich author metadata
 - **Features**:
   - No API key required
   - Extensive catalog including older books
   - Cover images for many books
   - Publication information and ISBNs
+  - Author biographies and photos
+  - Author bibliographies (list of works)
+  - Birth and death dates for authors
+  - External links and references
+  - Subject areas and genres
 
 ### ISBNdb
 
@@ -154,9 +160,13 @@ The calendar system has been enhanced to handle release dates from all providers
    - For books:
      - Use Google Books as the primary provider (most accurate data, enabled by default)
      - Consider enabling additional providers for specific use cases:
-       - Open Library for older or public domain books
+       - Open Library for older or public domain books and author information
        - ISBNdb for detailed publication data (requires API key)
        - WorldCat for academic or library holdings information (requires API key)
+   - For author searches:
+     - Open Library is the recommended provider for author information
+     - Use the dedicated author search type for best results
+     - Author search provides biographies, photos, and bibliographies
    - Keep unused providers disabled to improve performance
 
 2. **Release Date Management**:
@@ -188,15 +198,25 @@ metadata_providers/
 ├── googlebooks/         # Google Books provider (books)
 │   ├── __init__.py
 │   └── provider.py
-├── openlibrary/         # Open Library provider (books)
+├── openlibrary/         # Open Library provider (books & authors)
 │   ├── __init__.py
-│   └── provider.py
+│   ├── provider.py
+│   └── author_search.py # Author search functionality
 ├── isbndb/              # ISBNdb provider (books)
 │   ├── __init__.py
 │   └── provider.py
 └── worldcat/            # WorldCat provider (books)
     ├── __init__.py
     └── provider.py
+```
+
+Frontend API endpoints for metadata:
+
+```
+frontend/
+├── api_metadata_fixed.py       # General metadata API endpoints
+├── api_author_metadata.py      # Author-specific metadata endpoints
+└── api_author_search.py        # Author search API endpoints
 ```
 
 This modular structure improves maintainability and makes it easier to add new providers.
@@ -209,6 +229,9 @@ This modular structure improves maintainability and makes it easier to add new p
    - Enhance chapter information retrieval for manga
    - Add support for audiobook metadata
    - Implement better ISBN lookup and validation
+   - Expand author search to additional providers
+   - Add author filtering and sorting options
+   - Implement author-based collection organization
 
 2. **Cache Optimization**:
    - Smart cache invalidation

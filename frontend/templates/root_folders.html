@@ -110,7 +110,7 @@
 {% endblock %}
 
 {% block scripts %}
-<script src="{{ url_for('ui.static', filename='js/folder-validation.js') }}"></script>
+<script src="{{ url_for('static', filename='js/folder-validation.js') }}"></script>
 <script>
     $(document).ready(function() {
         // Load root folders
@@ -216,8 +216,16 @@
                 // Update table
                 updateRootFoldersTable(data.root_folders);
                 
+                // Force refresh the dashboard if we're on it
+                localStorage.setItem('rootFoldersUpdated', 'true');
+                
                 // Show success message
                 alert('Root folder added successfully');
+                
+                // Reload the page to ensure all components recognize the new root folder
+                setTimeout(function() {
+                    window.location.reload();
+                }, 1000);
             },
             error: function(error) {
                 console.error('Error adding root folder:', error);
@@ -250,8 +258,16 @@
                 // Update table
                 updateRootFoldersTable(data.root_folders);
                 
+                // Force refresh the dashboard if we're on it
+                localStorage.setItem('rootFoldersUpdated', 'true');
+                
                 // Show success message
                 alert('Root folder deleted successfully');
+                
+                // Reload the page to ensure all components recognize the change
+                setTimeout(function() {
+                    window.location.reload();
+                }, 1000);
             },
             error: function(error) {
                 console.error('Error deleting root folder:', error);

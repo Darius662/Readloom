@@ -72,19 +72,58 @@ CREATE TABLE series_collections (
 )
 ```
 
+### authors
+
+Authors of books. This table stores information about authors that can be searched and displayed in the UI. The enhanced author search feature uses external providers (primarily OpenLibrary) to fetch additional author information like biographies, photos, and bibliographies.
+
+```sql
+CREATE TABLE authors (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    description TEXT,
+    external_id TEXT,         -- ID from external provider (e.g., OpenLibrary author ID)
+    provider TEXT,            -- External provider name (e.g., 'OpenLibrary')
+    photo_url TEXT,           -- URL to author photo
+    birth_date TEXT,          -- Author's birth date
+    death_date TEXT,          -- Author's death date (if applicable)
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)
+```
+
+### series_authors
+
+Many-to-many relationship between series and authors. This table supports the author search feature by linking books to their authors, allowing users to find all books by a specific author.
+
+```sql
+CREATE TABLE series_authors (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    series_id INTEGER NOT NULL,
+    author_id INTEGER NOT NULL,
+    is_primary INTEGER DEFAULT 0,  -- Flag to indicate primary author
+    role TEXT,                     -- Author role (e.g., 'author', 'illustrator', 'translator')
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(series_id, author_id),
+    FOREIGN KEY (series_id) REFERENCES series(id) ON DELETE CASCADE,
+    FOREIGN KEY (author_id) REFERENCES authors(id) ON DELETE CASCADE
+)
+```
+
 ### series
 
-Main table for manga/comic series.
+Series information for manga/comics and books.
 
 ```sql
 CREATE TABLE series (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT NOT NULL,
     description TEXT,
-    author TEXT,
+    author TEXT,  -- Legacy field, now using authors table for books
     publisher TEXT,
     cover_url TEXT,
     status TEXT,
+    is_book INTEGER DEFAULT 0,  -- Flag to identify books vs manga/comics
     content_type TEXT DEFAULT 'MANGA',
     metadata_source TEXT,
     metadata_id TEXT,
@@ -277,9 +316,41 @@ When upgrading from a version before 0.0.5:
 3. Restart Readloom to create a new database with proper constraints
 4. Re-import your series using the metadata providers
 
+## External Author Metadata
+
+In addition to the local database tables, Readloom v0.2.0+ supports fetching rich author metadata from external providers:
+
+### OpenLibrary Author API
+
+The primary source for author information is the OpenLibrary API, which provides:
+
+- Author biographies
+- Birth and death dates
+- Author photos
+- Bibliography (list of works)
+- External links and references
+- Subject areas and genres
+
+This data is fetched on demand and displayed in the UI but is not stored in the local database. The `external_id` field in the `authors` table can be used to link local author records to their corresponding entries in external providers.
+
+### Author Search API
+
+The author search API endpoint (`/api/metadata/author_search`) allows searching for authors across enabled providers. Results include:
+
+- Author name
+- Birth and death dates
+- Work count
+- Notable works
+- Author photo URL
+
+### Author Details API
+
+The author details API endpoint (`/api/metadata/author/{provider}/{author_id}`) provides comprehensive information about an author from a specific provider.
+
 ## Best Practices
 
 1. Always use foreign key constraints when adding new tables
 2. Use CASCADE or SET NULL for foreign key actions based on the relationship
 3. Include created_at and updated_at timestamps in all tables
 4. Use TEXT for dates to maintain ISO format compatibility
+5. Use the `external_id` field to link local author records to external providers

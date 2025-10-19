@@ -31,14 +31,17 @@ Readloom is a manga, manwa, and comics collection manager with a focus on releas
   - Track both physical and digital formats
   - Collection statistics and visualizations
   - Import/export functionality
-- **External Source Integration**: Connect to popular manga sources
+- **External Source Integration**: Connect to popular manga and book sources
   - AniList integration with intelligent release date prediction
   - MyAnimeList (MAL) integration for metadata and searching
   - MangaDex integration for searching and importing manga
+  - OpenLibrary integration for books and comprehensive author information
+  - Google Books integration for detailed book metadata
   - Multi-source accurate chapter counting system
   - Advanced volume detection with multiple scrapers (v0.0.5+)
   - MangaFire integration for accurate volume data
-  - Search interface for finding manga across multiple sources
+  - Search interface for finding manga, books, and authors across multiple sources
+  - Enhanced author search with biographies, photos, and bibliographies (v0.2.0+)
 - **Monitoring System**: Stay updated on upcoming releases
   - Notification system for upcoming releases
   - Subscription functionality for specific series
