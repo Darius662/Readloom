@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% set content_type = 'book' %}
+
+{% block title %}{% block book_title %}Books{% endblock %}{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Content Type Selector -->
+        <div class="col-12 mb-3">
+            <div class="content-type-selector btn-group w-100">
+                <a href="{{ url_for('ui.books_home') if 'books_home' in url_for_map else '#' }}" 
+                   class="btn btn-lg {{ 'btn-primary' if content_type == 'book' else 'btn-outline-primary' }}">
+                    <i class="fas fa-book me-1"></i> Books
+                </a>
+                <a href="{{ url_for('ui.manga_home') if 'manga_home' in url_for_map else '#' }}" 
+                   class="btn btn-lg {{ 'btn-primary' if content_type == 'manga' else 'btn-outline-primary' }}">
+                    <i class="fas fa-book-open me-1"></i> Manga
+                </a>
+            </div>
+        </div>
+        
+        <!-- Sidebar -->
+        <div class="col-md-3">
+            <!-- Search Box -->
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Search Books</h5>
+                </div>
+                <div class="card-body">
+                    <form action="{{ url_for('ui.books_search') if 'books_search' in url_for_map else '#' }}" method="get">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Enter book title..." name="query">
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Quick Actions -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Quick Actions</h5>
+                </div>
+                <div class="list-group list-group-flush">
+                    <a href="{{ url_for('ui.books_search') if 'books_search' in url_for_map else '#' }}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-search me-2"></i> Advanced Search
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#scanBooksModal">
+                        <i class="fas fa-sync me-2"></i> Scan for Books
+                    </a>
+                    <a href="{{ url_for('ui.collections_manager') if 'collections_manager' in url_for_map else '#' }}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-folder me-2"></i> Manage Collections
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="col-md-9">
+            {% block book_content %}{% endblock %}
+        </div>
+    </div>
+</div>
+
+<!-- New Collection Modal -->
+<div class="modal fade" id="newCollectionModal" tabindex="-1" aria-labelledby="newCollectionModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="newCollectionModalLabel">New Book Collection</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="newCollectionForm">
+                    <div class="mb-3">
+                        <label for="collectionName" class="form-label">Collection Name</label>
+                        <input type="text" class="form-control" id="collectionName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="collectionDescription" class="form-label">Description</label>
+                        <textarea class="form-control" id="collectionDescription" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="isDefaultCollection">
+                        <label class="form-check-label" for="isDefaultCollection">Set as default collection for books</label>
+                    </div>
+                    <input type="hidden" id="collectionContentType" value="BOOK">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="saveCollectionBtn">Create Collection</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script>
+    $(document).ready(function() {
+        // Create new collection
+        $('#saveCollectionBtn').on('click', function() {
+            const name = $('#collectionName').val();
+            const description = $('#collectionDescription').val();
+            const isDefault = $('#isDefaultCollection').is(':checked');
+            const contentType = $('#collectionContentType').val();
+            
+            if (!name) {
+                showToast('warning', 'Warning', 'Collection name is required');
+                return;
+            }
+            
+            $.ajax({
+                url: '/api/collections',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    name: name,
+                    description: description,
+                    is_default: isDefault,
+                    content_type: contentType
+                }),
+                success: function(response) {
+                    if (response.success) {
+                        showToast('success', 'Success', 'Collection created successfully');
+                        $('#newCollectionModal').modal('hide');
+                        
+                        // Reload the page to show the new collection
+                        location.reload();
+                    } else {
+                        showToast('error', 'Error', response.message || 'Failed to create collection');
+                    }
+                },
+                error: function(xhr) {
+                    showToast('error', 'Error', xhr.responseJSON?.error || 'Failed to create collection');
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

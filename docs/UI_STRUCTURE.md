@@ -42,6 +42,30 @@ The Settings page is organized into tabs:
 
 The Integrations tab consolidates what was previously a separate page, providing a more organized settings experience.
 
+### Search Page
+
+The Search page provides a unified interface for finding books, manga, and authors:
+
+- **Content Type Selector**: Toggle between Books and Manga content types
+- **Search Form**:
+  - Search query input field
+  - Search type dropdown (Title or Author)
+  - Provider/Indexer dropdown (filtered based on content type)
+  - Search button
+- **Search Results**:
+  - Grid layout with cards for each result
+  - Different card styles for books and authors
+  - Book cards show cover image, title, and author
+  - Author cards show author photo, name, and notable works
+  - Details button to view more information
+- **Author Details**:
+  - Modal with comprehensive author information
+  - Author photo and biographical information
+  - Birth and death dates
+  - Bibliography (list of works)
+  - External links and references
+  - Subject areas the author writes about
+
 ### Series Detail
 
 The Series Detail page provides comprehensive information about an e-book series:

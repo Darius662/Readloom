@@ -31,6 +31,10 @@ frontend/
 ├── api.py                   # API endpoints
 ├── api_collections.py       # Collections API
 ├── api_folders.py           # Folders API
+├── api_metadata_fixed.py    # Metadata API endpoints
+├── api_author_metadata.py   # Author metadata endpoints
+├── api_author_search.py     # Author search endpoints
+├── image_proxy.py           # Image proxy functionality
 ├── middleware.py            # Request middleware
 └── ui.py                    # UI routes
 
@@ -66,6 +70,12 @@ backend/
 │   │   │   ├── provider.py   # Provider implementation
 │   │   │   └── schedule.py   # Publication schedule logic
 │   │   │
+│   │   ├── googlebooks/      # Google Books provider
+│   │   │   ├── __init__.py   # Package exports
+│   │   │   ├── client.py     # API client
+│   │   │   ├── constants.py  # Constants and URLs
+│   │   │   └── provider.py   # Provider implementation
+│   │   │
 │   │   ├── jikan/            # Jikan (MyAnimeList) provider
 │   │   │   ├── __init__.py   # Package exports
 │   │   │   ├── chapters.py   # Chapter generation
@@ -94,6 +104,13 @@ backend/
 │   │   │   ├── constants.py  # Constants and URLs
 │   │   │   ├── mapper.py     # Data mapping
 │   │   │   └── provider.py   # Provider implementation
+│   │   │
+│   │   ├── openlibrary/      # Open Library provider (books & authors)
+│   │   │   ├── __init__.py   # Package exports
+│   │   │   ├── client.py     # API client
+│   │   │   ├── constants.py  # Constants and URLs
+│   │   │   ├── provider.py   # Provider implementation
+│   │   │   └── author_search.py # Author search functionality
 │   │   │
 │   │   ├── base.py           # Base provider class
 │   │   ├── manager.py        # Provider manager

@@ -43,7 +43,22 @@ This document provides an overview of all available documentation for Readloom.
 
 ## Version-Specific Features
 
-### v0.0.9 (Latest)
+### v0.2.0 (Latest)
+
+- **Enhanced Author Search**:
+  - Added author metadata API endpoint for detailed author information
+  - Implemented specialized author cards in search results
+  - Added comprehensive author details modal with biography, birth/death dates, and external links
+  - Added support for OpenLibrary author photos and metadata
+- **Improved Search Functionality**:
+  - Fixed provider/indexer dropdown in search forms
+  - Implemented proper filtering of providers based on content type (books vs. manga)
+  - Fixed search type selection to properly handle title and author searches
+  - Corrected content type selector links in search templates
+  - Enhanced author search to display proper author information instead of book covers
+  - Improved search results presentation with better visual distinction between books and authors
+
+### v0.0.9
 
 - **UI Improvements**: 
   - Root Folders management integrated into Collections Manager

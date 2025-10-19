@@ -22,7 +22,7 @@ metadata_api_bp = Blueprint('metadata_api', __name__, url_prefix='/api/metadata'
 
 @metadata_api_bp.route('/search', methods=['GET'])
 def api_search_manga():
-    """Search for manga.
+    """Search for manga or books.
     
     Returns:
         Response: The search results.
@@ -31,11 +31,24 @@ def api_search_manga():
         query = request.args.get('query', '')
         provider = request.args.get('provider', None)
         page = int(request.args.get('page', 1))
+        search_type = request.args.get('search_type', 'title')
+        content_type = request.args.get('content_type', None)
+        
+        # Validate search_type
+        if search_type not in ['title', 'author']:
+            return jsonify({"error": "Invalid search_type. Must be 'title' or 'author'"}), 400
         
         if not query:
             return jsonify({"error": "Query parameter is required"}), 400
         
-        results = search_manga(query, provider, page)
+        # Use content-specific service if content_type is provided
+        if content_type:
+            from backend.features.content_service_factory import get_content_service
+            service = get_content_service(content_type)
+            results = service.search(query, search_type, provider, page)
+        else:
+            # Use the existing search function
+            results = search_manga(query, provider, page, search_type)
         
         if "error" in results:
             return jsonify(results), 400
@@ -212,11 +225,11 @@ def api_clear_cache():
 @metadata_api_bp.route('/import/<provider>/<manga_id>', methods=['POST'])
 @setup_required
 def api_import_manga(provider, manga_id):
-    """Import a manga to the collection.
+    """Import a manga or book to the collection.
     
     Args:
         provider: The provider name.
-        manga_id: The manga ID.
+        manga_id: The manga or book ID.
         
     Returns:
         Response: The result.
@@ -231,14 +244,26 @@ def api_import_manga(provider, manga_id):
         content_type = data.get('content_type')
         root_folder_id = data.get('root_folder_id')
         
-        # Import the manga, passing optional parameters
-        result = import_manga_to_collection(
-            manga_id,
-            provider,
-            collection_id=collection_id,
-            content_type=content_type,
-            root_folder_id=root_folder_id,
-        )
+        # Use content-specific service if content_type is provided
+        if content_type:
+            from backend.features.content_service_factory import get_content_service
+            service = get_content_service(content_type)
+            result = service.import_to_collection(
+                manga_id,
+                provider,
+                collection_id=collection_id,
+                content_type=content_type,
+                root_folder_id=root_folder_id
+            )
+        else:
+            # Use the existing import function
+            result = import_manga_to_collection(
+                manga_id,
+                provider,
+                collection_id=collection_id,
+                content_type=content_type,
+                root_folder_id=root_folder_id,
+            )
         
         if not result.get("success", False):
             # Check if it's because the series already exists

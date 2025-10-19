@@ -1,0 +1,476 @@
+{% extends "books_layout.html" %}
+
+{% block book_title %}{{ book.title }}{% endblock %}
+
+{% block book_content %}
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="card-title mb-0">{{ book.title }}</h5>
+        <div>
+            <button class="btn btn-outline-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#editBookModal">
+                <i class="fas fa-edit me-1"></i> Edit
+            </button>
+            <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteBookModal">
+                <i class="fas fa-trash me-1"></i> Delete
+            </button>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                {% if book.cover_url %}
+                    <img src="{{ book.cover_url }}" alt="{{ book.title }}" class="img-fluid rounded mb-3">
+                {% else %}
+                    <div class="bg-light d-flex align-items-center justify-content-center rounded mb-3" style="height: 300px;">
+                        <i class="fas fa-book fa-5x text-muted"></i>
+                    </div>
+                {% endif %}
+                
+                <div class="d-grid gap-2">
+                    {% if ebook_files %}
+                        {% for file in ebook_files %}
+                            <a href="{{ url_for('api_ebooks.download_file', file_id=file.id) }}" class="btn btn-primary">
+                                <i class="fas fa-download me-1"></i> Download {{ file.file_type }}
+                            </a>
+                        {% endfor %}
+                    {% endif %}
+                    
+                    <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#uploadEbookModal">
+                        <i class="fas fa-upload me-1"></i> Upload E-book File
+                    </button>
+                    
+                    {% if book.folder_path %}
+                        <a href="file://{{ book.folder_path }}" class="btn btn-outline-secondary">
+                            <i class="fas fa-folder-open me-1"></i> Open Folder
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-8">
+                <h4>{{ book.title }}</h4>
+                {% if book.alternative_titles %}
+                    <p class="text-muted">Also known as: {{ book.alternative_titles|join(', ') }}</p>
+                {% endif %}
+                
+                <div class="mb-3">
+                    <strong>Author:</strong> 
+                    {% if author %}
+                        <a href="{{ url_for('ui.author_view', author_id=author.id) }}">{{ book.author }}</a>
+                    {% else %}
+                        {{ book.author }}
+                    {% endif %}
+                </div>
+                
+                {% if book.publisher %}
+                    <div class="mb-3">
+                        <strong>Publisher:</strong> {{ book.publisher }}
+                    </div>
+                {% endif %}
+                
+                {% if book.published_date %}
+                    <div class="mb-3">
+                        <strong>Published:</strong> {{ book.published_date }}
+                    </div>
+                {% endif %}
+                
+                {% if book.isbn %}
+                    <div class="mb-3">
+                        <strong>ISBN:</strong> {{ book.isbn }}
+                    </div>
+                {% endif %}
+                
+                {% if book.genres and book.genres|length > 0 %}
+                    <div class="mb-3">
+                        <strong>Genres:</strong>
+                        <div class="mt-1">
+                            {% for genre in book.genres %}
+                                <span class="badge bg-secondary me-1 mb-1">{{ genre }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+                
+                {% if book.description %}
+                    <div class="mb-3">
+                        <strong>Description:</strong>
+                        <p class="mt-1">{{ book.description }}</p>
+                    </div>
+                {% endif %}
+                
+                <div class="mb-3">
+                    <strong>Collection:</strong> 
+                    {% if collection %}
+                        <a href="{{ url_for('ui.collection_view', collection_id=collection.id) }}">{{ collection.name }}</a>
+                    {% else %}
+                        <span class="text-muted">Not in any collection</span>
+                    {% endif %}
+                </div>
+                
+                {% if book.metadata_source %}
+                    <div class="mb-3">
+                        <strong>Source:</strong> {{ book.metadata_source }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Book Modal -->
+<div class="modal fade" id="editBookModal" tabindex="-1" aria-labelledby="editBookModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editBookModalLabel">Edit Book</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editBookForm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="bookTitle" class="form-label">Title</label>
+                                <input type="text" class="form-control" id="bookTitle" value="{{ book.title }}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="bookAuthor" class="form-label">Author</label>
+                                <input type="text" class="form-control" id="bookAuthor" value="{{ book.author }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="bookPublisher" class="form-label">Publisher</label>
+                                <input type="text" class="form-control" id="bookPublisher" value="{{ book.publisher }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="bookPublishedDate" class="form-label">Published Date</label>
+                                <input type="text" class="form-control" id="bookPublishedDate" value="{{ book.published_date }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="bookISBN" class="form-label">ISBN</label>
+                                <input type="text" class="form-control" id="bookISBN" value="{{ book.isbn }}">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="bookCoverURL" class="form-label">Cover URL</label>
+                                <input type="text" class="form-control" id="bookCoverURL" value="{{ book.cover_url }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="bookGenres" class="form-label">Genres (comma-separated)</label>
+                                <input type="text" class="form-control" id="bookGenres" value="{{ book.genres|join(', ') if book.genres else '' }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="bookCollection" class="form-label">Collection</label>
+                                <select class="form-select" id="bookCollection">
+                                    <option value="">-- None --</option>
+                                    {% if book_collections %}
+                                        {% for coll in book_collections %}
+                                            <option value="{{ coll.id }}" {% if collection and collection.id == coll.id %}selected{% endif %}>{{ coll.name }}</option>
+                                        {% endfor %}
+                                    {% endif %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="bookDescription" class="form-label">Description</label>
+                        <textarea class="form-control" id="bookDescription" rows="5">{{ book.description }}</textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="saveBookBtn">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Book Modal -->
+<div class="modal fade" id="deleteBookModal" tabindex="-1" aria-labelledby="deleteBookModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteBookModalLabel">Delete Book</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete <strong>{{ book.title }}</strong>?</p>
+                <p class="text-danger">This action cannot be undone.</p>
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" id="deleteFiles">
+                    <label class="form-check-label" for="deleteFiles">
+                        Also delete e-book files from disk
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Upload E-book Modal -->
+<div class="modal fade" id="uploadEbookModal" tabindex="-1" aria-labelledby="uploadEbookModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="uploadEbookModalLabel">Upload E-book File</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="uploadEbookForm" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="ebookFile" class="form-label">E-book File</label>
+                        <input type="file" class="form-control" id="ebookFile" name="file" accept=".epub,.pdf,.mobi,.azw,.azw3,.cbz,.cbr" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="fileType" class="form-label">File Type</label>
+                        <select class="form-select" id="fileType" name="file_type">
+                            <option value="EPUB">EPUB</option>
+                            <option value="PDF">PDF</option>
+                            <option value="MOBI">MOBI</option>
+                            <option value="AZW">AZW</option>
+                            <option value="AZW3">AZW3</option>
+                            <option value="CBZ">CBZ</option>
+                            <option value="CBR">CBR</option>
+                        </select>
+                    </div>
+                    <input type="hidden" name="series_id" value="{{ book.id }}">
+                    <input type="hidden" name="volume_id" value="{{ volume.id if volume else 1 }}">
+                </form>
+                <div class="progress mt-3 d-none" id="uploadProgress">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="uploadEbookBtn">Upload</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script>
+    $(document).ready(function() {
+        // Auto-select file type based on file extension
+        $('#ebookFile').on('change', function() {
+            const fileName = $(this).val().toLowerCase();
+            if (fileName.endsWith('.epub')) {
+                $('#fileType').val('EPUB');
+            } else if (fileName.endsWith('.pdf')) {
+                $('#fileType').val('PDF');
+            } else if (fileName.endsWith('.mobi')) {
+                $('#fileType').val('MOBI');
+            } else if (fileName.endsWith('.azw')) {
+                $('#fileType').val('AZW');
+            } else if (fileName.endsWith('.azw3')) {
+                $('#fileType').val('AZW3');
+            } else if (fileName.endsWith('.cbz')) {
+                $('#fileType').val('CBZ');
+            } else if (fileName.endsWith('.cbr')) {
+                $('#fileType').val('CBR');
+            }
+        });
+        
+        // Upload e-book file
+        $('#uploadEbookBtn').on('click', function() {
+            const fileInput = $('#ebookFile')[0];
+            if (!fileInput.files || fileInput.files.length === 0) {
+                showToast('warning', 'Warning', 'Please select a file to upload');
+                return;
+            }
+            
+            // Create form data
+            const formData = new FormData($('#uploadEbookForm')[0]);
+            
+            // Disable button and show progress
+            const $btn = $(this);
+            const originalText = $btn.html();
+            $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin me-2"></i> Uploading...');
+            $('#uploadProgress').removeClass('d-none');
+            
+            // Upload file
+            $.ajax({
+                url: '/api/ebooks/upload',
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                xhr: function() {
+                    const xhr = new window.XMLHttpRequest();
+                    xhr.upload.addEventListener('progress', function(e) {
+                        if (e.lengthComputable) {
+                            const percent = Math.round((e.loaded / e.total) * 100);
+                            $('#uploadProgress .progress-bar').css('width', percent + '%');
+                        }
+                    }, false);
+                    return xhr;
+                },
+                success: function(response) {
+                    // Reset button
+                    $btn.prop('disabled', false).html(originalText);
+                    
+                    if (response.file) {
+                        // Close modal
+                        bootstrap.Modal.getInstance(document.getElementById('uploadEbookModal')).hide();
+                        
+                        // Show success message
+                        showToast('success', 'Success', 'E-book file uploaded successfully');
+                        
+                        // Reload the page to show the new file
+                        location.reload();
+                    } else {
+                        showToast('error', 'Error', response.error || 'Failed to upload e-book file');
+                    }
+                },
+                error: function(xhr) {
+                    // Reset button
+                    $btn.prop('disabled', false).html(originalText);
+                    
+                    showToast('error', 'Error', xhr.responseJSON?.error || 'Failed to upload e-book file');
+                }
+            });
+        });
+        
+        // Save book changes
+        $('#saveBookBtn').on('click', function() {
+            const title = $('#bookTitle').val();
+            const author = $('#bookAuthor').val();
+            const publisher = $('#bookPublisher').val();
+            const publishedDate = $('#bookPublishedDate').val();
+            const isbn = $('#bookISBN').val();
+            const coverURL = $('#bookCoverURL').val();
+            const genres = $('#bookGenres').val().split(',').map(g => g.trim()).filter(g => g);
+            const description = $('#bookDescription').val();
+            const collectionId = $('#bookCollection').val();
+            
+            if (!title) {
+                showToast('warning', 'Warning', 'Book title is required');
+                return;
+            }
+            
+            // Disable button and show loading state
+            const $btn = $(this);
+            const originalText = $btn.html();
+            $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin me-2"></i> Saving...');
+            
+            // Update book
+            $.ajax({
+                url: '/api/series/{{ book.id }}',
+                method: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    title: title,
+                    author: author,
+                    publisher: publisher,
+                    published_date: publishedDate,
+                    isbn: isbn,
+                    cover_url: coverURL,
+                    genres: genres,
+                    description: description
+                }),
+                success: function(response) {
+                    // Reset button
+                    $btn.prop('disabled', false).html(originalText);
+                    
+                    if (response.success) {
+                        // Update collection if changed
+                        if (collectionId) {
+                            $.ajax({
+                                url: `/api/collections/${collectionId}/series`,
+                                method: 'POST',
+                                contentType: 'application/json',
+                                data: JSON.stringify({
+                                    series_id: {{ book.id }}
+                                }),
+                                success: function() {
+                                    // Close modal
+                                    bootstrap.Modal.getInstance(document.getElementById('editBookModal')).hide();
+                                    
+                                    // Show success message
+                                    showToast('success', 'Success', 'Book updated successfully');
+                                    
+                                    // Reload the page to show the changes
+                                    location.reload();
+                                },
+                                error: function() {
+                                    // Close modal anyway
+                                    bootstrap.Modal.getInstance(document.getElementById('editBookModal')).hide();
+                                    
+                                    // Show partial success message
+                                    showToast('warning', 'Warning', 'Book updated but collection assignment failed');
+                                    
+                                    // Reload the page to show the changes
+                                    location.reload();
+                                }
+                            });
+                        } else {
+                            // Close modal
+                            bootstrap.Modal.getInstance(document.getElementById('editBookModal')).hide();
+                            
+                            // Show success message
+                            showToast('success', 'Success', 'Book updated successfully');
+                            
+                            // Reload the page to show the changes
+                            location.reload();
+                        }
+                    } else {
+                        showToast('error', 'Error', response.message || 'Failed to update book');
+                    }
+                },
+                error: function(xhr) {
+                    // Reset button
+                    $btn.prop('disabled', false).html(originalText);
+                    
+                    showToast('error', 'Error', xhr.responseJSON?.error || 'Failed to update book');
+                }
+            });
+        });
+        
+        // Delete book
+        $('#confirmDeleteBtn').on('click', function() {
+            const deleteFiles = $('#deleteFiles').is(':checked');
+            
+            // Disable button and show loading state
+            const $btn = $(this);
+            const originalText = $btn.html();
+            $btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin me-2"></i> Deleting...');
+            
+            // Delete book
+            $.ajax({
+                url: '/api/series/{{ book.id }}',
+                method: 'DELETE',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    delete_files: deleteFiles
+                }),
+                success: function(response) {
+                    // Reset button
+                    $btn.prop('disabled', false).html(originalText);
+                    
+                    if (response.success) {
+                        // Show success message
+                        showToast('success', 'Success', 'Book deleted successfully');
+                        
+                        // Redirect to books home
+                        window.location.href = "{{ url_for('ui.books_home') if 'books_home' in url_for_map else '#' }}";
+                    } else {
+                        showToast('error', 'Error', response.message || 'Failed to delete book');
+                    }
+                },
+                error: function(xhr) {
+                    // Reset button
+                    $btn.prop('disabled', false).html(originalText);
+                    
+                    showToast('error', 'Error', xhr.responseJSON?.error || 'Failed to delete book');
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

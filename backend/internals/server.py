@@ -38,6 +38,8 @@ class Server:
         # Register blueprints
         from frontend.api import api_bp
         from frontend.api_metadata_fixed import metadata_api_bp
+        from frontend.api_author_metadata import author_metadata_api_bp
+        from frontend.api_author_search import author_search_api_bp
         from frontend.api_ebooks import ebooks_api_bp
         from frontend.api_collections import collections_api
         from frontend.api_folders import folders_api
@@ -47,6 +49,8 @@ class Server:
         
         self.app.register_blueprint(api_bp)
         self.app.register_blueprint(metadata_api_bp, url_prefix='/api/metadata')
+        self.app.register_blueprint(author_metadata_api_bp)
+        self.app.register_blueprint(author_search_api_bp, url_prefix='')
         self.app.register_blueprint(ebooks_api_bp)
         self.app.register_blueprint(collections_api)
         self.app.register_blueprint(folders_api)

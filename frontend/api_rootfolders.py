@@ -160,3 +160,25 @@ def check_path():
     except Exception as e:
         LOGGER.error(f"Error checking path: {e}")
         return jsonify({"error": str(e)}), 500
+
+
+@rootfolders_api_bp.route('/check-configured', methods=['GET'])
+def check_configured():
+    """Check if any root folders are configured.
+
+    Returns:
+        Response: Whether root folders are configured.
+    """
+    try:
+        settings = Settings().get_settings()
+        root_folders = settings.root_folders
+        
+        return jsonify({
+            "configured": len(root_folders) > 0,
+            "count": len(root_folders),
+            "root_folders": root_folders
+        })
+    
+    except Exception as e:
+        LOGGER.error(f"Error checking if root folders are configured: {e}")
+        return jsonify({"error": str(e)}), 500

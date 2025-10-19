@@ -49,13 +49,14 @@ def init_metadata_service() -> None:
         LOGGER.error(f"Error initializing metadata service: {e}")
 
 
-def search_manga(query: str, provider: Optional[str] = None, page: int = 1) -> Dict[str, Any]:
+def search_manga(query: str, provider: Optional[str] = None, page: int = 1, search_type: str = "title") -> Dict[str, Any]:
     """Search for manga across all enabled providers or a specific provider.
     
     Args:
         query: The search query.
         provider: The provider name (optional).
         page: The page number.
+        search_type: The type of search to perform (title or author).
         
     Returns:
         A dictionary containing search results.
@@ -63,15 +64,16 @@ def search_manga(query: str, provider: Optional[str] = None, page: int = 1) -> D
     try:
         if provider:
             # Search with a specific provider
-            results = {provider: search_with_provider(query, provider, page)}
+            results = {provider: search_with_provider(query, provider, page, search_type)}
         else:
             # Search with all enabled providers
-            results = search_with_all_providers(query, page)
+            results = search_with_all_providers(query, page, search_type)
         
         # Format the response
         response = {
             "query": query,
             "page": page,
+            "search_type": search_type,
             "results": results,
             "timestamp": datetime.now().isoformat()
         }

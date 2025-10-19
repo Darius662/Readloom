@@ -136,13 +136,13 @@ class MetadataProviderManager:
         """
         return list(self.providers.values())
 
-    def get_enabled_providers(self) -> List[MetadataProvider]:
+    def get_enabled_providers(self) -> Dict[str, MetadataProvider]:
         """Get all enabled providers.
         
         Returns:
-            A list of enabled providers.
+            A dictionary of enabled providers with name as key.
         """
-        return [p for p in self.providers.values() if p.enabled]
+        return {name: provider for name, provider in self.providers.items() if provider.enabled}
 
     def search_all(self, query: str, page: int = 1) -> Dict[str, List[Dict[str, Any]]]:
         """Search for manga across all enabled providers.
@@ -155,12 +155,37 @@ class MetadataProviderManager:
             A dictionary mapping provider names to search results.
         """
         results = {}
-        for provider in self.get_enabled_providers():
+        for name, provider in self.get_enabled_providers().items():
             try:
-                results[provider.name] = provider.search(query, page)
+                results[name] = provider.search(query, page)
             except Exception as e:
-                self.logger.error(f"Error searching with provider {provider.name}: {e}")
-                results[provider.name] = []
+                self.logger.error(f"Error searching with provider {name}: {e}")
+                results[name] = []
+        return results
+        
+    def search_all_with_type(self, query: str, page: int = 1, search_type: str = "title") -> Dict[str, List[Dict[str, Any]]]:
+        """Search for manga across all enabled providers with search type.
+        
+        Args:
+            query: The search query.
+            page: The page number.
+            search_type: The type of search to perform (title or author).
+            
+        Returns:
+            A dictionary mapping provider names to search results.
+        """
+        results = {}
+        for name, provider in self.get_enabled_providers().items():
+            try:
+                # Check if the provider supports the search_type parameter
+                if "search_type" in provider.search.__code__.co_varnames:
+                    results[name] = provider.search(query, page, search_type)
+                else:
+                    # Fallback for providers that don't support search_type
+                    results[name] = provider.search(query, page)
+            except Exception as e:
+                self.logger.error(f"Error searching with provider {name}: {e}")
+                results[name] = []
         return results
 
     def get_latest_releases_all(self, page: int = 1) -> Dict[str, List[Dict[str, Any]]]:
@@ -173,12 +198,12 @@ class MetadataProviderManager:
             A dictionary mapping provider names to latest releases.
         """
         results = {}
-        for provider in self.get_enabled_providers():
+        for name, provider in self.get_enabled_providers().items():
             try:
-                results[provider.name] = provider.get_latest_releases(page)
+                results[name] = provider.get_latest_releases(page)
             except Exception as e:
-                self.logger.error(f"Error getting latest releases with provider {provider.name}: {e}")
-                results[provider.name] = []
+                self.logger.error(f"Error getting latest releases with provider {name}: {e}")
+                results[name] = []
         return results
 
 

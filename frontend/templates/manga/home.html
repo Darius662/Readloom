@@ -1,0 +1,213 @@
+{% extends "manga_layout.html" %}
+
+{% block manga_title %}Manga Library{% endblock %}
+
+{% block manga_content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">Manga Library</h5>
+                <div>
+                    <a href="{{ url_for('ui.manga_search') if 'manga_search' in url_for_map else '#' }}" class="btn btn-primary me-2">
+                        <i class="fas fa-search me-1"></i> Search Manga
+                    </a>
+                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#scanMangaModal">
+                        <i class="fas fa-sync me-1"></i> Scan for Manga
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h6 class="card-title mb-0">Recent Series</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4" id="recentSeriesGrid">
+                                    {% if recent_series %}
+                                        {% for series in recent_series %}
+                                            <div class="col">
+                                                <div class="card h-100">
+                                                    {% if series.cover_url %}
+                                                        <img src="{{ series.cover_url }}" class="card-img-top manga-cover" alt="{{ series.title }}">
+                                                    {% else %}
+                                                        <div class="card-img-top d-flex align-items-center justify-content-center bg-light" style="height: 200px;">
+                                                            <i class="fas fa-book-open fa-3x text-muted"></i>
+                                                        </div>
+                                                    {% endif %}
+                                                    <div class="card-body">
+                                                        <h5 class="card-title">{{ series.title }}</h5>
+                                                        <p class="card-text text-muted">{{ series.author }}</p>
+                                                    </div>
+                                                    <div class="card-footer">
+                                                        <a href="{{ url_for('ui.series_view', series_id=series.id) }}" class="btn btn-primary btn-sm w-100">
+                                                            <i class="fas fa-book-open me-1"></i> View Series
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        <div class="col-12 text-center py-4">
+                                            <i class="fas fa-book-open fa-3x text-muted mb-3"></i>
+                                            <p>No manga series found in your library</p>
+                                            <a href="{{ url_for('ui.manga_search') if 'manga_search' in url_for_map else '#' }}" class="btn btn-primary">
+                                                <i class="fas fa-search me-1"></i> Search for Manga
+                                            </a>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h6 class="card-title mb-0">Manga Collections</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="mangaCollectionsGrid">
+                                    {% if manga_collections %}
+                                        {% for collection in manga_collections %}
+                                            <div class="col">
+                                                <div class="card h-100">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title">{{ collection.name }}</h5>
+                                                        <p class="card-text">{{ collection.description or 'No description' }}</p>
+                                                        <p class="card-text"><small class="text-muted">{{ collection.manga_count or 0 }} series</small></p>
+                                                    </div>
+                                                    <div class="card-footer">
+                                                        <a href="{{ url_for('ui.collection_view', collection_id=collection.id) }}" class="btn btn-primary btn-sm">View Collection</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        <div class="col-12 text-center py-4">
+                                            <i class="fas fa-folder-open fa-3x text-muted mb-3"></i>
+                                            <p>No manga collections found</p>
+                                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newCollectionModal">
+                                                <i class="fas fa-plus me-1"></i> Create Collection
+                                            </button>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scan Manga Modal -->
+<div class="modal fade" id="scanMangaModal" tabindex="-1" aria-labelledby="scanMangaModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="scanMangaModalLabel">Scan for Manga</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="scanMangaForm">
+                    <div class="mb-3">
+                        <label for="scanPath" class="form-label">Path to Scan</label>
+                        <input type="text" class="form-control" id="scanPath" placeholder="Leave empty to scan all root folders">
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="scanRecursively" checked>
+                        <label class="form-check-label" for="scanRecursively">Scan recursively</label>
+                    </div>
+                </form>
+                <div id="scanProgress" class="progress d-none">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"></div>
+                </div>
+                <div id="scanResults" class="mt-3"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="startScanBtn">Start Scan</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script>
+    $(document).ready(function() {
+        // Start scan button click
+        $('#startScanBtn').on('click', function() {
+            const path = $('#scanPath').val();
+            const recursive = $('#scanRecursively').is(':checked');
+            
+            // Show progress bar
+            $('#scanProgress').removeClass('d-none');
+            $('#scanResults').html('');
+            $('#startScanBtn').prop('disabled', true).html('<i class="fas fa-spinner fa-spin me-1"></i> Scanning...');
+            
+            // Call API to scan for manga
+            $.ajax({
+                url: '/api/ebooks/scan',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    custom_path: path || null,
+                    recursive: recursive,
+                    content_type: 'MANGA'
+                }),
+                success: function(response) {
+                    $('#startScanBtn').prop('disabled', false).html('Start Scan');
+                    
+                    if (response.stats) {
+                        const stats = response.stats;
+                        $('#scanResults').html(`
+                            <div class="alert alert-success">
+                                <h5>Scan Complete</h5>
+                                <p>Scanned: ${stats.scanned || 0} files</p>
+                                <p>Added: ${stats.added || 0} manga</p>
+                                <p>Skipped: ${stats.skipped || 0} files</p>
+                                <p>Errors: ${stats.errors || 0}</p>
+                            </div>
+                        `);
+                        
+                        // Reload the page after a short delay
+                        setTimeout(function() {
+                            location.reload();
+                        }, 3000);
+                    } else {
+                        $('#scanResults').html(`
+                            <div class="alert alert-warning">
+                                <h5>Scan Complete</h5>
+                                <p>No results returned from the server.</p>
+                            </div>
+                        `);
+                    }
+                },
+                error: function(xhr) {
+                    $('#startScanBtn').prop('disabled', false).html('Start Scan');
+                    $('#scanResults').html(`
+                        <div class="alert alert-danger">
+                            <h5>Error</h5>
+                            <p>${xhr.responseJSON?.error || 'An error occurred during the scan'}</p>
+                        </div>
+                    `);
+                }
+            });
+        });
+    });
+</script>
+
+<style>
+    .manga-cover {
+        height: 200px;
+        object-fit: cover;
+    }
+</style>
+{% endblock %}

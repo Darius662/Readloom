@@ -34,6 +34,8 @@ Open Library is a free, open database of books maintained by the Internet Archiv
 - Extensive catalog of books
 - Cover images for many books
 - Publication information and ISBNs
+- Author information including biographies, photos, and bibliographies
+- Author search functionality with dedicated author pages
 
 **Configuration:**
 - No configuration required - ready to use out of the box
@@ -80,8 +82,23 @@ WorldCat is a global catalog of library collections with millions of books from 
 
 1. Go to the Search page
 2. Enter a book title, author, or ISBN
-3. Select a specific provider or search across all enabled providers
-4. Browse the results and click "Details" to view more information
+3. Select the search type (Title or Author)
+4. Select a specific provider or search across all enabled providers
+5. Browse the results and click "Details" to view more information
+
+### Searching for Authors
+
+1. Go to the Search page
+2. Enter an author's name
+3. Select "Author" from the search type dropdown
+4. Select a provider (OpenLibrary recommended for author information)
+5. Browse the author results
+6. Click "Author Details" to view comprehensive information including:
+   - Author biography
+   - Birth and death dates
+   - Bibliography (works by the author)
+   - External links and references
+   - Subject areas the author writes about
 
 ### Importing Books
 

@@ -33,13 +33,14 @@ def get_provider(provider_name: str):
     return provider
 
 
-def search_with_provider(query: str, provider_name: str, page: int = 1) -> List[Dict[str, Any]]:
+def search_with_provider(query: str, provider_name: str, page: int = 1, search_type: str = "title") -> List[Dict[str, Any]]:
     """Search for manga with a specific provider.
     
     Args:
         query: The search query.
         provider_name: The provider name.
         page: The page number.
+        search_type: The type of search to perform (title or author).
         
     Returns:
         A list of search results or empty list on error.
@@ -49,23 +50,47 @@ def search_with_provider(query: str, provider_name: str, page: int = 1) -> List[
         return []
     
     try:
-        return provider.search(query, page)
+        # Check if the provider supports the search_type parameter
+        if "search_type" in provider.search.__code__.co_varnames:
+            return provider.search(query, page, search_type)
+        else:
+            # Fallback for providers that don't support search_type
+            return provider.search(query, page)
     except Exception as e:
         LOGGER.error(f"Error searching with provider {provider_name}: {e}")
         return []
 
 
-def search_with_all_providers(query: str, page: int = 1) -> Dict[str, List[Dict[str, Any]]]:
+def search_with_all_providers(query: str, page: int = 1, search_type: str = "title") -> Dict[str, List[Dict[str, Any]]]:
     """Search for manga across all enabled providers.
     
     Args:
         query: The search query.
         page: The page number.
+        search_type: The type of search to perform (title or author).
         
     Returns:
         A dictionary mapping provider names to search results.
     """
-    return metadata_provider_manager.search_all(query, page)
+    # Check if the search_all method supports search_type parameter
+    if hasattr(metadata_provider_manager, "search_all_with_type"):
+        return metadata_provider_manager.search_all_with_type(query, page, search_type)
+    
+    # Fallback: manually search each provider with search_type support
+    results = {}
+    for provider in metadata_provider_manager.get_enabled_providers():
+        try:
+            # Check if the provider supports the search_type parameter
+            if "search_type" in provider.search.__code__.co_varnames:
+                results[provider.name] = provider.search(query, page, search_type)
+            else:
+                # Fallback for providers that don't support search_type
+                results[provider.name] = provider.search(query, page)
+        except Exception as e:
+            LOGGER.error(f"Error searching with provider {provider.name}: {e}")
+            results[provider.name] = []
+    
+    return results
 
 
 def get_manga_details_from_provider(manga_id: str, provider_name: str) -> Dict[str, Any]:
