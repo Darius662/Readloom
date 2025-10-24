@@ -64,7 +64,7 @@ jobs:
                 host: '${{ secrets.JIRA_HOST }}',
                 email: '${{ secrets.JIRA_USER_EMAIL }}',
                 apiToken: '${{ secrets.JIRA_API_TOKEN }}',
-                projectKey: 'HD'
+                projectKey: 'RLM'
               };
 
               try {
