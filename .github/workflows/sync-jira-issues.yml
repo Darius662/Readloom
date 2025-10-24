@@ -11,38 +11,68 @@ on:
         description: 'Specific GitHub issue number to sync (leave empty for all)'
         required: false
         type: string
-      sync_type:
-        description: 'What to sync'
-        required: true
-        type: choice
-        default: 'all-issues'
-        options:
-        - all-issues
-        - single-issue
-        - sync-comments-only
-      force_sync:
-        description: 'Force re-sync even if already synced'
-        required: false
-        type: boolean
-        default: false
 
 jobs:
   sync-to-jira:
     runs-on: ubuntu-latest
     steps:
-      - name: Debug inputs
-        run: |
-          echo "Issue number: ${{ github.event.inputs.issue_number }}"
-          echo "Sync type: ${{ github.event.inputs.sync_type }}"
-          echo "Force sync: ${{ github.event.inputs.force_sync }}"
-          
-      - name: Sync GitHub Issue to Jira
-        uses: myungsang/gh-issue-to-jira@v1.0.0
+      - name: Sync to Jira using REST APIs
+        uses: actions/github-script@v7
         with:
-          jira-host: ${{ secrets.JIRA_HOST }}
-          jira-user-email: ${{ secrets.JIRA_USER_EMAIL }}
-          jira-api-token: ${{ secrets.JIRA_API_TOKEN }}
-          jira-project-key: 'RLM'
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          direction: 'both'
-          sync-comments: true
+          script: |
+            const { issue } = context.payload;
+            
+            // Only run for specific issue if provided in manual trigger
+            if (${{ github.event_name == 'workflow_dispatch' }} && '${{ github.event.inputs.issue_number }}' !== '') {
+              if (issue.number != '${{ github.event.inputs.issue_number }}') {
+                console.log(`Skipping issue #${issue.number} - not the specified issue`);
+                return;
+              }
+            }
+
+            console.log(`Syncing issue #${issue.number} to Jira: ${issue.title}`);
+            
+            // Jira API configuration
+            const jiraConfig = {
+              host: '${{ secrets.JIRA_HOST }}',
+              email: '${{ secrets.JIRA_USER_EMAIL }}',
+              apiToken: '${{ secrets.JIRA_API_TOKEN }}',
+              projectKey: 'HD'
+            };
+
+            // Basic Jira API call to create/update issue
+            const jiraResponse = await fetch(`https://${jiraConfig.host}/rest/api/2/issue`, {
+              method: 'POST',
+              headers: {
+                'Authorization': 'Basic ' + Buffer.from(jiraConfig.email + ':' + jiraConfig.apiToken).toString('base64'),
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                fields: {
+                  project: {
+                    key: jiraConfig.projectKey
+                  },
+                  summary: `[GitHub] ${issue.title}`,
+                  description: `${issue.body}\n\n---\nGitHub Issue: ${issue.html_url}`,
+                  issuetype: {
+                    name: "Task"
+                  }
+                }
+              })
+            });
+
+            if (jiraResponse.ok) {
+              const jiraIssue = await jiraResponse.json();
+              console.log(`Created Jira issue: ${jiraIssue.key}`);
+              
+              // Add comment with GitHub link back to GitHub issue
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                body: `Synced to Jira: https://${jiraConfig.host}/browse/${jiraIssue.key}`
+              });
+            } else {
+              const error = await jiraResponse.text();
+              console.error('Jira API error:', error);
+            }
