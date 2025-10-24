@@ -1,0 +1,22 @@
+name: Sync GitHub Issues with Jira
+
+on:
+  issues:
+    types: [opened, edited, closed, reopened, labeled, unlabeled]
+  issue_comment:
+    types: [created, edited, deleted]
+
+jobs:
+  sync-to-jira:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sync GitHub Issue to Jira
+        uses: myungsang/gh-issue-to-jira@v1.0.0
+        with:
+          jira-host: ${{ secrets.JIRA_HOST }}
+          jira-user-email: ${{ secrets.JIRA_USER_EMAIL }}
+          jira-api-token: ${{ secrets.JIRA_API_TOKEN }}
+          jira-project-key: 'RLM'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          direction: 'both'
+          sync-comments: true
