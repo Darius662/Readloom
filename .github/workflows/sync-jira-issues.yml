@@ -22,57 +22,106 @@ jobs:
           script: |
             const { issue } = context.payload;
             
-            // Only run for specific issue if provided in manual trigger
-            if (${{ github.event_name == 'workflow_dispatch' }} && '${{ github.event.inputs.issue_number }}' !== '') {
-              if (issue.number != '${{ github.event.inputs.issue_number }}') {
-                console.log(`Skipping issue #${issue.number} - not the specified issue`);
-                return;
+            // Handle manual trigger
+            if (context.eventName === 'workflow_dispatch') {
+              const issueNumber = '${{ github.event.inputs.issue_number }}';
+              
+              if (issueNumber) {
+                // Fetch the specific issue
+                const { data: specificIssue } = await github.rest.issues.get({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issueNumber
+                });
+                await syncIssueToJira(specificIssue);
+              } else {
+                // Fetch all open issues and sync them
+                const issues = await github.paginate(github.rest.issues.listForRepo, {
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  state: 'all'
+                });
+                
+                for (const iss of issues) {
+                  // Skip pull requests
+                  if (!iss.pull_request) {
+                    await syncIssueToJira(iss);
+                  }
+                }
+              }
+            } else {
+              // Handle automatic trigger from issue events
+              if (issue && !issue.pull_request) {
+                await syncIssueToJira(issue);
               }
             }
 
-            console.log(`Syncing issue #${issue.number} to Jira: ${issue.title}`);
-            
-            // Jira API configuration
-            const jiraConfig = {
-              host: '${{ secrets.JIRA_HOST }}',
-              email: '${{ secrets.JIRA_USER_EMAIL }}',
-              apiToken: '${{ secrets.JIRA_API_TOKEN }}',
-              projectKey: 'HD'
-            };
-
-            // Basic Jira API call to create/update issue
-            const jiraResponse = await fetch(`https://${jiraConfig.host}/rest/api/2/issue`, {
-              method: 'POST',
-              headers: {
-                'Authorization': 'Basic ' + Buffer.from(jiraConfig.email + ':' + jiraConfig.apiToken).toString('base64'),
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                fields: {
-                  project: {
-                    key: jiraConfig.projectKey
-                  },
-                  summary: `[GitHub] ${issue.title}`,
-                  description: `${issue.body}\n\n---\nGitHub Issue: ${issue.html_url}`,
-                  issuetype: {
-                    name: "Task"
-                  }
-                }
-              })
-            });
-
-            if (jiraResponse.ok) {
-              const jiraIssue = await jiraResponse.json();
-              console.log(`Created Jira issue: ${jiraIssue.key}`);
+            async function syncIssueToJira(issue) {
+              console.log(`Syncing issue #${issue.number} to Jira: ${issue.title}`);
               
-              // Add comment with GitHub link back to GitHub issue
-              await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: issue.number,
-                body: `Synced to Jira: https://${jiraConfig.host}/browse/${jiraIssue.key}`
-              });
-            } else {
-              const error = await jiraResponse.text();
-              console.error('Jira API error:', error);
+              // Jira API configuration
+              const jiraConfig = {
+                host: '${{ secrets.JIRA_HOST }}',
+                email: '${{ secrets.JIRA_USER_EMAIL }}',
+                apiToken: '${{ secrets.JIRA_API_TOKEN }}',
+                projectKey: 'HD'
+              };
+
+              try {
+                // Basic Jira API call to create issue
+                const jiraResponse = await fetch(`https://${jiraConfig.host}/rest/api/2/issue`, {
+                  method: 'POST',
+                  headers: {
+                    'Authorization': 'Basic ' + Buffer.from(jiraConfig.email + ':' + jiraConfig.apiToken).toString('base64'),
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({
+                    fields: {
+                      project: {
+                        key: jiraConfig.projectKey
+                      },
+                      summary: `[GitHub] ${issue.title}`,
+                      description: `${issue.body || 'No description provided'}\n\n---\n**GitHub Issue:** ${issue.html_url}`,
+                      issuetype: {
+                        name: "Task"
+                      }
+                    }
+                  })
+                });
+
+                if (jiraResponse.ok) {
+                  const jiraIssue = await jiraResponse.json();
+                  console.log(`✅ Created Jira issue: ${jiraIssue.key}`);
+                  
+                  // Add comment with GitHub link back to GitHub issue
+                  await github.rest.issues.createComment({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issue_number: issue.number,
+                    body: `🔗 Synced to Jira: https://${jiraConfig.host}/browse/${jiraIssue.key}`
+                  });
+                  
+                  return jiraIssue;
+                } else {
+                  const errorText = await jiraResponse.text();
+                  console.error('❌ Jira API error:', jiraResponse.status, errorText);
+                  
+                  // Add error comment to GitHub issue
+                  await github.rest.issues.createComment({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issue_number: issue.number,
+                    body: `❌ Failed to sync to Jira: ${jiraResponse.status} - ${errorText}`
+                  });
+                }
+              } catch (error) {
+                console.error('❌ Unexpected error:', error);
+                
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issue.number,
+                  body: `❌ Error syncing to Jira: ${error.message}`
+                });
+              }
             }
