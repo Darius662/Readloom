@@ -7,13 +7,22 @@ on:
     types: [created, edited, deleted]
   workflow_dispatch:
     inputs:
+      action_type:
+        description: 'Choose what to do'
+        required: true
+        type: choice
+        default: 'sync-issue'
+        options:
+        - sync-issue
+        - sync-all-issues
+        - update-ticket-types
       issue_number:
-        description: 'Specific GitHub issue number to sync (leave empty for all)'
+        description: 'Specific GitHub issue number to sync (leave empty for all in sync-all-issues)'
         required: false
         type: string
 
 jobs:
-  sync-to-jira:
+  jira-sync:
     runs-on: ubuntu-latest
     steps:
       - name: Sync to Jira using REST APIs
@@ -22,54 +31,167 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const { issue } = context.payload;
-            
-            // Handle manual trigger
-            if (context.eventName === 'workflow_dispatch') {
-              const issueNumber = '${{ github.event.inputs.issue_number }}';
-              
-              if (issueNumber) {
-                // Fetch the specific issue
+            const actionType = '${{ github.event.inputs.action_type }}' || 'sync-issue';
+            const issueNumber = '${{ github.event.inputs.issue_number }}';
+
+            console.log(`Action type: ${actionType}`);
+            console.log(`Issue number: ${issueNumber}`);
+
+            if (actionType === 'update-ticket-types') {
+              await updateTicketTypes();
+            } else if (actionType === 'sync-all-issues') {
+              await syncAllIssues(issueNumber);
+            } else {
+              // Handle manual single issue sync or automatic trigger
+              if (context.eventName === 'workflow_dispatch' && issueNumber) {
                 const { data: specificIssue } = await github.rest.issues.get({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
                   issue_number: issueNumber
                 });
                 await syncIssueToJira(specificIssue);
-              } else {
-                // Fetch all open issues and sync them
-                const issues = await github.paginate(github.rest.issues.listForRepo, {
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  state: 'all'
-                });
-                
-                for (const iss of issues) {
-                  // Skip pull requests
-                  if (!iss.pull_request) {
+              } else if (issue && !issue.pull_request) {
+                await syncIssueToJira(issue);
+              }
+            }
+
+            async function syncAllIssues(specificIssueNumber) {
+              const issues = await github.paginate(github.rest.issues.listForRepo, {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                state: 'all'
+              });
+              
+              let syncedCount = 0;
+              for (const iss of issues) {
+                // Skip pull requests
+                if (!iss.pull_request) {
+                  // If specific issue number provided, only sync that one
+                  if (!specificIssueNumber || specificIssueNumber === '' || String(iss.number) === specificIssueNumber) {
                     await syncIssueToJira(iss);
+                    syncedCount++;
                   }
                 }
               }
-            } else {
-              // Handle automatic trigger from issue events
-              if (issue && !issue.pull_request) {
-                await syncIssueToJira(issue);
+              console.log(`✅ Synced ${syncedCount} issues to Jira`);
+            }
+
+            async function updateTicketTypes() {
+              console.log('Starting bulk update of ticket types...');
+              
+              const jiraConfig = {
+                host: '${{ secrets.JIRA_HOST }}',
+                email: '${{ secrets.JIRA_USER_EMAIL }}',
+                apiToken: '${{ secrets.JIRA_API_TOKEN }}',
+                projectKey: 'HD'
+              };
+
+              // First, get the target issue type (Incident)
+              const issueTypesResponse = await fetch(`https://${jiraConfig.host}/rest/api/2/issue/createmeta?projectKeys=${jiraConfig.projectKey}&expand=projects.issuetypes`, {
+                method: 'GET',
+                headers: {
+                  'Authorization': 'Basic ' + Buffer.from(jiraConfig.email + ':' + jiraConfig.apiToken).toString('base64'),
+                  'Content-Type': 'application/json',
+                },
+              });
+
+              if (!issueTypesResponse.ok) {
+                const errorText = await issueTypesResponse.text();
+                console.error('❌ Failed to fetch Jira issue types:', errorText);
+                return;
               }
+
+              const metaData = await issueTypesResponse.json();
+              const project = metaData.projects[0];
+              const issueTypes = project.issuetypes;
+              
+              // Find Incident issue type
+              const incidentType = issueTypes.find(it => 
+                it.name.toLowerCase().includes('incident') || 
+                it.name === 'Incident'
+              );
+
+              if (!incidentType) {
+                console.error('❌ Incident issue type not found in project');
+                console.log('Available issue types:', issueTypes.map(it => it.name));
+                return;
+              }
+
+              console.log(`Found target issue type: ${incidentType.name}`);
+
+              // Search for issues with "[GitHub]" in summary (issues created by our sync)
+              const searchResponse = await fetch(`https://${jiraConfig.host}/rest/api/2/search?jql=project=HD AND summary ~ "\\\\[GitHub\\\\]" AND issuetype != "${incidentType.name}"&maxResults=100`, {
+                method: 'GET',
+                headers: {
+                  'Authorization': 'Basic ' + Buffer.from(jiraConfig.email + ':' + jiraConfig.apiToken).toString('base64'),
+                  'Content-Type': 'application/json',
+                },
+              });
+
+              if (!searchResponse.ok) {
+                const errorText = await searchResponse.text();
+                console.error('❌ Failed to search Jira issues:', errorText);
+                return;
+              }
+
+              const searchResults = await searchResponse.json();
+              console.log(`Found ${searchResults.total} issues to update`);
+
+              let updatedCount = 0;
+              let errorCount = 0;
+
+              for (const jiraIssue of searchResults.issues) {
+                try {
+                  // Update the issue type
+                  const updateResponse = await fetch(`https://${jiraConfig.host}/rest/api/2/issue/${jiraIssue.key}`, {
+                    method: 'PUT',
+                    headers: {
+                      'Authorization': 'Basic ' + Buffer.from(jiraConfig.email + ':' + jiraConfig.apiToken).toString('base64'),
+                      'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                      fields: {
+                        issuetype: {
+                          id: incidentType.id,
+                          name: incidentType.name
+                        }
+                      }
+                    })
+                  });
+
+                  if (updateResponse.ok) {
+                    console.log(`✅ Updated ${jiraIssue.key} to ${incidentType.name}`);
+                    updatedCount++;
+                  } else {
+                    const errorText = await updateResponse.text();
+                    console.error(`❌ Failed to update ${jiraIssue.key}:`, errorText);
+                    errorCount++;
+                  }
+
+                  // Small delay to avoid rate limiting
+                  await new Promise(resolve => setTimeout(resolve, 100));
+                  
+                } catch (error) {
+                  console.error(`❌ Error updating ${jiraIssue.key}:`, error.message);
+                  errorCount++;
+                }
+              }
+
+              console.log(`🎉 Bulk update completed! Updated: ${updatedCount}, Errors: ${errorCount}`);
             }
 
             async function syncIssueToJira(issue) {
               console.log(`Syncing issue #${issue.number} to Jira: ${issue.title}`);
               
-              // Jira API configuration
               const jiraConfig = {
                 host: '${{ secrets.JIRA_HOST }}',
                 email: '${{ secrets.JIRA_USER_EMAIL }}',
                 apiToken: '${{ secrets.JIRA_API_TOKEN }}',
-                projectKey: 'RLM'
+                projectKey: 'HD'
               };
 
               try {
-                // First, let's get available issue types for the project
+                // Get available issue types
                 const issueTypesResponse = await fetch(`https://${jiraConfig.host}/rest/api/2/issue/createmeta?projectKeys=${jiraConfig.projectKey}&expand=projects.issuetypes`, {
                   method: 'GET',
                   headers: {
@@ -88,13 +210,29 @@ jobs:
                 const project = metaData.projects[0];
                 const issueTypes = project.issuetypes;
                 
-                // Use the first available issue type, or fall back to "Task"
-                const defaultIssueType = issueTypes.find(it => it.name === 'Task') || 
-                                       issueTypes.find(it => it.name === 'Story') || 
-                                       issueTypes.find(it => it.name === 'Bug') || 
-                                       issueTypes[0];
-
-                console.log(`Using issue type: ${defaultIssueType.name}`);
+                // Prefer standard issue types over Service Desk types
+                const preferredTypes = ['Incident', 'Task', 'Story', 'Bug', 'Sub-task'];
+                let selectedIssueType = null;
+                
+                // Try to find a preferred type (Incident first, then others)
+                for (const typeName of preferredTypes) {
+                  selectedIssueType = issueTypes.find(it => it.name === typeName);
+                  if (selectedIssueType) {
+                    console.log(`Using preferred issue type: ${selectedIssueType.name}`);
+                    break;
+                  }
+                }
+                
+                // If no preferred type found, use first non-service-desk type
+                if (!selectedIssueType) {
+                  const nonServiceDeskTypes = issueTypes.filter(it => 
+                    !it.name.includes('Service') && 
+                    !it.name.includes('Request') &&
+                    !it.name.toLowerCase().includes('email')
+                  );
+                  selectedIssueType = nonServiceDeskTypes[0] || issueTypes[0];
+                  console.log(`Using fallback issue type: ${selectedIssueType.name}`);
+                }
 
                 // Create Jira issue
                 const jiraResponse = await fetch(`https://${jiraConfig.host}/rest/api/2/issue`, {
@@ -111,8 +249,8 @@ jobs:
                       summary: `[GitHub] ${issue.title}`,
                       description: `${issue.body || 'No description provided'}\n\n---\n**GitHub Issue:** ${issue.html_url}`,
                       issuetype: {
-                        id: defaultIssueType.id,
-                        name: defaultIssueType.name
+                        id: selectedIssueType.id,
+                        name: selectedIssueType.name
                       }
                     }
                   })
@@ -123,7 +261,7 @@ jobs:
                   console.log(`✅ Created Jira issue: ${jiraIssue.key}`);
                   console.log(`🔗 Jira URL: https://${jiraConfig.host}/browse/${jiraIssue.key}`);
                   
-                  // Try to add comment to GitHub issue (but don't fail if we can't)
+                  // Try to add comment to GitHub issue
                   try {
                     await github.rest.issues.createComment({
                       owner: context.repo.owner,
@@ -132,7 +270,7 @@ jobs:
                       body: `🔗 Synced to Jira: https://${jiraConfig.host}/browse/${jiraIssue.key}`
                     });
                   } catch (commentError) {
-                    console.log('⚠️ Could not add comment to GitHub issue (permissions issue), but Jira sync was successful');
+                    console.log('⚠️ Could not add comment to GitHub issue, but Jira sync was successful');
                   }
                   
                   return jiraIssue;
@@ -140,7 +278,6 @@ jobs:
                   const errorText = await jiraResponse.text();
                   console.error('❌ Jira API error:', jiraResponse.status, errorText);
                   
-                  // Try to add error comment (but don't fail if we can't)
                   try {
                     await github.rest.issues.createComment({
                       owner: context.repo.owner,
@@ -155,7 +292,6 @@ jobs:
               } catch (error) {
                 console.error('❌ Unexpected error:', error.message);
                 
-                // Try to add error comment (but don't fail if we can't)
                 try {
                   await github.rest.issues.createComment({
                     owner: context.repo.owner,
