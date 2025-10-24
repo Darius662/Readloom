@@ -83,7 +83,7 @@ jobs:
                 host: '${{ secrets.JIRA_HOST }}',
                 email: '${{ secrets.JIRA_USER_EMAIL }}',
                 apiToken: '${{ secrets.JIRA_API_TOKEN }}',
-                projectKey: 'HD'
+                projectKey: 'RLM'
               };
 
               // First, get the target issue type (Incident)
@@ -120,7 +120,7 @@ jobs:
               console.log(`Found target issue type: ${incidentType.name}`);
 
               // Search for issues with "[GitHub]" in summary (issues created by our sync)
-              const searchResponse = await fetch(`https://${jiraConfig.host}/rest/api/2/search?jql=project=HD AND summary ~ "\\\\[GitHub\\\\]" AND issuetype != "${incidentType.name}"&maxResults=100`, {
+              const searchResponse = await fetch(`https://${jiraConfig.host}/rest/api/2/search?jql=project=RLM AND summary ~ "\\\\[GitHub\\\\]" AND issuetype != "${incidentType.name}"&maxResults=100`, {
                 method: 'GET',
                 headers: {
                   'Authorization': 'Basic ' + Buffer.from(jiraConfig.email + ':' + jiraConfig.apiToken).toString('base64'),
@@ -187,7 +187,7 @@ jobs:
                 host: '${{ secrets.JIRA_HOST }}',
                 email: '${{ secrets.JIRA_USER_EMAIL }}',
                 apiToken: '${{ secrets.JIRA_API_TOKEN }}',
-                projectKey: 'HD'
+                projectKey: 'RLM'
               };
 
               try {
