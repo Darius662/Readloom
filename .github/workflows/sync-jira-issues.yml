@@ -86,7 +86,7 @@ jobs:
                 host: '${{ secrets.JIRA_HOST }}',
                 email: '${{ secrets.JIRA_USER_EMAIL }}',
                 apiToken: '${{ secrets.JIRA_API_TOKEN }}',
-                projectKey: 'HD'
+                projectKey: 'RLM'
               };
 
               const issues = await github.paginate(github.rest.issues.listForRepo, {
@@ -109,7 +109,7 @@ jobs:
 
                 try {
                   // Search for corresponding Jira issue
-                  const searchResponse = await fetch(`https://${jiraConfig.host}/rest/api/2/search?jql=project=HD AND summary ~ "\\\\[GitHub\\\\] #${githubIssue.number}"`, {
+                  const searchResponse = await fetch(`https://${jiraConfig.host}/rest/api/2/search?jql=project=RLM AND summary ~ "\\\\[GitHub\\\\] #${githubIssue.number}"`, {
                     method: 'GET',
                     headers: {
                       'Authorization': 'Basic ' + Buffer.from(jiraConfig.email + ':' + jiraConfig.apiToken).toString('base64'),
@@ -237,7 +237,7 @@ jobs:
                 host: '${{ secrets.JIRA_HOST }}',
                 email: '${{ secrets.JIRA_USER_EMAIL }}',
                 apiToken: '${{ secrets.JIRA_API_TOKEN }}',
-                projectKey: 'HD'
+                projectKey: 'RLM'
               };
 
               try {
@@ -370,7 +370,7 @@ jobs:
 
             async function findExistingJiraIssue(githubIssueNumber, jiraConfig) {
               try {
-                const searchResponse = await fetch(`https://${jiraConfig.host}/rest/api/2/search?jql=project=HD AND summary ~ "\\\\[GitHub\\\\] #${githubIssueNumber}"`, {
+                const searchResponse = await fetch(`https://${jiraConfig.host}/rest/api/2/search?jql=project=RLM AND summary ~ "\\\\[GitHub\\\\] #${githubIssueNumber}"`, {
                   method: 'GET',
                   headers: {
                     'Authorization': 'Basic ' + Buffer.from(jiraConfig.email + ':' + jiraConfig.apiToken).toString('base64'),
