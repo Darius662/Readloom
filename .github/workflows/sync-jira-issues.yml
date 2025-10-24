@@ -148,7 +148,7 @@ jobs:
             async function updateJiraIssueStatus(jiraIssueKey, githubIssue, jiraConfig) {
               console.log(`Updating status for ${jiraIssueKey} based on GitHub issue #${githubIssue.number}`);
 
-              // Map GitHub state and labels to Jira statuses
+              // Map GitHub state and labels to Jira statuses based on your workflow
               let targetStatusName = mapGitHubToJiraStatus(githubIssue);
               
               // Get available transitions for this issue
@@ -206,47 +206,67 @@ jobs:
             }
 
             function mapGitHubToJiraStatus(githubIssue) {
-              // Status mapping based on GitHub state and labels
+              // Map based on your workflow diagram
               if (githubIssue.state === 'closed') {
                 // Check for specific closed reasons via labels
                 if (githubIssue.labels?.some(label => 
                   label.name === 'wontfix' || label.name === 'duplicate' || label.name === 'invalid'
                 )) {
-                  return 'Done'; // Or you might want a specific "Closed" status
+                  return 'SOLUTION DENIED';
                 }
-                return 'Done';
+                return 'RESOLVED';
               }
               
               if (githubIssue.state === 'open') {
-                // Check for specific labels that might indicate status
-                if (githubIssue.labels?.some(label => label.name === 'enhancement')) {
-                  return 'New';
+                // New issues start in NEW
+                if (!githubIssue.assignee && !hasActivity(githubIssue)) {
+                  return 'NEW';
                 }
-                if (githubIssue.labels?.some(label => label.name === 'bug')) {
-                  return 'In Progress'; // Or 'New' depending on your workflow
-                }
+                
+                // Issues with assignee but no specific labels go to IN PROGRESS
                 if (githubIssue.assignee) {
-                  return 'In Progress';
+                  return 'IN PROGRESS';
                 }
-                return 'New';
+                
+                // Issues with specific labels
+                if (githubIssue.labels?.some(label => label.name === 'bug')) {
+                  return 'IN PROGRESS';
+                }
+                if (githubIssue.labels?.some(label => label.name === 'enhancement')) {
+                  return 'IN SPECIFICATION';
+                }
+                if (githubIssue.labels?.some(label => label.name === 'question')) {
+                  return 'PENDING';
+                }
+                
+                return 'NEW';
               }
               
-              return 'New'; // Default for reopened or other states
+              return 'NEW'; // Default for reopened or other states
+            }
+
+            function hasActivity(githubIssue) {
+              // Check if issue has comments or has been updated recently
+              // This is a simple check - you might want to enhance this
+              return githubIssue.comments > 0 || 
+                     (new Date() - new Date(githubIssue.updated_at)) < (24 * 60 * 60 * 1000); // Updated in last 24h
             }
 
             function findMatchingTransition(transitions, targetStatusName) {
               const statusVariations = {
-                'New': ['new', 'to do', 'open'],
-                'In Progress': ['in progress', 'progress', 'started', 'active'],
-                'On Hold': ['on hold', 'hold', 'waiting', 'blocked'],
-                'In Review': ['in review', 'review', 'testing'],
-                'Done': ['done', 'completed', 'closed', 'resolved']
+                'NEW': ['new', 'to do', 'open'],
+                'IN SPECIFICATION': ['in specification', 'specification', 'analysis'],
+                'IN PROGRESS': ['in progress', 'progress', 'started', 'active'],
+                'PENDING': ['pending', 'on hold', 'hold', 'waiting'],
+                'IN REVIEW': ['in review', 'review', 'testing'],
+                'SOLUTION DENIED': ['solution denied', 'denied', 'rejected', 'wontfix'],
+                'RESOLVED': ['resolved', 'done', 'completed', 'closed']
               };
 
               for (const [status, variations] of Object.entries(statusVariations)) {
                 if (status === targetStatusName) {
                   return transitions.find(t => 
-                    variations.some(variation => t.to.name.toLowerCase().includes(variation))
+                    variations.some(variation => t.to.name.toLowerCase().includes(variation.toLowerCase()))
                   );
                 }
               }
@@ -260,7 +280,7 @@ jobs:
               const labelMapping = {
                 'Backend': 'backend',
                 'bug': 'bug',
-                'Docker': 'docker', // Fixed typo from "Dcoker"
+                'Docker': 'docker',
                 'documentation': 'documentation',
                 'duplicate': 'duplicate',
                 'enhancement': 'enhancement',
@@ -321,10 +341,10 @@ jobs:
                 host: '${{ secrets.JIRA_HOST }}',
                 email: '${{ secrets.JIRA_USER_EMAIL }}',
                 apiToken: '${{ secrets.JIRA_API_TOKEN }}',
-                projectKey: 'RLM' // Updated to RLM
+                projectKey: 'RLM'
               };
 
-              // First, get the target issue type (Incident or Task)
+              // First, get the target issue type (Task, Story, Bug, etc.)
               const issueTypesResponse = await fetch(`https://${jiraConfig.host}/rest/api/2/issue/createmeta?projectKeys=${jiraConfig.projectKey}&expand=projects.issuetypes`, {
                 method: 'GET',
                 headers: {
@@ -424,7 +444,7 @@ jobs:
                 host: '${{ secrets.JIRA_HOST }}',
                 email: '${{ secrets.JIRA_USER_EMAIL }}',
                 apiToken: '${{ secrets.JIRA_API_TOKEN }}',
-                projectKey: 'RLM' // Updated to RLM
+                projectKey: 'RLM'
               };
 
               try {
