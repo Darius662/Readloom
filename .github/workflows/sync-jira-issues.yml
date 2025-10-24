@@ -5,11 +5,37 @@ on:
     types: [opened, edited, closed, reopened, labeled, unlabeled]
   issue_comment:
     types: [created, edited, deleted]
+  workflow_dispatch:
+    inputs:
+      issue_number:
+        description: 'Specific GitHub issue number to sync (leave empty for all)'
+        required: false
+        type: string
+      sync_type:
+        description: 'What to sync'
+        required: true
+        type: choice
+        default: 'all-issues'
+        options:
+        - all-issues
+        - single-issue
+        - sync-comments-only
+      force_sync:
+        description: 'Force re-sync even if already synced'
+        required: false
+        type: boolean
+        default: false
 
 jobs:
   sync-to-jira:
     runs-on: ubuntu-latest
     steps:
+      - name: Debug inputs
+        run: |
+          echo "Issue number: ${{ github.event.inputs.issue_number }}"
+          echo "Sync type: ${{ github.event.inputs.sync_type }}"
+          echo "Force sync: ${{ github.event.inputs.force_sync }}"
+          
       - name: Sync GitHub Issue to Jira
         uses: myungsang/gh-issue-to-jira@v1.0.0
         with:
