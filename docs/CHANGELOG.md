@@ -5,6 +5,148 @@ All notable changes to Readloom will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.8] - 2025-10-26
+
+### Changed
+- **Authors Tab Temporarily Disabled**:
+  - Replaced Authors tab with a "Coming Soon" placeholder page
+  - Reason: Complex JavaScript event loop blocking issue discovered during debugging
+  - The Authors feature will be reimplemented in a future version with a more robust architecture
+  - Users can still browse authors through the Books Search page
+
+### Fixed
+- **Development Mode Performance**:
+  - Disabled periodic task manager during development to prevent Flask server blocking
+  - Delayed notifications loading in base template to prevent JavaScript event loop blocking
+
+### Known Issues
+- Authors tab is temporarily unavailable (placeholder page shown instead)
+- See KNOWN_ISSUES.md for detailed analysis of the root cause
+
+## [0.1.7] - 2025-10-25
+
+### Known Issues
+- None at this time. Authors tab has been fixed and re-enabled.
+
+### Added
+- **Navigation Reorganization**:
+  - Moved Books, Manga, and Authors from dashboard tabs to sidebar navigation
+  - Books and Manga now appear as separate menu items under Series
+  - Dashboard now displays only series statistics and recent activity
+  - Cleaner, more intuitive navigation structure
+
+- **Books and Manga Pages Redesign**:
+  - Removed content type selector tabs from both Books and Manga pages
+  - Removed "Search Books" menu from Books page
+  - Removed "Manga Collections" and "Series" sidebars from Manga page
+  - Books library now spans full width of the page
+  - Manga library now spans full width of the page
+  - Cleaner, more spacious layout for browsing content
+
+- **Authors Tab Fixed and Re-enabled**:
+  - Re-enabled Authors tab in sidebar navigation
+  - Updated author detail page to use existing backend routes
+  - Added card header with Edit, View Books, and Delete buttons (round icon-only style)
+  - Added Books by Author collapsible section (collapsed by default)
+  - Added Quick Actions footer with View All button
+  - Improved author information display with biography and metadata
+  - Fixed the previous hanging issue by using server-rendered data instead of API calls
+  - Books section displays all author's books with cover images and links
+
+- **Book Details Page Redesign**:
+  - Changed layout from `books_layout.html` to `base.html` (full-width like manga)
+  - Added "Edit Book" and "Move Book" buttons in card header
+  - Added "Delete" button in card header
+  - Redesigned buttons as round icon-only style matching manga tabs
+  - Added E-book Management collapsible section (collapsed by default)
+  - Added Quick Actions footer with Move and Scan buttons
+  - Added file management with download and delete buttons
+  - Added Scan for E-books functionality
+  - Added Edit Book modal for editing series details
+  - Added Move Book modal for moving books to different collections
+  - Updated terminology: "Edit Series" → "Edit Book", "Move Series" → "Move Book"
+
+- **Manga Series Page Consistency Updates**:
+  - Moved buttons from series details area to card header
+  - Updated button styling to match book details page
+  - Added Delete button to header (Edit, Move, Delete)
+  - Updated E-book Management section to collapse by default
+  - Added Quick Actions footer with Move and Scan buttons
+  - Improved button spacing with `gap-3` for better visual hierarchy
+
+### Changed
+- **Button Design**: All action buttons now use round icon-only style (`rounded-circle`) with proper spacing
+- **Header Layout**: Both book and manga detail pages now have consistent card headers with buttons
+- **E-book Management**: Now collapsed by default on both pages for cleaner interface
+- **Button Terminology**: Books page uses "Book" terminology, manga page uses "Series" terminology
+- **Button Positioning**: Buttons moved from floating/absolute positioning to card header for consistency
+
+### Fixed
+- Fixed database schema inconsistencies in BookService methods
+- Fixed migration execution order
+- Fixed file permission issues in ebook scanning
+- Fixed Authors page blank display (BookService methods updated)
+- Fixed Authors tab hanging issue (tab hidden from navigation)
+- Fixed button styling inconsistencies between book and manga pages
+- Fixed E-book Management section visibility (now collapsed by default)
+
+## Previous Changes
+
+### Manga Volume Detection Fix
+- Fixed automatic volume identification with three-tier detection system
+- Added `manga_volume_cache` table for caching volume data
+- Implemented proper migration execution on app startup
+- Added volume detection from static database, web scraping, and estimation
+
+### Enhanced Ebook File Recognition
+- Added `fix_file_permissions()` function for automatic permission fixing
+- Integrated permission fixing into ebook scanner
+- Support for files with restrictive permissions (700 mode)
+- Graceful error handling for permission-denied scenarios
+
+### Redesigned Volumes UI
+- Completely redesigned volumes table matching v0.1.2-2 design
+- Added Format selector (Physical, Digital, Both, None)
+- Added Digital Format selector (PDF, EPUB, CBZ, CBR, MOBI, AZW)
+- Added file management with download and delete buttons
+- Integrated upload button for adding ebook files
+- **Automatic Format Detection**:
+  - Formats automatically detected from uploaded files
+  - File extension mapping to digital formats
+  - Auto-update of collection items in background
+  - No manual format configuration needed
+- **Database Schema Updates**:
+  - Added `has_file` column to collection_items
+  - Added `ebook_file_id` column to collection_items
+  - Added `digital_format` column to collection_items
+  - Created migration 0015 for schema updates
+- **Improved File Scanning**:
+  - Enhanced ebook scanner with permission handling
+  - Better volume number extraction from filenames
+  - Automatic volume creation during scanning
+  - Collection item updates with file information
+- **Migration System Improvements**:
+  - Fixed duplicate migration version numbers
+  - Corrected migration ordering and execution
+  - Added proper error handling for already-applied migrations
+  - Created `__init__.py` for migrations package
+
+### Fixed
+- Fixed 404 errors on format update endpoints (added `/api` prefix)
+- Fixed database schema inconsistencies
+- Fixed migration execution order
+- Fixed file permission issues in ebook scanning
+- Fixed volume detection for various manga titles
+
+### Changed
+- Updated volumes display to match old design with new features
+- Improved API endpoint naming consistency
+- Enhanced error messages and logging
+- Optimized file scanning performance
+
+### Technical Details
+- See [LATEST_UPDATES.md](LATEST_UPDATES_v0.1.6.md) for comprehensive documentation
+
 ## [0.1.6] - 2025-10-19
 
 ### Added

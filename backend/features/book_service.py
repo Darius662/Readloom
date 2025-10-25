@@ -280,8 +280,15 @@ class BookService(ContentServiceBase):
             A dictionary containing author details.
         """
         try:
-            author = execute_query("""
-                SELECT * FROM authors WHERE id = ?
+            # Get the column names from the authors table
+            columns_query = execute_query("PRAGMA table_info(authors)")
+            column_names = [col['name'] for col in columns_query]
+            
+            # Build the query dynamically based on available columns
+            select_columns = ", ".join([f"a.{col}" for col in column_names])
+            
+            author = execute_query(f"""
+                SELECT {select_columns} FROM authors a WHERE a.id = ?
             """, (author_id,))
             
             if not author:
@@ -298,6 +305,8 @@ class BookService(ContentServiceBase):
             return author_data
         except Exception as e:
             self.logger.error(f"Error getting author details: {e}")
+            import traceback
+            self.logger.error(traceback.format_exc())
             return {"error": str(e)}
     
     def get_all_authors(self) -> List[Dict[str, Any]]:
@@ -318,12 +327,18 @@ class BookService(ContentServiceBase):
             column_names = [col['name'] for col in columns_query]
             
             # Build the query dynamically based on available columns
-            select_columns = "a.id, a.name"
-            for col in column_names:
-                if col not in ['id', 'name']:
-                    select_columns += f", a.{col}"
+            # Always include id and name
+            select_columns = ["a.id", "a.name"]
             
-            # Check if author_books table exists
+            # Add other columns if they exist
+            safe_columns = ['description', 'created_at', 'updated_at']
+            for col in safe_columns:
+                if col in column_names:
+                    select_columns.append(f"a.{col}")
+            
+            select_columns_str = ", ".join(select_columns)
+            
+            # Check if author_books table exists and has data
             try:
                 execute_query("SELECT 1 FROM author_books LIMIT 1")
                 has_author_books = True
@@ -333,7 +348,7 @@ class BookService(ContentServiceBase):
             # Execute the query with the available columns
             if has_author_books:
                 authors = execute_query(f"""
-                    SELECT {select_columns}, COUNT(ab.series_id) as book_count
+                    SELECT {select_columns_str}, COUNT(ab.series_id) as book_count
                     FROM authors a
                     LEFT JOIN author_books ab ON a.id = ab.author_id
                     GROUP BY a.id
@@ -341,7 +356,7 @@ class BookService(ContentServiceBase):
                 """)
             else:
                 authors = execute_query(f"""
-                    SELECT {select_columns}, 0 as book_count
+                    SELECT {select_columns_str}, 0 as book_count
                     FROM authors a
                     ORDER BY a.name
                 """)
@@ -349,4 +364,6 @@ class BookService(ContentServiceBase):
             return authors
         except Exception as e:
             self.logger.error(f"Error getting all authors: {e}")
+            import traceback
+            self.logger.error(traceback.format_exc())
             return []

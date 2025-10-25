@@ -103,9 +103,10 @@ def run_app():
         init_metadata_service()
         
         # Start periodic task manager
-        from backend.features.periodic_tasks import periodic_task_manager
-        periodic_task_manager.start()
-        LOGGER.info("Periodic task manager started")
+        # DISABLED: Periodic task manager blocks Flask in development mode
+        # from backend.features.periodic_tasks import periodic_task_manager
+        # periodic_task_manager.start()
+        # LOGGER.info("Periodic task manager started")
         
         # Register blueprints
         from frontend.api import api_bp
@@ -120,6 +121,7 @@ def run_app():
         from frontend.api_collection import collection_api
         from frontend.api_folders import folders_api
         from frontend.api_authors import authors_api_bp
+        from frontend.api_notifications import notifications_api_bp
         from frontend.api_series import api_series_bp
         from frontend.ui_complete import ui_bp
         from frontend.image_proxy import image_proxy_bp
@@ -136,6 +138,7 @@ def run_app():
         app.register_blueprint(collection_api)
         app.register_blueprint(folders_api)
         app.register_blueprint(authors_api_bp)
+        app.register_blueprint(notifications_api_bp)
         app.register_blueprint(api_series_bp)
         app.register_blueprint(ui_bp)
         app.register_blueprint(image_proxy_bp)

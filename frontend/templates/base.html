@@ -232,7 +232,17 @@
                         <i class="fas fa-book"></i> <span>Series</span>
                     </a>
                 </li>
-                <li {% if request.path.startswith('/authors') %}class="active"{% endif %}>
+                <li {% if request.path.startswith('/books') and not request.path.startswith('/books/') %}class="active"{% endif %}>
+                    <a href="{{ url_for('ui.books_home') }}">
+                        <i class="fas fa-book"></i> <span>Books</span>
+                    </a>
+                </li>
+                <li {% if request.path.startswith('/manga') and not request.path.startswith('/manga/') %}class="active"{% endif %}>
+                    <a href="{{ url_for('ui.manga_home') }}">
+                        <i class="fas fa-book-open"></i> <span>Manga</span>
+                    </a>
+                </li>
+                <li {% if request.path.startswith('/authors') and not request.path.startswith('/authors/') %}class="active"{% endif %}>
                     <a href="{{ url_for('ui.authors_home') }}">
                         <i class="fas fa-user-edit"></i> <span>Authors</span>
                     </a>
@@ -284,7 +294,7 @@
             
             <div class="sidebar-footer">
                 <div class="version-info">
-                    <small>v0.1.6</small>
+                    <small>v0.1.8</small>
                 </div>
             </div>
         </nav>
@@ -462,8 +472,10 @@
                     });
             }
             
-            // Load notifications on page load
-            loadNotifications();
+            // Load notifications on page load (with timeout to prevent blocking)
+            setTimeout(() => {
+                loadNotifications();
+            }, 500);
             
             // Reload notifications every 60 seconds
             setInterval(loadNotifications, 60000);

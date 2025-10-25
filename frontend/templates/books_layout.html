@@ -6,60 +6,8 @@
 {% block content %}
 <div class="container-fluid">
     <div class="row">
-        <!-- Content Type Selector -->
-        <div class="col-12 mb-3">
-            <div class="content-type-selector btn-group w-100">
-                <a href="{{ url_for('ui.books_home') if 'books_home' in url_for_map else '#' }}" 
-                   class="btn btn-lg {{ 'btn-primary' if content_type == 'book' else 'btn-outline-primary' }}">
-                    <i class="fas fa-book me-1"></i> Books
-                </a>
-                <a href="{{ url_for('ui.manga_home') if 'manga_home' in url_for_map else '#' }}" 
-                   class="btn btn-lg {{ 'btn-primary' if content_type == 'manga' else 'btn-outline-primary' }}">
-                    <i class="fas fa-book-open me-1"></i> Manga
-                </a>
-            </div>
-        </div>
-        
-        <!-- Sidebar -->
-        <div class="col-md-3">
-            <!-- Search Box -->
-            <div class="card mb-3">
-                <div class="card-header">
-                    <h5 class="card-title mb-0">Search Books</h5>
-                </div>
-                <div class="card-body">
-                    <form action="{{ url_for('ui.books_search') if 'books_search' in url_for_map else '#' }}" method="get">
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Enter book title..." name="query">
-                            <button class="btn btn-primary" type="submit">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            
-            <!-- Quick Actions -->
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="card-title mb-0">Quick Actions</h5>
-                </div>
-                <div class="list-group list-group-flush">
-                    <a href="{{ url_for('ui.books_search') if 'books_search' in url_for_map else '#' }}" class="list-group-item list-group-item-action">
-                        <i class="fas fa-search me-2"></i> Advanced Search
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#scanBooksModal">
-                        <i class="fas fa-sync me-2"></i> Scan for Books
-                    </a>
-                    <a href="{{ url_for('ui.collections_manager') if 'collections_manager' in url_for_map else '#' }}" class="list-group-item list-group-item-action">
-                        <i class="fas fa-folder me-2"></i> Manage Collections
-                    </a>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Main Content -->
-        <div class="col-md-9">
+        <!-- Main Content - Full Width -->
+        <div class="col-12">
             {% block book_content %}{% endblock %}
         </div>
     </div>

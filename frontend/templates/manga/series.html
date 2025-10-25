@@ -9,6 +9,20 @@
 <div class="row mb-4">
     <div class="col-md-12">
         <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0" id="series-header-title">Series Details</h5>
+                <div class="d-flex gap-3">
+                    <button class="btn btn-sm btn-outline-primary rounded-circle" id="edit-series-btn-header" title="Edit Series">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-secondary rounded-circle" id="move-series-btn-header" title="Move Series" data-bs-toggle="modal" data-bs-target="#moveSeriesModal">
+                        <i class="fas fa-arrows-alt"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger rounded-circle" id="delete-series-btn-header" title="Delete" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
             <div class="card-body">
                 <div class="row" id="series-details">
                     <div class="text-center py-5">
@@ -25,11 +39,11 @@
 <div class="card mb-4" id="ebook-management-card">
     <div class="card-header d-flex justify-content-between align-items-center">
         <h5 class="mb-0">E-book Management</h5>
-        <button class="btn btn-sm btn-primary" data-bs-toggle="collapse" data-bs-target="#ebookManagementCollapse" aria-expanded="true" aria-controls="ebookManagementCollapse">
+        <button class="btn btn-sm btn-primary" data-bs-toggle="collapse" data-bs-target="#ebookManagementCollapse" aria-expanded="false" aria-controls="ebookManagementCollapse">
             <i class="fas fa-chevron-down"></i>
         </button>
     </div>
-    <div class="collapse show" id="ebookManagementCollapse">
+    <div class="collapse" id="ebookManagementCollapse">
         <div class="card-body">
             <div class="mb-3">
                 <strong>Folder Location</strong>
@@ -52,6 +66,18 @@
                     </button>
                 </div>
             </div>
+        </div>
+    </div>
+    <!-- Quick Actions Footer -->
+    <div class="card-footer d-flex justify-content-between align-items-center">
+        <span class="text-muted small">Quick Actions</span>
+        <div class="btn-group btn-group-sm" role="group">
+            <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#moveSeriesModal" title="Move Series">
+                <i class="fas fa-arrows-alt"></i> Move
+            </button>
+            <button class="btn btn-primary" id="scan-for-ebooks-quick">
+                <i class="fas fa-search me-1"></i> Scan for E-books
+            </button>
         </div>
     </div>
 </div>
@@ -530,16 +556,7 @@
             const series = seriesData;
             
             const html = `
-                <div class="position-relative">
-                    <div class="position-absolute top-0 end-0 d-flex gap-2">
-                        <button class="btn btn-sm btn-outline-secondary rounded-circle" id="move-series-btn" title="Move Series" data-bs-toggle="modal" data-bs-target="#moveSeriesModal">
-                            <i class="fas fa-arrows-alt"></i>
-                        </button>
-                        <button class="btn btn-sm btn-outline-primary rounded-circle" id="edit-series-btn" title="Edit Series">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                    </div>
-                    <div class="row">
+                <div class="row">
                         <div class="col-md-3">
                             <img src="${processImageUrl(series.cover_url)}" class="img-fluid rounded" alt="${series.title}">
                         </div>
@@ -561,11 +578,14 @@
             
             $('#series-details').html(html);
             
+            // Update header title
+            $('#series-header-title').text(series.title);
+            
             // Fetch folder path
             fetchSeriesFolderPath(series.id, series.title, series.content_type || 'MANGA');
             
             // Set up edit button
-            $('#edit-series-btn').click(function() {
+            $('#edit-series-btn-header').click(function() {
                 // Load content types
                 loadContentTypes().then(() => {
                     // Populate form with series data
@@ -644,45 +664,218 @@
         
         // Display volumes
         function displayVolumes() {
-            $('#volumes-container').show();
-            
-            if (volumesData && volumesData.length > 0) {
-                let volumesHtml = '';
+            if (volumesData.length > 0) {
+                let html = '';
                 
-                volumesData.forEach(volume => {
-                    const hasFile = volume.has_file ? '<i class="fas fa-file text-success" title="File available"></i>' : '';
-                    const format = volume.format || 'UNKNOWN';
-                    const digitalFormat = volume.digital_format || '-';
-                    
-                    volumesHtml += `
-                        <tr>
-                            <td>${volume.volume_number}</td>
-                            <td>${volume.title || '-'}</td>
-                            <td>${volume.release_date || '-'}</td>
-                            <td>${format}</td>
-                            <td>${digitalFormat}</td>
-                            <td>${hasFile}</td>
-                            <td>
-                                <div class="btn-group btn-group-sm">
-                                    <button class="btn btn-outline-primary edit-volume" data-id="${volume.id}" title="Edit">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button class="btn btn-outline-danger delete-volume" data-id="${volume.id}" title="Delete">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    `;
-                });
-                
-                $('#volumes-list').html(volumesHtml);
+                // Fetch collection items for this series
+                fetch(`/api/collection?series_id=${seriesId}&item_type=VOLUME`)
+                    .then(response => response.json())
+                    .then(collectionData => {
+                        const collectionItems = collectionData.items || [];
+                        
+                        // Fetch e-book files for this series
+                        fetch(`/api/ebooks/series/${seriesId}`)
+                            .then(response => response.json())
+                            .then(ebookData => {
+                                const ebookFiles = ebookData.files || [];
+                                
+                                volumesData.forEach(volume => {
+                                    // Find collection item for this volume
+                                    const collectionItem = collectionItems.find(item => item.volume_id === volume.id);
+                                    
+                                    // Find e-book file for this volume
+                                    const ebookFile = ebookFiles.find(file => file.volume_id === volume.id);
+                                    
+                                    // Default values if no collection item exists
+                                    let format = 'NONE';
+                                    let digitalFormat = 'NONE';
+                                    let hasFile = 0;
+                                    
+                                    if (collectionItem) {
+                                        format = collectionItem.format || 'NONE';
+                                        digitalFormat = collectionItem.digital_format || 'NONE';
+                                        hasFile = collectionItem.has_file || 0;
+                                    }
+                                    
+                                    // Auto-detect format and digital format from file if present
+                                    if (ebookFile) {
+                                        hasFile = 1;
+                                        // If format is not set to DIGITAL or BOTH, set it to DIGITAL
+                                        if (format !== 'DIGITAL' && format !== 'BOTH') {
+                                            format = 'DIGITAL';
+                                            // Auto-update the collection item
+                                            updateVolumeFormat(volume.id, 'DIGITAL');
+                                        }
+                                        
+                                        // Extract file extension to determine digital format
+                                        const fileName = ebookFile.file_name;
+                                        const fileExtension = fileName.substring(fileName.lastIndexOf('.') + 1).toUpperCase();
+                                        
+                                        // Map file extensions to digital formats
+                                        const formatMap = {
+                                            'PDF': 'PDF',
+                                            'EPUB': 'EPUB',
+                                            'CBZ': 'CBZ',
+                                            'CBR': 'CBR',
+                                            'MOBI': 'MOBI',
+                                            'AZW': 'AZW',
+                                            'AZW3': 'AZW'
+                                        };
+                                        
+                                        const detectedFormat = formatMap[fileExtension];
+                                        if (detectedFormat && digitalFormat !== detectedFormat) {
+                                            digitalFormat = detectedFormat;
+                                            // Auto-update the collection item
+                                            updateVolumeDigitalFormat(volume.id, detectedFormat);
+                                        }
+                                    }
+                                    
+                                    // Format select options
+                                    const formatOptions = [
+                                        { value: 'PHYSICAL', label: 'Physical' },
+                                        { value: 'DIGITAL', label: 'Digital' },
+                                        { value: 'BOTH', label: 'Both' },
+                                        { value: 'NONE', label: 'None' }
+                                    ];
+                                    
+                                    let formatSelect = `<select class="form-select form-select-sm format-selector" data-volume-id="${volume.id}" data-series-id="${seriesId}">`;
+                                    formatOptions.forEach(option => {
+                                        formatSelect += `<option value="${option.value}"${format === option.value ? ' selected' : ''}>${option.label}</option>`;
+                                    });
+                                    formatSelect += '</select>';
+                                    
+                                    // Digital format select options
+                                    const digitalFormatOptions = [
+                                        { value: 'PDF', label: 'PDF' },
+                                        { value: 'EPUB', label: 'EPUB' },
+                                        { value: 'CBZ', label: 'CBZ' },
+                                        { value: 'CBR', label: 'CBR' },
+                                        { value: 'MOBI', label: 'MOBI' },
+                                        { value: 'AZW', label: 'AZW' },
+                                        { value: 'NONE', label: 'None' }
+                                    ];
+                                    
+                                    let digitalFormatSelect = `<select class="form-select form-select-sm digital-format-selector" data-volume-id="${volume.id}" data-series-id="${seriesId}"${(format !== 'DIGITAL' && format !== 'BOTH') ? ' style="display:none;"' : ''}>`;
+                                    digitalFormatOptions.forEach(option => {
+                                        digitalFormatSelect += `<option value="${option.value}"${digitalFormat === option.value ? ' selected' : ''}>${option.label}</option>`;
+                                    });
+                                    digitalFormatSelect += '</select>';
+                                    
+                                    // File component
+                                    let fileComponent = '-';
+                                    if (ebookFile) {
+                                        fileComponent = `
+                                            <div class="d-flex align-items-center gap-2">
+                                                <span>${ebookFile.file_name}</span>
+                                                <div class="btn-group btn-group-sm">
+                                                    <a href="/api/ebooks/${ebookFile.id}" class="btn btn-outline-primary" target="_blank" title="Download">
+                                                        <i class="fas fa-download"></i>
+                                                    </a>
+                                                    <button class="btn btn-outline-danger delete-ebook-file" data-file-id="${ebookFile.id}" data-volume-id="${volume.id}" title="Delete">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        `;
+                                    } else if (format === 'DIGITAL' || format === 'BOTH') {
+                                        fileComponent = `<button class="btn btn-sm btn-outline-secondary ebook-upload-button" data-volume-id="${volume.id}" data-series-id="${seriesId}" title="Upload">
+                                            <i class="fas fa-upload"></i>
+                                        </button>`;
+                                    }
+                                    
+                                    html += `
+                                        <tr>
+                                            <td>${volume.volume_number}</td>
+                                            <td>${volume.title || '-'}</td>
+                                            <td>${volume.release_date || '-'}</td>
+                                            <td>${formatSelect}</td>
+                                            <td>${digitalFormatSelect}</td>
+                                            <td>${fileComponent}</td>
+                                            <td>
+                                                <div class="btn-group btn-group-sm">
+                                                    <button class="btn btn-outline-primary edit-volume" data-id="${volume.id}">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button class="btn btn-outline-danger delete-volume" data-id="${volume.id}" data-number="${volume.volume_number}">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    `;
+                                });
+                                
+                                $('#volumes-list').html(html);
+                                $('#volumes-container').show();
+                                
+                                // Set up event handlers
+                                setupVolumeEventHandlers();
+                                
+                                // Initialize format selectors
+                                $('.format-selector').change(function() {
+                                    const volumeId = $(this).data('volume-id');
+                                    const format = $(this).val();
+                                    
+                                    if (format === 'DIGITAL' || format === 'BOTH') {
+                                        $(`.digital-format-selector[data-volume-id="${volumeId}"]`).show();
+                                        $(`.ebook-upload-button[data-volume-id="${volumeId}"]`).show();
+                                    } else {
+                                        $(`.digital-format-selector[data-volume-id="${volumeId}"]`).hide();
+                                        $(`.ebook-upload-button[data-volume-id="${volumeId}"]`).hide();
+                                    }
+                                    
+                                    // Save format to collection
+                                    updateVolumeFormat(volumeId, format);
+                                });
+                                
+                                // Initialize digital format selectors
+                                $('.digital-format-selector').change(function() {
+                                    const volumeId = $(this).data('volume-id');
+                                    const digitalFormat = $(this).val();
+                                    
+                                    // Save digital format to collection
+                                    updateVolumeDigitalFormat(volumeId, digitalFormat);
+                                });
+                                
+                                // Initialize upload buttons
+                                $('.ebook-upload-button').click(function() {
+                                    const volumeId = $(this).data('volume-id');
+                                    const seriesId = $(this).data('series-id');
+                                    
+                                    // Create file input
+                                    const fileInput = $('<input type="file" accept=".pdf,.epub,.cbz,.cbr,.mobi,.azw,.azw3">');
+                                    fileInput.change(function() {
+                                        const file = this.files[0];
+                                        if (file) {
+                                            uploadEbookFile(seriesId, volumeId, file);
+                                        }
+                                    });
+                                    fileInput.click();
+                                });
+                                
+                                // Initialize delete ebook file buttons
+                                $('.delete-ebook-file').click(function() {
+                                    const fileId = $(this).data('file-id');
+                                    const volumeId = $(this).data('volume-id');
+                                    
+                                    if (confirm('Are you sure you want to delete this ebook file?')) {
+                                        deleteEbookFile(fileId, volumeId);
+                                    }
+                                });
+                            })
+                            .catch(error => {
+                                console.error('Error fetching ebook files:', error);
+                                $('#volumes-list').html('<tr><td colspan="7" class="text-center text-danger">Error loading volumes</td></tr>');
+                            });
+                    })
+                    .catch(error => {
+                        console.error('Error fetching collection items:', error);
+                        $('#volumes-list').html('<tr><td colspan="7" class="text-center text-danger">Error loading volumes</td></tr>');
+                    });
             } else {
                 $('#volumes-list').html('<tr><td colspan="7" class="text-center">No volumes found</td></tr>');
+                $('#volumes-container').show();
             }
-            
-            // Set up event handlers for volume actions
-            setupVolumeEventHandlers();
         }
         
         // Display chapters
@@ -820,6 +1013,104 @@
             });
         }
         
+        // Update volume format
+        function updateVolumeFormat(volumeId, format) {
+            $.ajax({
+                url: `/api/collection/volume/${volumeId}/format`,
+                method: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify({ format: format }),
+                success: function(response) {
+                    console.log('Volume format updated successfully');
+                },
+                error: function(xhr) {
+                    console.error('Error updating volume format:', xhr.responseJSON?.error || 'Unknown error');
+                }
+            });
+        }
+        
+        // Update volume digital format
+        function updateVolumeDigitalFormat(volumeId, digitalFormat) {
+            $.ajax({
+                url: `/api/collection/volume/${volumeId}/digital-format`,
+                method: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify({ digital_format: digitalFormat }),
+                success: function(response) {
+                    console.log('Volume digital format updated successfully');
+                },
+                error: function(xhr) {
+                    console.error('Error updating volume digital format:', xhr.responseJSON?.error || 'Unknown error');
+                }
+            });
+        }
+        
+        // Upload ebook file
+        function uploadEbookFile(seriesId, volumeId, file) {
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('series_id', seriesId);
+            formData.append('volume_id', volumeId);
+            
+            // Extract file extension to determine digital format
+            const fileName = file.name;
+            const fileExtension = fileName.substring(fileName.lastIndexOf('.') + 1).toUpperCase();
+            
+            // Map file extensions to digital formats
+            const formatMap = {
+                'PDF': 'PDF',
+                'EPUB': 'EPUB',
+                'CBZ': 'CBZ',
+                'CBR': 'CBR',
+                'MOBI': 'MOBI',
+                'AZW': 'AZW',
+                'AZW3': 'AZW'
+            };
+            
+            const digitalFormat = formatMap[fileExtension] || 'NONE';
+            
+            $.ajax({
+                url: '/api/ebooks/upload',
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    showToast('Success', 'Ebook file uploaded successfully', 'success');
+                    
+                    // Auto-set format to DIGITAL if not already set
+                    updateVolumeFormat(volumeId, 'DIGITAL');
+                    
+                    // Auto-set digital format based on file extension
+                    if (digitalFormat !== 'NONE') {
+                        updateVolumeDigitalFormat(volumeId, digitalFormat);
+                    }
+                    
+                    // Reload volumes to show the new file
+                    setTimeout(() => loadSeriesData(), 500);
+                },
+                error: function(xhr) {
+                    showToast('Error', xhr.responseJSON?.error || 'Failed to upload ebook file', 'danger');
+                }
+            });
+        }
+        
+        // Delete ebook file
+        function deleteEbookFile(fileId, volumeId) {
+            $.ajax({
+                url: `/api/ebooks/${fileId}`,
+                method: 'DELETE',
+                success: function(response) {
+                    showToast('Success', 'Ebook file deleted successfully', 'success');
+                    // Reload volumes to update the display
+                    loadSeriesData();
+                },
+                error: function(xhr) {
+                    showToast('Error', xhr.responseJSON?.error || 'Failed to delete ebook file', 'danger');
+                }
+            });
+        }
+        
         // Delete volume function
         function deleteVolume(volumeId) {
             $.ajax({
@@ -925,6 +1216,11 @@
                 $btn.html(originalText);
                 $btn.prop('disabled', false);
             }
+        });
+        
+        // Quick scan button handler (same as regular scan)
+        $('#scan-for-ebooks-quick').click(function() {
+            $('#scan-for-ebooks').click();
         });
         
         // Helper function to show toast notifications

@@ -276,14 +276,12 @@ def favicon():
 
 # Authors routes
 @ui_bp.route('/authors')
-@setup_required
 def authors_home():
     """Authors home page."""
     return render_template('authors/authors.html')
 
 
 @ui_bp.route('/authors/<int:author_id>')
-@setup_required
 def author_detail(author_id):
     """Author detail page."""
     # Get author details
@@ -309,7 +307,6 @@ def author_detail(author_id):
 
 
 @ui_bp.route('/authors/<int:author_id>/books')
-@setup_required
 def author_books(author_id):
     """Author's books page."""
     # Get author details
@@ -364,7 +361,6 @@ def books_search():
 
 
 @ui_bp.route('/books/authors')
-@setup_required
 def authors_view():
     """Authors list page."""
     # Get all authors
@@ -380,7 +376,6 @@ def authors_view():
 
 
 @ui_bp.route('/books/authors/<int:author_id>')
-@setup_required
 def author_view(author_id):
     """Author detail page."""
     # Get author details

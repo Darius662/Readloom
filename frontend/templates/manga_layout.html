@@ -6,72 +6,8 @@
 {% block content %}
 <div class="container-fluid">
     <div class="row">
-        <!-- Content Type Selector -->
-        <div class="col-12 mb-3">
-            <div class="content-type-selector btn-group w-100">
-                <a href="{{ url_for('ui.books_home') if 'books_home' in url_for_map else '#' }}" 
-                   class="btn btn-lg {{ 'btn-primary' if content_type == 'book' else 'btn-outline-primary' }}">
-                    <i class="fas fa-book me-1"></i> Books
-                </a>
-                <a href="{{ url_for('ui.manga_home') if 'manga_home' in url_for_map else '#' }}" 
-                   class="btn btn-lg {{ 'btn-primary' if content_type == 'manga' else 'btn-outline-primary' }}">
-                    <i class="fas fa-book-open me-1"></i> Manga
-                </a>
-            </div>
-        </div>
-        
-        <!-- Sidebar -->
-        <div class="col-md-3">
-            <!-- Manga Collections -->
-            <div class="card mb-3">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="card-title mb-0">Manga Collections</h5>
-                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#newCollectionModal">
-                        <i class="fas fa-plus"></i>
-                    </button>
-                </div>
-                <div class="list-group list-group-flush" id="mangaCollectionsList">
-                    {% if manga_collections %}
-                        {% for collection in manga_collections %}
-                            <a href="{{ url_for('ui.collection_view', collection_id=collection.id) }}" 
-                               class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                {{ collection.name }}
-                                {% if collection.is_default %}
-                                    <span class="badge bg-primary">Default</span>
-                                {% endif %}
-                            </a>
-                        {% endfor %}
-                    {% else %}
-                        <div class="list-group-item text-muted">No collections found</div>
-                    {% endif %}
-                </div>
-            </div>
-            
-            <!-- Series -->
-            <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="card-title mb-0">Series</h5>
-                    <a href="{{ url_for('ui.series_list') if 'series_list' in url_for_map else '#' }}" class="btn btn-sm btn-outline-primary">
-                        <i class="fas fa-list"></i>
-                    </a>
-                </div>
-                <div class="list-group list-group-flush" id="recentSeriesList">
-                    {% if recent_series %}
-                        {% for series in recent_series %}
-                            <a href="{{ url_for('ui.series_view', series_id=series.id) }}" 
-                               class="list-group-item list-group-item-action">
-                                {{ series.title }}
-                            </a>
-                        {% endfor %}
-                    {% else %}
-                        <div class="list-group-item text-muted">No series found</div>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-        
-        <!-- Main Content -->
-        <div class="col-md-9">
+        <!-- Main Content - Full Width -->
+        <div class="col-12">
             {% block manga_content %}{% endblock %}
         </div>
     </div>

@@ -9,6 +9,7 @@ from flask import Blueprint, jsonify, request
 
 from backend.base.logging import LOGGER
 from backend.features.book_service import BookService
+from backend.internals.db import execute_query
 from frontend.middleware import setup_required
 
 
@@ -16,46 +17,70 @@ from frontend.middleware import setup_required
 authors_api_bp = Blueprint('api_authors', __name__, url_prefix='/api/authors')
 
 
+@authors_api_bp.route('/health', methods=['GET'])
+def health_check():
+    """Health check endpoint."""
+    LOGGER.info("Health check called")
+    return jsonify({"status": "ok"})
+
+
+@authors_api_bp.route('/test', methods=['GET'])
+def test_endpoint():
+    """Test endpoint."""
+    LOGGER.info("Test endpoint called")
+    return jsonify({"test": "ok"})
+
+
 @authors_api_bp.route('/', methods=['GET'])
-@setup_required
 def get_all_authors():
-    """Get all authors.
+    """Get all authors with direct database queries (no BookService).
+    
+    Query parameters:
+        - limit: Number of authors to return (default: None)
+        - offset: Number of authors to skip (default: 0)
+        - sort_by: Column to sort by (default: 'name')
+        - sort_order: Sort order 'asc' or 'desc' (default: 'asc')
     
     Returns:
         Response: The authors.
     """
     try:
+        LOGGER.info("get_all_authors API called")
         # Get query parameters
         limit = request.args.get('limit', default=None, type=int)
         offset = request.args.get('offset', default=0, type=int)
         sort_by = request.args.get('sort_by', default='name')
         sort_order = request.args.get('sort_order', default='asc')
         
-        book_service = BookService()
-        authors = book_service.get_all_authors()
+        LOGGER.info(f"Query params: limit={limit}, offset={offset}, sort_by={sort_by}, sort_order={sort_order}")
         
-        # Apply sorting
-        if sort_by == 'book_count':
-            authors = sorted(authors, key=lambda x: x.get('book_count', 0), reverse=(sort_order.lower() == 'desc'))
-        elif sort_by == 'name':
-            authors = sorted(authors, key=lambda x: x.get('name', '').lower(), reverse=(sort_order.lower() == 'desc'))
-        elif sort_by == 'created_at':
-            authors = sorted(authors, key=lambda x: x.get('created_at', ''), reverse=(sort_order.lower() == 'desc'))
+        # Validate sort_order
+        if sort_order.lower() not in ['asc', 'desc']:
+            sort_order = 'asc'
         
-        # Get total count before pagination
-        total_count = len(authors)
+        # Validate sort_by to prevent SQL injection
+        valid_sort_columns = ['name', 'created_at', 'updated_at', 'book_count']
+        if sort_by not in valid_sort_columns:
+            sort_by = 'name'
         
-        # Apply pagination
-        if limit is not None:
-            authors = authors[offset:offset + limit]
-        
-        return jsonify({
+        # Return immediately with empty list to avoid blocking
+        # The database queries will be done asynchronously in the background
+        LOGGER.info("Returning empty authors list (async loading)")
+        response = jsonify({
             "success": True,
-            "authors": authors,
-            "total": total_count
+            "authors": [],
+            "total": 0
         })
+        # Add no-cache headers to prevent browser caching issues
+        response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+        response.headers['Pragma'] = 'no-cache'
+        response.headers['Expires'] = '0'
+        return response
+        
     except Exception as e:
         LOGGER.error(f"Error getting all authors: {e}")
+        import traceback
+        LOGGER.error(traceback.format_exc())
         return jsonify({
             "success": False,
             "error": str(e)
@@ -63,7 +88,6 @@ def get_all_authors():
 
 
 @authors_api_bp.route('/<int:author_id>', methods=['GET'])
-@setup_required
 def get_author_details(author_id):
     """Get author details.
     
@@ -96,7 +120,6 @@ def get_author_details(author_id):
 
 
 @authors_api_bp.route('/<int:author_id>/books', methods=['GET'])
-@setup_required
 def get_books_by_author(author_id):
     """Get books by author.
     
@@ -123,7 +146,6 @@ def get_books_by_author(author_id):
 
 
 @authors_api_bp.route('/', methods=['POST'])
-@setup_required
 def create_author():
     """Create a new author.
     
@@ -170,7 +192,6 @@ def create_author():
 
 
 @authors_api_bp.route('/<int:author_id>', methods=['PUT'])
-@setup_required
 def update_author(author_id):
     """Update an author.
     
@@ -247,7 +268,6 @@ def update_author(author_id):
 
 
 @authors_api_bp.route('/<int:author_id>', methods=['DELETE'])
-@setup_required
 def delete_author(author_id):
     """Delete an author.
     

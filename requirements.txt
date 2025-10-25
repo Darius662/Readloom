@@ -6,6 +6,7 @@ flask-socketio==5.3.6
 websocket-client==1.3.3
 python-dateutil==2.8.2
 cryptography==44.0.1
+flask_cors==6.0.1
 
 # Use simpler packages for development
 simple-websocket==1.0.0

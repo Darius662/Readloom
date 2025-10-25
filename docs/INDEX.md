@@ -44,6 +44,28 @@ This document provides an overview of all available documentation for Readloom.
 
 ## Version-Specific Features
 
+### v0.1.7 (Current)
+
+- **Book Details Page Redesign**: Completely redesigned to match manga layout with full-width display
+- **UI Consistency Improvements**: Consistent button styling and positioning across book and manga pages
+- **Round Icon Buttons**: Modern icon-only button design matching manga tabs
+- **E-book Management**: Collapsible sections with Quick Actions for both book and manga pages
+- **Manga Series Header**: Moved buttons to card header for consistency
+- **Authors Tab**: Hidden due to page hang issue (needs debugging)
+- **Database Schema**: Added ebook tracking columns to collection_items
+
+**See:** [Latest Updates v0.1.7](LATEST_UPDATES_v0.1.6.md) - Comprehensive guide to all v0.1.7 changes
+
+### v0.1.6
+
+- **Manga Volume Detection Fix**: Fixed automatic volume identification with three-tier detection system
+- **Enhanced Ebook File Recognition**: Automatic permission fixing for restricted files
+- **Redesigned Volumes UI**: Modern volumes table with format management and file operations
+- **Automatic Format Detection**: Formats automatically detected from uploaded files
+- **Database Schema Updates**: Added ebook tracking columns to collection_items
+- **Improved File Scanning**: Enhanced ebook scanner with permission handling
+- **Migration System Improvements**: Fixed migration ordering and execution
+
 ### v0.2.0 (Latest)
 
 - **Enhanced Author Search and Details**:
@@ -127,4 +149,9 @@ If you encounter issues:
 2. Look for troubleshooting sections within each document
 3. Check the logs for error messages
 4. Refer to the [Implementation Notes](IMPLEMENTATION_NOTES.md) for technical details
-5. If all else fails, open an issue on the GitHub repository
+5. Check [Known Issues](KNOWN_ISSUES.md) for reported problems and workarounds
+6. If all else fails, open an issue on the GitHub repository
+
+## Known Issues
+
+- **Authors Tab Broken** - The Authors tab is currently disabled due to a page hang issue. See [KNOWN_ISSUES.md](KNOWN_ISSUES.md) for details and workarounds.

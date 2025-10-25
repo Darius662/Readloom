@@ -345,6 +345,46 @@ def delete_ebook_file(file_id: int) -> bool:
         return False
 
 
+def fix_file_permissions(file_path: Path) -> bool:
+    """Attempt to fix file permissions to make them readable.
+    
+    Args:
+        file_path (Path): The file path.
+        
+    Returns:
+        bool: True if permissions were fixed or file is already readable, False otherwise.
+    """
+    try:
+        # Check if file is already readable
+        if os.access(str(file_path), os.R_OK):
+            return True
+        
+        # Try to make the file readable
+        try:
+            # Try chmod 644 (rw-r--r--)
+            os.chmod(str(file_path), 0o644)
+            LOGGER.info(f"Fixed permissions for file: {file_path}")
+            return True
+        except PermissionError:
+            # If we don't have permission to change the file, try the parent directory
+            try:
+                parent_dir = file_path.parent
+                if not os.access(str(parent_dir), os.R_OK | os.X_OK):
+                    os.chmod(str(parent_dir), 0o755)
+                    LOGGER.info(f"Fixed permissions for directory: {parent_dir}")
+                    # Try again with the file
+                    if os.access(str(file_path), os.R_OK):
+                        return True
+            except PermissionError:
+                LOGGER.warning(f"Cannot fix permissions for {file_path}: Permission denied")
+                return False
+        
+        return False
+    except Exception as e:
+        LOGGER.warning(f"Error attempting to fix file permissions for {file_path}: {e}")
+        return False
+
+
 def scan_for_ebooks(specific_series_id: Optional[int] = None, custom_path: Optional[str] = None) -> Dict:
     """Scan the data directory for e-book files and add them to the database.
     
@@ -592,6 +632,16 @@ def scan_for_ebooks(specific_series_id: Optional[int] = None, custom_path: Optio
                     continue
                     
                 processed_files.add(file_key)
+                
+                # Try to fix file permissions if not readable
+                if not os.access(str(file_path), os.R_OK):
+                    LOGGER.info(f"File not readable, attempting to fix permissions: {file_path}")
+                    if fix_file_permissions(file_path):
+                        LOGGER.info(f"Successfully fixed permissions for: {file_path}")
+                    else:
+                        LOGGER.warning(f"Could not fix permissions for: {file_path}, skipping")
+                        stats['skipped'] = stats.get('skipped', 0) + 1
+                        continue
                 
                 # Get file extension and check if supported
                 file_ext = file_path.suffix.lower()
